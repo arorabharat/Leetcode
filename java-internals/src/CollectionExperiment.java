@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class CollectionExperiment {
@@ -9,7 +8,7 @@ public class CollectionExperiment {
         set.add("new value");
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         HashSet<String> set = new HashSet<>();
         set.add("bharat");
         set.add("arora");
