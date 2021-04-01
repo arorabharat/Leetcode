@@ -1,6 +1,6 @@
 import java.util.Stack;
 
-public class Solution_20 {
+class Solution_20 {
 
     boolean matching(char o, char c) {
         boolean pair1 = o == '(' && c == ')';

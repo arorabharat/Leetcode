@@ -1,4 +1,7 @@
-public class Solution_392 {
+/**
+ * https://leetcode.com/problems/is-subsequence/
+ */
+class Solution_392 {
 
     // dynamic programming
     public boolean isSubsequence(String s, String t) {
