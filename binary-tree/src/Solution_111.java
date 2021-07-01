@@ -2,6 +2,8 @@ import java.util.LinkedList;
 
 /**
  * https://leetcode.com/problems/minimum-depth-of-binary-tree/
+ * @see Solution_102
+ * @see Solution_104
  */
 class Solution_111 {
 
