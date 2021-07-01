@@ -1,6 +1,3 @@
-import java.util.Objects;
-import java.util.Stack;
-
 /**
  * https://leetcode.com/problems/merge-two-binary-trees/
  */
