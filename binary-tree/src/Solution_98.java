@@ -1,5 +1,6 @@
 /**
  * https://leetcode.com/problems/balanced-binary-tree/
+ *
  * @see Solution_104
  */
 class Solution_98 {
