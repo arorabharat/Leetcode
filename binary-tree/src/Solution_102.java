@@ -5,6 +5,7 @@ import java.util.Queue;
 
 /**
  * https://leetcode.com/problems/binary-tree-level-order-traversal/
+ *
  * @see Solution_103
  * @see Solution_107
  * @see Solution_111
@@ -34,6 +35,9 @@ class Solution_102 {
         }
     }
 
+    /**
+     * Approach 1 : Using BFS
+     */
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> levelOrderTraversal = new ArrayList<>();
         if (root == null) return levelOrderTraversal;
@@ -62,5 +66,26 @@ class Solution_102 {
             }
         }
         return levelOrderTraversal;
+    }
+
+    /**
+     * Approach 2 : Using DFS
+     */
+    List<List<Integer>> levels = new ArrayList<>();
+
+    public void helper(TreeNode node, int level) {
+        if (levels.size() == level)
+            levels.add(new ArrayList<>());
+        levels.get(level).add(node.val);
+        if (node.left != null)
+            helper(node.left, level + 1);
+        if (node.right != null)
+            helper(node.right, level + 1);
+    }
+
+    public List<List<Integer>> levelOrder2(TreeNode root) {
+        if (root == null) return levels;
+        helper(root, 0);
+        return levels;
     }
 }
