@@ -1,5 +1,6 @@
 /**
  * https://leetcode.com/problems/inorder-successor-in-bst/
+ * @see Solution_94
  * @see Solution_173
  * @see Solution_510
  */
