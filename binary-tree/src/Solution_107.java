@@ -1,11 +1,8 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * https://leetcode.com/problems/binary-tree-level-order-traversal-ii/
- * TODO
+ * TODO : read solution
  */
 class Solution_107 {
 
@@ -13,8 +10,14 @@ class Solution_107 {
         int val;
         TreeNode left;
         TreeNode right;
-        TreeNode() {}
-        TreeNode(int val) { this.val = val; }
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
         TreeNode(int val, TreeNode left, TreeNode right) {
             this.val = val;
             this.left = left;
@@ -23,7 +26,35 @@ class Solution_107 {
     }
 
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) return result;
         Queue<TreeNode> queue = new LinkedList<>();
-        return new ArrayList<>();
+        queue.add(root);
+        int currentLevel = 1;
+        int nextLevel = 0;
+        int level = 0;
+        while (!queue.isEmpty()) {
+            TreeNode front = queue.remove();
+            if (result.size() == level) {
+                result.add(new ArrayList<>());
+            }
+            result.get(level).add(front.val);
+            currentLevel--;
+            if (Objects.nonNull(front.left)) {
+                queue.add(front.left);
+                nextLevel++;
+            }
+            if (Objects.nonNull(front.right)) {
+                queue.add(front.right);
+                nextLevel++;
+            }
+            if (currentLevel == 0) {
+                currentLevel = nextLevel;
+                nextLevel = 0;
+                level++;
+            }
+        }
+        Collections.reverse(result);
+        return result;
     }
 }
