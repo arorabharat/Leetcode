@@ -1,5 +1,7 @@
 # Leetcode
-[![Leetcode graph](./resources/google_sheets.png)](https://docs.google.com/spreadsheets/u/1/d/1MOBBXj3xHD-7wTsjtUUwnG9iHdpPtZemUzP71UioB1Y/edit?ouid=107707195042452739134&usp=sheets_home&ths=true)
+[![Leetcode graph](./resources/google_sheets.png)](https://docs.google.com/spreadsheets/u/1/d/1MOBBXj3xHD-7wTsjtUUwnG9iHdpPtZemUzP71UioB1Y/edit?ouid=107707195042452739134&usp=sheets_home&ths=true)  
+## coding_panda
+[![Leetcode graph](./resources/avatar_1606549821.png)](https://leetcode.com/c0ding_panda/)
 
 ## Top Profile
 https://leetcode.com/RKxYiiyk2/
