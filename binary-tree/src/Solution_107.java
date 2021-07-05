@@ -57,4 +57,26 @@ class Solution_107 {
         Collections.reverse(result);
         return result;
     }
+
+    public List<List<Integer>> levelOrderBottom1(TreeNode root) {
+        List<List<Integer>> levels = new ArrayList<>();
+        if (root == null) return levels;
+        List<TreeNode> nextLevel = new ArrayList<>();
+        nextLevel.add(root);
+        List<TreeNode> currLevel;
+        while (!nextLevel.isEmpty()) {
+            currLevel = nextLevel;
+            nextLevel = new ArrayList<>();
+            levels.add(new ArrayList<>());
+            for (TreeNode node : currLevel) {
+                levels.get(levels.size() - 1).add(node.val);
+                if (node.left != null)
+                    nextLevel.add(node.left);
+                if (node.right != null)
+                    nextLevel.add(node.right);
+            }
+        }
+        Collections.reverse(levels);
+        return levels;
+    }
 }
