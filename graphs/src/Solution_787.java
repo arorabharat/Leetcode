@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.util.*;
 // TODO pending
 public class Solution_787 {

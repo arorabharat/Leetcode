@@ -1,7 +1,5 @@
 package io.bharat.interview.mc.tictactoe.model;
 
-import io.bharat.interview.mc.tictactoe.model.Symbol;
-
 public class Move {
 
     private final int row;
