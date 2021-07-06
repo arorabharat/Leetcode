@@ -13,25 +13,6 @@ import java.util.List;
  */
 class Solution_113 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
     public List<Deque<Integer>> _pathSum(TreeNode root, int targetSum) {
         if (root == null) {
             return new LinkedList<>();
@@ -67,5 +48,24 @@ class Solution_113 {
             pathList.add(new ArrayList<>(path));
         }
         return pathList;
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }
