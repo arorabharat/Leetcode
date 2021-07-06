@@ -1,6 +1,6 @@
 /**
  * https://leetcode.com/problems/minimum-distance-between-bst-nodes/
- * TODO : read more on this
+ *
  * @see Solution_366
  * @see Solution_549
  * @see Solution_1485
@@ -51,5 +51,23 @@ class Solution_783 {
         minDifference = Integer.MAX_VALUE;
         inOrder(root, null);
         return minDifference;
+    }
+
+    Integer prev, ans;
+
+    public int minDiffInBST1(TreeNode root) {
+        prev = null;
+        ans = Integer.MAX_VALUE;
+        dfs(root);
+        return ans;
+    }
+
+    public void dfs(TreeNode node) {
+        if (node == null) return;
+        dfs(node.left);
+        if (prev != null)
+            ans = Math.min(ans, node.val - prev);
+        prev = node.val;
+        dfs(node.right);
     }
 }
