@@ -3,23 +3,6 @@
  */
 class Solution_234 {
 
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
-
     private int countNode(ListNode head) {
         int count = 0;
         while (head != null) {
@@ -82,6 +65,23 @@ class Solution_234 {
             right = reverse(right);
             leftMedian.next = right;
             return isPalindrome;
+        }
+    }
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
         }
     }
 }

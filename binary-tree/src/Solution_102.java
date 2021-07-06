@@ -6,6 +6,7 @@ import java.util.Queue;
 /**
  * https://leetcode.com/problems/binary-tree-level-order-traversal/
  * Check various type of DFS level order traversal in the Leetcode solution
+ *
  * @see Solution_103
  * @see Solution_107
  * @see Solution_111
@@ -16,24 +17,10 @@ import java.util.Queue;
  */
 class Solution_102 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
+    /**
+     * Approach 2 : Using DFS
+     */
+    List<List<Integer>> levels = new ArrayList<>();
 
     /**
      * Approach 1 : Using BFS
@@ -68,11 +55,6 @@ class Solution_102 {
         return levelOrderTraversal;
     }
 
-    /**
-     * Approach 2 : Using DFS
-     */
-    List<List<Integer>> levels = new ArrayList<>();
-
     public void helper(TreeNode node, int level) {
         if (levels.size() == level)
             levels.add(new ArrayList<>());
@@ -87,5 +69,24 @@ class Solution_102 {
         if (root == null) return levels;
         helper(root, 0);
         return levels;
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }

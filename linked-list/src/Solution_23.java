@@ -1,51 +1,5 @@
 class Solution_23 {
 
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
-
-    /**
-     * Use the same approach as used to merge 2 linked list
-     * Pick the minimum and increase the pointer to the minimum
-     * Time complexity : O(N*K)
-     */
-    public ListNode mergeKLists(ListNode[] lists) {
-        int n = lists.length;
-        ListNode[] itr = new ListNode[n];
-        ListNode head = new ListNode(-1);
-        ListNode curr = head;
-        System.arraycopy(lists, 0, itr, 0, n);
-        int minList;
-        do {
-            minList = -1;
-            for (int i = 0; i < n; i++) {
-                if (itr[i] != null && (minList == -1 || itr[i].val < itr[minList].val)) {
-                    minList = i;
-                }
-            }
-            if (minList != -1) {
-                curr.next = itr[minList];
-                curr = curr.next;
-                itr[minList] = itr[minList].next;
-            }
-        } while (minList != -1);
-        return head.next;
-    }
-
-
     /**
      * it merges the two sorted list
      */
@@ -91,5 +45,50 @@ class Solution_23 {
         if (lists.length == 0)
             return null;
         return mergeKLists(lists, 0, lists.length - 1);
+    }
+
+    /**
+     * Use the same approach as used to merge 2 linked list
+     * Pick the minimum and increase the pointer to the minimum
+     * Time complexity : O(N*K)
+     */
+    public ListNode mergeKLists(ListNode[] lists) {
+        int n = lists.length;
+        ListNode[] itr = new ListNode[n];
+        ListNode head = new ListNode(-1);
+        ListNode curr = head;
+        System.arraycopy(lists, 0, itr, 0, n);
+        int minList;
+        do {
+            minList = -1;
+            for (int i = 0; i < n; i++) {
+                if (itr[i] != null && (minList == -1 || itr[i].val < itr[minList].val)) {
+                    minList = i;
+                }
+            }
+            if (minList != -1) {
+                curr.next = itr[minList];
+                curr = curr.next;
+                itr[minList] = itr[minList].next;
+            }
+        } while (minList != -1);
+        return head.next;
+    }
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
     }
 }

@@ -8,6 +8,16 @@ import java.util.Map;
  */
 class Solution_318 {
 
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        Graph g = new Graph(n);
+
+        for (int[] edge : edges) {
+            g.addEdge(edge[0], edge[1]);
+        }
+
+        return g.minHeight();
+    }
+
     static class Graph {
 
         Map<Integer, List<Integer>> adj;
@@ -84,15 +94,5 @@ class Solution_318 {
             }
             h[u] = dis;
         }
-    }
-
-    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
-        Graph g = new Graph(n);
-
-        for (int[] edge : edges) {
-            g.addEdge(edge[0], edge[1]);
-        }
-
-        return g.minHeight();
     }
 }

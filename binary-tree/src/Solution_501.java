@@ -8,25 +8,6 @@ import java.util.Map;
  */
 class Solution_501 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
     private void inorderTraversal(TreeNode root, List<Integer> sortedList) {
         if (root != null) {
             inorderTraversal(root.left, sortedList);
@@ -62,5 +43,24 @@ class Solution_501 {
             modeArray[i] = modeList.get(i);
         }
         return modeArray;
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }

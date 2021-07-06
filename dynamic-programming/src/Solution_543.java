@@ -3,25 +3,7 @@
  */
 class Solution_543 {
 
-    private static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
+    int diameter;
 
     int height(TreeNode root) {
         if (root == null) return 0;
@@ -49,8 +31,6 @@ class Solution_543 {
         return Math.max(rootHeight, Math.max(left, right));
     }
 
-    int diameter;
-
     /**
      * Optimised to avoid re-calculation of height
      */
@@ -66,5 +46,24 @@ class Solution_543 {
         int rh = heightModified(root.right);
         diameter = Math.max(diameter, lh + rh + 1);
         return Math.max(lh, rh) + 1;
+    }
+
+    private static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }

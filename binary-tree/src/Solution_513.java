@@ -6,33 +6,14 @@ import java.util.List;
  */
 class Solution_513 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
+    public static void bottomDFS(TreeNode root, Pair<Integer, Integer> pair, int h) {
+        if (root == null) return;
+        if (h > pair.depth) {
+            pair.value = root.val;
+            pair.depth = h;
         }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
-    static class Pair<F, S> {
-        F value;
-        S depth;
-
-        Pair(F value, S depth) {
-            this.value = value;
-            this.depth = depth;
-        }
+        bottomDFS(root.left, pair, h + 1);
+        bottomDFS(root.right, pair, h + 1);
     }
 
     /**
@@ -74,7 +55,6 @@ class Solution_513 {
         return levels.get(levels.size() - 1).get(0);
     }
 
-
     public void dfs(TreeNode root, List<List<Integer>> levels, int level) {
         if (root == null) {
             return;
@@ -97,13 +77,32 @@ class Solution_513 {
         return p.value;
     }
 
-    public static void bottomDFS(TreeNode root, Pair<Integer, Integer> pair, int h) {
-        if (root == null) return;
-        if (h > pair.depth) {
-            pair.value = root.val;
-            pair.depth = h;
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
         }
-        bottomDFS(root.left, pair, h + 1);
-        bottomDFS(root.right, pair, h + 1);
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    static class Pair<F, S> {
+        F value;
+        S depth;
+
+        Pair(F value, S depth) {
+            this.value = value;
+            this.depth = depth;
+        }
     }
 }

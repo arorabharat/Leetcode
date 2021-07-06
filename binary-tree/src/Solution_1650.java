@@ -8,13 +8,6 @@ import java.util.Set;
  */
 class Solution_1650 {
 
-    static class Node {
-        public int val;
-        public Node left;
-        public Node right;
-        public Node parent;
-    }
-
     /**
      * TO find the lowest common ancestor in in case the parent is given add all the ancestor of the p in a set.
      * then for each ancestor of q check if the ancestor is also ancestor of p.
@@ -32,5 +25,12 @@ class Solution_1650 {
             q = q.parent;
         }
         return null;
+    }
+
+    static class Node {
+        public int val;
+        public Node left;
+        public Node right;
+        public Node parent;
     }
 }

@@ -2,6 +2,8 @@ import java.util.*;
 
 class Solution_943 {
 
+    Map<String, String> cache;
+
     private String merge(String first, String second) {
         int na = first.length();
         int nb = second.length();
@@ -25,10 +27,8 @@ class Solution_943 {
         return sb.toString();
     }
 
-    Map<String, String> cache;
-
     private String permutation(List<String> words) {
-        if(words.isEmpty()) {
+        if (words.isEmpty()) {
             return "";
         }
         String minimumSubstring = null;

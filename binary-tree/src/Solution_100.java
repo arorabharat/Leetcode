@@ -6,43 +6,6 @@ import java.util.Stack;
  */
 class Solution_100 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
-    static class Pair<F, S> {
-        F f;
-        S s;
-
-        public Pair(F f, S s) {
-            this.f = f;
-            this.s = s;
-        }
-
-        public F getFirst() {
-            return f;
-        }
-
-        public S getSecond() {
-            return s;
-        }
-    }
-
     /**
      * Iterative approach.
      * Do the pre order traversal and monitor the both the nodes in parallel.
@@ -83,5 +46,42 @@ class Solution_100 {
             return false;
         }
         return p.val == q.val && isSameTree2(p.left, q.left) && isSameTree2(p.right, q.right);
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    static class Pair<F, S> {
+        F f;
+        S s;
+
+        public Pair(F f, S s) {
+            this.f = f;
+            this.s = s;
+        }
+
+        public F getFirst() {
+            return f;
+        }
+
+        public S getSecond() {
+            return s;
+        }
     }
 }

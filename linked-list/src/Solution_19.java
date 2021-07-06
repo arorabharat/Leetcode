@@ -3,23 +3,6 @@
  */
 class Solution_19 {
 
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
-
     /**
      * Maintain two pointer at a distance of N : pointer and pointerPlusN
      * increment them at the same time if the pointerPlusN would have reached last node.
@@ -46,5 +29,22 @@ class Solution_19 {
         }
         pointer.next = pointer.next.next;
         return pseudo.next;
+    }
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
     }
 }

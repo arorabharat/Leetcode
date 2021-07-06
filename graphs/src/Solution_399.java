@@ -5,6 +5,25 @@ import java.util.*;
  */
 class Solution_399 {
 
+    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        Graph graph = new Graph();
+        int n = values.length;
+        for (int i = 0; i < n; i++) {
+            String a = equations.get(i).get(0);
+            String b = equations.get(i).get(1);
+            double w = values[i];
+            graph.addEdge(a, b, w);
+        }
+        int m = queries.size();
+        double[] ans = new double[m];
+        for (int i = 0; i < m; i++) {
+            String target = queries.get(i).get(0);
+            String start = queries.get(i).get(1);
+            ans[i] = graph.query(target, start);
+        }
+        return ans;
+    }
+
     static class Pair {
         String nodeValue;
         double edgeValue;
@@ -18,9 +37,9 @@ class Solution_399 {
     static class Graph {
 
         private final Map<String, List<Pair>> adj;
-        private Set<String> recurStack;
         Stack<Pair> currPath;
         Stack<Pair> reqPath;
+        private Set<String> recurStack;
 
 
         Graph() {
@@ -76,24 +95,5 @@ class Solution_399 {
             }
             return -1;
         }
-    }
-
-    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
-        Graph graph = new Graph();
-        int n = values.length;
-        for (int i = 0; i < n; i++) {
-            String a = equations.get(i).get(0);
-            String b = equations.get(i).get(1);
-            double w = values[i];
-            graph.addEdge(a, b, w);
-        }
-        int m = queries.size();
-        double[] ans = new double[m];
-        for (int i = 0; i < m; i++) {
-            String target = queries.get(i).get(0);
-            String start = queries.get(i).get(1);
-            ans[i] = graph.query(target, start);
-        }
-        return ans;
     }
 }

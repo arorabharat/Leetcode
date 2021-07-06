@@ -7,6 +7,11 @@ import java.util.Queue;
  */
 class Solution_200 {
 
+    public int numIslands(char[][] grid) {
+        Graph graph = new Graph(grid);
+        return graph.bfs();
+    }
+
     static class Graph {
 
         private final char[][] grid;
@@ -66,10 +71,5 @@ class Solution_200 {
                 }
             }
         }
-    }
-
-    public int numIslands(char[][] grid) {
-        Graph graph = new Graph(grid);
-        return graph.bfs();
     }
 }

@@ -13,7 +13,6 @@ class Solution_316 {
      * We initialise the array total number of count each character occur.
      * Than we iterate over each character and add it to the final string if it is not been already added.
      * When we encounter a char which smaller than the last we added we remove (included = false) the last character if it occurs again later ( right occurrence > 0 )
-     *
      */
     public String removeDuplicateLetters(String s) {
         int[] numOfOccurrenceInRight = new int[NUM_OF_LETTERS];

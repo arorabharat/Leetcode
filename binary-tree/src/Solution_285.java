@@ -1,21 +1,11 @@
 /**
  * https://leetcode.com/problems/inorder-successor-in-bst/
+ *
  * @see Solution_94
  * @see Solution_173
  * @see Solution_510
  */
 class Solution_285 {
-
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode(int x) {
-            val = x;
-        }
-    }
-
 
     public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
         if (root == null) return null;
@@ -30,5 +20,15 @@ class Solution_285 {
             return inorderSuccessor(root.right, p);
         }
         return null;
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
     }
 }

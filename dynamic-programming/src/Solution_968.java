@@ -3,25 +3,6 @@ import java.util.Map;
 
 class Solution_968 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
     Map<TreeNode, Integer> map;
 
     private int _minCameraCover(TreeNode root) {
@@ -46,5 +27,24 @@ class Solution_968 {
         map = new HashMap<>();
         map.put(null, 0);
         return _minCameraCover(root);
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }

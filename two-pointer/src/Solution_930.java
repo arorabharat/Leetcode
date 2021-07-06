@@ -1,6 +1,7 @@
 class Solution_930 {
 
     // TODO optimisation pending
+
     /**
      * O(N^2)
      */

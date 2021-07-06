@@ -9,7 +9,7 @@ public class Solution_49 {
             char[] c = str.toCharArray();
             Arrays.sort(c);
             String sorted = new String(c);
-            if(!map.containsKey(sorted)) {
+            if (!map.containsKey(sorted)) {
                 map.put(sorted, new ArrayList<>());
             }
             map.get(sorted).add(str);

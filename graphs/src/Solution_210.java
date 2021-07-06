@@ -6,25 +6,6 @@ import java.util.*;
  */
 class Solution_210 {
 
-    static class Graph {
-        Map<Integer, List<Integer>> adj = new HashMap<>();
-
-        void addEdge(int u, int v) {
-            if (!adj.containsKey(u)) {
-                adj.put(u, new ArrayList<>());
-            }
-            adj.get(u).add(v);
-        }
-
-        List<Integer> list(int u) {
-            if (adj.containsKey(u)) {
-                return adj.get(u);
-            }
-            return new ArrayList<>();
-        }
-
-    }
-
     Graph g;
     Deque<Integer> q;
     Set<Integer> visit;
@@ -136,5 +117,24 @@ class Solution_210 {
             ans[i] = orderOfCourses.get(i);
         }
         return ans;
+    }
+
+    static class Graph {
+        Map<Integer, List<Integer>> adj = new HashMap<>();
+
+        void addEdge(int u, int v) {
+            if (!adj.containsKey(u)) {
+                adj.put(u, new ArrayList<>());
+            }
+            adj.get(u).add(v);
+        }
+
+        List<Integer> list(int u) {
+            if (adj.containsKey(u)) {
+                return adj.get(u);
+            }
+            return new ArrayList<>();
+        }
+
     }
 }

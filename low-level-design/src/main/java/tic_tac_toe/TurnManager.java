@@ -4,9 +4,8 @@ import java.util.Random;
 
 public class TurnManager {
 
-    private int turn;
-
     private final int numOfPlayers;
+    private int turn;
 
     public TurnManager(int numOfPlayers) {
         Random random = new Random();

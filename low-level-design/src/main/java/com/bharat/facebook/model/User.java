@@ -7,9 +7,8 @@ import java.util.stream.Collectors;
 
 public class User {
 
-    private String userName;
-
     private final Set<String> friends;
+    private String userName;
 
     public User(String userName) {
         this.userName = userName;

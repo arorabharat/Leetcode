@@ -9,6 +9,20 @@ import java.util.Queue;
  */
 class Solution_785 {
 
+    /**
+     * ========================== Is graph bipartite ============================
+     */
+    public boolean isBipartite(int[][] graph) {
+        int V = graph.length;
+        Graph g = new Graph(V);
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < graph[i].length; j++) {
+                g.addEdge(i, graph[i][j]);
+            }
+        }
+        return g.bfs();
+    }
+
     static class Graph {
         int V;
         List<List<Integer>> adj;
@@ -60,19 +74,5 @@ class Solution_785 {
             }
             return true;
         }
-    }
-
-    /**
-     * ========================== Is graph bipartite ============================
-     */
-    public boolean isBipartite(int[][] graph) {
-        int V = graph.length;
-        Graph g = new Graph(V);
-        for (int i = 0; i < V; i++) {
-            for (int j = 0; j < graph[i].length; j++) {
-                g.addEdge(i, graph[i][j]);
-            }
-        }
-        return g.bfs();
     }
 }

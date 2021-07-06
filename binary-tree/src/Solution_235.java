@@ -5,16 +5,6 @@
  */
 class Solution_235 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode(int x) {
-            val = x;
-        }
-    }
-
     /**
      * basically there are four case
      * Given p and q are unique.
@@ -32,6 +22,16 @@ class Solution_235 {
             return lowestCommonAncestor(root.left, p, q);
         } else {
             return root;
+        }
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
         }
     }
 }

@@ -8,6 +8,11 @@
  */
 class Solution_104 {
 
+    public int maxDepth(TreeNode root) {
+        if (root == null) return 0;
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+
     static class TreeNode {
         int val;
         TreeNode left;
@@ -25,10 +30,5 @@ class Solution_104 {
             this.left = left;
             this.right = right;
         }
-    }
-
-    public int maxDepth(TreeNode root) {
-        if (root == null) return 0;
-        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
     }
 }

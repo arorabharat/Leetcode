@@ -6,25 +6,6 @@ import java.util.Optional;
  */
 class Solution_230 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
     int nodeCount = 0;
 
     private Optional<TreeNode> inorder(TreeNode root, int k) {
@@ -44,5 +25,24 @@ class Solution_230 {
         this.nodeCount = 0;
         Optional<TreeNode> result = inorder(root, k);
         return result.map(treeNode -> treeNode.val).orElse(Integer.MIN_VALUE);
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }

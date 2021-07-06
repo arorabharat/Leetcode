@@ -4,26 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Solution_508 {
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
-
     public int preorder(TreeNode root, Map<Integer, Integer> sumFreq) {
         if (root == null) return 0;
         int left = preorder(root.left, sumFreq);
@@ -53,5 +33,24 @@ public class Solution_508 {
             arr[i] = list.get(i);
         }
         return arr;
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }

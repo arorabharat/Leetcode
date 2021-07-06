@@ -17,25 +17,6 @@ import java.util.Stack;
  */
 class Solution_94 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
     public void addLeft(TreeNode tr, Stack<TreeNode> stack) {
         while (tr != null) {
             stack.add(tr);
@@ -76,6 +57,25 @@ class Solution_94 {
             _inorderTraversal1(root.left, list);
             list.add(root.val);
             _inorderTraversal1(root.right, list);
+        }
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
         }
     }
 }

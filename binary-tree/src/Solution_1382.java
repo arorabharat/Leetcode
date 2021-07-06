@@ -7,25 +7,6 @@ import java.util.Objects;
  */
 class Solution_1382 {
 
-    class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
     List<TreeNode> arr;
 
     void inOrder(TreeNode root) {
@@ -72,5 +53,24 @@ class Solution_1382 {
     public TreeNode balanceBST(TreeNode root) {
         List<TreeNode> sortedTree = sort(root);
         return createBst(sortedTree);
+    }
+
+    class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }

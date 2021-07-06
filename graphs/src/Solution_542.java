@@ -9,6 +9,11 @@ import java.util.Queue;
  */
 class Solution_542 {
 
+    public int[][] updateMatrix(int[][] matrix) {
+        Graph g = new Graph(matrix);
+        return g.solve();
+    }
+
     static class Pair {
         int i;
         int j;
@@ -20,9 +25,9 @@ class Solution_542 {
     }
 
     static class Graph {
-        int[][] g;
         final int R;
         final int C;
+        int[][] g;
         // up right bottom left
         int[] di = {-1, 0, 1, 0};
         int[] dj = {0, 1, 0, -1};
@@ -94,10 +99,5 @@ class Solution_542 {
             return dis;
         }
 
-    }
-
-    public int[][] updateMatrix(int[][] matrix) {
-        Graph g = new Graph(matrix);
-        return g.solve();
     }
 }

@@ -7,31 +7,6 @@
  */
 class Solution_1676 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode(int x) {
-            val = x;
-        }
-    }
-
-    static class Pair {
-        TreeNode ancestor;
-        boolean[] nodesExists;
-
-        Pair(TreeNode ancestor, boolean[] nodesExists) {
-            this.ancestor = ancestor;
-            this.nodesExists = nodesExists;
-        }
-
-        Pair(int n) {
-            this.ancestor = null;
-            this.nodesExists = new boolean[n];
-        }
-    }
-
     private Pair _lowestCommonAncestor(TreeNode root, TreeNode... nodes) {
         int length = nodes.length;
         if (root == null) return new Pair(length);
@@ -57,6 +32,31 @@ class Solution_1676 {
 
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode[] nodes) {
         return _lowestCommonAncestor(root, nodes).ancestor;
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
+
+    static class Pair {
+        TreeNode ancestor;
+        boolean[] nodesExists;
+
+        Pair(TreeNode ancestor, boolean[] nodesExists) {
+            this.ancestor = ancestor;
+            this.nodesExists = nodesExists;
+        }
+
+        Pair(int n) {
+            this.ancestor = null;
+            this.nodesExists = new boolean[n];
+        }
     }
 
 }

@@ -3,23 +3,6 @@
  */
 class Solution_61 {
 
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
-
     /**
      * Every time in the while loop it encounter non null node - it increments the counter
      */
@@ -58,5 +41,22 @@ class Solution_61 {
         pointer.next = null; // break the link to kth node
         pointerPlusK.next = head; // point last node next to head
         return start;
+    }
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
     }
 }

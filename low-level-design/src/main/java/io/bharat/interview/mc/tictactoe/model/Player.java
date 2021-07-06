@@ -5,7 +5,7 @@ public class Player {
     private final Symbol symbol;
     private final int id;
 
-    public Player(Symbol symbol,int id) {
+    public Player(Symbol symbol, int id) {
         this.symbol = symbol;
         this.id = id;
     }
