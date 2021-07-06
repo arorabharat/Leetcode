@@ -2,7 +2,6 @@ import java.util.*;
 
 /**
  * https://leetcode.com/problems/binary-tree-level-order-traversal-ii/
- * TODO : read solution
  */
 class Solution_107 {
 
