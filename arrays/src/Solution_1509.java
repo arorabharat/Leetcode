@@ -1,0 +1,22 @@
+import java.util.Arrays;
+
+public class Solution_1509 {
+
+    /**
+     * 0 1 2 3 4
+     * X X X X X
+     * we will sort the array.
+     * 0 1 2 3 4
+     * Y Y Y X X
+     *
+     */
+    public int minDifference(int[] nums) {
+        int n = nums.length;
+        if (n <= 3) return 0;
+        Arrays.sort(nums);
+        return Math.min(
+                Math.min(nums[n - 1] - nums[3], nums[n - 4] - nums[0]),
+                Math.min(nums[n - 2] - nums[2], nums[n - 3] - nums[1])
+        );
+    }
+}

@@ -17,3 +17,17 @@
 
 ## Hashtable
 
+### Vim 
+https://www.cs.cmu.edu/afs/cs/academic/class/15213-m20/www/recitations/vi-vim-cheat-sheet.gif
+
+
+## Pavel Marvin Playlist
+https://www.youtube.com/playlist?list=PLrS21S1jm43igE57Ye_edwds_iL7ZOAG4
+
+## Codeforces edu
+https://codeforces.com/edu/courses
+
+## Codechef 
+https://www.codechef.com/certification/data-structures-and-algorithms/prepare#foundation
+## Csce
+https://cses.fi/problemset/list/
