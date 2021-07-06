@@ -3,6 +3,20 @@
  */
 class Solution_226 {
 
+    private void swapChild(TreeNode root) {
+        TreeNode left = root.left;
+        root.left = root.right;
+        root.right = left;
+    }
+
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) return null;
+        swapChild(root);
+        invertTree(root.left);
+        invertTree(root.right);
+        return root;
+    }
+
     static class TreeNode {
         int val;
         TreeNode left;
@@ -20,19 +34,5 @@ class Solution_226 {
             this.left = left;
             this.right = right;
         }
-    }
-
-    private void swapChild(TreeNode root) {
-        TreeNode left = root.left;
-        root.left = root.right;
-        root.right = left;
-    }
-
-    public TreeNode invertTree(TreeNode root) {
-        if (root == null) return null;
-        swapChild(root);
-        invertTree(root.left);
-        invertTree(root.right);
-        return root;
     }
 }

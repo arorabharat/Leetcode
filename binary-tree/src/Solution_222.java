@@ -3,29 +3,6 @@
  */
 class Solution_222 {
 
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
-    enum Direction {
-        LEFT, RIGHT
-    }
-
     int getDepth(TreeNode root, Direction direction) {
         int count = 0;
         while (root != null) {
@@ -49,6 +26,29 @@ class Solution_222 {
             return (int) Math.pow(2, leftDepth) - 1;
         } else {
             return 1 + countNodes(root.left) + countNodes(root.right);
+        }
+    }
+
+    enum Direction {
+        LEFT, RIGHT
+    }
+
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
         }
     }
 }

@@ -8,25 +8,6 @@ import java.util.Map;
  */
 class Solution_110 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
     private final Map<TreeNode, Integer> cache = new HashMap<>();
 
     private int height(TreeNode root) {
@@ -44,7 +25,6 @@ class Solution_110 {
         int heightDiff = Math.abs(height(root.left) - height(root.right));
         return heightDiff <= 1 && isBalanced(root.right) && isBalanced(root.left);
     }
-
 
     /**
      * Another approach similar to above -
@@ -69,6 +49,29 @@ class Solution_110 {
         return new TreeInfo(null, false);
     }
 
+    public boolean isBalanced2(TreeNode root) {
+        return isBalancedTreeHelper(root).balanced;
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
     static class TreeInfo {
         public final Integer height;
         public final boolean balanced;
@@ -77,10 +80,6 @@ class Solution_110 {
             this.height = height;
             this.balanced = balanced;
         }
-    }
-
-    public boolean isBalanced2(TreeNode root) {
-        return isBalancedTreeHelper(root).balanced;
     }
 
 }

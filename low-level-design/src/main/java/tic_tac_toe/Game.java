@@ -11,20 +11,19 @@ public class Game {
     private final GameBoard gameBoard;
     private final Player[] player;
     private final TurnManager turnManager;
-    Scanner scanner = new Scanner(System.in);
-
     private final int NUM_OF_PLAYERS = 2;
-
-    private void initialisePlayers() {
-        this.player[turnManager.getCurrentTurn()] = new Player(Symbol.CIRCLE, turnManager.getCurrentTurn() + 1);
-        this.player[turnManager.getNextTurn()] = new Player(Symbol.CROSS, turnManager.getCurrentTurn() + 1);
-    }
+    Scanner scanner = new Scanner(System.in);
 
     public Game() {
         this.gameBoard = new GameBoard();
         this.player = new Player[NUM_OF_PLAYERS];
         this.turnManager = new TurnManager(NUM_OF_PLAYERS);
         initialisePlayers();
+    }
+
+    private void initialisePlayers() {
+        this.player[turnManager.getCurrentTurn()] = new Player(Symbol.CIRCLE, turnManager.getCurrentTurn() + 1);
+        this.player[turnManager.getNextTurn()] = new Player(Symbol.CROSS, turnManager.getCurrentTurn() + 1);
     }
 
     private void makeMove(Move move) {

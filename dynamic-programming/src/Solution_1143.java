@@ -8,6 +8,14 @@ class Solution_1143 {
         return a == b;
     }
 
+    public static void main(String[] args) {
+        Solution_1143 solution_1143 = new Solution_1143();
+        int answer = solution_1143.longestCommonSubsequence("mhunuzqrkzsnidwbun", "szulspmhwpazoxijwbq");
+        int answer1 = solution_1143.longestCommonSubsequence1("mhunuzqrkzsnidwbun", "szulspmhwpazoxijwbq");
+        System.out.println(answer);
+        System.out.println(answer1);
+    }
+
     // f(m,n) = (match(m,n)) ? 1+f(m-1,n-1) : max( f(m-1,n), f(m,n-1) )
     public int _longestCommonSubsequence(String text1, String text2, int m, int n) {
         if (m < 0 || n < 0) {
@@ -39,13 +47,5 @@ class Solution_1143 {
             }
         }
         return dp[m][n];
-    }
-
-    public static void main(String[] args) {
-        Solution_1143 solution_1143 = new Solution_1143();
-        int answer = solution_1143.longestCommonSubsequence("mhunuzqrkzsnidwbun", "szulspmhwpazoxijwbq");
-        int answer1 = solution_1143.longestCommonSubsequence1("mhunuzqrkzsnidwbun", "szulspmhwpazoxijwbq");
-        System.out.println(answer);
-        System.out.println(answer1);
     }
 }

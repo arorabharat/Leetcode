@@ -3,25 +3,6 @@
  */
 class Solution_21 {
 
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
-
-
-
     /**
      * we will compare the front two values if they are non null.
      * Which one is smaller we will pick that.
@@ -105,5 +86,22 @@ class Solution_21 {
             l2 = l2.next;
         }
         return pseudoNode.next;
+    }
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
     }
 }

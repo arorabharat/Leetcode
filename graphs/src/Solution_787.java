@@ -1,6 +1,18 @@
 import java.util.*;
+
 // TODO pending
 public class Solution_787 {
+
+    /**
+     * We have to go from src to dst in the cheapest price and having not more than k stops
+     */
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        Graph graph = new Graph(n);
+        for (int[] flight : flights) {
+            graph.addEdge(flight[0], flight[1], flight[2]);
+        }
+        return graph.cheapestFlight(src, dst, k);
+    }
 
     static class Graph {
         List<List<int[]>> adj;
@@ -47,16 +59,5 @@ public class Solution_787 {
             }
             return dis[dst] == Integer.MAX_VALUE ? -1 : dis[dst];
         }
-    }
-
-    /**
-     * We have to go from src to dst in the cheapest price and having not more than k stops
-     */
-    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        Graph graph = new Graph(n);
-        for (int[] flight : flights) {
-            graph.addEdge(flight[0], flight[1], flight[2]);
-        }
-        return graph.cheapestFlight(src, dst, k);
     }
 }

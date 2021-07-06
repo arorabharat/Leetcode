@@ -8,25 +8,6 @@ import java.util.Queue;
  */
 class Solution_1110 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
     /**
      * we will do bfs traversal,
      * (Strategy 1)  every time we encounter a node which need to be deleted we will first add its child to the queue and make it's left and right pointer null
@@ -121,5 +102,24 @@ class Solution_1110 {
         }
         preOrder(root, true, delete, ans);
         return ans;
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }

@@ -18,8 +18,7 @@ https://cses.fi/problemset/
 8. Word break problem
 9. Longest common substring
 10. Buy and sell stock
-11. kadane's algorithm 
+11. kadane's algorithm
 12. Minimum jumps to reach the end
 13. Equal sum partition
-14. Target sum
-15 matrix chain multiplication
+14. Target sum 15 matrix chain multiplication

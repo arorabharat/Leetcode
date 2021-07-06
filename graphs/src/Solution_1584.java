@@ -7,6 +7,19 @@ import java.util.PriorityQueue;
  */
 class Solution_1584 {
 
+    // approach 1 : prims algorithm
+    public int minCostConnectPoints1(int[][] points) {
+        Graph graph = new Graph(points.length, points);
+        return graph.minSpanTree();
+    }
+
+    // approach 2 : is the kruskal approach which should not be used in dense tree, like in the current case
+    // it used only for demonstration purpose
+    public int minCostConnectPoints(int[][] points) {
+        Graph graph = new Graph(points.length, points);
+        return graph.kruskal();
+    }
+
     static class DisJointSet {
 
         private final int[] set;
@@ -123,18 +136,5 @@ class Solution_1584 {
             return sum;
         }
 
-    }
-
-    // approach 1 : prims algorithm
-    public int minCostConnectPoints1(int[][] points) {
-        Graph graph = new Graph(points.length, points);
-        return graph.minSpanTree();
-    }
-
-    // approach 2 : is the kruskal approach which should not be used in dense tree, like in the current case
-    // it used only for demonstration purpose
-    public int minCostConnectPoints(int[][] points) {
-        Graph graph = new Graph(points.length, points);
-        return graph.kruskal();
     }
 }

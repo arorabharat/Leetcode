@@ -22,12 +22,12 @@ class Solution_946 {
                 stack.pop();
             }
             // keep pushing on the stack
-            while (i < in && j<jn && pushed[i] != popped[j]) {
+            while (i < in && j < jn && pushed[i] != popped[j]) {
                 stack.push(pushed[i]);
                 i++;
             }
             // check if the element matched and pop can be made
-            if (i<in && j<jn && pushed[i] == popped[j]) {
+            if (i < in && j < jn && pushed[i] == popped[j]) {
                 i++;
                 j++;
             } else {

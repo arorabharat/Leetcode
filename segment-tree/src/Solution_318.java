@@ -20,9 +20,9 @@ class Node {
 
 class SegmentTree {
 
+    private final static int ROOT = 0;
     Node[] nodes;
     int[] arr;
-    private final static int ROOT = 0;
 
     SegmentTree() {
     }

@@ -7,26 +7,8 @@
  */
 class Solution_783 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
     int minDifference = Integer.MAX_VALUE;
+    Integer prev, ans;
 
     private TreeNode inOrder(TreeNode root, TreeNode lastTraverseNode) {
         if (root != null) {
@@ -53,8 +35,6 @@ class Solution_783 {
         return minDifference;
     }
 
-    Integer prev, ans;
-
     public int minDiffInBST1(TreeNode root) {
         prev = null;
         ans = Integer.MAX_VALUE;
@@ -69,5 +49,24 @@ class Solution_783 {
             ans = Math.min(ans, node.val - prev);
         prev = node.val;
         dfs(node.right);
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }

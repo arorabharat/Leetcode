@@ -1,11 +1,16 @@
 class Solution_329 {
+    public int longestIncreasingPath(int[][] matrix) {
+        Graph graph = new Graph(matrix);
+        return graph.dfs();
+    }
+
     static class Graph {
         private final int[][] grid;
         private final int r;
         private final int c;
-        private boolean[][] visited;
         private final int[] dr = {-1, 0, 1, 0};
         private final int[] dc = {0, 1, 0, -1};
+        private boolean[][] visited;
 
         Graph(int[][] grid) {
             this.grid = grid;
@@ -49,10 +54,5 @@ class Solution_329 {
             }
             return 1 + maxChildPath;
         }
-    }
-
-    public int longestIncreasingPath(int[][] matrix) {
-        Graph graph = new Graph(matrix);
-        return graph.dfs();
     }
 }

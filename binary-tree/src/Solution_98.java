@@ -5,24 +5,10 @@
  */
 class Solution_98 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
+    /**
+     * third approach
+     */
+    private Integer prev;
 
     private boolean inRange(long x, long min, long max) {
         return min <= x && x <= max;
@@ -60,11 +46,6 @@ class Solution_98 {
         return validate(root, null, null);
     }
 
-    /**
-     * third approach
-     */
-    private Integer prev;
-
     public boolean isValidBST3(TreeNode root) {
         prev = null;
         return inorder(root);
@@ -82,5 +63,24 @@ class Solution_98 {
         }
         prev = root.val;
         return inorder(root.right);
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }

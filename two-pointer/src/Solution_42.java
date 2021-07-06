@@ -1,17 +1,7 @@
 import java.util.Stack;
+
 // TODO pending
 class Solution_42 {
-
-    static class Pair {
-        int h;
-        int i;
-
-        Pair(int h, int i) {
-            this.h = h;
-            this.i = i;
-        }
-    }
-
 
     public int trap(int[] height) {
         Stack<Pair> stack = new Stack<>();
@@ -31,11 +21,10 @@ class Solution_42 {
                         left = p;
                     }
                 }
-                if(!stack.isEmpty()){
+                if (!stack.isEmpty()) {
                     left = stack.peek();
-                }
-                else{
-                    pillarSum = pillarSum -  left.h;
+                } else {
+                    pillarSum = pillarSum - left.h;
                 }
                 int ht = Math.min(height[i], left.h);
                 int wd = i - left.i - 1;
@@ -44,5 +33,15 @@ class Solution_42 {
             }
         }
         return totalWater;
+    }
+
+    static class Pair {
+        int h;
+        int i;
+
+        Pair(int h, int i) {
+            this.h = h;
+            this.i = i;
+        }
     }
 }

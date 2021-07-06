@@ -23,7 +23,7 @@ public class GameBoard {
         for (int i = 0; i < NUM_OF_ROWS; i++) {
             System.out.print("| ");
             for (int j = 0; j < NUM_OF_COLS; j++) {
-                System.out.print(board[i][j].getSymbol().toString()+" | ");
+                System.out.print(board[i][j].getSymbol().toString() + " | ");
             }
             System.out.println();
         }

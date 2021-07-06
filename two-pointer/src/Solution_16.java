@@ -9,7 +9,6 @@ class Solution_16 {
      * target - (sum) = diff
      * so if diff is positive we need to decrease the diff by decreasing a number in sum which would be pointer at k, as the array is sorted so nums[k-1] < nums[k]
      * so if diff is negative we need to increase the diff by increasing a number in sum which would be pointer at j, as the array is sorted so nums[j] > nums[j+1]
-     *
      */
     public int threeSumClosest(int[] nums, int target) {
         Arrays.sort(nums);

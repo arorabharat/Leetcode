@@ -4,6 +4,11 @@ import java.util.Map;
 
 class Solution_91 {
 
+    /**
+     * second solution
+     */
+
+    Map<Integer, Integer> memo = new HashMap<>();
     private int[] cache;
 
     private int numDecodings(char[] s, int n) {
@@ -33,13 +38,6 @@ class Solution_91 {
         Arrays.fill(cache, Integer.MIN_VALUE);
         return numDecodings(s.toCharArray(), n - 1);
     }
-
-
-    /**
-     * second solution
-     */
-
-    Map<Integer, Integer> memo = new HashMap<>();
 
     public int numDecodings2(String s) {
         return recursiveWithMemo(0, s);

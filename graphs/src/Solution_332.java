@@ -5,9 +5,18 @@ import java.util.*;
  */
 public class Solution_332 {
 
+    public List<String> findItinerary(List<List<String>> tickets) {
+        Graph graph = new Graph();
+        for (List<String> ticket : tickets) {
+            graph.addEdge(ticket.get(0), ticket.get(1));
+        }
+        return graph.eulerPath("JFK");
+    }
+
     static class Graph {
 
         Map<String, List<String>> adj;
+        Deque<String> deque;
 
         Graph() {
             this.adj = new HashMap<>();
@@ -72,8 +81,6 @@ public class Solution_332 {
             return startCount == 0 && endCount == 0 || startCount == 1 && endCount == 1;
         }
 
-        Deque<String> deque;
-
         void dfs(String start, Map<String, Integer> outDegree) {
             while (outDegree.get(start) != 0) {
                 outDegree.put(start, outDegree.get(start) - 1);
@@ -97,13 +104,5 @@ public class Solution_332 {
             dfs(start, outDegreeMap);
             return new ArrayList<>(deque);
         }
-    }
-
-    public List<String> findItinerary(List<List<String>> tickets) {
-        Graph graph = new Graph();
-        for (List<String> ticket : tickets) {
-            graph.addEdge(ticket.get(0), ticket.get(1));
-        }
-        return graph.eulerPath("JFK");
     }
 }

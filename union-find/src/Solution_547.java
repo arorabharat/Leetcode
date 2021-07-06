@@ -2,6 +2,23 @@ import java.util.*;
 
 class Solution_547 {
 
+    public int findCircleNum(int[][] M) {
+        int n = M.length;
+        if (n == 0) return 0;
+
+        Graph g = new Graph(n);
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (M[i][j] == 1) {
+                    g.addEdge(i, j);
+                }
+            }
+        }
+
+        return g.components();
+    }
+
     class Graph {
         Map<Integer, List<Integer>> adj;
         int n;
@@ -48,22 +65,5 @@ class Solution_547 {
         }
 
 
-    }
-
-    public int findCircleNum(int[][] M) {
-        int n = M.length;
-        if (n == 0) return 0;
-
-        Graph g = new Graph(n);
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (M[i][j] == 1) {
-                    g.addEdge(i, j);
-                }
-            }
-        }
-
-        return g.components();
     }
 }

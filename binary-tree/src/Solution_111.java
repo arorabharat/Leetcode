@@ -8,25 +8,6 @@ import java.util.LinkedList;
  */
 class Solution_111 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
     private boolean isLeafNode(TreeNode root) {
         if (root == null) return false;
         return root.left == null && root.right == null;
@@ -43,25 +24,6 @@ class Solution_111 {
             min = Math.min(min, minDepth(root.right));
         }
         return min + 1;
-    }
-
-
-    static class Pair<F, S> {
-        F f;
-        S s;
-
-        public Pair(F f, S s) {
-            this.f = f;
-            this.s = s;
-        }
-
-        public F getFirst() {
-            return f;
-        }
-
-        public S getSecond() {
-            return s;
-        }
     }
 
     /**
@@ -91,5 +53,42 @@ class Solution_111 {
             }
         }
         return min_depth;
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    static class Pair<F, S> {
+        F f;
+        S s;
+
+        public Pair(F f, S s) {
+            this.f = f;
+            this.s = s;
+        }
+
+        public F getFirst() {
+            return f;
+        }
+
+        public S getSecond() {
+            return s;
+        }
     }
 }

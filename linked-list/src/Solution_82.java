@@ -3,23 +3,6 @@
  */
 class Solution_82 {
 
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
-
     /**
      * take three pointer - prev, curr and next
      * invariant -
@@ -54,5 +37,22 @@ class Solution_82 {
             }
         }
         return start.next;
+    }
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
     }
 }

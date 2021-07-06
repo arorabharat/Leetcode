@@ -54,16 +54,21 @@ public class Solution_146 {
 
     static class LRUCache1 {
 
-        static class DLinkedNode {
-            int key;
-            int value;
-            DLinkedNode prev;
-            DLinkedNode next;
+        private final Map<Integer, DLinkedNode> cache = new HashMap<>();
+        private final int capacity;
+        private final DLinkedNode head;
+        private final DLinkedNode tail;
+        private int count;
 
-            public DLinkedNode(int key, int value) {
-                this.key = key;
-                this.value = value;
-            }
+        public LRUCache1(int capacity) {
+            this.count = 0;
+            this.capacity = capacity;
+            head = new DLinkedNode(-1, -1);
+            tail = new DLinkedNode(-1, -1);
+            head.prev = null;
+            head.next = tail;
+            tail.prev = head;
+            tail.next = null;
         }
 
         private void addNode(DLinkedNode node) {
@@ -91,23 +96,6 @@ public class Solution_146 {
             return res;
         }
 
-        private final Map<Integer, DLinkedNode> cache = new HashMap<>();
-        private int count;
-        private final int capacity;
-        private final DLinkedNode head;
-        private final DLinkedNode tail;
-
-        public LRUCache1(int capacity) {
-            this.count = 0;
-            this.capacity = capacity;
-            head = new DLinkedNode(-1, -1);
-            tail = new DLinkedNode(-1, -1);
-            head.prev = null;
-            head.next = tail;
-            tail.prev = head;
-            tail.next = null;
-        }
-
         public int get(int key) {
             DLinkedNode node = cache.get(key);
             if (node == null) {
@@ -116,7 +104,6 @@ public class Solution_146 {
             this.moveToHead(node);
             return node.value;
         }
-
 
         public void put(int key, int value) {
             DLinkedNode node = cache.get(key);
@@ -135,9 +122,21 @@ public class Solution_146 {
                 this.moveToHead(node);
             }
         }
+
+        static class DLinkedNode {
+            int key;
+            int value;
+            DLinkedNode prev;
+            DLinkedNode next;
+
+            public DLinkedNode(int key, int value) {
+                this.key = key;
+                this.value = value;
+            }
+        }
     }
 
-    static class LRUCache2 extends LinkedHashMap<Integer, Integer>{
+    static class LRUCache2 extends LinkedHashMap<Integer, Integer> {
 
         private final int capacity;
 

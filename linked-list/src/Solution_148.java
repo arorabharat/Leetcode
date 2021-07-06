@@ -1,22 +1,5 @@
 class Solution_148 {
 
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
-
     private ListNode insertInSortedList(ListNode head, ListNode node) throws IllegalArgumentException {
         if (node.next != null) {
             throw new IllegalArgumentException("Node's next value should be null");
@@ -57,5 +40,22 @@ class Solution_148 {
             curr = next;
         }
         return sorted;
+    }
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
     }
 }

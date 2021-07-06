@@ -23,7 +23,7 @@ public class Solution_67 {
             s = s % 2;
             res.append(s);
         }
-        if(carry != 0) {
+        if (carry != 0) {
             res.append(carry);
         }
         return res.reverse().toString();
