@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * https://leetcode.com/problems/binary-tree-inorder-traversal/
@@ -77,5 +75,32 @@ class Solution_94 {
             this.left = left;
             this.right = right;
         }
+    }
+
+
+    public void addLeft(TreeNode tr, Deque<TreeNode> deque) {
+        while (tr != null) {
+            deque.addFirst(tr);
+            tr = tr.left;
+        }
+    }
+
+    /**
+     * Two invariant :
+     * all the nodes should be only added to the data structure once .
+     * Order of node should reverse of the nodes required.
+     */
+    public List<Integer> inorderTraversal3(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        Deque<TreeNode> deque = new LinkedList<>();
+        addLeft(root, deque);
+        while (!deque.isEmpty()) {
+            TreeNode f = deque.pop();
+            list.add(f.val);
+            if (f.right != null) {
+                addLeft(f.right, deque);
+            }
+        }
+        return list;
     }
 }
