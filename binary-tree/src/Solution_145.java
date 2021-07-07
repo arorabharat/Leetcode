@@ -25,10 +25,8 @@ class Solution_145 {
 
     /**
      * Stupid Iterative :
-     * 1. once the node is in traversal data structure ( stack / deque ) never put the node back inside in the data strucutre
-     * Above invariant should hold for any traversal.
+     * once the node is in traversal data structure ( stack / deque ) never put the node back inside in the data structure , this invariant should hold for any traversal.
      * Following solution is example of violation of this invariant
-     *
      */
     public List<Integer> postorderTraversal1(TreeNode root) {
         List<Integer> postOrderList = new ArrayList<>();
@@ -55,8 +53,8 @@ class Solution_145 {
 
     /**
      * Iterative solution using stack
-     * 1. once the node is in traversal data structure ( stack / deque ) never put the node back inside in the data structure, this invariant should hold for any traversal.
-     *  Following solution is adhere to this this invariant
+     * once the node is in traversal data structure ( stack / deque ) never put the node back inside in the data structure, this invariant should hold for any traversal.
+     * Following solution is adhere to this this invariant
      */
     public List<Integer> postorderTraversal2(TreeNode root) {
         Deque<Integer> queue = new LinkedList<>();
@@ -79,7 +77,6 @@ class Solution_145 {
     /**
      * L - R - V
      * Iterative solution Deque.
-     *
      */
     public List<Integer> postorderTraversal3(TreeNode root) {
         Deque<Integer> queue = new LinkedList<>();
