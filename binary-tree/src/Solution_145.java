@@ -53,16 +53,16 @@ class Solution_145 {
         Set<TreeNode> visited = new HashSet<>();
         visited.add(root);
         while (!stack.isEmpty()) {
-            TreeNode front = stack.pop();
-            if (front.left != null && !visited.contains(front.left)) {
-                stack.add(front.left);
-                visited.add(front.left);
+            TreeNode current = stack.pop();
+            if (current.left != null && !visited.contains(current.left)) {
+                stack.add(current.left);
+                visited.add(current.left);
             }
-            if (front.right != null && !visited.contains(front.right)) {
-                stack.add(front.right);
-                visited.add(front.right);
+            if (current.right != null && !visited.contains(current.right)) {
+                stack.add(current.right);
+                visited.add(current.right);
             }
-            postOrderList.add(front.val);
+            postOrderList.add(current.val);
         }
         Collections.reverse(postOrderList);
         return postOrderList;
