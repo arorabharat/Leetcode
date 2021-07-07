@@ -50,6 +50,7 @@ class Solution_144 {
 
     /**
      * Iterative solution using deque
+     * once the node is in traversal data structure ( stack / deque ) never put the node back inside in the data structure, this invariant should hold for any traversal.
      */
     public List<Integer> preorderTraversal2(TreeNode root) {
         List<Integer> preOrderList = new ArrayList<>();
