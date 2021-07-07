@@ -24,7 +24,11 @@ class Solution_145 {
     }
 
     /**
-     * Iterative
+     * Iterative :
+     * 1. once the node is in traversal data structure ( stack / deque ) never put the node back inside in the data strucutre
+     * Above invariant should hold for any traversal.
+     * Following solution is example of violation of this invariant
+     *
      */
     public List<Integer> postorderTraversal1(TreeNode root) {
         List<Integer> postOrderList = new ArrayList<>();
@@ -50,8 +54,9 @@ class Solution_145 {
     }
 
     /**
-     * Post order traversal
-     * L-R-V
+     * Iterative solution using stack
+     * 1. once the node is in traversal data structure ( stack / deque ) never put the node back inside in the data structure, this invariant should hold for any traversal.
+     *  Following solution is adhere to this this invariant
      */
     public List<Integer> postorderTraversal2(TreeNode root) {
         Deque<Integer> queue = new LinkedList<>();
@@ -66,6 +71,29 @@ class Solution_145 {
             }
             if (curr.right != null) {
                 stack.push(curr.right);
+            }
+        }
+        return new ArrayList<>(queue);
+    }
+
+    /**
+     * L - R - V
+     * Iterative solution Deque.
+     *
+     */
+    public List<Integer> postorderTraversal3(TreeNode root) {
+        Deque<Integer> queue = new LinkedList<>();
+        Deque<TreeNode> deque = new LinkedList<>();
+        if (root != null) deque.push(root);
+        while (!deque.isEmpty()) {
+            TreeNode curr = deque.peek();
+            deque.pop();
+            queue.addFirst(curr.val);
+            if (curr.left != null) {
+                deque.push(curr.left);
+            }
+            if (curr.right != null) {
+                deque.push(curr.right);
             }
         }
         return new ArrayList<>(queue);
