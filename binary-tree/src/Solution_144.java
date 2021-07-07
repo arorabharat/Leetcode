@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * https://leetcode.com/problems/binary-tree-preorder-traversal/
@@ -45,6 +43,27 @@ class Solution_144 {
             }
             if (front.left != null) {
                 stack.push(front.left);
+            }
+        }
+        return preOrderList;
+    }
+
+    /**
+     * iterative solution using deque
+     */
+    public List<Integer> preorderTraversal2(TreeNode root) {
+        List<Integer> preOrderList = new ArrayList<>();
+        if (root == null) return preOrderList;
+        Deque<TreeNode> deque = new LinkedList<>();
+        deque.add(root);
+        while (!deque.isEmpty()) {
+            TreeNode front = deque.remove();
+            preOrderList.add(front.val);
+            if (front.right != null) {
+                deque.addFirst(front.right);
+            }
+            if (front.left != null) {
+                deque.addFirst(front.left);
             }
         }
         return preOrderList;

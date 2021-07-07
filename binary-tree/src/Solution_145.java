@@ -5,25 +5,6 @@ import java.util.*;
  */
 class Solution_145 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
     /**
      * ================== PostOrder / Post Order Traversal ===============================
      * Recursive
@@ -68,6 +49,10 @@ class Solution_145 {
         return postOrderList;
     }
 
+    /**
+     * Post order traversal
+     * L-R-V
+     */
     public List<Integer> postorderTraversal2(TreeNode root) {
         Deque<Integer> queue = new LinkedList<>();
         Stack<TreeNode> stack = new Stack<>();
@@ -84,5 +69,24 @@ class Solution_145 {
             }
         }
         return new ArrayList<>(queue);
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }
