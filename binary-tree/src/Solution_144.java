@@ -10,7 +10,7 @@ class Solution_144 {
      * ======================== PreOrder / PreOrder ==================================
      * Recursive Solution
      * Time complexity : O(N)
-     * Space Complexity : O(N) Stack sapcr for running the algo
+     * Space Complexity : O(N) Stack space for running the algo
      */
     public List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> preOrderList = new ArrayList<>();
