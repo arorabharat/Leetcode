@@ -54,11 +54,11 @@ class Solution_145 {
         visited.add(root);
         while (!stack.isEmpty()) {
             TreeNode front = stack.pop();
-            if ( front.left != null && !visited.contains(front.left)){
+            if (front.left != null && !visited.contains(front.left)) {
                 stack.add(front.left);
                 visited.add(front.left);
             }
-            if (front.right != null && !visited.contains(front.right)){
+            if (front.right != null && !visited.contains(front.right)) {
                 stack.add(front.right);
                 visited.add(front.right);
             }
@@ -66,5 +66,23 @@ class Solution_145 {
         }
         Collections.reverse(postOrderList);
         return postOrderList;
+    }
+
+    public List<Integer> postorderTraversal2(TreeNode root) {
+        Deque<Integer> queue = new LinkedList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        if (root != null) stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode curr = stack.peek();
+            stack.pop();
+            queue.addFirst(curr.val);
+            if (curr.left != null) {
+                stack.push(curr.left);
+            }
+            if (curr.right != null) {
+                stack.push(curr.right);
+            }
+        }
+        return new ArrayList<>(queue);
     }
 }
