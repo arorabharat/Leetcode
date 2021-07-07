@@ -49,7 +49,7 @@ class Solution_144 {
     }
 
     /**
-     * iterative solution using deque
+     * Iterative solution using deque
      */
     public List<Integer> preorderTraversal2(TreeNode root) {
         List<Integer> preOrderList = new ArrayList<>();
