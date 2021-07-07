@@ -24,7 +24,7 @@ class Solution_145 {
     }
 
     /**
-     * Iterative :
+     * Stupid Iterative :
      * 1. once the node is in traversal data structure ( stack / deque ) never put the node back inside in the data strucutre
      * Above invariant should hold for any traversal.
      * Following solution is example of violation of this invariant
