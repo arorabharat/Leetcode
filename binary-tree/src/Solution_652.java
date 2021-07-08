@@ -68,6 +68,7 @@ class Solution_652 {
      * ==============================  Tree Serialization ================================
      * <p>
      * Approach 2
+     * Serialize the bst
      */
 
     Map<String, List<TreeNode>> serializationToNodesMap;
