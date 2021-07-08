@@ -58,26 +58,6 @@ class Solution_94 {
         }
     }
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
-
     public void addLeft(TreeNode tr, Deque<TreeNode> deque) {
         while (tr != null) {
             deque.addFirst(tr);
@@ -102,5 +82,24 @@ class Solution_94 {
             }
         }
         return list;
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }

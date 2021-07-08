@@ -2,11 +2,22 @@ import java.util.*;
 
 /**
  * https://leetcode.com/problems/find-duplicate-subtrees/
+ *
  * @see Solution_449
  * @see Solution_297
  */
 class Solution_652 {
 
+
+    /**
+     * ==============================  Tree Serialization ================================
+     * <p>
+     * Approach 2
+     * Serialize the bst
+     */
+
+    Map<String, List<TreeNode>> serializationToNodesMap;
+    Map<TreeNode, String> nodeToSerializationMap;
 
     private boolean treeMatch(TreeNode root1, TreeNode root2) {
         if (root1 == null && root2 == null) return true;
@@ -68,16 +79,6 @@ class Solution_652 {
         }
         return duplicateTrees;
     }
-
-    /**
-     * ==============================  Tree Serialization ================================
-     * <p>
-     * Approach 2
-     * Serialize the bst
-     */
-
-    Map<String, List<TreeNode>> serializationToNodesMap;
-    Map<TreeNode, String> nodeToSerializationMap;
 
     private String preOderStringSerializer(TreeNode root) {
         if (root == null) return "";
