@@ -26,7 +26,7 @@ class Solution_144 {
 
     /**
      * Iterative Solution :
-     *  V - L - R
+     * V - L - R
      * Trick is to add the nodes in reverse pre oder in stack
      * Time complexity : O(N)
      * Space Complexity : O(N)
@@ -51,7 +51,7 @@ class Solution_144 {
 
     /**
      * Iterative solution using deque.
-     *  V - L - R
+     * V - L - R
      * once the node is in traversal data structure ( stack / deque ) never put the node back inside in the data structure, this invariant should hold for any traversal.
      * Traverse the node and then add its right child first then the left child.
      */
