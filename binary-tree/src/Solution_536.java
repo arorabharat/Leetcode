@@ -5,7 +5,7 @@
 class Solution_536 {
 
     /**
-     * ================ Tree Deserialization ======================================
+     * @see DSA#TREE_DESERIALIZATION
      */
     public TreeNode str2tree(String s) {
 
