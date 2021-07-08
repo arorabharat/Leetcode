@@ -42,7 +42,6 @@ public class Solution_606 {
     }
 
     /**
-     *  
      * Recursive solution
      */
     private String _tree2str1(TreeNode root) {

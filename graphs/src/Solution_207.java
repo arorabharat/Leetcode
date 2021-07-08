@@ -52,7 +52,8 @@ class Solution_207 {
     }
 
     /**
-     * ================= kahn' algorithm - Topological sort ===================
+     * @see DSA#KHANS_ALGO_OF_TOPOLOGICAL_SORT
+     * <p>
      * Create a directed graph , where a edge A -> B represent course B can be completed once course A is complete
      * We will also maintain the number of other course the every course is dependent on. From angle of graph that means in degree
      * We will add all the courses with zero pending dependency as they could be completed.
