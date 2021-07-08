@@ -3,6 +3,8 @@ import java.util.LinkedList;
 
 /**
  * https://leetcode.com/problems/construct-string-from-binary-tree/
+ * @see Solution_536
+ * @see Solution_652
  */
 public class Solution_606 {
 
