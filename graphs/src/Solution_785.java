@@ -10,7 +10,7 @@ import java.util.Queue;
 class Solution_785 {
 
     /**
-     * ========================== Is graph bipartite ============================
+     * @see DSA#BIPARTITE_GRAPH
      */
     public boolean isBipartite(int[][] graph) {
         int V = graph.length;

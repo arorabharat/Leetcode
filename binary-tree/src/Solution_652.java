@@ -10,7 +10,7 @@ class Solution_652 {
 
 
     /**
-     * ==============================  Tree Serialization ================================
+     * @see DSA#TREE_SERIALIZATION
      * <p>
      * Approach 2
      * Serialize the bst

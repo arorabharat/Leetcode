@@ -7,16 +7,15 @@ public class Solution_1509 {
      * 0 1 2 3 4
      * X X X X X
      * we will sort the array.
-     *
+     * <p>
      * 0 1 2 3 4 5
      * Y Y Y X X X
-     *
+     * <p>
      * 0 1 2 3 4 5
      * X X X Y Y Y
-     *
+     * <p>
      * 0 1 2 3 4 5
      * X X X Y Y Y
-     *
      */
     public int minDifference(int[] nums) {
         int n = nums.length;
