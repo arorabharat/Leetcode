@@ -32,6 +32,10 @@ class Solution_200 {
             this.visited = new boolean[this.r][this.c];
         }
 
+        /**
+         * @see DSA#BFS_TRAVERSAL
+         * @see DSA#NUMBER_OF_CONNECTED_COMPONENTS
+         */
         int bfs() {
             int count = 0;
             for (int i = 0; i < this.r; i++) {
