@@ -31,3 +31,7 @@ https://codeforces.com/edu/courses
 https://www.codechef.com/certification/data-structures-and-algorithms/prepare#foundation
 ## Csce
 https://cses.fi/problemset/list/
+
+## Important
+1. Complete linked list
+2. Complete trie
