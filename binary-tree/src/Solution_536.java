@@ -4,6 +4,14 @@
  */
 class Solution_536 {
 
+    /**
+     * ================ Tree Deserialization ======================================
+     */
+    public TreeNode str2tree(String s) {
+
+        return null;
+    }
+
     static class TreeNode {
         int val;
         TreeNode left;
@@ -21,12 +29,5 @@ class Solution_536 {
             this.left = left;
             this.right = right;
         }
-    }
-
-    /**
-     * ================ Tree Deserialization ======================================
-     */
-    public TreeNode str2tree(String s) {
-        return null;
     }
 }
