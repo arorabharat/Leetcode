@@ -11,6 +11,7 @@ public class Solution_606 {
     /**
      * You can not convert integer to character , you can convert digit to string
      * So always choose integer to string not character
+     * This is not a great solution, it is very in efficient
      */
     private Deque<String> _tree2str(TreeNode root) {
         if (root == null) return new LinkedList<>();
@@ -39,6 +40,9 @@ public class Solution_606 {
         return sb.toString();
     }
 
+    /**
+     * Recursive solution
+     */
     private String _tree2str1(TreeNode root) {
         if (root == null) return "";
         String left = _tree2str1(root.left);
