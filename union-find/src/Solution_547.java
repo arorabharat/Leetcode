@@ -19,7 +19,7 @@ class Solution_547 {
         return g.components();
     }
 
-    class Graph {
+    static class Graph {
         Map<Integer, List<Integer>> adj;
         int n;
         boolean[] visited;
@@ -63,7 +63,5 @@ class Solution_547 {
                 }
             }
         }
-
-
     }
 }
