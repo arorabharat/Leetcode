@@ -3,7 +3,6 @@ import java.util.LinkedList;
 
 /**
  * https://leetcode.com/problems/construct-binary-tree-from-string/
- * TODO : important
  */
 class Solution_536 {
 
@@ -74,4 +73,6 @@ class Solution_536 {
             this.right = right;
         }
     }
+
+    // PENDING Iterative solution
 }
