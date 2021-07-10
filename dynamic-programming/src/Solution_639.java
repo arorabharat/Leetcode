@@ -43,5 +43,6 @@ class Solution_639 {
         if (n == 0) return 0;
         dp = new Integer[n];
         _numDecodings(s.toCharArray(), n - 1);
+        return 0;
     }
 }
