@@ -26,7 +26,7 @@ class Solution_24 {
         return ans.next;
     }
 
-    public class ListNode {
+    static class ListNode {
         int val;
         ListNode next;
 
