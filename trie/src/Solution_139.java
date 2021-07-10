@@ -41,7 +41,6 @@ class Solution_139 {
         }
 
         private boolean _isWordPresent(char[] c, int start, int end) {
-            if (end > c.length) return false;
             if (end == start) {
                 return map.containsKey(END_CHAR);
             }
@@ -56,18 +55,14 @@ class Solution_139 {
         }
     }
 
-    private boolean _isBreakable(char[] c, TrieNode trieNode, int end) {
-        if(end == 0) return true;
-        for (int i = 0; i < end; i++) {
-            int start = end - i - 1;
-            boolean wordPresent = trieNode._isWordPresent(c, start, end);
-            System.out.println(wordPresent + " " + start + " " + end);
-            boolean rem = _isBreakable(c, trieNode, start);
-            System.out.println(rem + " " + i);
+    private boolean _isBreakable(char[] c, TrieNode trieNode, int s, int e) {
+        if (s == e) return true;
+        for (int b = s+1; b < e; b++) {
+            boolean wordPresent = trieNode._isWordPresent(c, s, b);
+            boolean rem = _isBreakable(c, trieNode, b, e);
             if (wordPresent && rem) return true;
-
         }
-        return trieNode._isWordPresent(c, 0, end);
+        return trieNode._isWordPresent(c, 0, s);
     }
 
     public boolean wordBreak(String s, List<String> wordDict) {
@@ -75,7 +70,6 @@ class Solution_139 {
         for (String str : wordDict) {
             trieNode.insert(str.toCharArray(), 0);
         }
-        System.out.println(trieNode.isWordPresent("leet".toCharArray()));
-        return _isBreakable(s.toCharArray(), trieNode, s.length());
+        return _isBreakable(s.toCharArray(), trieNode, 0, s.toCharArray().length);
     }
 }
