@@ -49,7 +49,6 @@ class Solution_109 {
             fast = fast.next.next;
             prev = slow;
             slow = slow.next;
-
         }
         return fast == null ? prev : prev.next;
     }
@@ -67,5 +66,5 @@ class Solution_109 {
         root.right = sortedListToBST(rightNode);
         return root;
     }
-    
+
 }
