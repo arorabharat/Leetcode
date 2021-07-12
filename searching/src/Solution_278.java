@@ -50,5 +50,29 @@ class Solution_278 {
             }
             return lastBadVersion;
         }
+
+        /**
+         * Low , mid , high
+         *
+         * high - bad
+         * low - good
+         * mid could overlap with low or high
+         *
+         * 1 2 3 4 | 5 6 7 8
+         * Lower bound without extra variable
+         */
+        public int firstBadVersion3(int n) {
+            int low = 1;
+            int high = n;
+            while (low < high) {
+                int mid = low + (high - low) / 2;
+                if (isBadVersion(mid)) {
+                    high = mid;
+                } else {
+                    low = mid + 1;
+                }
+            }
+            return low;
+        }
     }
 }
