@@ -36,21 +36,13 @@ class Solution_1530 {
         }
         int[] leftLeaves = countLeafDistance(root.left, distance);
         int[] rightLeaves = countLeafDistance(root.right, distance);
-        for (int i = 9; i >= 0; i--) {
-            // add 1 to distance
-            leftLeaves[i + 1] = leftLeaves[i];
-        }
+        System.arraycopy(leftLeaves, 0, leftLeaves, 1, 10);
         leftLeaves[0] = 0;
-        for (int i = 9; i >= 0; i--) {
-            // add 1 to distance
-            rightLeaves[i + 1] = rightLeaves[i];
-        }
+        System.arraycopy(rightLeaves, 0, rightLeaves, 1, 10);
         rightLeaves[0] = 0;
         for (int i = 1; i <= 10; i++) {
-            for (int j = 1; j <= 10; j++) {
-                if (i + j <= distance) {
-                    count = count + leftLeaves[i] * rightLeaves[j];
-                }
+            for (int j = 1; j <= distance - i; j++) {
+                count = count + leftLeaves[i] * rightLeaves[j];
             }
         }
         for (int i = 0; i <= 10; i++) {
