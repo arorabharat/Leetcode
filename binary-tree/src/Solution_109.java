@@ -102,7 +102,7 @@ class Solution_109 {
 
     /**
      * Approach 3
-     *
+     * @see Level#GOOD
      */
 
     private int getLength(ListNode head) {
