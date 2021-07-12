@@ -9,6 +9,24 @@ import java.util.Map;
 class Solution_139 {
 
 
+    private boolean _isBreakable(char[] c, TrieNode trieNode, int s, int e) {
+        if (s == e) return true;
+        for (int b = s + 1; b < e; b++) {
+            boolean wordPresent = trieNode._isWordPresent(c, s, b);
+            boolean rem = _isBreakable(c, trieNode, b, e);
+            if (wordPresent && rem) return true;
+        }
+        return trieNode._isWordPresent(c, 0, s);
+    }
+
+    public boolean wordBreak(String s, List<String> wordDict) {
+        TrieNode trieNode = new TrieNode();
+        for (String str : wordDict) {
+            trieNode.insert(str.toCharArray(), 0);
+        }
+        return _isBreakable(s.toCharArray(), trieNode, 0, s.toCharArray().length);
+    }
+
     static class TrieNode {
 
         char START_CHAR = '^';
@@ -53,23 +71,5 @@ class Solution_139 {
         boolean isWordPresent(char[] c) {
             return this._isWordPresent(c, 0, c.length);
         }
-    }
-
-    private boolean _isBreakable(char[] c, TrieNode trieNode, int s, int e) {
-        if (s == e) return true;
-        for (int b = s+1; b < e; b++) {
-            boolean wordPresent = trieNode._isWordPresent(c, s, b);
-            boolean rem = _isBreakable(c, trieNode, b, e);
-            if (wordPresent && rem) return true;
-        }
-        return trieNode._isWordPresent(c, 0, s);
-    }
-
-    public boolean wordBreak(String s, List<String> wordDict) {
-        TrieNode trieNode = new TrieNode();
-        for (String str : wordDict) {
-            trieNode.insert(str.toCharArray(), 0);
-        }
-        return _isBreakable(s.toCharArray(), trieNode, 0, s.toCharArray().length);
     }
 }

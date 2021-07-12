@@ -6,41 +6,7 @@ import java.util.List;
  */
 class Solution_109 {
 
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
-
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
+    private ListNode head;
 
     ListNode getMidNode(ListNode start) {
         ListNode slow = new ListNode(-1);
@@ -102,6 +68,7 @@ class Solution_109 {
 
     /**
      * Approach 3
+     *
      * @see Level#GOOD
      */
 
@@ -114,8 +81,6 @@ class Solution_109 {
         }
         return count;
     }
-
-    private ListNode head;
 
     private TreeNode inorderTraversal(int start, int end) {
         if (start > end) return null;
@@ -132,5 +97,41 @@ class Solution_109 {
         this.head = head;
         int n = getLength(head);
         return inorderTraversal(0, n - 1);
+    }
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }
