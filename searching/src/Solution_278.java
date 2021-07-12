@@ -34,7 +34,7 @@ class Solution_278 {
         }
 
         /**
-         * iterative approach fits best in ccase of the lower bound
+         * iterative approach fits best in case of the lower bound
          */
         public int firstBadVersion2(int n) {
             int low = 1, high = n;
