@@ -42,17 +42,26 @@ https://cses.fi/problemset/list/
 1. Complete linked list
 2. Complete trie
 
-
 ## Time complexity
+
 Let's understand all the time complexity based on the addition operation in an arraylist.
+
 ### Worst case
-In worst case array's capacity has reached to add one more element, we will have to increase the size of the underlying array and 
-copy all the elements to new array of double the size. Hence time taken would be O(N) 
-### best case 
+
+In worst case array's capacity has reached to add one more element, we will have to increase the size of the underlying
+array and copy all the elements to new array of double the size. Hence time taken would be O(N)
+
+### best case
+
 Best case would be O(1) when we array size less then capacity
+
 ### Average time complexity
-Average time complexity would be ( best case + worst case ) / number of times operation performed.
-It will be slightly larger than O(1.XX) as array size increases rarely.
+
+Average time complexity would be ( best case + worst case ) / number of times operation performed. It will be slightly
+larger than O(1.XX) as array size increases rarely.
+
 ### Amortized time complexity
-Amortized complexity is the time complexity excluding the worst cases scenario which occur rarely like array size increase.
-So, Amortized time complexity of add operation no array is O(1). It is more like round off of average time complexity
+
+Amortized complexity is the time complexity excluding the worst cases scenario which occur rarely like array size
+increase. So, Amortized time complexity of add operation no array is O(1). It is more like round off of average time
+complexity

@@ -4,27 +4,6 @@
  */
 class Solution_1530 {
 
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-
-        }
-    }
-
-
     int count = 0;
 
     /**
@@ -62,5 +41,25 @@ class Solution_1530 {
     public int countPairs(TreeNode root, int distance) {
         countLeafDistance(root, distance);
         return this.count;
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+
+        }
     }
 }
