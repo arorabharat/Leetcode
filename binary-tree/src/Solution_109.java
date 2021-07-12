@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/
  * TODO
@@ -67,4 +70,34 @@ class Solution_109 {
         return root;
     }
 
+    /**
+     * Approach 2 : convert the sorted list to array
+     */
+
+
+    private List<Integer> toArray(ListNode head) {
+        List<Integer> list = new ArrayList<>();
+        ListNode tr = head;
+        while (tr != null) {
+            list.add(tr.val);
+            tr = tr.next;
+        }
+        return list;
+    }
+
+    private TreeNode _sortedArrayListToBST(List<Integer> list, int s, int e) {
+        if (s <= e) {
+            int m = (s + e) / 2;
+            TreeNode root = new TreeNode(list.get(m));
+            root.left = _sortedArrayListToBST(list, s, m - 1);
+            root.right = _sortedArrayListToBST(list, m + 1, e);
+            return root;
+        }
+        return null;
+    }
+
+    public TreeNode sortedListToBST1(ListNode head) {
+        List<Integer> list = toArray(head);
+        return _sortedArrayListToBST(list, 0, list.size() - 1);
+    }
 }
