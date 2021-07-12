@@ -1,24 +1,36 @@
+import java.util.Deque;
+import java.util.LinkedList;
+
 /**
  * https://leetcode.com/problems/design-hit-counter/
+ * @link Solution_599
+ * @link Solution_1001
+ * @link Solution_1788
  */
 class Solution_362 {
 
     static class HitCounter {
 
-        /** Initialize your data structure here. */
+        Deque<Integer> hitTimestamps;
+
+        private static final int WINDOW_SIZE = 300;
+
         public HitCounter() {
-
+            this.hitTimestamps = new LinkedList<>();
         }
 
-        /** Record a hit.
-         @param timestamp - The current timestamp (in seconds granularity). */
         public void hit(int timestamp) {
+            this.hitTimestamps.addFirst(timestamp);
+            while (!this.hitTimestamps.isEmpty() && (this.hitTimestamps.getFirst() - this.hitTimestamps.getLast() >= WINDOW_SIZE)) {
+                this.hitTimestamps.removeLast();
+            }
         }
 
-        /** Return the number of hits in the past 5 minutes.
-         @param timestamp - The current timestamp (in seconds granularity). */
         public int getHits(int timestamp) {
-            return 0;
+            while (!this.hitTimestamps.isEmpty() && (timestamp - this.hitTimestamps.getLast() >= WINDOW_SIZE)) {
+                this.hitTimestamps.removeLast();
+            }
+            return this.hitTimestamps.size();
         }
     }
 }
