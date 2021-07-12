@@ -7,6 +7,9 @@ import java.util.LinkedList;
  */
 class Solution_57 {
 
+    /**
+     * @see DSA#BINARY_SEARCH
+     */
     private int binary_search(int[][] intervals, int s, int e, int k) {
         if (s < e) {
             int m = (s + e) / 2;
