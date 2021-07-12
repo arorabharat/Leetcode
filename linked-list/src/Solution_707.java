@@ -3,5 +3,5 @@
  * TODO : custom data structure important
  */
 class Solution_707 {
-    
+
 }
