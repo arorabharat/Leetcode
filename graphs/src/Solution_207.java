@@ -15,7 +15,9 @@ class Solution_207 {
     boolean[] stack;
     boolean[] v;
 
-    // detect cycle in directed graph
+    /**
+     * @see DSA#CYCLE_DETECTION_IN_GRAPH
+     */
     boolean cycle(int s) {
         stack[s] = true;
         v[s] = true;
