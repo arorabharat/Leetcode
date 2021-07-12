@@ -46,4 +46,5 @@ public enum DSA {
     MIN_HEAP,
     MAX_HEAP,
     B_TREE,
+    BINARY_SEARCH
 }
