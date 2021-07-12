@@ -27,6 +27,14 @@ class Solution_1530 {
 
     int count = 0;
 
+    /**
+     * We will do the bottom up traversal ,
+     * For each node we will return how many nodes are at a particular distance.
+     * As the distance could be between 1 - 10 only, we just need to maintain the dis[] array which store the count of nodes for each distance = 1,2, 3,.. 10
+     * at given node Z if on the left side we have x nodes at dis[x] and y nodes at dis[y] on right side. Then total distance between the two leaves would be x + y.
+     * If this distance is less than given we could take all possible pairs dis[x]*dis[y].
+     * In this way we could calculate the pair for each node
+     */
     public int[] countLeafDistance(TreeNode root, int distance) {
         if (root == null) return new int[11];
         if (root.left == null && root.right == null) {
