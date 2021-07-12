@@ -99,4 +99,38 @@ class Solution_109 {
         List<Integer> list = toArray(head);
         return _sortedArrayListToBST(list, 0, list.size() - 1);
     }
+
+    /**
+     * Approach 3
+     *
+     */
+
+    private int getLength(ListNode head) {
+        int count = 0;
+        ListNode tr = head;
+        while (tr != null) {
+            count++;
+            tr = tr.next;
+        }
+        return count;
+    }
+
+    private ListNode head;
+
+    private TreeNode inorderTraversal(int start, int end) {
+        if (start > end) return null;
+        int mid = (start + end) / 2;
+        TreeNode left = inorderTraversal(start, mid - 1);
+        TreeNode root = new TreeNode(head.val);
+        root.left = left;
+        head = head.next;
+        root.right = inorderTraversal(mid + 1, end);
+        return root;
+    }
+
+    public TreeNode sortedListToBST3(ListNode head) {
+        this.head = head;
+        int n = getLength(head);
+        return inorderTraversal(0, n - 1);
+    }
 }
