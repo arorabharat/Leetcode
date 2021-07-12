@@ -26,11 +26,29 @@ class Solution_278 {
                     return binarySearch(m + 1, e);
                 }
             }
-            return this.isBadVersion(s) ? s : s + 1 ;
+            return this.isBadVersion(s) ? s : s + 1;
         }
 
         public int firstBadVersion(int n) {
             return binarySearch(1, n);
+        }
+
+        /**
+         * iterative approach fits best in ccase of the lower bound
+         */
+        public int firstBadVersion2(int n) {
+            int low = 1, high = n;
+            int lastBadVersion = 0;
+            while (low <= high) {
+                int mid = low + (high - low) / 2;
+                if (isBadVersion(mid)) {
+                    lastBadVersion = mid;
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            }
+            return lastBadVersion;
         }
     }
 }
