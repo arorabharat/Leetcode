@@ -1,7 +1,10 @@
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class Solution_778 {
+/**
+ * https://leetcode.com/problems/swim-in-rising-water/solution/
+ */
+class Solution_778 {
 
     private boolean validRange(int x, int y, int m, int n) {
         return 0 <= x && x < m && 0 <= y && y < n;
