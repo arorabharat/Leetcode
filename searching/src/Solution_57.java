@@ -3,7 +3,6 @@ import java.util.LinkedList;
 
 /**
  * https://leetcode.com/problems/insert-interval/
- *
  */
 class Solution_57 {
 
@@ -12,16 +11,14 @@ class Solution_57 {
      */
     private int binary_search(int[][] intervals, int s, int e, int k) {
         if (s < e) {
-            int m = (s + e) / 2;
-            if (intervals[m][0] == k) {
-                return m;
-            } else if (intervals[m][0] > k) {
+            int m = s + (e + 1 - s) / 2;
+            if (intervals[m][0] > k) {
                 return binary_search(intervals, s, m - 1, k);
             } else {
-                return binary_search(intervals, m + 1, e, k);
+                return binary_search(intervals, m, e, k);
             }
         }
-        return (k < intervals[s][0]) ? s - 1 : s;
+        return s;
     }
 
 
@@ -49,7 +46,7 @@ class Solution_57 {
             res[0][1] = newInterval[1];
             return res;
         }
-        int start = binary_search(intervals, 0, n - 1, newInterval[0]);
+        int start = binary_search(intervals, -1, n - 1, newInterval[0]);
 
         Deque<int[]> q = new LinkedList<>();
 
