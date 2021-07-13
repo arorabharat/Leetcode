@@ -28,3 +28,4 @@ So this mid will never overlap with the low. If minimum array size is 2 i.e., lo
 2. If high = mid then mid should not overlap with the high. 
 3. If low = mid then mid should not overlap with the low.
 
+2 4 5 8 8 
