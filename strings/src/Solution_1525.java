@@ -35,4 +35,32 @@ class Solution_1525 {
         }
         return goodSplit;
     }
+
+    /**
+     * Approach 2
+     */
+    public int numSplits1(String s) {
+        int[] left = new int[CHARS];
+        int[] right = new int[CHARS];
+        int leftCount = 0;
+        int rightCount = 0;
+        for (char c : s.toCharArray()) {
+            if (right[c - 'a'] == 0) rightCount++;
+            right[c - 'a']++;
+        }
+        int goodSplit = 0;
+        for (char c : s.toCharArray()) {
+
+            if (left[c - 'a'] == 0) {
+                leftCount++;
+            }
+            left[c - 'a']++;
+            right[c - 'a']--;
+            if (right[c - 'a'] == 0) {
+                rightCount--;
+            }
+            if (leftCount == rightCount) goodSplit++;
+        }
+        return goodSplit;
+    }
 }
