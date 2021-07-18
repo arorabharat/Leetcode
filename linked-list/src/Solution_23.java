@@ -1,3 +1,5 @@
+import java.util.PriorityQueue;
+
 class Solution_23 {
 
     /**
@@ -73,6 +75,39 @@ class Solution_23 {
             }
         } while (minList != -1);
         return head.next;
+    }
+
+    /**
+     * Approach 2 using heap
+     */
+    public ListNode mergeKLists3(ListNode[] lists) {
+        int n = lists.length;
+        ListNode pseudo = new ListNode();
+        ListNode curr = pseudo;
+        PriorityQueue<ListNode> minHeap = new PriorityQueue<>((a, b) -> {
+            if (a == null) {
+                return 1;
+            }
+            if (b == null) {
+                return -1;
+            }
+            return a.val - b.val;
+        });
+        for (ListNode list : lists) {
+            if (list != null) {
+                minHeap.add(list);
+            }
+        }
+        while (!minHeap.isEmpty()) {
+            ListNode front = minHeap.remove();
+            if (front.next != null) {
+                minHeap.add(front.next);
+            }
+            curr.next = front;
+            front.next = null;
+            curr = front;
+        }
+        return pseudo.next;
     }
 
     static class ListNode {
