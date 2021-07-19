@@ -3,6 +3,7 @@ import java.util.LinkedList;
 
 /**
  * https://leetcode.com/problems/design-hit-counter/
+ *
  * @link Solution_599
  * @link Solution_1001
  * @link Solution_1788
@@ -11,9 +12,8 @@ class Solution_362 {
 
     static class HitCounter {
 
-        Deque<Integer> hitTimestamps;
-
         private static final int WINDOW_SIZE = 300;
+        Deque<Integer> hitTimestamps;
 
         public HitCounter() {
             this.hitTimestamps = new LinkedList<>();
