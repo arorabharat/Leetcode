@@ -3,6 +3,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * https://leetcode.com/problems/two-sum/
+ */
 class Solution_1 {
 
     /**
