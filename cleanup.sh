@@ -1,0 +1,1 @@
+ ls -R | grep Solution_ | sort | uniq -c
