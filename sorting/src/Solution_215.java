@@ -54,7 +54,6 @@ class Solution_215 {
      * then once the heap size is more than the k we will have to drop smallest element,
      * so once all the elements are considered heap will have k largest element and
      * out of which the smallest (kth largest)" will be on the top.
-     * 
      */
     public int findKthLargest3(int[] nums, int k) {
         if (k > nums.length) return Integer.MIN_VALUE;
