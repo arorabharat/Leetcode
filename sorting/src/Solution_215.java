@@ -23,8 +23,10 @@ class Solution_215 {
         int end = n - 1;
         while (start < end) {
             int last = start;
+            // pick pivot
             int random = start + rand.nextInt(end + 1 - start);
             swap(nums, random, end);
+            // sort the element according to pivot
             for (int i = start; i < end; i++) {
                 if (nums[i] < nums[end]) {
                     swap(nums, i, last);
@@ -32,6 +34,7 @@ class Solution_215 {
                 }
             }
             swap(nums, last, end);
+            // update the range
             if (last < k) {
                 start = last + 1;
             } else if (last == k) {
