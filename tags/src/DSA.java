@@ -1,14 +1,43 @@
 public enum DSA {
-    TWO_POINTER,
+
+    /**
+     * Graph
+     */
+
+    /**
+     * Linked List
+     */
+
+    /**
+     * Sorting
+     */
+
+    /**
+     * Trees
+     */
+
     POST_ORDER_TRAVERSAL,
     PRE_ORDER_TRAVERSAL,
     IN_ORDER_TRAVERSAL,
     BOTTOM_UP_TRAVERSAL,
     TREE_SERIALIZATION,
     TREE_DESERIALIZATION,
+
+    /**
+     * Pointers
+     */
+
+    /**
+     * Searching
+     */
+
+    /**
+     * Searching
+     */
+
+    TWO_POINTER,
     SEGMENT_TREE,
     BIPARTITE_GRAPH,
-    BFS_TRAVERSAL,
     NUMBER_OF_CONNECTED_COMPONENTS,
     DFS_TRAVERSAL,
     TOPOLOGICAL_SORT,
@@ -46,5 +75,6 @@ public enum DSA {
     MIN_HEAP,
     MAX_HEAP,
     B_TREE,
-    BINARY_SEARCH
+    BINARY_SEARCH,
+    LINKED_LIST
 }
