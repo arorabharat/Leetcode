@@ -1,25 +1,7 @@
 /**
  * https://leetcode.com/problems/reverse-nodes-in-k-group/
- *
  */
 class Solution_25 {
-
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
 
     ListNode reverse(ListNode head) {
         if (head.next == null) return head;
@@ -35,7 +17,6 @@ class Solution_25 {
         curr.next = prev;
         return curr;
     }
-
 
     public ListNode reverseKGroup(ListNode head, int k) {
         if (head == null) return null;
@@ -71,5 +52,22 @@ class Solution_25 {
             }
         }
         return ansHead;
+    }
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
     }
 }

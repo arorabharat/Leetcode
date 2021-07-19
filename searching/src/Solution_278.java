@@ -53,11 +53,11 @@ class Solution_278 {
 
         /**
          * Low , mid , high
-         *
+         * <p>
          * high - bad
          * low - good
          * mid could overlap with low or high
-         *
+         * <p>
          * 1 2 3 4 | 5 6 7 8
          * Lower bound without extra variable
          */

@@ -1,9 +1,10 @@
 /**
  * https://leetcode.com/problems/ones-and-zeroes/
- * 
  */
 class Solution_474 {
 
+
+    int[][][] dp;
 
     private int countOne(String str) {
         int count = 0;
@@ -12,8 +13,6 @@ class Solution_474 {
         }
         return count;
     }
-
-    int[][][] dp;
 
     public int _findMaxForm(String[] strs, int m, int n, int e) {
         if (m < 0 || n < 0) {
