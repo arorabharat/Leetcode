@@ -3,7 +3,7 @@ import java.util.*;
 /**
  * https://leetcode.com/problems/reconstruct-itinerary/
  */
-public class Solution_332 {
+class Solution_332 {
 
     public List<String> findItinerary(List<List<String>> tickets) {
         Graph graph = new Graph();

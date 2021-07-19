@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * ====================== Design question ===================
  * https://leetcode.com/problems/lru-cache/
  */
-public class Solution_146 {
+class Solution_146 {
 
     /**
      * Your LRUCache object will be instantiated and called as such:

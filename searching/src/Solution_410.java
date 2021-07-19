@@ -1,2 +1,2 @@
-public class Solution_410 {
+class Solution_410 {
 }

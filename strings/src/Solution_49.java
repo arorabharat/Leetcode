@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Solution_49 {
+class Solution_49 {
 
     public List<List<String>> groupAnagrams(String[] strs) {
         List<List<String>> res = new ArrayList<>();

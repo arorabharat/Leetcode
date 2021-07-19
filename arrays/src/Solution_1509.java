@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
 // TODO
-public class Solution_1509 {
+class Solution_1509 {
 
     /**
      * 0 1 2 3 4

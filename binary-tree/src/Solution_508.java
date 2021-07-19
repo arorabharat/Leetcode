@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Solution_508 {
+class Solution_508 {
     public int preorder(TreeNode root, Map<Integer, Integer> sumFreq) {
         if (root == null) return 0;
         int left = preorder(root.left, sumFreq);

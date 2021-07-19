@@ -7,7 +7,7 @@ import java.util.LinkedList;
  * @see Solution_536
  * @see Solution_652
  */
-public class Solution_606 {
+class Solution_606 {
 
     /**
      * You can not convert integer to character , you can convert digit to string

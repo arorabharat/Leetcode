@@ -1,7 +1,7 @@
 import java.util.Deque;
 import java.util.LinkedList;
 
-public class Solution_346 {
+class Solution_346 {
 
     static class MovingAverage {
 
