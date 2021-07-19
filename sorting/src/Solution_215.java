@@ -1,3 +1,4 @@
+import java.util.PriorityQueue;
 import java.util.Random;
 
 /**
@@ -44,5 +45,26 @@ class Solution_215 {
             }
         }
         return nums[start];
+    }
+
+    /**
+     * Approach 2 : using min heap
+     * we will min heap where top element is the minimum element we have have observed till now
+     * if k < n
+     * then once the heap size is more than the k we will have to drop smallest element,
+     * so once all the elements are considered heap will have k largest element and
+     * out of which the smallest (kth largest)" will be on the top.
+     * 
+     */
+    public int findKthLargest3(int[] nums, int k) {
+        if (k > nums.length) return Integer.MIN_VALUE;
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        for (int num : nums) {
+            minHeap.add(num);
+            if (minHeap.size() > k) {
+                minHeap.remove();
+            }
+        }
+        return (minHeap.isEmpty()) ? Integer.MIN_VALUE : minHeap.peek();
     }
 }
