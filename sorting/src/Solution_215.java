@@ -22,25 +22,25 @@ class Solution_215 {
         int start = 0;
         int end = n - 1;
         while (start < end) {
-            int last = start;
+            int firstIndexGrtPivot = start;
             // pick pivot
             int random = start + rand.nextInt(end + 1 - start);
             swap(nums, random, end);
             // sort the element according to pivot
-            for (int i = start; i < end; i++) {
-                if (nums[i] < nums[end]) {
-                    swap(nums, i, last);
-                    last++;
+            for (int curr = start; curr < end; curr++) {
+                if (nums[curr] < nums[end]) {
+                    swap(nums, curr, firstIndexGrtPivot);
+                    firstIndexGrtPivot++;
                 }
             }
-            swap(nums, last, end);
+            swap(nums, firstIndexGrtPivot, end);
             // update the range
-            if (last < k) {
-                start = last + 1;
-            } else if (last == k) {
-                return nums[last];
+            if (firstIndexGrtPivot < k) {
+                start = firstIndexGrtPivot + 1;
+            } else if (firstIndexGrtPivot == k) {
+                return nums[firstIndexGrtPivot];
             } else {
-                end = last - 1;
+                end = firstIndexGrtPivot - 1;
             }
         }
         return nums[start];
