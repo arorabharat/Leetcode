@@ -43,7 +43,7 @@ class Solution_347 {
 
         // 1. build hash map : character and how often it appears
         // O(N) time
-        Map<Integer, Integer> count = new HashMap();
+        Map<Integer, Integer> count = new HashMap<>();
         for (int n : nums) {
             count.put(n, count.getOrDefault(n, 0) + 1);
         }
@@ -65,6 +65,33 @@ class Solution_347 {
         int[] top = new int[k];
         for (int i = k - 1; i >= 0; --i) {
             top[i] = minHeap.poll();
+        }
+        return top;
+    }
+
+    void quickSort(int[] nums, Map<Integer, Integer> count, int s, int e) {
+        // TODO : implement it using the quick sort
+    }
+
+    /**
+     * Approach 3
+     *
+     * @see DSA#QUICK_SORT
+     * Using quick sort
+     */
+    public int[] topKFrequent3(int[] nums, int k) {
+        // O(1) time
+        if (k == nums.length) {
+            return nums;
+        }
+
+        Map<Integer, Integer> count = new HashMap<>();
+        for (int n : nums) {
+            count.put(n, count.getOrDefault(n, 0) + 1);
+        }
+        quickSort(nums, count, 0, nums.length - 1);
+        int[] top = new int[k];
+        for (int i = k - 1; i >= 0; --i) {
         }
         return top;
     }
