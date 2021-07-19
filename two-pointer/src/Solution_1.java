@@ -5,6 +5,7 @@ import java.util.Map;
 
 /**
  * https://leetcode.com/problems/two-sum/
+ * @see Solution_15
  */
 class Solution_1 {
 

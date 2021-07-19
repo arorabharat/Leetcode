@@ -1,7 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Solution_350 {
+/**
+ * https://leetcode.com/problems/intersection-of-two-arrays-ii/
+ */
+class Solution_350 {
 
     public int[] intersect(int[] nums1, int[] nums2) {
         int CHARS = 1001;
