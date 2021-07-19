@@ -1,7 +1,7 @@
 import java.util.*;
 
 // TODO pending
-public class Solution_787 {
+class Solution_787 {
 
     /**
      * We have to go from src to dst in the cheapest price and having not more than k stops

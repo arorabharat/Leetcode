@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Solution_252 {
+class Solution_252 {
 
     /**
      * Sort all the meetings by the start time,
