@@ -7,6 +7,7 @@ class Solution_259 {
 
     /**
      * brute force approach
+     * Time complexity : O(n^3)
      */
     public int threeSumSmaller(int[] nums, int target) {
         int n = nums.length;
@@ -43,6 +44,7 @@ class Solution_259 {
      * Using binary search
      * Instead of counting each pair, just find the max kth index possible for a given j
      * You could take all the elements from j+1 index to the kth index
+     * Time complexity : O(n^3)
      */
     public int threeSumSmaller2(int[] nums, int target) {
         int n = nums.length;
@@ -57,6 +59,27 @@ class Solution_259 {
             }
         }
         return count;
+    }
+
+    /**
+     * Modularizing the binary search approach.
+     */
+    public int threeSumSmaller3(int[] nums, int target) {
+        Arrays.sort(nums);
+        int sum = 0;
+        for (int i = 0; i < nums.length - 2; i++) {
+            sum += twoSumSmaller(nums, i + 1, target - nums[i]);
+        }
+        return sum;
+    }
+
+    private int twoSumSmaller(int[] nums, int startIndex, int target) {
+        int sum = 0;
+        for (int i = startIndex; i < nums.length - 1; i++) {
+            int j = lowerBound(nums, i, nums.length - 1, target - nums[i]);
+            sum += j - i;
+        }
+        return sum;
     }
 }
 
