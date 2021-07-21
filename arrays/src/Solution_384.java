@@ -8,8 +8,9 @@ import java.util.Random;
 class Solution_384 {
 
     /**
-     * approach 1 : Psuedo random number picking approach
-     * Time complexity : O(N^2)
+     * approach 1 : Pseudo random number picking approach
+     * Time Complexity :  O( N^2 )
+     * Space Complexity :  O( N )
      */
     static class Solution {
         private int[] array;
@@ -50,7 +51,8 @@ class Solution_384 {
      * Approach 2
      *
      * @see DSA#FISHER_YATES_ALGORITHM
-     * Time complexity : O(N)
+     * Time Complexity :  O( N )
+     * Space Complexity :  O( constant )
      */
     static class Solution2 {
         int[] nums;
