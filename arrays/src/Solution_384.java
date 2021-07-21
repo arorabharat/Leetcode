@@ -4,6 +4,7 @@ import java.util.Random;
 
 /**
  * https://leetcode.com/problems/shuffle-an-array/
+ * Link to algo : https://www.youtube.com/watch?v=4zx5bM2OcvA
  */
 class Solution_384 {
 
