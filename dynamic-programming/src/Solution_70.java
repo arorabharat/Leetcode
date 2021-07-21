@@ -6,8 +6,8 @@ class Solution_70 {
     /**
      * dp[i] represent the number of ways to reach the ith index;
      * ith index can be reached from the last or last second index only
-     * Time Complexity - O(N)
-     * Space Complexity - O(N)
+     * Time Complexity :  O( N )
+     * Space Complexity :  O( N )
      */
     public int climbStairs(int n) {
         if (n <= 2) return n;
@@ -24,8 +24,8 @@ class Solution_70 {
      * Reducing space complexity.
      * lastSecond represent the number of ways to reach the lastSecond traversed index;
      * last represent the number of ways to reach the last traversed index;
-     * Time Complexity - O(N)
-     * Space Complexity - O(1)
+     * Time Complexity :  O( N )
+     * Space Complexity :  O( 1 )
      */
     public int climbStairs1(int n) {
         if (n <= 2) return n;
