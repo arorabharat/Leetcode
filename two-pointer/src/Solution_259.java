@@ -2,7 +2,6 @@ import java.util.Arrays;
 
 /**
  * https://leetcode.com/problems/3sum-smaller/
- * TODO
  */
 class Solution_259 {
 
