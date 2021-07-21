@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * https://leetcode.com/problems/3sum-smaller/
@@ -78,6 +80,34 @@ class Solution_259 {
         for (int i = startIndex; i < nums.length - 1; i++) {
             int j = lowerBound(nums, i, nums.length - 1, target - nums[i]);
             sum += j - i;
+        }
+        return sum;
+    }
+
+    /**
+     * Approach : without binary search
+     */
+    public int threeSumSmaller4(int[] nums, int target) {
+        Arrays.sort(nums);
+        int sum = 0;
+        for (int i = 0; i < nums.length - 2; i++) {
+            sum += twoSumSmallerTwoPointer(nums, i + 1, target - nums[i]);
+        }
+        return sum;
+    }
+
+    private int twoSumSmallerTwoPointer(int[] nums, int startIndex, int target) {
+        int sum = 0;
+        int i = startIndex;
+        int j = nums.length - 1;
+        while (i<j) {
+            if(nums[i] + nums[j] >= target){
+                j--;
+            }
+            else {
+                sum += j - i;
+                i++;
+            }
         }
         return sum;
     }
