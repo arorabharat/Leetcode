@@ -35,6 +35,11 @@ public enum DSA {
      * Searching
      */
 
+    /**
+     * Shuffling
+     */
+    FISHER_YATES_ALGORITHM,
+
     TWO_POINTER,
     SEGMENT_TREE,
     BIPARTITE_GRAPH,
