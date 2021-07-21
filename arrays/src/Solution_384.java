@@ -9,6 +9,7 @@ class Solution_384 {
 
     /**
      * approach 1 : Psuedo random number picking approach
+     * Time complexity : O(N^2)
      */
     static class Solution {
         private int[] array;
