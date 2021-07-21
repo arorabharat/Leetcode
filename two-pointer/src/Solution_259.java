@@ -59,6 +59,5 @@ class Solution_259 {
         }
         return count;
     }
-
 }
 
