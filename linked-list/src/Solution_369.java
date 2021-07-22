@@ -61,4 +61,41 @@ class Solution_369 {
         }
         return head;
     }
+
+    /**
+     * Without reversing the linked list
+     */
+
+    private void markZero(ListNode head) {
+        while (head != null) {
+            head.val = 0;
+            head = head.next;
+        }
+    }
+
+    private ListNode findRightMostNotNine(ListNode head) {
+        ListNode curr = head;
+        ListNode notNine = head;
+        while (curr != null) {
+            if (curr.val != 9) {
+                notNine = curr;
+            }
+            curr = curr.next;
+        }
+        return notNine;
+    }
+
+    public ListNode plusOne2(ListNode head) {
+        ListNode pseudoNode = new ListNode(0);
+        pseudoNode.next = head;
+        ListNode notNine = findRightMostNotNine(pseudoNode);
+        notNine.val = notNine.val + 1;
+        markZero(notNine.next);
+        if (notNine == pseudoNode) {
+            return pseudoNode;
+        } else {
+            return pseudoNode.next;
+        }
+    }
+
 }
