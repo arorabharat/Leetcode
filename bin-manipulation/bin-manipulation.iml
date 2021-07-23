@@ -9,5 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="tags" />
     <orderEntry type="module" module-name="arrays" />
+    <orderEntry type="module" module-name="simple" />
+    <orderEntry type="module" module-name="graphs" />
   </component>
 </module>
