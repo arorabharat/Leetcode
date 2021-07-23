@@ -8,6 +8,7 @@ FROM (
      ) AS B
 WHERE B.freq > 1;
 
+# Approach 2 : Optimizing on the previous approach
 
 SELECT Email
 FROM Person
