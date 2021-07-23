@@ -29,4 +29,17 @@ class Solution_268 {
         }
         return diff;
     }
+
+    /**
+     * try bit manipulation
+     * Only number which will not cancel itself is the number which do not exists.
+     */
+    public int missingNumber3(int[] nums) {
+        int n = nums.length;
+        int xor = 0;
+        for (int i = 0; i < n; i++) {
+            xor = xor ^ (i + 1) ^ nums[i];
+        }
+        return xor;
+    }
 }
