@@ -8,5 +8,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="tags" />
+    <orderEntry type="module" module-name="strings" />
+    <orderEntry type="module" module-name="bin-manipulation" />
+    <orderEntry type="module" module-name="arrays" />
   </component>
 </module>

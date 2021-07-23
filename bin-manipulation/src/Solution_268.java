@@ -1,5 +1,6 @@
 /**
  * https://leetcode.com/problems/missing-number/
+ * @see Solution_41
  */
 class Solution_268 {
 
