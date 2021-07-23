@@ -1,5 +1,6 @@
 /**
  * https://leetcode.com/problems/missing-number/
+ *
  * @see Solution_41
  * @see Solution_136
  * @see Solution_287
@@ -15,5 +16,17 @@ class Solution_268 {
         }
         int expectedSum = n * (n + 1) / 2;
         return expectedSum - actualSum;
+    }
+
+    /**
+     * To prevent integer overflow in sum
+     */
+    public int missingNumber2(int[] nums) {
+        int n = nums.length;
+        int diff = 0;
+        for (int i = 0; i < n; i++) {
+            diff = diff + (i + 1) - nums[i];
+        }
+        return diff;
     }
 }
