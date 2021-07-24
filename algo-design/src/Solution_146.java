@@ -4,6 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * ====================== Design question ===================
  * https://leetcode.com/problems/lru-cache/
+ * https://app.diagrams.net/#DLRU%20Cache.drawio
  */
 class Solution_146 {
 
