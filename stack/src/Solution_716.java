@@ -1,6 +1,4 @@
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * https://leetcode.com/problems/max-stack/
@@ -127,7 +125,7 @@ class Solution_716 {
 
         public int popMax() {
             int max = peekMax();
-            Stack<Integer> buffer = new Stack();
+            Stack<Integer> buffer = new Stack<>();
             while (top() != max) buffer.push(pop());
             pop();
             while (!buffer.isEmpty()) push(buffer.pop());
