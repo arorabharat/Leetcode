@@ -38,6 +38,8 @@ get news feed
 Update following
 Update post
 
+We should keep in mind that web servers have a connection limit before designing our system. 
+If we assume that a web server can have a maximum of 500 connections at any time,
 
 // TODO
 Read about S3
