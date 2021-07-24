@@ -30,7 +30,7 @@ Read request
 500 million * 12 * 5 ~ 3 billion
 1 MB per user , SO approx 3TB
 
-## Do caching is required
+## Do cache is required
 80: 20 rule
 per day 500 million / 30 ~  20 million * 1 MB * 10 ~ 200 GB
 
