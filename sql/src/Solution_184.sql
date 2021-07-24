@@ -10,3 +10,20 @@ FROM (
      ) AS T
          INNER JOIN Employee AS E2
                     ON E2.DepartmentId = T.Id AND E2.Salary = T.Salary
+
+
+# Approach 2
+
+SELECT Department.name AS "Department",
+       Employee.name   AS "Employee",
+       Salary
+FROM Employee
+         JOIN
+     Department ON Employee.DepartmentId = Department.Id
+WHERE (Employee.DepartmentId, Salary) IN
+      (SELECT DepartmentId,
+              MAX(Salary)
+       FROM Employee
+       GROUP BY DepartmentId
+      )
+;
