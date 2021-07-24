@@ -19,7 +19,7 @@
 2. Database schema
 3. Number of read operations
 4. No of write operations
-5. Scalability
+5. Scalability - Sharding etc
 6. Data purging technique
 
 ## CAP theorem
@@ -32,3 +32,8 @@
 2. Cache invalidation / Cache eviction policy
 2. Redis, MemCache etc
 
+## Hashing algorithm 
+
+### Load balancer
+1. Ensure responsiveness and availability by distributing the request
+2. 
