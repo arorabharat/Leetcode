@@ -1,6 +1,4 @@
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,9 +14,12 @@ class Solution_1852 {
         }
         int i = 0;
         int j = i + k - 1;
-        List<Integer> ans = new ArrayList<>();
+        int nk = n - k + 1;
+        int ik = 0;
+        int[] ans = new int[nk];
         while (j < n - 1) {
-            ans.add(map.size());
+            ans[ik] = map.size();
+            ik++;
             int count = map.get(nums[i]);
             count--;
             if (count > 0) {
@@ -30,12 +31,7 @@ class Solution_1852 {
             j++;
             map.put(nums[j], map.getOrDefault(nums[j], 0) + 1);
         }
-        ans.add(map.size());
-        int nk = ans.size();
-        int[] ansArr = new int[nk];
-        for (int l = 0; l < nk; l++) {
-            ansArr[l] = ans.get(l);
-        }
-        return ansArr;
+        ans[ik] = map.size();
+        return ans;
     }
 }
