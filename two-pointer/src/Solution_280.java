@@ -30,6 +30,14 @@ class Solution_280 {
         arr[j] = temp;
     }
 
+    /**
+     * lets say the i-1 index are wiggle sort
+     * At the ith index either we want decreasing or increasing seq
+     * case 1 : decreasing but it is increasing i-i <= i
+     * in that case i-2,i-1,i lets swap => i-2,i,i-1
+     * as the i-2 =< i-1 <= i  ---> i-2 =< i >= i-1 we get ith index wiggle sorted without disturbing the i-1 index.
+     * Case 2 : increasing but it is decreasing i-1>= i. We could swap
+     */
     public void wiggleSort2(int[] nums) {
         int n = nums.length;
         boolean dec = true;
