@@ -5,5 +5,5 @@
 class Solution_280 {
 
     public void wiggleSort(int[] nums) {
-
     }
+}
