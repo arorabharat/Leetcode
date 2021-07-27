@@ -1,3 +1,5 @@
+import java.util.Comparator;
+import java.util.PriorityQueue;
 import java.util.TreeMap;
 
 /**
@@ -49,6 +51,44 @@ class Solution_239 {
             freqManager.incFreq(nums[j]);
             result[res_i] = freqManager.getHighestKey();
             res_i++;
+        }
+        return result;
+    }
+
+    private void mark(int[] arr, int s, int e, int value) {
+        int n = arr.length;
+        for (int i = Math.max(s, 0); i < n && i <= e; i++) {
+            if (arr[i] == Integer.MIN_VALUE) {
+                arr[i] = value;
+            }
+        }
+    }
+
+    /**
+     * Approach using the max heap,
+     * find out the max element it will part of the windows covering it , hence we know answer for those windows.
+     * Find out the next max element and mark the element for windows which does not have the max element yet
+     */
+    public int[] maxSlidingWindow2(int[] nums, int k) {
+        int n = nums.length;
+
+        PriorityQueue<int[]> maxHeap = new PriorityQueue<>(Comparator.comparingInt(a -> -a[0]));
+        for (int i = 0; i < n; i++) {
+            maxHeap.add(new int[]{nums[i], i});
+        }
+        if (n <= k) {
+            return new int[]{maxHeap.remove()[0]};
+        }
+        int res_n = n - (k - 1);
+        int[] result = new int[res_n];
+        for (int i = 0; i < res_n; i++) {
+            result[i] = Integer.MIN_VALUE;
+        }
+        while (!maxHeap.isEmpty()) {
+            int[] front = maxHeap.remove();
+            int value = front[0];
+            int index = front[1];
+            mark(result, index - (k - 1), index, value);
         }
         return result;
     }
