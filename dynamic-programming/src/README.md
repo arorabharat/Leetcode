@@ -43,10 +43,11 @@ https://cses.fi/problemset/
 
 
 ### Knapsack
-Given : Price (Pi) , Weight (Wi) of n item and Max weight a bag can hold (WB)
-Find : What is the maximum worth of item we can put in the bag.
-f(n,w) = Max of ( include the nth item, do not include the nth item )
-f(n,w) = max(Pn + f(n-1,w-Wn) , f(n-1,w) )
-As we can see there are overlapping sub problems hence we need to use dynamic programming.
-Last part f the equation is to find the base case.
+Given : Price (Pi) , Weight (Wi) of n item and Max weight a bag can hold (WB)  
+Find : What is the maximum worth of item we can put in the bag.  
+f(n,w) = Max of ( include the nth item, do not include the nth item )  
+f(n,w) = max(Pn + f(n-1,w-Wn) , f(n-1,w) )  
+As we can see there are overlapping sub problems hence we need to use dynamic programming.  
+Last part f the equation is to find the base case.  
 
+youtube : https://www.youtube.com/watch?v=ReYPIilhrIo&list=PLEJXowNB4kPxBwaXtRO1qFLpCzF75DYrS&index=3
