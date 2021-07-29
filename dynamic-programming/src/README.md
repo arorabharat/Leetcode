@@ -45,7 +45,8 @@ Chapter 15
 11. Dp on
 
 
-### Knapsack
+### Bounded Knapsack
+Only one instance of the item could be added from the available list.  
 Given : Price (Pi) , Weight (Wi) of n item and Max weight a bag can hold (WB)  
 Find : What is the maximum worth of item we can put in the bag.  
 f(n,w) = Max of ( include the nth item, do not include the nth item )  
@@ -54,5 +55,7 @@ As we can see there are overlapping sub problems hence we need to use dynamic pr
 Last part f the equation is to find the base case.  
 
 youtube : https://www.youtube.com/watch?v=ReYPIilhrIo&list=PLEJXowNB4kPxBwaXtRO1qFLpCzF75DYrS&index=3
+
+## Unbounded knapsack
 
 
