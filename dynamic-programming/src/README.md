@@ -6,6 +6,9 @@ https://www.youtube.com/watch?v=N7e4CTfimkU&t=1s
 
 https://cses.fi/problemset/
 
+Coreman
+Chapter 15
+
 # Algorithm
 
 1. Knapsack problem
@@ -51,3 +54,5 @@ As we can see there are overlapping sub problems hence we need to use dynamic pr
 Last part f the equation is to find the base case.  
 
 youtube : https://www.youtube.com/watch?v=ReYPIilhrIo&list=PLEJXowNB4kPxBwaXtRO1qFLpCzF75DYrS&index=3
+
+
