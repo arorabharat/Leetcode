@@ -51,7 +51,8 @@
 ## Communication between services
 ### Long polling, Short polling and web sockets
 https://www.youtube.com/watch?v=ZBM28ZPlin8&list=PLVlRbnGS07BSs5Fx7xOtXmEN-abk4BI57&index=1
-
+https://youtu.be/ZBM28ZPlin8
+[![Alt text](https://img.youtube.com/vi/hdxdhCpgYo8/0.jpg)](https://www.youtube.com/watch?v=hdxdhCpgYo8)
 
 
 ## Difference between Monolithic and Microservice
@@ -64,13 +65,17 @@ https://www.youtube.com/watch?v=_dFJOSR-aFs
 
 ## Sharding
 
-https://www.youtube.com/watch?v=hdxdhCpgYo8&list=PL9nWRykSBSFgkCmkYdEfmXHX71m1UybNL
+[![Alt text](https://img.youtube.com/vi/hdxdhCpgYo8/0.jpg)](https://www.youtube.com/watch?v=hdxdhCpgYo8)
+https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-service/  
 
-https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-service/
 
 ## Routing layer
 
-## Single point failure
+## Single point failure/ Fault tolerance 
 
+
+## Availability
+
+## Resiliency
 
 
