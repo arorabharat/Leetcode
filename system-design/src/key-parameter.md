@@ -44,3 +44,8 @@
 3. Micro services
 
 ## Difference between Monolithic and Microservice
+
+
+## Service oriented architecture
+https://www.youtube.com/watch?v=_dFJOSR-aFs
+
