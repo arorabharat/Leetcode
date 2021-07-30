@@ -68,6 +68,9 @@ https://www.youtube.com/watch?v=hdxdhCpgYo8&list=PL9nWRykSBSFgkCmkYdEfmXHX71m1Uy
 
 https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-service/
 
+## Routing layer
+
 ## Single point failure
+
 
 
