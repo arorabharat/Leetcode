@@ -50,32 +50,41 @@
 
 ## Communication between services
 ### Long polling, Short polling and web sockets
-https://www.youtube.com/watch?v=ZBM28ZPlin8&list=PLVlRbnGS07BSs5Fx7xOtXmEN-abk4BI57&index=1
-https://youtu.be/ZBM28ZPlin8
-[![Alt text](https://img.youtube.com/vi/hdxdhCpgYo8/0.jpg)](https://www.youtube.com/watch?v=hdxdhCpgYo8)
-
+[![Alt text](https://img.youtube.com/vi/ZBM28ZPlin8/0.jpg)](https://www.youtube.com/watch?v=ZBM28ZPlin8)
 
 ## Difference between Monolithic and Microservice
 
 
 ## Service oriented architecture
-https://www.youtube.com/watch?v=_dFJOSR-aFs
+[![Alt text](https://img.youtube.com/vi/_dFJOSR-aFs/0.jpg)](https://www.youtube.com/watch?v=_dFJOSR-aFs)
 
 ## Service contract 
 
 ## Sharding
-
 [![Alt text](https://img.youtube.com/vi/hdxdhCpgYo8/0.jpg)](https://www.youtube.com/watch?v=hdxdhCpgYo8)
-https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-service/  
+https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-service/
 
+## Load balancing 
+[![Alt text](https://img.youtube.com/vi/gMIslJN44P0/0.jpg)](https://www.youtube.com/watch?v=gMIslJN44P0)
+
+## Client Server Model
+[![Alt text](https://img.youtube.com/vi/-dSXvLAwXO0/0.jpg)](https://www.youtube.com/watch?v=-dSXvLAwXO0)
 
 ## Routing layer
 
 ## Single point failure/ Fault tolerance 
 
+## API server
 
 ## Availability
 
 ## Resiliency
 
 
+## Pub sub pattern
+
+
+
+
+## Playlist
+1. [System Design Topics to know for Software Interviews](https://www.youtube.com/playlist?list=PL9nWRykSBSFgkCmkYdEfmXHX71m1UybNL)
