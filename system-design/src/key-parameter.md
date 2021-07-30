@@ -95,3 +95,4 @@ https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-s
 
 ## Playlist
 1. [System Design Topics to know for Software Interviews](https://www.youtube.com/playlist?list=PL9nWRykSBSFgkCmkYdEfmXHX71m1UybNL)
+2. https://www.youtube.com/channel/UCiz26UeGvcTy4_M3Zhgk7FQ
