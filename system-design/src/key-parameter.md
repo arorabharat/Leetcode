@@ -43,9 +43,31 @@
 
 3. Micro services
 
+
+## Scaling 
+### Horizontal scaling
+### Vertical scaling 
+
+## Communication between services
+### Long polling, Short polling and web sockets
+https://www.youtube.com/watch?v=ZBM28ZPlin8&list=PLVlRbnGS07BSs5Fx7xOtXmEN-abk4BI57&index=1
+
+
+
 ## Difference between Monolithic and Microservice
 
 
 ## Service oriented architecture
 https://www.youtube.com/watch?v=_dFJOSR-aFs
+
+## Service contract 
+
+## Sharding
+
+https://www.youtube.com/watch?v=hdxdhCpgYo8&list=PL9nWRykSBSFgkCmkYdEfmXHX71m1UybNL
+
+https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-service/
+
+## Single point failure
+
 
