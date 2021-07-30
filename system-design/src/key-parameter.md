@@ -86,6 +86,8 @@ https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-s
 
 ## Forward Proxy, Reverse proxy
 [![Alt text](https://img.youtube.com/vi/xiUmXVcLdCw/0.jpg)](https://www.youtube.com/watch?v=xiUmXVcLdCw)  
+[![Alt text](https://img.youtube.com/vi/FyLbwtBIHrA/0.jpg)](https://www.youtube.com/watch?v=FyLbwtBIHrA)  
+[![Alt text](https://img.youtube.com/vi/vHQqQBYJtLI/0.jpg)](https://youtu.be/vHQqQBYJtLI)  
 ### Further reading :
 1. [Proxy server types](https://www.ibm.com/docs/en/i/7.2?topic=concepts-proxy-server-types)
 2. [What is the difference between a proxy server and a gateway server?](https://serverfault.com/questions/994319/what-is-the-difference-between-a-proxy-server-and-a-gateway-server)
