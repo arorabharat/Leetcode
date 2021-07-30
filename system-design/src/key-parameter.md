@@ -71,7 +71,7 @@ https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-s
 [![Alt text](https://img.youtube.com/vi/-dSXvLAwXO0/0.jpg)](https://www.youtube.com/watch?v=-dSXvLAwXO0)
 
 ## Routing layer
-[![Alt text](https://img.youtube.com/vi/-dSXvLAwXO0/0.jpg)](https://www.youtube.com/watch?v=-dSXvLAwXO0)
+
 
 ## Single point failure/ Fault tolerance 
 
@@ -86,7 +86,7 @@ https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-s
 
 ## Forward Proxy, Reverse proxy
 [![Alt text](https://img.youtube.com/vi/xiUmXVcLdCw/0.jpg)](https://www.youtube.com/watch?v=xiUmXVcLdCw)
-
+https://serverfault.com/questions/994319/what-is-the-difference-between-a-proxy-server-and-a-gateway-server
 
 
 ## Playlist
