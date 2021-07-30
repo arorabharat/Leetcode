@@ -71,6 +71,7 @@ https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-s
 [![Alt text](https://img.youtube.com/vi/-dSXvLAwXO0/0.jpg)](https://www.youtube.com/watch?v=-dSXvLAwXO0)
 
 ## Routing layer
+[![Alt text](https://img.youtube.com/vi/-dSXvLAwXO0/0.jpg)](https://www.youtube.com/watch?v=-dSXvLAwXO0)
 
 ## Single point failure/ Fault tolerance 
 
@@ -83,6 +84,8 @@ https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-s
 
 ## Pub sub pattern
 
+## Forward Proxy, Reverse proxy
+[![Alt text](https://img.youtube.com/vi/xiUmXVcLdCw/0.jpg)](https://www.youtube.com/watch?v=xiUmXVcLdCw)
 
 
 
