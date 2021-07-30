@@ -38,9 +38,9 @@
 1. Ensure responsiveness and availability by distributing the request
 2. 
 
-
 1. Google doc
 2. Parking lot
 
 3. Micro services
 
+## Difference between Monolithic and Microservice

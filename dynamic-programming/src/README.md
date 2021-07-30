@@ -57,5 +57,3 @@ Last part f the equation is to find the base case.
 youtube : https://www.youtube.com/watch?v=ReYPIilhrIo&list=PLEJXowNB4kPxBwaXtRO1qFLpCzF75DYrS&index=3
 
 ## Unbounded knapsack
-
-
