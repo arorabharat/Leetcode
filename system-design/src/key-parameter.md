@@ -106,6 +106,10 @@ QPS - queries per second
 
 ## Service level agreement
 
+## Distributed caching 
+## Map reduce
+
+
 ## Token bucket and leaky bucket
 
 ## Playlist
