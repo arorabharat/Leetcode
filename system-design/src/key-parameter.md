@@ -121,6 +121,10 @@ Architecture pattern
 
 ## Distributed system
 
+## Consistent hashing
+
+## Token bucket and leaky bucket
+
 ## Messaging queue
 
 ## Dynamic infrastructure scaling
@@ -130,10 +134,14 @@ Having a consistent build
 
 ## Bloom filter
 
+## Single page application
 
-## Consistent hashing
+## ORM / Object relation model
 
-## Token bucket and leaky bucket
+## MVC / Moodle view controller
+
+## In memory Database
+
 
 ## Playlist
 1. [System Design Topics to know for Software Interviews](https://www.youtube.com/playlist?list=PL9nWRykSBSFgkCmkYdEfmXHX71m1UybNL)
