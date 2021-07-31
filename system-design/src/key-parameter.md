@@ -115,6 +115,11 @@ QPS - queries per second
 
 ## Anti-entropy
 
+## Distributed system
+
+## Messaging queue
+
+
 ## Bloom filter
 
 
