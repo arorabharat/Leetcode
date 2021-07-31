@@ -123,6 +123,10 @@ QPS - queries per second
 Architecture pattern  
 [![Alt text](https://img.youtube.com/vi/r8JuAz9_V18/0.jpg)](https://www.youtube.com/watch?v=r8JuAz9_V18)
 
+## FaaS and Eent driven architecture
+[![Alt text](https://img.youtube.com/vi/h-vD_hycQjk/0.jpg)](https://www.youtube.com/watch?v=h-vD_hycQjk)
+
+
 ## Event sourcing architecture
 
 ## Distributed system
