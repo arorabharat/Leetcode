@@ -100,6 +100,10 @@ TPS - transaction per second
 QPS - queries per second  
 [![Alt text](https://img.youtube.com/vi/84ZLMbHefJI/0.jpg)](https://www.youtube.com/watch?v=84ZLMbHefJI)
 
+## Cache 
+[![Alt text](https://img.youtube.com/vi/Ky0iAZE_r8c/0.jpg)](https://www.youtube.com/watch?v=Ky0iAZE_r8c)
+
+
 ## Service level agreement
 
 ## Token bucket and leaky bucket
