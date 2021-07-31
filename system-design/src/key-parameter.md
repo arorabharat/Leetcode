@@ -64,7 +64,8 @@
 
 ## Sharding
 [![Alt text](https://img.youtube.com/vi/hdxdhCpgYo8/0.jpg)](https://www.youtube.com/watch?v=hdxdhCpgYo8)
-https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-service/
+https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-service/  
+Thought - It is simiilar to Map Reduce
 
 ## Load balancing 
 [![Alt text](https://img.youtube.com/vi/gMIslJN44P0/0.jpg)](https://www.youtube.com/watch?v=gMIslJN44P0)
