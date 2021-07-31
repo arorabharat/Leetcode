@@ -30,9 +30,16 @@
 
 
 ## Caching
-1. Caching 
+1. Caching
 2. Cache invalidation / Cache eviction policy
 2. Redis, MemCache etc
+
+## Requirement Gathering
+1.How many total users are going be there ?
+2.How many active users are going be there per month, per day ?
+
+Sample design video :  
+[![Alt text](https://img.youtube.com/vi/gNQ9-kgyHfo/0.jpg)](https://www.youtube.com/watch?v=gNQ9-kgyHfo)
 
 ## Hashing algorithm 
 
