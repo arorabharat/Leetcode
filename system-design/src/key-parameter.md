@@ -92,7 +92,12 @@ https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-s
 1. [Proxy server types](https://www.ibm.com/docs/en/i/7.2?topic=concepts-proxy-server-types)
 2. [What is the difference between a proxy server and a gateway server?](https://serverfault.com/questions/994319/what-is-the-difference-between-a-proxy-server-and-a-gateway-server)
 
+## Rate limiting 
+[![Alt text](https://img.youtube.com/vi/9CIjoWPwAhU/0.jpg)](https://www.youtube.com/watch?v=9CIjoWPwAhU)
+
 ## Service level agreement
+
+## Token bucket and leaky bucket
 
 ## Playlist
 1. [System Design Topics to know for Software Interviews](https://www.youtube.com/playlist?list=PL9nWRykSBSFgkCmkYdEfmXHX71m1UybNL)
