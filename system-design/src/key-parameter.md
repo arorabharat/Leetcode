@@ -25,7 +25,9 @@
 ## CAP theorem
 1. Consistency
 2. Availability
-3. Network Partitioning
+3. Network Partitioning  
+[![Alt text](https://img.youtube.com/vi/k-Yaq8AHlFA/0.jpg)](https://www.youtube.com/watch?v=k-Yaq8AHlFA)
+
 
 ## Caching
 1. Caching 
@@ -120,6 +122,8 @@ QPS - queries per second
 ## 3 tier architecture
 Architecture pattern  
 [![Alt text](https://img.youtube.com/vi/r8JuAz9_V18/0.jpg)](https://www.youtube.com/watch?v=r8JuAz9_V18)
+
+## Event sourcing architecture
 
 ## Distributed system
 
