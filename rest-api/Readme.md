@@ -1,8 +1,7 @@
 ## 
 REST stands for representational state transfer
-
-https://serverfault.com/questions/994319/what-is-the-difference-between-a-proxy-server-and-a-gateway-server
-
+very important link : https://ninenines.eu/docs/en/cowboy/2.9/guide/rest_principles/  
+https://serverfault.com/questions/994319/what-is-the-difference-between-a-proxy-server-and-a-gateway-server 
 ## VERBS / METHODS 
 1. GET 
 2. POST 
@@ -30,3 +29,7 @@ https://serverfault.com/questions/994319/what-is-the-difference-between-a-proxy-
 5. Use the technique of forward slashing to indicate the hierarchy between the resources and the collections. Example: To get the address of the user of a particular id, we can use: /users/{id}/address
 
 ## Difference between SOAP and REST
+
+1. REST is architectural style
+2. REST support both json and xml format
+3. Resources 
