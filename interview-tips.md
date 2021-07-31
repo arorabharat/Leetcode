@@ -1,6 +1,6 @@
 ## Top 10 Interview tips
 
-1. Focus on the edge cases of algorithm 
+1. Focus on the edge cases of algorithm , clarify the ambiguity and strive for optimal solution
 2. Know the limitations and advantage of applied algorithm 
 3. Focus on the Object-Oriented design - Testable, Maintainable and Extensible
 4. Read about good design practices and design patterns
@@ -8,4 +8,5 @@
 6. Do the estimation based on the expected performance of the system  and choose the right database.
 7. Always keep scalability, reliability, availability in the mind. 
 8. Be prepared for questions on the listed technologies on resume 
-9. Be prepared of behavioural questions
+9. Be prepared of behavioural questions 
+10. Know the companies' leadership principle and why that company is best fit for you.

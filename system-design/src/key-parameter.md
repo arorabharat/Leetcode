@@ -109,6 +109,16 @@ QPS - queries per second
 ## Distributed caching 
 ## Map reduce
 
+## Gossip protocol
+
+## Eventual Consistency
+
+## Anti-entropy
+
+## Bloom filter
+
+
+## Consistent hashing
 
 ## Token bucket and leaky bucket
 
