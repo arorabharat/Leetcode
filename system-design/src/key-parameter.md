@@ -128,9 +128,10 @@ Architecture pattern
 ## Messaging queue
 
 ## Dynamic infrastructure scaling
+Kubernetes, AWS elastic compute
 
 ## Virtualization techniques
-Having a consistent build 
+Docker
 
 ## Bloom filter
 
