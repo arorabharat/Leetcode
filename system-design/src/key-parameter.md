@@ -107,7 +107,9 @@ QPS - queries per second
 ## Service level agreement
 
 ## Distributed caching 
+
 ## Map reduce
+[![Alt text](https://img.youtube.com/vi/MAJ0aW5g17c/0.jpg)](https://www.youtube.com/watch?v=MAJ0aW5g17c)
 
 ## Gossip protocol
 
