@@ -115,10 +115,17 @@ QPS - queries per second
 
 ## Anti-entropy
 
+## 3 tier architecture
+Architecture pattern
+
 ## Distributed system
 
 ## Messaging queue
 
+## Dynamic infrastructure scaling
+
+## Virtualization techniques
+Having a consistent build 
 
 ## Bloom filter
 
