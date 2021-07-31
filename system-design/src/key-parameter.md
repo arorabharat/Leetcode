@@ -116,7 +116,8 @@ QPS - queries per second
 ## Anti-entropy
 
 ## 3 tier architecture
-Architecture pattern
+Architecture pattern  
+[![Alt text](https://img.youtube.com/vi/r8JuAz9_V18/0.jpg)](https://www.youtube.com/watch?v=r8JuAz9_V18)
 
 ## Distributed system
 
