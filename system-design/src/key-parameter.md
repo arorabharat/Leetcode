@@ -95,6 +95,9 @@ https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-s
 ## Rate limiting 
 [![Alt text](https://img.youtube.com/vi/9CIjoWPwAhU/0.jpg)](https://www.youtube.com/watch?v=9CIjoWPwAhU)
 
+## Throughput - TPS
+[![Alt text](https://img.youtube.com/vi/84ZLMbHefJI/0.jpg)](https://www.youtube.com/watch?v=84ZLMbHefJI)
+
 ## Service level agreement
 
 ## Token bucket and leaky bucket
