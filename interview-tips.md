@@ -6,7 +6,7 @@
 4. Read about good design practices and design patterns.
 5. Know the difference between Relational and Non-relational database, be aware of the concurrency issues 
 6. Do the estimation based on the expected performance of the system  and choose the right database.
-7. Always keep scalability, reliability, availability at forefront.. 
-8. Be prepared for questions on the listed technologies on resume 
-9. Be prepared of behavioural questions 
+7. Always keep scalability, reliability, availability at forefront. 
+8. Be prepared for questions on the listed technologies on resume .
+9. Be prepared of behavioural questions.
 10. Know the companies' leadership principle and why that company is best fit for you.
