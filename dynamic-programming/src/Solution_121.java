@@ -6,6 +6,7 @@ import java.util.Arrays;
 class Solution_121 {
 
     /**
+     * Unnecessary complicated solution
      * max from the right give best day after ith day when it would be optimal to sell the stock
      * min from left gives the best day before ith when it would be optimal to buy the stock
      * This we calculate profit for all the values of i, and then profit max profit from those values
