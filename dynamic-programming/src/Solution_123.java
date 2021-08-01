@@ -37,4 +37,33 @@ class Solution_123 {
         return profit;
     }
 
+    /**
+     * Approach 2
+     * Optimised
+     */
+    public int maxProfit2(int[] prices) {
+        int n = prices.length;
+        if (n == 0) return 0;
+        int[][] profit = new int[2][n];
+        int buy = prices[0];
+        for (int i = 0; i < n; i++) {
+            profit[0][i] = Math.max(profit[0][i], prices[i] - buy);
+            if (prices[i] < buy) {
+                buy = prices[i];
+            }
+        }
+        int sell = prices[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            profit[1][i] = Math.max(profit[1][i + 1], sell - prices[i]);
+            if (prices[i] > sell) {
+                sell = prices[i];
+            }
+        }
+        int maxProfit = 0;
+        for (int i = 0; i < n; i++) {
+            maxProfit = Math.max(maxProfit, profit[0][i] + profit[1][i]);
+        }
+        return maxProfit;
+    }
+
 }
