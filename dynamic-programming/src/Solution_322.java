@@ -6,7 +6,7 @@ class Solution_322 {
 
     /**
      * Recursive solution without
-     * Using the Integer to ensure 
+     * Using the Integer to ensure
      */
     private Integer _coinChange(int[] coins, int amount, int n) {
         // base case
@@ -59,5 +59,25 @@ class Solution_322 {
         return (dp[m][amount] == Integer.MAX_VALUE) ? -1 : dp[m][amount];
     }
 
-    //TODO do it in one-d array
+    /**
+     * Space optimisation
+     */
+    public int coinChange3(int[] coins, int amount) {
+        int m = coins.length;
+        int[] dp = new int[amount + 1];
+        for (int i = 1; i <= amount; i++) {
+            dp[i] = Integer.MAX_VALUE;
+        }
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= amount; j++) {
+                int coin = coins[i - 1];
+                if (j - coin >= 0 && dp[j - coin] != Integer.MAX_VALUE) {
+                    dp[j] = Math.min(dp[j], dp[j - coin] + 1);
+                } else {
+                    dp[j] = dp[j];
+                }
+            }
+        }
+        return (dp[amount] == Integer.MAX_VALUE) ? -1 : dp[amount];
+    }
 }
