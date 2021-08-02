@@ -18,6 +18,9 @@ class Solution_64 {
         return dp[m][n];
     }
 
+    /**
+     * Memoization : Top down
+     */
     public int minPathSum(int[][] grid) {
         int m = grid.length;
         if (m == 0) return 0;
@@ -33,6 +36,8 @@ class Solution_64 {
 
     /**
      * iterative approach
+     * Time Complexity :  O( M*N )
+     * Space Complexity :  O( M*N )
      */
     public int minPathSum3(int[][] grid) {
         int m = grid.length;
@@ -57,6 +62,8 @@ class Solution_64 {
 
     /**
      * Space optimisation
+     * Time Complexity :  O( M*N )
+     * Space Complexity :  O( N )
      */
     public int minPathSum4(int[][] grid) {
         int m = grid.length;
