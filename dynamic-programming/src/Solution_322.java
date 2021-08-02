@@ -2,7 +2,43 @@
  * https://leetcode.com/problems/coin-change/
  */
 class Solution_322 {
+
+
+    /**
+     * Recursive solution without
+     * Using the Integer to ensure 
+     */
+    private Integer _coinChange(int[] coins, int amount, int n) {
+        // base case
+        if (amount < 0) {
+            return null;
+        }
+        if (amount == 0) {
+            return 0;
+        }
+        if (n == 0) {
+            return null;
+        }
+        Integer takeLastCoin = _coinChange(coins, amount - coins[n - 1], n);
+        Integer notTakeLastCoin = _coinChange(coins, amount, n - 1);
+        if (takeLastCoin == null && notTakeLastCoin == null) {
+            return null;
+        }
+        if (takeLastCoin == null) {
+            return notTakeLastCoin;
+        }
+        if (notTakeLastCoin == null) {
+            return 1 + takeLastCoin;
+        }
+        return Math.min(1 + takeLastCoin, notTakeLastCoin);
+    }
+
     public int coinChange(int[] coins, int amount) {
+        Integer result = _coinChange(coins, amount, coins.length);
+        return (result != null) ? result : -1;
+    }
+
+    public int coinChange2(int[] coins, int amount) {
         int m = coins.length;
         int[][] dp = new int[m + 1][amount + 1];
         for (int i = 0; i <= m; i++) {
