@@ -18,6 +18,8 @@ class Solution_198 {
 
     /**
      * Dynamic programming
+     * Time Complexity :  O( N )
+     * Space Complexity :  O( N )
      */
     public int rob2(int[] nums) {
         int n = nums.length;
@@ -30,6 +32,26 @@ class Solution_198 {
             dp[i] = Math.max(nums[i] + dp[i - 2], dp[i - 1]);
         }
         return dp[n - 1];
+    }
+
+    /**
+     * Dynamic programming 2
+     * Time Complexity :  O( N )
+     * Space Complexity :  O( 1 )
+     */
+    public int rob3(int[] nums) {
+        int n = nums.length;
+        if (n == 0) return 0;
+        if (n == 1) return nums[0];
+        int a = nums[0];
+        int b = Math.max(nums[0], nums[1]);
+        int c = 0;
+        for (int i = 2; i < n; i++) {
+            c = Math.max(nums[i] + a, b);
+            a = b;
+            b = c;
+        }
+        return c;
     }
 
 }
