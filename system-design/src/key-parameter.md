@@ -163,6 +163,8 @@ Docker
 
 ## In memory Database
 
+## Columnar database
+[![Alt text](https://img.youtube.com/vi/Vw1fCeD06YI/0.jpg)](https://www.youtube.com/watch?v=Vw1fCeD06YI)
 
 ## Playlist
 1. [System Design Topics to know for Software Interviews](https://www.youtube.com/playlist?list=PL9nWRykSBSFgkCmkYdEfmXHX71m1UybNL)
