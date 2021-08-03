@@ -26,6 +26,9 @@ class Solution_152 {
         return (int) ans;
     }
 
+    /**
+     * Wrong approach
+     */
     public int maxProduct2(int[] nums) {
         int n = nums.length;
         if (n == 0) return 0;
