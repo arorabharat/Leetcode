@@ -1,5 +1,8 @@
 import java.util.Arrays;
 
+/**
+ * https://leetcode.com/problems/paint-house/
+ */
 class Solution_256 {
 
     /**
