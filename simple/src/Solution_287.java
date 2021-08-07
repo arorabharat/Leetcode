@@ -17,4 +17,31 @@ class Solution_287 {
         }
         return nums[0];
     }
+
+
+    /**
+     * count([4,6,4,2,1,4,3,5]) = (1,2,3,6,7,8,8)
+     * count of number less than or equal to value (i + 1 ) where i the index
+     */
+
+    public int findDuplicate2(int[] nums) {
+        int low = 1, high = nums.length - 1;
+        int duplicate = -1;
+        while (low <= high) {
+            int cur = (low + high) / 2;
+            // Count how many numbers in 'nums' are less than or equal to 'cur'
+            int count = 0;
+            for (int num : nums) {
+                if (num <= cur)
+                    count++;
+            }
+            if (count > cur) {
+                duplicate = cur;
+                high = cur - 1;
+            } else {
+                low = cur + 1;
+            }
+        }
+        return duplicate;
+    }
 }
