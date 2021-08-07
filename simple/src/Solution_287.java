@@ -1,3 +1,7 @@
+/**
+ * https://leetcode.com/problems/find-the-duplicate-number/
+ * 
+ */
 class Solution_287 {
 
     private void swap(int i, int j, int[] nums) {
@@ -22,8 +26,8 @@ class Solution_287 {
     /**
      * count([4,6,4,2,1,4,3,5]) = (1,2,3,6,7,8,8)
      * count of number less than or equal to value (i + 1 ) where i the index
+     * BINARY_SEARCH
      */
-
     public int findDuplicate2(int[] nums) {
         int low = 1, high = nums.length - 1;
         int duplicate = -1;
