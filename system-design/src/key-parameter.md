@@ -142,6 +142,7 @@ Video not viewed yet.
 ## Distributed system
 
 ## Consistent hashing
+link : https://en.wikipedia.org/wiki/Consistent_hashing
 1. consistent hash is used in partition and scalable systems. it aimed to reduce partition data inter-transmission during scailing up and down.
 2. consistent hash is applied to many opensources DB, like memcache client.
 
