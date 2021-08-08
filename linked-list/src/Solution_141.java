@@ -1,8 +1,13 @@
+/**
+ * https://leetcode.com/problems/linked-list-cycle/
+ */
 class Solution_141 {
 
     /**
      * if the linked list has less than two nodes than there could not be a cycle
-     * We will use floyds two pointer approach. Fast pointer will jump two steps every time and slow pointer will jump on step every time if both of them intersect at some point then there is a cycle
+     * We will use floyds two pointer approach.
+     * Fast pointer will jump two steps every time and slow pointer will jump on step every time
+     * if both of them intersect at some point then there is a cycle
      */
     public boolean hasCycle(ListNode head) {
         if (head == null || head.next == null) return false;
