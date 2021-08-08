@@ -2,15 +2,9 @@
 
 
 ## Adapter Pattern 
-https://en.wikipedia.org/wiki/Adapter_pattern
+[![Alt txt](../.././resources/wiki.png)](https://en.wikipedia.org/wiki/Adapter_pattern)
 
 ## Bridge pattern
 
-
-
 ## Strategy Pattern
-
 [![Alt txt](../.././resources/wiki.png)](https://en.wikipedia.org/wiki/Strategy_pattern)
-
-
-
