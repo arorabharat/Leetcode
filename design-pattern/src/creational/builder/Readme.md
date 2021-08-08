@@ -3,9 +3,6 @@
 ### When to use Builder ?
 https://stackoverflow.com/questions/328496/when-would-you-use-the-builder-pattern
 
-### Wikipedia link
-https://en.wikipedia.org/wiki/Builder_pattern
-
 
 ### Builder pattern in effective java 
 
