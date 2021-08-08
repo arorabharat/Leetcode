@@ -76,6 +76,7 @@ Thought - It is simiilar to Map Reduce
 
 ## Load balancing 
 [![Alt text](https://img.youtube.com/vi/gMIslJN44P0/0.jpg)](https://www.youtube.com/watch?v=gMIslJN44P0)  
+[![Alt text](https://img.youtube.com/vi/1qEobRRFuIo/0.jpg)](https://www.youtube.com/watch?v=1qEobRRFuIo)  
 More learning material : https://www.nginx.com/resources/glossary/load-balancing/
 
 ## Client Server Model
