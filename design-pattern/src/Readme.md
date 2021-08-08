@@ -10,7 +10,7 @@ https://en.wikipedia.org/wiki/Adapter_pattern
 
 ## Strategy Pattern
 
-<img src="../.././resources/wiki.png" alt="drawing" style="width:200px;"/>
+<img src="../.././resources/wiki.png" alt="drawing" style="width:100px;"/>
 
 [![Alt txt](../.././resources/wiki.png)](https://en.wikipedia.org/wiki/Strategy_pattern)
 
