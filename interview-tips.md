@@ -10,3 +10,12 @@
 8. Be prepared for questions on the listed technologies on resume .
 9. Be prepared of behavioural questions.
 10. Know the companies' leadership principle and why that company is best fit for you.
+
+## Coding interview
+1. Define problem statement fully
+2. Ask constraints
+3. Think various edge cases
+4. List down the various possible approached to solve the problem
+5. Gradually try to optimize instead of jumping directly on final solution
+6. Analyse time and space complexity of the final solution 
+7. Wrtie down cases where it won't work
