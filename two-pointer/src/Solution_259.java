@@ -98,11 +98,10 @@ class Solution_259 {
         int sum = 0;
         int i = startIndex;
         int j = nums.length - 1;
-        while (i<j) {
-            if(nums[i] + nums[j] >= target){
+        while (i < j) {
+            if (nums[i] + nums[j] >= target) {
                 j--;
-            }
-            else {
+            } else {
                 sum += j - i;
                 i++;
             }

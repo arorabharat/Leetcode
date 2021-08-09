@@ -7,7 +7,7 @@ class Solution_611 {
 
 
     /**
-     *  we fix the larger edge and look for the other two edges pair
+     * we fix the larger edge and look for the other two edges pair
      */
     public int triangleNumber(int[] nums) {
         Arrays.sort(nums);

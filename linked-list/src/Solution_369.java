@@ -1,25 +1,9 @@
 /**
  * https://leetcode.com/problems/plus-one-linked-list/
+ *
  * @see Solution_66
  */
 class Solution_369 {
-
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
 
     /**
      * Reverse the linked list
@@ -96,6 +80,23 @@ class Solution_369 {
             return pseudoNode;
         } else {
             return pseudoNode.next;
+        }
+    }
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
         }
     }
 

@@ -14,9 +14,14 @@ class Solution_384 {
      * Space Complexity :  O( N )
      */
     static class Solution {
+        private final Random rand = new Random();
         private int[] array;
         private int[] original;
-        private final Random rand = new Random();
+
+        public Solution(int[] nums) {
+            array = nums;
+            original = nums.clone();
+        }
 
         private List<Integer> getArrayCopy() {
             List<Integer> asList = new ArrayList<>();
@@ -24,11 +29,6 @@ class Solution_384 {
                 asList.add(j);
             }
             return asList;
-        }
-
-        public Solution(int[] nums) {
-            array = nums;
-            original = nums.clone();
         }
 
         public int[] reset() {

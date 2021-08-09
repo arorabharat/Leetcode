@@ -35,6 +35,7 @@ class Solution_347 {
     /**
      * Approach 2
      * Slight optimisation over approach 1
+     *
      * @see Level#GOOD
      */
     public int[] topKFrequent2(int[] nums, int k) {
