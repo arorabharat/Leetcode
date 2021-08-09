@@ -8,27 +8,6 @@ import java.util.TreeMap;
  */
 class Solution_239 {
 
-    static class FreqManager extends TreeMap<Integer, Integer> {
-
-        public void decFreq(int element) {
-            int count = this.getOrDefault(element, 0);
-            count--;
-            if (count > 0) {
-                this.put(element, count);
-            } else {
-                this.remove(element);
-            }
-        }
-
-        public void incFreq(int element) {
-            this.put(element, this.getOrDefault(element, 0) + 1);
-        }
-
-        public Integer getHighestKey() {
-            return this.lastKey();
-        }
-    }
-
     /**
      * Store the frequency of the each element in the k size window.
      * Use tree map which keeps the value in the sorted order.
@@ -92,5 +71,26 @@ class Solution_239 {
             mark(result, index - (k - 1), index, value);
         }
         return result;
+    }
+
+    static class FreqManager extends TreeMap<Integer, Integer> {
+
+        public void decFreq(int element) {
+            int count = this.getOrDefault(element, 0);
+            count--;
+            if (count > 0) {
+                this.put(element, count);
+            } else {
+                this.remove(element);
+            }
+        }
+
+        public void incFreq(int element) {
+            this.put(element, this.getOrDefault(element, 0) + 1);
+        }
+
+        public Integer getHighestKey() {
+            return this.lastKey();
+        }
     }
 }

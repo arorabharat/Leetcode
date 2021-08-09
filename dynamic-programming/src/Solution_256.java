@@ -39,7 +39,7 @@ class Solution_256 {
         return totalCost;
     }
 
-    private void swapArray(int[] curr,int[] prev) {
+    private void swapArray(int[] curr, int[] prev) {
 
     }
 

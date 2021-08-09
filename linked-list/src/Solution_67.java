@@ -49,16 +49,15 @@ class Solution_67 {
         int carry = 0;
         int j = n - 1;
         for (int i = m - 1; i >= 0; --i) {
-            if (a.charAt(i) == '1'){
+            if (a.charAt(i) == '1') {
                 ++carry;
             }
-            if (j >= 0 && b.charAt(j--) == '1'){
+            if (j >= 0 && b.charAt(j--) == '1') {
                 ++carry;
             }
-            if (carry % 2 == 1){
+            if (carry % 2 == 1) {
                 sb.append('1');
-            }
-            else{
+            } else {
                 sb.append('0');
             }
             carry /= 2;

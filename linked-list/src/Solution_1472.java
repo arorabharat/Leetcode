@@ -9,25 +9,8 @@ class Solution_1472 {
      */
     static class BrowserHistory {
 
-        static class Node {
-            String url;
-            Node prev;
-            Node next;
-
-            Node(String url) {
-                this.url = url;
-            }
-
-            Node(String url, Node prev, Node next) {
-                this.url = url;
-                this.prev = prev;
-                this.next = next;
-            }
-        }
-
         Node pseudoNode;
         Node curr;
-
         public BrowserHistory(String homepage) {
             this.pseudoNode = new Node(null, null, null);
             this.curr = new Node(homepage, pseudoNode, null);
@@ -53,6 +36,22 @@ class Solution_1472 {
                 steps--;
             }
             return this.curr.url;
+        }
+
+        static class Node {
+            String url;
+            Node prev;
+            Node next;
+
+            Node(String url) {
+                this.url = url;
+            }
+
+            Node(String url, Node prev, Node next) {
+                this.url = url;
+                this.prev = prev;
+                this.next = next;
+            }
         }
     }
 

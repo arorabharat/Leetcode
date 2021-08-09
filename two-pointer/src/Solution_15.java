@@ -8,8 +8,6 @@ class Solution_15 {
 
     /**
      *
-     *
-     *
      */
 
     public List<List<Integer>> threeSum(int[] nums) {

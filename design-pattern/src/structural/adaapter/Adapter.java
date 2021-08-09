@@ -1,6 +1,6 @@
 package structural.adaapter;
 
-class Adapter implements Adaptee, Target{
+class Adapter implements Adaptee, Target {
 
     @Override
     public int specificRequest() {

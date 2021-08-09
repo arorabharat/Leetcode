@@ -6,20 +6,6 @@ import java.util.Deque;
  */
 class Solution_430 {
 
-    static class Node {
-        public int val;
-        public Node prev;
-        public Node next;
-        public Node child;
-
-        public Node(int val, Node prev, Node next, Node child) {
-            this.val = val;
-            this.prev = prev;
-            this.next = next;
-            this.child = child;
-        }
-    }
-
     public Node flatten(Node head) {
         if (head == null) return null;
         Node next = head.next;
@@ -71,5 +57,19 @@ class Solution_430 {
         // detach the pseudo node from the result
         pseudoHead.next.prev = null;
         return pseudoHead.next;
+    }
+
+    static class Node {
+        public int val;
+        public Node prev;
+        public Node next;
+        public Node child;
+
+        public Node(int val, Node prev, Node next, Node child) {
+            this.val = val;
+            this.prev = prev;
+            this.next = next;
+            this.child = child;
+        }
     }
 }
