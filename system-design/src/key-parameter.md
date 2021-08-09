@@ -168,6 +168,9 @@ Video not viewed yet.
    during scailing up and down.
 2. consistent hash is applied to many opensources DB, like memcache client.
 
+## Service Discovery
+[![Alt text](https://img.youtube.com/vi/Xt6McO5q2e0/0.jpg)](https://www.youtube.com/watch?v=Xt6McO5q2e0)
+
 ## Token bucket and leaky bucket
 
 ## Messaging queue
