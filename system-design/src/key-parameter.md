@@ -169,6 +169,7 @@ Video not viewed yet.
 2. consistent hash is applied to many opensources DB, like memcache client.
 
 ## Service Discovery
+
 [![Alt text](https://img.youtube.com/vi/Xt6McO5q2e0/0.jpg)](https://www.youtube.com/watch?v=Xt6McO5q2e0)
 
 ## Token bucket and leaky bucket
@@ -176,6 +177,7 @@ Video not viewed yet.
 ## Messaging queue
 
 ## Circuit breaker
+
 [![Alt text](https://img.youtube.com/vi/rH_pvDQP92U/0.jpg)](https://www.youtube.com/watch?v=rH_pvDQP92U)
 
 ## Dynamic infrastructure scaling
