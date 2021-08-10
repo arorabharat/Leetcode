@@ -11,30 +11,31 @@ class Solution_109 {
     /**
      * @see DSA#FAST_AND_SLOW_POINTER
      */
-    ListNode getMidNode(ListNode start) {
-        ListNode slow = new ListNode(-1);
-        slow.next = start;
-        ListNode fast = slow;
-        ListNode prev = slow;
-        while (fast != null && fast.next != null && slow != null) {
-            fast = fast.next.next;
+    ListNode getMidNode(ListNode head) {
+        ListNode pseudo = new ListNode(-1);
+        pseudo.next = head;
+        ListNode fast = pseudo;
+        ListNode slow = pseudo;
+        ListNode prev = null;
+        while (fast != null && fast.next != null) {
             prev = slow;
+            fast = fast.next.next;
             slow = slow.next;
         }
-        return fast == null ? prev : prev.next;
+        return fast == null || prev == null ? prev : prev.next;
     }
 
     public TreeNode sortedListToBST(ListNode head) {
         if (head == null) return null;
         if (head.next == null) return new TreeNode(head.val);
-        ListNode leftNode = getMidNode(head);
-        ListNode rootNode = leftNode.next;
-        ListNode rightNode = leftNode.next.next;
+        ListNode leftTail = getMidNode(head);
+        ListNode rootNode = leftTail.next;
+        ListNode rightHead = leftTail.next.next;
         rootNode.next = null;
-        leftNode.next = null;
+        leftTail.next = null;
         TreeNode root = new TreeNode(rootNode.val);
         root.left = sortedListToBST(head);
-        root.right = sortedListToBST(rightNode);
+        root.right = sortedListToBST(rightHead);
         return root;
     }
 
