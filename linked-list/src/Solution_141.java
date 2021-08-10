@@ -1,7 +1,26 @@
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * https://leetcode.com/problems/linked-list-cycle/
  */
 class Solution_141 {
+
+
+    /**
+     * brute force approach
+     */
+    public boolean hasCycle1(ListNode head) {
+        Set<ListNode> nodesSeen = new HashSet<>();
+        while (head != null) {
+            if (nodesSeen.contains(head)) {
+                return true;
+            }
+            nodesSeen.add(head);
+            head = head.next;
+        }
+        return false;
+    }
 
     /**
      * if the linked list has less than two nodes than there could not be a cycle
@@ -11,16 +30,22 @@ class Solution_141 {
      *
      * @see DSA#FAST_AND_SLOW_POINTER
      */
-    public boolean hasCycle(ListNode head) {
-        if (head == null || head.next == null) return false;
-        ListNode slow = head;
-        ListNode fast = head;
+    public boolean hasCycle2(ListNode head) {
+        ListNode pseudo = new ListNode(-1);
+        pseudo.next = head;
+        ListNode slow = pseudo;
+        ListNode fast = pseudo;
+        boolean isCycle = false;
         while (fast != null && fast.next != null) {
             fast = fast.next.next;
             slow = slow.next;
-            if (slow == fast) return true;
+            if (slow == fast) {
+                isCycle = true;
+                break;
+            }
         }
-        return false;
+        pseudo.next = null;
+        return isCycle;
     }
 
     static class ListNode {
