@@ -1,16 +1,9 @@
 public enum DSA {
-
-    /**
-     * Graph
-     */
-
+    
     /**
      * Linked List
      */
 
-    /**
-     * Sorting
-     */
 
     /**
      * Trees
