@@ -75,6 +75,7 @@ public enum DSA {
     BUBBLE_SORT,
     MERGE_SORT,
     QUICK_SORT,
+    QUICK_SELECT,
     COUNT_SORT,
     HEAP_SORT,
     MIN_HEAP,

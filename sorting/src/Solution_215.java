@@ -15,7 +15,7 @@ class Solution_215 {
     }
 
     /**
-     * @see DSA#QUICK_SORT
+     * @see DSA#QUICK_SELECT
      */
     public int findKthLargest(int[] nums, int k) {
         int n = nums.length;
