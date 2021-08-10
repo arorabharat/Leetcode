@@ -8,6 +8,9 @@ class Solution_109 {
 
     private ListNode head;
 
+    /**
+     * @see DSA#FAST_AND_SLOW_POINTER
+     */
     ListNode getMidNode(ListNode start) {
         ListNode slow = new ListNode(-1);
         slow.next = start;
