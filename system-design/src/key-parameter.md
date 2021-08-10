@@ -175,6 +175,9 @@ Video not viewed yet.
 
 ## Messaging queue
 
+## Circuit breaker
+[![Alt text](https://img.youtube.com/vi/rH_pvDQP92U/0.jpg)](https://www.youtube.com/watch?v=rH_pvDQP92U)
+
 ## Dynamic infrastructure scaling
 
 Kubernetes, AWS elastic compute
