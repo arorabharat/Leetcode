@@ -8,6 +8,8 @@ class Solution_141 {
      * We will use floyds two pointer approach.
      * Fast pointer will jump two steps every time and slow pointer will jump on step every time
      * if both of them intersect at some point then there is a cycle
+     *
+     * @see DSA#FAST_AND_SLOW_POINTER
      */
     public boolean hasCycle(ListNode head) {
         if (head == null || head.next == null) return false;
