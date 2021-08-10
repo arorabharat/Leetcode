@@ -11,6 +11,7 @@ class Solution_1472 {
 
         Node pseudoNode;
         Node curr;
+
         public BrowserHistory(String homepage) {
             this.pseudoNode = new Node(null, null, null);
             this.curr = new Node(homepage, pseudoNode, null);
