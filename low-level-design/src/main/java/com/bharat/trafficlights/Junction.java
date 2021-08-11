@@ -5,9 +5,8 @@ import java.util.List;
 
 public class Junction {
 
-    private List<GroupTrafficLight> trafficLights;
-
     private static final int TOTAL_LIGHTS = 4;
+    private List<GroupTrafficLight> trafficLights;
 
     public Junction(List<GroupTrafficLight> trafficLights) {
         if (trafficLights.size() != TOTAL_LIGHTS)
