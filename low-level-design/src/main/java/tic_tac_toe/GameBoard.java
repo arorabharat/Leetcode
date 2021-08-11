@@ -22,9 +22,8 @@ public class GameBoard {
 
     public void printGameBoard() {
         for (int i = 0; i < size; i++) {
-            System.out.print("| ");
             for (int j = 0; j < size; j++) {
-                System.out.print(board[i][j].getSymbol().toString() + " | ");
+                System.out.print(board[i][j].getSymbol().toString());
             }
             System.out.println();
         }

@@ -4,7 +4,7 @@ public enum Symbol {
 
     CROSS("X"),
     CIRCLE("O"),
-    EMPTY(" ");
+    EMPTY("-");
 
     String value;
 
