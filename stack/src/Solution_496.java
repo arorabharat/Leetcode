@@ -56,7 +56,7 @@ class Solution_496 {
             stack.push(num);
         }
 
-        while (!stack.empty()){
+        while (!stack.empty()) {
             map.put(stack.pop(), -1);
         }
 

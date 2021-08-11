@@ -1,24 +1,12 @@
 package tic_tac_toe;
 
-import java.util.Random;
+public interface TurnManager {
 
-public class TurnManager {
+    int getNextTurn();
 
-    private final int numOfPlayers;
-    private int turn;
+    int currentTurn();
 
-    public TurnManager(int numOfPlayers) {
-        Random random = new Random();
-        this.numOfPlayers = numOfPlayers;
-        this.turn = random.nextInt(numOfPlayers);
-    }
+    int totalTurns();
 
-    public int getCurrentTurn() {
-        return this.turn;
-    }
-
-    public int getNextTurn() {
-        turn = (turn + 1) % this.numOfPlayers;
-        return turn;
-    }
+    int setFirstTurn(int turn);
 }
