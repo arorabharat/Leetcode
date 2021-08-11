@@ -49,11 +49,11 @@ class Solution_496 {
         Stack<Integer> stack = new Stack<>();
         Map<Integer, Integer> map = new HashMap<>();
 
-        for (int j : nums2) {
-            while (!stack.empty() && j > stack.peek()) {
-                map.put(stack.pop(), j);
+        for (int num : nums2) {
+            while (!stack.empty() && num > stack.peek()) {
+                map.put(stack.pop(), num);
             }
-            stack.push(j);
+            stack.push(num);
         }
 
         while (!stack.empty()){
