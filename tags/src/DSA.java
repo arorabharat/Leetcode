@@ -61,6 +61,11 @@ public enum DSA {
     MIN_HEAP,
     MAX_HEAP,
 
+    /**
+     * Stack
+     */
+    INCREASING_STACK,
+
     BIPARTITE_GRAPH,
     NUMBER_OF_CONNECTED_COMPONENTS,
     DFS_TRAVERSAL,
