@@ -41,4 +41,29 @@ class Solution_496 {
         }
         return ans2;
     }
+
+    /**
+     * Sapce optimization
+     */
+    public int[] nextGreaterElement2(int[] nums1, int[] nums2) {
+        Stack<Integer> stack = new Stack<>();
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for (int j : nums2) {
+            while (!stack.empty() && j > stack.peek()) {
+                map.put(stack.pop(), j);
+            }
+            stack.push(j);
+        }
+
+        while (!stack.empty()){
+            map.put(stack.pop(), -1);
+        }
+
+        int[] res = new int[nums1.length];
+        for (int i = 0; i < nums1.length; i++) {
+            res[i] = map.get(nums1[i]);
+        }
+        return res;
+    }
 }
