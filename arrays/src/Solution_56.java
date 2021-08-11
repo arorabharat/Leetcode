@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
+ * https://github.com/arorabharat/Leetcode/tree/main/arrays/src/Solution_56.java
  * https://leetcode.com/problems/merge-intervals/
  */
 class Solution_56 {

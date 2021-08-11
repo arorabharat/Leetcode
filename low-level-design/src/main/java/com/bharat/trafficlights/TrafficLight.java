@@ -19,9 +19,9 @@ public abstract class TrafficLight {
         return onLights;
     }
 
-    protected void setLightStatus(Color color,boolean status) {
-        if(!lights.containsKey(color)) {
-            throw  new IllegalArgumentException("Color is not supported");
+    protected void setLightStatus(Color color, boolean status) {
+        if (!lights.containsKey(color)) {
+            throw new IllegalArgumentException("Color is not supported");
         }
         lights.get(color).setStatus(status);
     }

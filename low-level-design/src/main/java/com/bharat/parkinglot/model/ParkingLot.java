@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 //@Singleton
-public class  ParkingLot {
+public class ParkingLot {
 
     private final List<ParkingSpot> parkingSpots;
     private ParkingStrategy parkingStrategy;
