@@ -2,6 +2,7 @@ echo -e "$(pwd) "
 echo -e "\e[102m Committing the changes \e[49m"
 echo -e "\e[92m"
 git status
+echo -e "\e[36m"
 git add .
 echo -e "\e[94m"
 git commit -m "`date`"
