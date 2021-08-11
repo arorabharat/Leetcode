@@ -29,7 +29,6 @@ public class TicTacToeGame implements Game {
     @Override
     public boolean isFinished() {
         if (gameBoard.hasHorizontalLine() || gameBoard.hasVerticalLine() || gameBoard.hasDiagonalLine()) {
-            System.out.println("I am true");
             return true;
         }
         return !gameBoard.hasEmptyCell();
@@ -38,7 +37,7 @@ public class TicTacToeGame implements Game {
     private Move inputMove(Player player) {
         Move inputMove;
         while (true) {
-            System.out.println("Enter Player " + player.getName() + " move.");
+            System.out.println(player.getName() + " move's");
             System.out.print("Row : ");
             int row = scanner.nextInt();
             System.out.print("Col : ");
