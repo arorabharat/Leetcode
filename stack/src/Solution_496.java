@@ -43,7 +43,7 @@ class Solution_496 {
     }
 
     /**
-     * Sapce optimization
+     * Space optimization
      */
     public int[] nextGreaterElement2(int[] nums1, int[] nums2) {
         Stack<Integer> stack = new Stack<>();
