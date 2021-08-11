@@ -3,6 +3,7 @@ import java.util.List;
 
 /**
  * https://leetcode.com/problems/partition-labels/
+ * https://github.com/arorabharat/Leetcode/tree/main/strings/src/Solution_763.java
  */
 class Solution_763 {
 
