@@ -3,6 +3,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+/**
+ * https://leetcode.com/problems/parallel-courses/
+ */
 class Solution_1136 {
 
 
