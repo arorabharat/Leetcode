@@ -47,7 +47,7 @@ public class Game {
                 currentPlayer = players.get(currentTurn);
             }
             System.out.println(currentPlayer);
-            System.out.println("Press 1 to continue and  2 to quit");
+            System.out.println("Press 1 to continue and 2 to quit");
             int input = scanner.nextInt();
             if (input == 2) {
                 System.out.println(currentPlayer.getName() + " is  quitting the Game !!");
