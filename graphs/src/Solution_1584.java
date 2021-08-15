@@ -4,6 +4,8 @@ import java.util.PriorityQueue;
 /**
  * https://leetcode.com/problems/min-cost-to-connect-all-points/
  * prims algorithm
+ *
+ * @see DSA#MINIMUM_SPANNING_TREE
  */
 class Solution_1584 {
 
@@ -83,27 +85,25 @@ class Solution_1584 {
         int prims(int start) {
             // lazy implementation of prim's algorithm
             boolean[] visited = new boolean[this.n];
-            int count = this.n;
-            // comparator & lambda expression
-            PriorityQueue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(b -> b[1])); // min heap
-            queue.add(new int[]{start, 0});
-            int sum = 0;
-            while (count > 0 && !queue.isEmpty()) {
-                int[] pair = queue.remove();
-                int curr = pair[0];
-                if (visited[curr]) {
-                    continue;
-                }
-                visited[curr] = true;
-                sum += pair[1];
-                count--;
-                for (int next = 0; next < this.n; next++) {
-                    if (curr != next && !visited[next]) {
-                        queue.add(new int[]{next, distance(curr, next)});
+            int numOfPointsLeftToVist = this.n;
+            PriorityQueue<int[]> minHeap = new PriorityQueue<>(Comparator.comparingInt(b -> b[1]));
+            minHeap.add(new int[]{start, 0});
+            int sumOfEdges = 0;
+            while (numOfPointsLeftToVist > 0 && !minHeap.isEmpty()) {
+                int[] pointAndDistance = minHeap.remove();
+                int currPoint = pointAndDistance[0];
+                if (!visited[currPoint]) {
+                    visited[currPoint] = true;
+                    sumOfEdges += pointAndDistance[1];
+                    numOfPointsLeftToVist--;
+                    for (int next = 0; next < this.n; next++) {
+                        if (!visited[next]) {
+                            minHeap.add(new int[]{next, distance(currPoint, next)});
+                        }
                     }
                 }
             }
-            return sum;
+            return sumOfEdges;
         }
 
         /**
