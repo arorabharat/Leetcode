@@ -11,9 +11,9 @@ public class Main {
 
         List<Jumper> jumpers = new ArrayList<>();
 
-        Jumper ladder1 = new Ladder(2, 98);
+        Jumper ladder1 = new Ladder(11, 98);
         Jumper ladder2 = new Ladder(2, 30);
-        Jumper snake1 = new Ladder(30, 10);
+        Jumper snake1 = new Snake(30, 10);
         jumpers.add(ladder1);
         jumpers.add(ladder2);
         jumpers.add(snake1);

@@ -10,14 +10,12 @@ import java.util.Map;
  * 2. End cell would always be the last cell
  * <p>
  * Methods
- * addJumper(Jumper jumper); <- to build the game (build phase)
- * getCell(int cellNumber); <- to build the game (build phase)
  * moveNSteps(int numberOfSteps) <- to play the game (run phase)
  */
 public class Board {
 
     private final int START_CELL_NUMBER;
-    private Map<Integer, Jumper> startCellToJumper;
+    private Map<Integer, Jumper> startCellToJumperMap;
     private int boardSize;
 
     private Board() {
@@ -46,8 +44,10 @@ public class Board {
         if (isInvalid(endCellNumber)) {
             return fromCell;
         }
-        while (this.startCellToJumper.containsKey(endCellNumber)) {
-            endCellNumber = this.startCellToJumper.get(endCellNumber).getEnd();
+        System.out.println("Dice " + endCellNumber);
+        while (this.startCellToJumperMap.containsKey(endCellNumber)) {
+            System.out.println(this.startCellToJumperMap.get(endCellNumber));
+            endCellNumber = this.startCellToJumperMap.get(endCellNumber).getEnd();
         }
         return endCellNumber;
     }
@@ -74,14 +74,14 @@ public class Board {
         }
 
         public BoardBuilder setJumpers(List<Jumper> jumpers) {
-            this.board.startCellToJumper = new HashMap<>();
+            this.board.startCellToJumperMap = new HashMap<>();
             for (Jumper jumper : jumpers) {
                 int start = jumper.getStart();
                 int end = jumper.getEnd();
                 if (isInvalid(start) || isInvalid(end)) {
                     throw new IllegalArgumentException("Invalid jumper : " + jumper);
                 }
-                this.board.startCellToJumper.put(jumper.getStart(), jumper);
+                this.board.startCellToJumperMap.put(start, jumper);
             }
             return this;
         }

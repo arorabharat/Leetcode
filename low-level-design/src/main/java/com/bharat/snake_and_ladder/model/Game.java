@@ -29,7 +29,7 @@ public class Game {
                 leftPLayers++;
             }
         }
-        return leftPLayers > 1;
+        return leftPLayers == 1;
     }
 
     public void startGame() {
@@ -39,11 +39,6 @@ public class Game {
         }
         while (!this.isGameFinished()) {
 
-            System.out.println("Press 1 to continue and  2to quit");
-            int input = scanner.nextInt();
-            if (input == 2) {
-                System.out.println();
-            }
 
             // skip the player if player has already won
             int currentTurn = turnManager.nextTurn();
@@ -53,13 +48,18 @@ public class Game {
                 currentPlayer = players.get(currentTurn);
             }
             System.out.println(currentPlayer);
+            System.out.println("Press 1 to continue and  2 to quit");
+            int input = scanner.nextInt();
+            if (input == 2) {
+                System.out.println(currentPlayer.getName() + " is  quitting the Game !!");
+            }
 
             // roll all the dice and take the total count
             int totalDiceNumber = 0;
             for (Dice dice : dices) {
                 totalDiceNumber = totalDiceNumber + dice.rollTheDice();
             }
-            System.out.println(currentPlayer.getName() + " got " + totalDiceNumber + " dices");
+            System.out.println(currentPlayer.getName() + " got " + totalDiceNumber + " on dices");
 
             // set the final cell of the current player
             int finalCell = board.moveAheadNStep(currentPlayer.getCurrentCell(), totalDiceNumber);
@@ -70,6 +70,7 @@ public class Game {
             if (board.getLastCell() == currentPlayer.getCurrentCell()) {
                 System.out.println(currentPlayer.getName() + " has won the game");
             }
+            System.out.println();
         }
         System.out.println("Game is finished");
     }
@@ -108,16 +109,16 @@ public class Game {
         }
 
         public Game buildGame() {
-            if(Objects.isNull(this.game.turnManager)) {
+            if (Objects.isNull(this.game.turnManager)) {
                 System.out.println("Turn manager is not initialized");
             }
-            if(Objects.isNull(this.game.dices)) {
+            if (Objects.isNull(this.game.dices)) {
                 System.out.println("Dices are not initialized");
             }
-            if(Objects.isNull(this.game.players)) {
+            if (Objects.isNull(this.game.players)) {
                 System.out.println("Players are not initialized");
             }
-            if(Objects.isNull(this.game.board)) {
+            if (Objects.isNull(this.game.board)) {
                 System.out.println("Board is not initialized");
             }
             this.game.turnManager.setNumberOfPlayers(this.game.players.size());
