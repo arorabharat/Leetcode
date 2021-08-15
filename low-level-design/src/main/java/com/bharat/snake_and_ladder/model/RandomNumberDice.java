@@ -16,7 +16,6 @@ public class RandomNumberDice implements Dice {
 
     @Override
     public int rollTheDice() {
-        return 1;
-//        return minNumber + random.nextInt(maxNumber - minNumber + 1);
+        return minNumber + random.nextInt(maxNumber - minNumber + 1);
     }
 }
