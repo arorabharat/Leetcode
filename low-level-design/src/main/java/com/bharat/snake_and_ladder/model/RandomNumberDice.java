@@ -15,7 +15,7 @@ public class RandomNumberDice implements Dice {
     }
 
     @Override
-    public int getNumber() {
+    public int rollTheDice() {
         return minNumber + random.nextInt(maxNumber - minNumber);
     }
 }

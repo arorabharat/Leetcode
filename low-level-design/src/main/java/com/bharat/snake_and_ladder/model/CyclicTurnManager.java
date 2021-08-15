@@ -2,11 +2,11 @@ package com.bharat.snake_and_ladder.model;
 
 public class CyclicTurnManager implements TurnManager {
 
-    private final int numOfPlayers;
+    private int numberOfPlayers;
     private int currentTurn;
 
-    CyclicTurnManager(int numOfPlayers) {
-        this.numOfPlayers = numOfPlayers;
+    CyclicTurnManager(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
     }
 
     @Override
@@ -22,11 +22,16 @@ public class CyclicTurnManager implements TurnManager {
     @Override
     public int nextTurn() {
         currentTurn++;
-        return currentTurn % numOfPlayers;
+        return currentTurn % numberOfPlayers;
     }
 
     @Override
-    public int numberOfPlayers() {
-        return numOfPlayers;
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+
+    @Override
+    public int setNumberOfPlayers(int numberOfPlayers) {
+        return this.numberOfPlayers = numberOfPlayers;
     }
 }
