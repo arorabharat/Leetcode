@@ -1,7 +1,7 @@
 package com.bharat.snake_and_ladder.model;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * https://workat.tech/machine-coding/editorial/how-to-design-snake-and-ladder-machine-coding-ehskk9c40x2w
@@ -11,24 +11,20 @@ import java.util.List;
  */
 public class Game {
 
+    private final Scanner scanner = new Scanner(System.in);
     private Board board;
-    private final TurnManager turnManager;
-
-    private final List<Player> players;
-    private final List<Dice> dices;
+    private TurnManager turnManager;
+    private List<Player> players;
+    private List<Dice> dices;
 
     private Game() {
-        this.board = Board.BoardBuilder.newInstance().setSize(100).buildBoard(); // should be part of the builder
-        this.turnManager = new CyclicTurnManager(0); // should be part of the builder
-        this.players = new ArrayList<>();
-        this.dices = new ArrayList<>();
     }
 
     // game will finish if there is only one player left
     public boolean isGameFinished() {
         int leftPLayers = 0;
         for (Player player : players) {
-            if (!board.isLastCell(player.getCurrentCell())) {
+            if (board.getLastCell() != player.getCurrentCell()) {
                 leftPLayers++;
             }
         }
@@ -41,23 +37,36 @@ public class Game {
             player.setCurrentCell(board.getStartCell());
         }
         while (!this.isGameFinished()) {
+
+            System.out.println("Press 1 to continue and  2to quit");
+            int input = scanner.nextInt();
+            if (input == 2) {
+                System.out.println();
+            }
+
+            // skip the player if player has already won
             int currentTurn = turnManager.nextTurn();
             Player currentPlayer = players.get(currentTurn);
-            // skip the player if player has already won
-            while (board.isLastCell(currentPlayer.getCurrentCell())) {
+            while (board.getLastCell() == currentPlayer.getCurrentCell()) {
                 currentTurn = turnManager.nextTurn();
                 currentPlayer = players.get(currentTurn);
             }
+            System.out.println(currentPlayer);
+
             // roll all the dice and take the total count
             int totalDiceNumber = 0;
             for (Dice dice : dices) {
                 totalDiceNumber = totalDiceNumber + dice.rollTheDice();
             }
+            System.out.println(currentPlayer.getName() + " got " + totalDiceNumber + " dices");
+
             // set the final cell of the current player
-            Cell finalCell = board.moveAheadNStep(currentPlayer.getCurrentCell(), totalDiceNumber);
+            int finalCell = board.moveAheadNStep(currentPlayer.getCurrentCell(), totalDiceNumber);
             currentPlayer.setCurrentCell(finalCell);
+            System.out.println("Moving " + currentPlayer.getName() + " to cell " + finalCell);
+
             // if player has won the game print
-            if (board.isLastCell(currentPlayer.getCurrentCell())) {
+            if (board.getLastCell() == currentPlayer.getCurrentCell()) {
                 System.out.println(currentPlayer.getName() + " has won the game");
             }
         }
@@ -67,7 +76,7 @@ public class Game {
 
     public static class GameBuilder {
 
-        Game game;
+        private final Game game;
 
         GameBuilder() {
             game = new Game();
@@ -82,25 +91,24 @@ public class Game {
             return this;
         }
 
-        public GameBuilder addPlayer(Player player) {
-            this.game.players.add(player);
+        public GameBuilder setPlayers(List<Player> player) {
+            this.game.players = player;
             this.game.turnManager.setNumberOfPlayers(this.game.players.size());
             return this;
         }
 
-        public GameBuilder addDice(Dice dice) {
-            this.game.dices.add(dice);
+        public GameBuilder setDices(List<Dice> dices) {
+            this.game.dices = dices;
             return this;
         }
 
         public GameBuilder setTurnManager(TurnManager turnManager) {
-            this.setTurnManager(turnManager);
+            this.game.turnManager = turnManager;
             return this;
         }
 
-        public GameBuilder addJumper(Jumper jumper) {
-            this.game.board.addJumper(jumper);
-            return this;
+        public Game buildGame() {
+            return game;
         }
 
     }

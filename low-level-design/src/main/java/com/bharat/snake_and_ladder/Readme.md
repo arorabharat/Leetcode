@@ -1,7 +1,8 @@
 # Snake and ladder
 
 Assumption
-1. We have board , which have cell numbered from 1 to N 
+
+1. We have board , which have cell numbered from 1 to N
 2. Snake would take from one cell to another cell, i to j where i > j
 3. Ladder would take from one cell to another cell, i to j where i > j
 4. Assumption : we could not have ladder starting point and snake mouth at same cell

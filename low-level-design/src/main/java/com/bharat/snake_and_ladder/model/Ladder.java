@@ -11,12 +11,20 @@ public class Ladder implements Jumper {
     }
 
     @Override
-    public int start() {
+    public int getStart() {
         return base;
     }
 
     @Override
-    public int end() {
+    public int getEnd() {
         return top;
+    }
+
+    @Override
+    public String toString() {
+        return "Ladder{" +
+                "base=" + base +
+                ", top=" + top +
+                '}';
     }
 }
