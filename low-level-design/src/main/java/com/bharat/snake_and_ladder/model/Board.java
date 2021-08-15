@@ -44,7 +44,6 @@ public class Board {
         if (isInvalid(endCellNumber)) {
             return fromCell;
         }
-        System.out.println("Dice " + endCellNumber);
         while (this.startCellToJumperMap.containsKey(endCellNumber)) {
             System.out.println(this.startCellToJumperMap.get(endCellNumber));
             endCellNumber = this.startCellToJumperMap.get(endCellNumber).getEnd();
