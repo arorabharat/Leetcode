@@ -3,28 +3,45 @@ package com.bharat.snake_and_ladder.model;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Assumption
+ * 1. Start cell would be always 1
+ * 2. End cell would always be the last cell
+ * <p>
+ * Methods
+ * addJumper(Jumper jumper); <- to build the game (build phase)
+ * getCell(int cellNumber); <- to build the game (build phase)
+ * moveNSteps(int numberOfSteps) <- to play the game (run phase)
+ */
 public class Board {
 
-    private final Cell[] cells;
-    private final int totalNumberOfCells;
+    private int[] cells;
 
-    private final int START_CELL_NUMBER = 1;
+    private int boardSize;
+    private final int START_CELL_NUMBER;
     private final int END_CELL_NUMBER;
+    private final int DEFAULT_BOARD_SIZE = 100;
 
-    Map<Cell, CrossCellElement> map;
+    Map<Cell, Jumper> startCellToJumper;
 
-    public Board(int totalNumberOfCells) {
-        this.totalNumberOfCells = totalNumberOfCells;
-        this.map = new HashMap<>();
-        this.cells = new Cell[totalNumberOfCells];
-        for (int i = 0; i < totalNumberOfCells; i++) {
+    private Board() {
+        this.boardSize = DEFAULT_BOARD_SIZE;
+        this.startCellToJumper = new HashMap<>();
+        setBoardSize(boardSize);
+        START_CELL_NUMBER = 0;
+        END_CELL_NUMBER = boardSize - 1;
+    }
+
+    private void setBoardSize(int boardSize) {
+        this.boardSize = boardSize;
+        this.cells = new Cell[this.boardSize];
+        for (int i = 0; i < this.boardSize; i++) {
             cells[i] = new Cell(i);
         }
-        END_CELL_NUMBER = totalNumberOfCells;
     }
 
     private boolean isInvalid(int cellNumber) {
-        return 0 > cellNumber || cellNumber >= totalNumberOfCells;
+        return 0 > cellNumber || cellNumber >= boardSize;
     }
 
     public Cell getCell(int cellNumber) {
@@ -34,13 +51,12 @@ public class Board {
         return cells[cellNumber];
     }
 
-    public void addCrossCellElement(CrossCellElement crossCellElement) {
-        int startingCellNumber = crossCellElement.startCell().getNumber();
-        int endingCellNumber = crossCellElement.endCell().getNumber();
-        if (isInvalid(startingCellNumber) || isInvalid(endingCellNumber)) {
-            throw new IllegalArgumentException("Invalid cell number");
-        }
-        this.map.put(crossCellElement.startCell(), crossCellElement);
+    public Cell getStartCell() {
+        return cells[START_CELL_NUMBER];
+    }
+
+    public boolean isLastCell(Cell cell) {
+        return cell.getNumber() == END_CELL_NUMBER;
     }
 
     public Cell moveAheadNStep(Cell fromCell, int numberOfCells) {
@@ -49,9 +65,45 @@ public class Board {
             return fromCell;
         }
         Cell endCell = getCell(endCellNumber);
-        while (this.map.containsKey(endCell)) {
-            endCell = this.map.get(endCell).endCell();
+        while (this.startCellToJumper.containsKey(endCell)) {
+            endCell = this.startCellToJumper.get(endCell).end();
         }
         return endCell;
+    }
+
+    public static class BoardBuilder {
+
+        private Board board;
+
+        public BoardBuilder() {
+            this.board = new Board();
+        }
+
+        public static BoardBuilder newInstance() {
+            return new BoardBuilder();
+        }
+
+        public BoardBuilder setSize(int boardSize) {
+            board.setBoardSize(boardSize);
+            return this;
+        }
+
+        private boolean isInvalid(int cellNumber) {
+            return 0 > cellNumber || cellNumber >= board.boardSize;
+        }
+
+        public BoardBuilder addJumper(Jumper jumper) {
+            int startingCellNumber = jumper.start().getNumber();
+            int endingCellNumber = jumper.end().getNumber();
+            if (isInvalid(startingCellNumber) || isInvalid(endingCellNumber)) {
+                throw new IllegalArgumentException("Invalid cell number");
+            }
+            this.board.startCellToJumper.put(jumper.start(), jumper);
+            return this;
+        }
+
+        public Board buildBoard() {
+            return board;
+        }
     }
 }

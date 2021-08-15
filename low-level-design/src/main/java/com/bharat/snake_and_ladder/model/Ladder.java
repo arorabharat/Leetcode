@@ -1,22 +1,22 @@
 package com.bharat.snake_and_ladder.model;
 
-public class Ladder implements CrossCellElement {
+public class Ladder implements Jumper {
 
-    private final Cell base;
-    private final Cell top;
+    private final int base;
+    private final int top;
 
-    public Ladder(Cell base, Cell top) {
+    public Ladder(int base, int top) {
         this.base = base;
         this.top = top;
     }
 
     @Override
-    public Cell startCell() {
+    public int start() {
         return base;
     }
 
     @Override
-    public Cell endCell() {
+    public int end() {
         return top;
     }
 }

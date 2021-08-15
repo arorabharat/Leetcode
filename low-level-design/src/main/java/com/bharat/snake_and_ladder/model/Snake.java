@@ -1,6 +1,6 @@
 package com.bharat.snake_and_ladder.model;
 
-public class Snake implements CrossCellElement {
+public class Snake implements Jumper {
 
     private final Cell mouth;
     private final Cell tail;
@@ -11,12 +11,12 @@ public class Snake implements CrossCellElement {
     }
 
     @Override
-    public Cell startCell() {
+    public Cell start() {
         return mouth;
     }
 
     @Override
-    public Cell endCell() {
+    public Cell end() {
         return tail;
     }
 }
