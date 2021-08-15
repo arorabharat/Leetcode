@@ -39,7 +39,6 @@ public class Game {
         }
         while (!this.isGameFinished()) {
 
-
             // skip the player if player has already won
             int currentTurn = turnManager.nextTurn();
             Player currentPlayer = players.get(currentTurn);
