@@ -5,7 +5,7 @@ public class CyclicTurnManager implements TurnManager {
     private int numberOfPlayers;
     private int currentTurn;
 
-    CyclicTurnManager(int numberOfPlayers) {
+    public CyclicTurnManager(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
     }
 

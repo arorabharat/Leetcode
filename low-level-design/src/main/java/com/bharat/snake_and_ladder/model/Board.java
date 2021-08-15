@@ -1,6 +1,7 @@
 package com.bharat.snake_and_ladder.model;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,65 +16,45 @@ import java.util.Map;
  */
 public class Board {
 
-    private int[] cells;
-
-    private int boardSize;
     private final int START_CELL_NUMBER;
-    private final int END_CELL_NUMBER;
-    private final int DEFAULT_BOARD_SIZE = 100;
-
-    Map<Cell, Jumper> startCellToJumper;
+    private Map<Integer, Jumper> startCellToJumper;
+    private int boardSize;
 
     private Board() {
-        this.boardSize = DEFAULT_BOARD_SIZE;
-        this.startCellToJumper = new HashMap<>();
-        setBoardSize(boardSize);
+        this.boardSize = 100; // default size
         START_CELL_NUMBER = 0;
-        END_CELL_NUMBER = boardSize - 1;
     }
 
     private void setBoardSize(int boardSize) {
         this.boardSize = boardSize;
-        this.cells = new Cell[this.boardSize];
-        for (int i = 0; i < this.boardSize; i++) {
-            cells[i] = new Cell(i);
-        }
     }
 
     private boolean isInvalid(int cellNumber) {
         return 0 > cellNumber || cellNumber >= boardSize;
     }
 
-    public Cell getCell(int cellNumber) {
-        if (isInvalid(cellNumber)) {
-            throw new IllegalArgumentException("Invalid cell number");
-        }
-        return cells[cellNumber];
+    public int getStartCell() {
+        return START_CELL_NUMBER;
     }
 
-    public Cell getStartCell() {
-        return cells[START_CELL_NUMBER];
+    public int getLastCell() {
+        return boardSize - 1;
     }
 
-    public boolean isLastCell(Cell cell) {
-        return cell.getNumber() == END_CELL_NUMBER;
-    }
-
-    public Cell moveAheadNStep(Cell fromCell, int numberOfCells) {
-        int endCellNumber = fromCell.getNumber() + numberOfCells;
+    public int moveAheadNStep(int fromCell, int numberOfCells) {
+        int endCellNumber = fromCell + numberOfCells;
         if (isInvalid(endCellNumber)) {
             return fromCell;
         }
-        Cell endCell = getCell(endCellNumber);
-        while (this.startCellToJumper.containsKey(endCell)) {
-            endCell = this.startCellToJumper.get(endCell).end();
+        while (this.startCellToJumper.containsKey(endCellNumber)) {
+            endCellNumber = this.startCellToJumper.get(endCellNumber).getEnd();
         }
-        return endCell;
+        return endCellNumber;
     }
 
     public static class BoardBuilder {
 
-        private Board board;
+        private final Board board;
 
         public BoardBuilder() {
             this.board = new Board();
@@ -84,7 +65,7 @@ public class Board {
         }
 
         public BoardBuilder setSize(int boardSize) {
-            board.setBoardSize(boardSize);
+            board.boardSize = boardSize;
             return this;
         }
 
@@ -92,13 +73,16 @@ public class Board {
             return 0 > cellNumber || cellNumber >= board.boardSize;
         }
 
-        public BoardBuilder addJumper(Jumper jumper) {
-            int startingCellNumber = jumper.start().getNumber();
-            int endingCellNumber = jumper.end().getNumber();
-            if (isInvalid(startingCellNumber) || isInvalid(endingCellNumber)) {
-                throw new IllegalArgumentException("Invalid cell number");
+        public BoardBuilder setJumpers(List<Jumper> jumpers) {
+            this.board.startCellToJumper = new HashMap<>();
+            for (Jumper jumper : jumpers) {
+                int start = jumper.getStart();
+                int end = jumper.getEnd();
+                if (isInvalid(start) || isInvalid(end)) {
+                    throw new IllegalArgumentException("Invalid jumper : " + jumper);
+                }
+                this.board.startCellToJumper.put(jumper.getStart(), jumper);
             }
-            this.board.startCellToJumper.put(jumper.start(), jumper);
             return this;
         }
 

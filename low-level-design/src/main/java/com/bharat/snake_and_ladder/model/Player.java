@@ -2,29 +2,31 @@ package com.bharat.snake_and_ladder.model;
 
 public class Player {
 
-    private final int name;
-    private final int id;
-    private Cell currentCell;
+    private final String name;
+    private int currentCell;
 
-    public Player(int name,int id,Cell currentCell) {
+    public Player(String name) {
         this.name = name;
-        this.id = id;
-        this.currentCell = currentCell;
+        this.currentCell = 0;
     }
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public Cell getCurrentCell() {
+    public int getCurrentCell() {
         return currentCell;
     }
 
-    public void setCurrentCell(Cell currentCell) {
+    public void setCurrentCell(int currentCell) {
         this.currentCell = currentCell;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", currentCell=" + currentCell +
+                '}';
     }
 }
