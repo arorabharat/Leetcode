@@ -1,6 +1,7 @@
 package com.bharat.snake_and_ladder.model;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -93,7 +94,6 @@ public class Game {
 
         public GameBuilder setPlayers(List<Player> player) {
             this.game.players = player;
-            this.game.turnManager.setNumberOfPlayers(this.game.players.size());
             return this;
         }
 
@@ -108,6 +108,19 @@ public class Game {
         }
 
         public Game buildGame() {
+            if(Objects.isNull(this.game.turnManager)) {
+                System.out.println("Turn manager is not initialized");
+            }
+            if(Objects.isNull(this.game.dices)) {
+                System.out.println("Dices are not initialized");
+            }
+            if(Objects.isNull(this.game.players)) {
+                System.out.println("Players are not initialized");
+            }
+            if(Objects.isNull(this.game.board)) {
+                System.out.println("Board is not initialized");
+            }
+            this.game.turnManager.setNumberOfPlayers(this.game.players.size());
             return game;
         }
 
