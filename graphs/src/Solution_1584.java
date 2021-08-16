@@ -6,6 +6,7 @@ import java.util.PriorityQueue;
  * prims algorithm
  *
  * @see DSA#MINIMUM_SPANNING_TREE
+ * @see DSA#DISJOINT_SET
  */
 class Solution_1584 {
 
