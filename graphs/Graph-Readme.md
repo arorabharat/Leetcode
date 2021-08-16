@@ -113,8 +113,7 @@ Space Complexity :
 Time Complexity :
 Space Complexity :
 ```
-
-[comment]: <> (TODO)
+[![Alt txt](../resources/wiki.png)](https://en.wikipedia.org/wiki/Kruskal%27s_algorithm)
 
 ## Strongly connected components
 
