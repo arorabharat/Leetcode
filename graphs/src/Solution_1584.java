@@ -36,6 +36,9 @@ class Solution_1584 {
             }
         }
 
+        /**
+         * Time Complexity :  O( 1 ) amortized
+         */
         int get(int a) {
             // path compression
             return set[a] = (set[a] == a) ? a : get(set[a]);
@@ -130,18 +133,18 @@ class Solution_1584 {
                     }
                 }
             }
-            int nodesInSpanningTree = 0;
+            int edgesInSpanningTree = 0;
             int totalSumOfEdges = 0;
             // create a forest F (a set of trees), where each vertex in the graph is a separate tree
             DisJointSet disJointSet = new DisJointSet(V);
-            while (nodesInSpanningTree < V - 1) {
+            while (edgesInSpanningTree < V - 1) {
                 // remove an edge with minimum weight from S
                 int[] edge = queue.remove();
                 // if the removed edge connects two different trees then add it to the forest F, combining two trees into a single tree
                 if (!disJointSet.isSameSet(edge[START], edge[END])) {
                     totalSumOfEdges += edge[DISTANCE];
                     disJointSet.union(edge[START], edge[END]);
-                    nodesInSpanningTree++;
+                    edgesInSpanningTree++;
                 }
             }
             return totalSumOfEdges;
