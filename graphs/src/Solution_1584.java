@@ -114,8 +114,9 @@ class Solution_1584 {
          * ================================== Kruskal algorithm ==========================
          */
         int kruskal() {
+
             int V = points.length;
-            // create a sorted set of edges
+            // create a set S containing all the edges in the graph
             PriorityQueue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(b -> b[2]));
             for (int i = 0; i < V; i++) {
                 for (int j = 0; j < V; j++) {
@@ -124,20 +125,21 @@ class Solution_1584 {
                     }
                 }
             }
-            int count = 0;
-            int sum = 0;
-            // initialise the forest of vertices , where each vertex is individual vertex
+            int nodesInSpanningTree = 0;
+            int totalSumOfEdges = 0;
+            // create a forest F (a set of trees), where each vertex in the graph is a separate tree
             DisJointSet disJointSet = new DisJointSet(V);
-            while (count < V - 1) {
-                // pick the smallest edge if the end points does not belong to same set
+            while (nodesInSpanningTree < V - 1) {
+                // remove an edge with minimum weight from S
                 int[] edge = queue.remove();
+                // if the removed edge connects two different trees then add it to the forest F, combining two trees into a single tree
                 if (!disJointSet.isSameSet(edge[0], edge[1])) {
-                    sum += edge[2];
+                    totalSumOfEdges += edge[2];
                     disJointSet.union(edge[0], edge[1]);
-                    count++;
+                    nodesInSpanningTree++;
                 }
             }
-            return sum;
+            return totalSumOfEdges;
         }
 
     }
