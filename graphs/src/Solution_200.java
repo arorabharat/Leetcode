@@ -168,4 +168,84 @@ class Solution_200 {
             }
         }
     }
+
+    /**
+     * Approach 4 using Disjoint set
+     */
+    static class DisjointSet {
+        int numOfConnectedComponent;
+        int[] parent;
+        int[] rank;
+
+        public DisjointSet(char[][] grid) { // for problem 200
+            numOfConnectedComponent = 0;
+            int m = grid.length;
+            int n = grid[0].length;
+            parent = new int[m * n];
+            rank = new int[m * n];
+            for (int i = 0; i < m; ++i) {
+                for (int j = 0; j < n; ++j) {
+                    int mapping = i * n + j;
+                    if (grid[i][j] == '1') {
+                        parent[mapping] = mapping;
+                        ++numOfConnectedComponent;
+                    }
+                    rank[mapping] = 0;
+                }
+            }
+        }
+
+        public int find(int i) {
+            return parent[i] = (parent[i] == i) ? i : find(parent[i]); // path compression
+        }
+
+        public void union(int x, int y) { // union with rank
+            x = find(x);
+            y = find(y);
+            if (x != y) {
+                if (rank[x] == rank[y]) {
+                    rank[x]++;
+                }
+                if (rank[x] > rank[y]) {
+                    parent[y] = x;
+                } else {
+                    parent[x] = y;
+                }
+                --numOfConnectedComponent;
+            }
+        }
+
+        public int getNumOfConnectedComponent() {
+            return numOfConnectedComponent;
+        }
+    }
+
+    public int numIslands4(char[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+
+        int nr = grid.length;
+        int nc = grid[0].length;
+        int[] dr = {-1, 0, 1, 0};
+        int[] dc = {0, 1, 0, -1};
+
+        DisjointSet disjointSet = new DisjointSet(grid);
+        for (int r = 0; r < nr; ++r) {
+            for (int c = 0; c < nc; ++c) {
+                if (grid[r][c] == '1') {
+                    grid[r][c] = '0';
+                    for (int k = 0; k < 4; k++) {
+                        int fr = r + dr[k];
+                        int fc = c + dc[k];
+                        if (0 <= fr && fr < nr && 0 <= fc && fc < nc && grid[fr][fc] == '1') {
+                            disjointSet.union(r * nc + c, fr * nc + fc);
+                        }
+                    }
+                }
+            }
+        }
+
+        return disjointSet.getNumOfConnectedComponent();
+    }
 }
