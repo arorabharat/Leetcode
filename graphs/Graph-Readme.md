@@ -237,3 +237,4 @@ Same as check if the graph has odd length cycle
 18. Max flow problem
 19. Floyd warshall algo
 20. union find and union find by the path compression
+21. Sparse table 
