@@ -114,7 +114,6 @@ class Solution_1584 {
          * ================================== Kruskal algorithm ==========================
          */
         int kruskal() {
-
             int V = points.length;
             // create a set S containing all the edges in the graph
             PriorityQueue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(b -> b[2]));
