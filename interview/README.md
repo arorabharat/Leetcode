@@ -9,3 +9,13 @@ https://leetcode.com/discuss/interview-experience/290066/amazon-sde-2-interview-
 https://leetcode.com/discuss/interview-experience/520284/google-sde1-new-grad-bangalore-feb-2020
 
 https://leetcode.com/discuss/interview-experience/691652/amazon-sde-2-interview-experience-bangalore
+
+
+earn trust and ownership
+think more
+how are they related
+backend should be thoought of as interaction
+use case
+edge case
+limited scope and optmised solution.
+    
