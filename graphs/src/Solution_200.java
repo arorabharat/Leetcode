@@ -9,6 +9,10 @@ import java.util.Queue;
  */
 class Solution_200 {
 
+    /**
+     * Approach 1
+     * by creating proper classes etc
+     */
     public int numIslands(char[][] grid) {
         Graph graph = new Graph(grid);
         return graph.bfs();
@@ -80,6 +84,8 @@ class Solution_200 {
     }
 
     /**
+     * Approach 2 quick dfs
+     *
      * @see DSA#DFS
      */
     void dfs(char[][] grid, int r, int c) {
@@ -113,5 +119,53 @@ class Solution_200 {
             }
         }
         return num_islands;
+    }
+
+    /**
+     * Approach 3
+     * Quick BFS
+     */
+
+    public int numIslands3(char[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+
+        int num_islands = 0;
+        int nr = grid.length;
+        int nc = grid[0].length;
+
+        for (int r = 0; r < nr; ++r) {
+            for (int c = 0; c < nc; ++c) {
+                if (grid[r][c] == '1') {
+                    ++num_islands;
+                    grid[r][c] = '0'; // mark as visited
+                    bfsOnMatrix(grid, r, c);
+                }
+            }
+        }
+        return num_islands;
+    }
+
+    private void bfsOnMatrix(char[][] grid, int r, int c) {
+        int nr = grid.length;
+        int nc = grid[0].length;
+        int[] dr = {-1, 0, 1, 0};
+        int[] dc = {0, 1, 0, -1};
+        Queue<Integer> neighbors = new LinkedList<>();
+        neighbors.add(r * nc + c);
+        while (!neighbors.isEmpty()) {
+            int id = neighbors.remove();
+            int row = id / nc;
+            int col = id % nc;
+            for (int k = 0; k < 4; k++) {
+                int fr = row + dr[k];
+                int fc = col + dc[k];
+                if (0 <= fr && fr < nr && 0 <= fc && fc < nc && grid[fr][fc] == '1') {
+                    neighbors.add(fr * nc + fc);
+                    grid[fr][fc] = '0'; // mark as visited
+                }
+            }
+        }
     }
 }
