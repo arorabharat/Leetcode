@@ -81,6 +81,8 @@ class Solution_1584 {
 
         /**
          * ============================== Prim's algoritm ===============================
+         * Time Complexity :  O( N^2 )
+         * Space Complexity :  O( N )
          */
         int prims(int start) {
             // lazy implementation of prim's algorithm
@@ -96,6 +98,8 @@ class Solution_1584 {
                     visited[currPoint] = true;
                     sumOfEdges += pointAndDistance[1];
                     numOfPointsLeftToVist--;
+                    // for loop is there because the pairs are connected
+                    // otherwise we only iterate through the edges which are connected to current point
                     for (int next = 0; next < this.n; next++) {
                         if (!visited[next]) {
                             minHeap.add(new int[]{next, distance(currPoint, next)});
