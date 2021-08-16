@@ -236,9 +236,6 @@ Disjoint set allow dynamic counting of connected components, whereby dynamic mea
 13. Fleury’s Algorithm
 14. Ford-Fulkerson Algorithm for Maximum Flow Problem
 15. Articulation point
-16. Disjoint set
-17. Kruskal algorithm
 18. Max flow problem
 19. Floyd warshall algo
-20. union find and union find by the path compression
 21. Sparse table 
