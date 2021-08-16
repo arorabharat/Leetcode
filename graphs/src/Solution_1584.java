@@ -112,8 +112,8 @@ class Solution_1584 {
 
         /**
          * ================================== Kruskal algorithm ==========================
-         * Time Complexity :  O(  )
-         * Space Complexity :  O(  )
+         * Time Complexity :  O( E.Log(E) ) or O( E.Log(V) )
+         * Space Complexity :  O( V )
          */
         int kruskal() {
             final int START = 0;
