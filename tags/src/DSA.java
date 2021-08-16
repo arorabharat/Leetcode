@@ -40,10 +40,13 @@ public enum DSA {
     /**
      * Graph
      */
+    BFS,
+    DFS,
     CYCLE_DETECTION_IN_GRAPH,
     PRIMS_ALGORITHM,
     DISJOINT_SET,
     EULERIAN_CIRCUIT,
+    KRUSKAL_ALGORITHM,
 
     /**
      * Segment tree
@@ -72,7 +75,6 @@ public enum DSA {
     TOPOLOGICAL_SORT,
     KHANS_ALGO_OF_TOPOLOGICAL_SORT,
     EULERIAN_PATH,
-    KRUSKAL_ALGORITHM,
     ARTICULATION_POINT_IN_GRAPH,
     CUT_POINT_IN_GRAPH,
     BRIDGE_IN_GRAPH,
