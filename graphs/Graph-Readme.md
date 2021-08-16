@@ -115,6 +115,9 @@ Space Complexity :
 ```
 [![Alt txt](../resources/wiki.png)](https://en.wikipedia.org/wiki/Kruskal%27s_algorithm)
 
+## Disjoint Data structure 
+[![Alt txt](../resources/wiki.png)](https://en.wikipedia.org/wiki/Disjoint-set_data_structure)
+
 ## Strongly connected components
 
 ### Tarjan's algorithm to find strongly connected component Algorithm
