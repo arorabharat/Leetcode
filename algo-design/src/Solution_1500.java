@@ -7,9 +7,9 @@ class Solution_1500 {
 
     static class FileSharing {
 
-        PriorityQueue<Integer> reusableIds = new PriorityQueue<>();
-        Map<Integer, Set<Integer>> chunkToUserMap = new HashMap<>();
-        Map<Integer, Set<Integer>> userToChunkMap = new HashMap<>();
+        private final PriorityQueue<Integer> reusableIds = new PriorityQueue<>();
+        private final Map<Integer, Set<Integer>> chunkToUserMap = new HashMap<>();
+        private final Map<Integer, Set<Integer>> userToChunkMap = new HashMap<>();
         int lastGeneratedId = 0;
 
         public FileSharing(int m) {
