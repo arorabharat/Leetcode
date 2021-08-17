@@ -1,6 +1,9 @@
 import java.util.*;
 
-public class Solution_1500 {
+/**
+ * https://leetcode.com/problems/design-a-file-sharing-system/
+ */
+class Solution_1500 {
 
     static class FileSharing {
 
