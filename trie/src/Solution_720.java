@@ -43,6 +43,7 @@ class Solution_720 {
 
         Trie() {
             this.root = new Node();
+            this.root.word = "";
         }
 
         public void insertString(String str) {
@@ -63,14 +64,7 @@ class Solution_720 {
         }
 
         public String longestString() {
-            String maxString = "";
-            for (Node next : root.getChildNodes()) {
-                String tempMax = dfs(next, maxString);
-                if (maxString.length() < tempMax.length()) {
-                    maxString = tempMax;
-                }
-            }
-            return maxString;
+            return dfs(root, "");
         }
 
         private String dfs(Node node, String maxString) {
