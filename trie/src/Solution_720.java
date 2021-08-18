@@ -1,27 +1,13 @@
 class Solution_720 {
 
     static class Node {
-        private final char value;
+
         private final Node[] childNodes;
         private final static int NUM_OF_CHILD = 26;
-        private boolean isLeafNode;
+        private String word;
 
-        Node(char value) {
-            this.value = value;
+        Node() {
             childNodes = new Node[NUM_OF_CHILD];
-            this.isLeafNode = false;
-        }
-
-        public char getValue() {
-            return value;
-        }
-
-        public boolean isLeafNode() {
-            return isLeafNode;
-        }
-
-        public void setLeafNode() {
-            isLeafNode = true;
         }
 
         public Node getChildNode(char value) {
@@ -30,11 +16,15 @@ class Solution_720 {
             return childNodes[idx];
         }
 
+        public Node[] getChildNodes() {
+            return childNodes;
+        }
+
         public Node addChildNode(char value) {
             if (!Character.isAlphabetic(value)) return null;
             int idx = index(value);
             if (childNodes[idx] != null) return childNodes[idx];
-            childNodes[idx] = new Node(value);
+            childNodes[idx] = new Node();
             return childNodes[idx];
         }
 
@@ -48,7 +38,7 @@ class Solution_720 {
         private final Node root;
 
         Trie() {
-            this.root = new Node(Character.MIN_VALUE);
+            this.root = new Node();
         }
 
         public void insertString(String str) {
@@ -56,7 +46,7 @@ class Solution_720 {
             for (char c : str.toCharArray()) {
                 curr = curr.addChildNode(c);
             }
-            curr.setLeafNode();
+            curr.word = str;
         }
 
         public boolean containsString(String str) {
@@ -65,34 +55,41 @@ class Solution_720 {
                 curr = curr.getChildNode(c);
                 if (curr == null) return false;
             }
-            return curr.isLeafNode();
+            return curr.word != null;
+        }
+
+        public String longestString() {
+            String maxString = "";
+            for (Node next : root.getChildNodes()) {
+                String tempMax = dfs(next, maxString);
+                if (maxString.length() < tempMax.length()) {
+                    maxString = tempMax;
+                }
+            }
+            return maxString;
+        }
+
+        private String dfs(Node node, String maxString) {
+            if (node == null) return maxString;
+            String word = node.word;
+            if (word != null) {
+                maxString = word;
+                for (Node next : node.getChildNodes()) {
+                    String tempMax = dfs(next, maxString);
+                    if (maxString.length() < tempMax.length()) {
+                        maxString = tempMax;
+                    }
+                }
+            }
+            return maxString;
         }
     }
-
-    public boolean doAllSubStringExist(String str, Trie trie) {
-        for (int i = 0; i < str.length(); i++) {
-            String subStr = str.substring(0, i + 1);
-            if (!trie.containsString(subStr)) return false;
-        }
-        return true;
-    }
-
 
     public String longestWord(String[] words) {
         Trie trie = new Trie();
         for (String word : words) {
             trie.insertString(word);
         }
-        String maxString = "";
-        for (String word : words) {
-            if (doAllSubStringExist(word, trie) && maxString.length() <= word.length()) {
-                if (maxString.length() == word.length()) {
-                    maxString = (word.compareTo(maxString) < 0) ? word : maxString;
-                } else {
-                    maxString = word;
-                }
-            }
-        }
-        return maxString;
+        return trie.longestString();
     }
 }
