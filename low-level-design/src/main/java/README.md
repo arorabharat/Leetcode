@@ -1,16 +1,15 @@
-link : https://www.youtube.com/watch?v=gktZsX9Z8Kw
+## Design Cache
+[![Alt text](https://img.youtube.com/vi/B7iCXl_KSoM/0.jpg)](https://www.youtube.com/watch?v=B7iCXl_KSoM)
 
-## Features
+## Design Parking Lot
 
-1. is it timed ticTacToeGame ?
-2. Can ticTacToeGame be spectated ?
-3. Will there be any statistics for user ?
-4. Is there any tournament facility ?
-5. Undo feature
+## Design Jira board
 
-## Tackle problem
+## Design Notepad application
 
-Main component is Game board. We will take it as one cell
+## Design meeting scheduler
 
-Define the state of the board 
+## Design Snake and Ladder Game
+
+## Design Tic Tac Toe Game
 

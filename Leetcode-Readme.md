@@ -65,3 +65,8 @@ larger than O(1.XX) as array size increases rarely.
 Amortized complexity is the time complexity excluding the worst cases scenario which occur rarely like array size
 increase. So, Amortized time complexity of add operation no array is O(1). It is more like round off of average time
 complexity
+
+
+## netflix blog
+https://netflixtechblog.com
+http://highscalability.com
