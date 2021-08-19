@@ -20,19 +20,4 @@ public class ConferenceRoom {
     public List<Booking> getBookings() {
         return bookings;
     }
-
-
-    public boolean addBooking(Booking booking) {
-        if(isValidBooking()) {
-            this.bookings.add(booking);
-        }
-
-    }
-
-    private boolean isValidBooking() {
-
-
-    }
-
-    public void
 }
