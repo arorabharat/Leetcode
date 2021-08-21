@@ -48,6 +48,7 @@ class Solution_518 {
      * case 1 : we could already make the sum without N+1th coin through f(amount,N) ( cases which do not have any instance of N+1 coin )
      * case 2 : we need to find the number of ways to make amount - coin[N + 1] with N + 1 coin ( cases which should have atleast one instance of N+1th coin )
      * base case : amount with less than coin[N+1] would not be affected by addition of the coin.
+     * @see Level#GOOD
      */
     public int change3(int amount, int[] coins) {
         int[] dp = new int[amount + 1];
