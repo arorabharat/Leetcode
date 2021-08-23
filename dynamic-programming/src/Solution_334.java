@@ -5,6 +5,9 @@ class Solution_334 {
 
     /**
      * Approach 1
+     * Create min array which contains minimum from left
+     * Create max array which contains maximum from right
+     * Check for each index if we have min element lesser than current element on left and maximum element on the right greater than current element.
      * Time Complexity :  O( N )
      * Space Complexity :  O( N )
      */
@@ -31,17 +34,19 @@ class Solution_334 {
 
     /**
      * Approach 2
+     * Level approach, could be used even for four element in creasing order.
+     * We set the level look for the element for next level.
      * Time Complexity :  O( N )
      * Space Complexity :  O( 1 )
      */
     public boolean increasingTriplet2(int[] nums) {
-        int first_num = Integer.MAX_VALUE;
-        int second_num = Integer.MAX_VALUE;
+        int firstLevel = Integer.MAX_VALUE;
+        int secondLevel = Integer.MAX_VALUE;
         for (int n : nums) {
-            if (n <= first_num) {
-                first_num = n;
-            } else if (n <= second_num) {
-                second_num = n;
+            if (n <= firstLevel) {
+                firstLevel = n;
+            } else if (n <= secondLevel) {
+                secondLevel = n;
             } else {
                 return true;
             }
