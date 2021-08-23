@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Solution_653 {
+class Solution_653 {
 
     static class TreeNode {
 
