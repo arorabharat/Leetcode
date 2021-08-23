@@ -20,3 +20,7 @@
 5. Gradually try to optimize instead of jumping directly on final solution
 6. Analyse time and space complexity of the final solution
 7. Write down cases where it won't work
+
+## Resume question 
+1. What projects in your team had you worked on ? Describe architecture of a project you worked a lot in current company
+2. What all projects you worked on, what was major challenge you faced etc
