@@ -1,7 +1,7 @@
 package com.bharat.task_planner.repo;
 
-import com.bharat.exceptions.NoElementFoundException;
-import com.bharat.model.User;
+import com.bharat.task_planner.exceptions.NoElementFoundException;
+import com.bharat.task_planner.model.User;
 
 import java.util.HashMap;
 import java.util.Map;
