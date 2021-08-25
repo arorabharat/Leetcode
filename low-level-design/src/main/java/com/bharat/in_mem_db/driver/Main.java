@@ -30,6 +30,7 @@ public class Main {
         String headphone = "Headphone";
         Table table = new Table(headphone, columns, 0);
         tableController.createTable(products, table);
+        tableController.showTables(products);
 //        List<DataType> values = new ArrayList<>();
 //        values.add(new CustomInt(1));
 //        values.add(new CustomString("bharat"));
