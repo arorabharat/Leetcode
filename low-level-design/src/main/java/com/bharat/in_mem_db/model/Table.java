@@ -4,6 +4,7 @@ import com.bharat.in_mem_db.exceptions.ColumnMismatchException;
 import com.bharat.in_mem_db.exceptions.DuplicatePrimaryKeyEntryException;
 import com.bharat.in_mem_db.exceptions.NoSuchRowException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +30,15 @@ public class Table {
         return name;
     }
 
-    public Row getRow(DataType primaryKey) {
+    public Row getRow(DataType primaryKey) throws NoSuchRowException {
+        if(!tableRows.containsKey(primaryKey)) {
+            throw new NoSuchRowException("Row with primary key does not exist");
+        }
         return tableRows.get(primaryKey);
+    }
+
+    public List<Row> getAllRows() throws NoSuchRowException {
+        return new ArrayList<>(tableRows.values());
     }
 
     public Row addRow(Row newRow) throws DuplicatePrimaryKeyEntryException, ColumnMismatchException {
@@ -52,6 +60,13 @@ public class Table {
             }
         }
         return tableRows.put(primaryKey, newRow);
+    }
+
+    public void removeRow(DataType primaryKey) throws NoSuchRowException {
+        if (!tableRows.containsKey(primaryKey)) {
+            throw new NoSuchRowException("Primary key do not exist in table");
+        }
+        tableRows.remove(primaryKey);
     }
 
     public void updateRow(Row updatedRow) throws NoSuchRowException {

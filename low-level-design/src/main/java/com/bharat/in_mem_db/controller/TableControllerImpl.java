@@ -1,12 +1,11 @@
 package com.bharat.in_mem_db.controller;
 
 
-import com.bharat.in_mem_db.exceptions.ColumnMismatchException;
-import com.bharat.in_mem_db.exceptions.DuplicatePrimaryKeyEntryException;
-import com.bharat.in_mem_db.exceptions.NoDbFoundException;
-import com.bharat.in_mem_db.exceptions.NoTableFoundException;
+import com.bharat.in_mem_db.exceptions.*;
 import com.bharat.in_mem_db.model.*;
 import com.bharat.in_mem_db.repository.DatabaseRepository;
+
+import java.util.List;
 
 public class TableControllerImpl implements TableController {
 
@@ -44,7 +43,7 @@ public class TableControllerImpl implements TableController {
     public Response<String> showTables(String databaseName) {
         try {
             Database database = databaseRepository.get(databaseName);
-            System.out.println("List of tables in the db : "+databaseName);
+            System.out.println("List of tables in the db : " + databaseName);
             for (Table table : database.getAllTable()) {
                 System.out.println(table.getName());
             }
@@ -62,7 +61,20 @@ public class TableControllerImpl implements TableController {
             Table table = database.getTable(tableName);
             table.addRow(row);
             return new Response<>(200, "success");
-        } catch (NoDbFoundException  | NoTableFoundException | DuplicatePrimaryKeyEntryException | ColumnMismatchException e) {
+        } catch (NoDbFoundException | NoTableFoundException | DuplicatePrimaryKeyEntryException | ColumnMismatchException e) {
+            e.printStackTrace();
+            return new Response<>(400, e.getMessage());
+        }
+    }
+
+    @Override
+    public Response<String> deleteRow(String databaseName, String tableName, DataType primaryKey) {
+        try {
+            Database database = databaseRepository.get(databaseName);
+            Table table = database.getTable(tableName);
+            table.removeRow(primaryKey);
+            return new Response<>(200, "success");
+        } catch (NoDbFoundException | NoTableFoundException | NoSuchRowException e) {
             e.printStackTrace();
             return new Response<>(400, e.getMessage());
         }
@@ -75,7 +87,24 @@ public class TableControllerImpl implements TableController {
             Table table = database.getTable(tableName);
             Row row = table.getRow(primaryKey);
             return new Response<>(200, row.toString());
-        } catch (NoDbFoundException | NoTableFoundException e) {
+        } catch (NoDbFoundException | NoTableFoundException | NoSuchRowException e) {
+            e.printStackTrace();
+            return new Response<>(400, e.getMessage());
+        }
+    }
+
+    @Override
+    public Response<String> findAll(String databaseName, String tableName) {
+        try {
+            Database database = databaseRepository.get(databaseName);
+            Table table = database.getTable(tableName);
+            List<Row> rows = table.getAllRows();
+            System.out.println("Printing the table " + tableName);
+            for (Row row : rows) {
+                System.out.println(row);
+            }
+            return new Response<>(200, "success");
+        } catch (NoDbFoundException | NoTableFoundException | NoSuchRowException e) {
             e.printStackTrace();
             return new Response<>(400, e.getMessage());
         }
