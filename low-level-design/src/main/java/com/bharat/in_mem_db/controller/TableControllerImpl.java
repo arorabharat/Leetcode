@@ -21,7 +21,7 @@ public class TableControllerImpl implements TableController {
             Database database = databaseRepository.get(databaseName);
             database.addTable(table);
             return new Response<>(200, "success");
-        } catch (NoDbFoundException e) {
+        } catch (NoDbFoundException | DuplicateTableException e) {
             e.printStackTrace();
             return new Response<>(400, e.getMessage());
         }
