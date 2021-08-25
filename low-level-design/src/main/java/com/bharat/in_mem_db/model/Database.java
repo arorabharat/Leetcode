@@ -23,7 +23,7 @@ public class Database {
 
     public void removeTable(String tableName) throws NoTableFoundException {
         if (this.containsTable(tableName)) {
-            this.removeTable(tableName);
+            tableMap.remove(tableName);
         } else {
             throw new NoTableFoundException("Table do not exist.");
         }
