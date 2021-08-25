@@ -99,15 +99,15 @@ public class Table {
         tableRows.put(primaryKey, updatedRow);
     }
 
-    private void validateRow(Row newRow) throws ColumnMismatchException {
-        if (newRow.size() != columnMap.size()) {
-            throw new ColumnMismatchException("Number of values in newRow is not equal to the number of column in table.");
+    private void validateRow(Row row) throws ColumnMismatchException {
+        if (row.size() != columnMap.size()) {
+            throw new ColumnMismatchException("Number of values in row is not equal to the number of column in table.");
         }
         for (String column : columnMap.keySet()) {
-            Class<? extends DataType> fromRow = newRow.getValue(column).getClass();
+            Class<? extends DataType> fromRow = row.getValue(column).getClass();
             Class<? extends DataType> fromColumn = columnMap.get(column);
             if (!fromRow.equals(fromColumn)) {
-                throw new ColumnMismatchException("Number of values in newRow is not equal to the number of column in table.");
+                throw new ColumnMismatchException("Number of values in row is not equal to the number of column in table.");
 
             }
         }
