@@ -15,14 +15,13 @@ public interface TableController {
 
     Response<String> showTables(String databaseName);
 
-    Response<String> insertInto(String databaseName, String tableName, Row row);
+    Response<String> insertRow(String databaseName, String tableName, Row row);
 
     Response<String> deleteRow(String databaseName, String tableName, DataType primaryKey);
 
-//    Response<String> findMultiple(String databaseName, String tableName, List<Class<? extends DataType>> columns, List<>);
-    Response<String> findMultiple(String databaseName);
+    Response<String> getAllRows(String databaseName, String tableName);
+
+    Response<String> findMultiple(String databaseName, String tableName, List<String> columns, List<DataType> values);
 
     Response<String> findOne(String databaseName, String tableName, DataType primaryKey);
-
-    Response<String> findAll(String databaseName, String tableName);
 }

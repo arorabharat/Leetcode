@@ -3,6 +3,7 @@ package com.bharat.in_mem_db.model;
 import java.util.Objects;
 
 public class CustomInt extends DataType {
+
     private final Integer value;
 
     public CustomInt(Integer value) {
