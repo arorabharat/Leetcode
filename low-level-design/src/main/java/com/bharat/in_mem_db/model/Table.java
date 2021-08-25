@@ -38,10 +38,11 @@ public class Table {
     }
 
     public Row getOneRow(DataType primaryKey) throws NoSuchRowException {
-        if (!tableRows.containsKey(primaryKey)) {
+        if (tableRows.containsKey(primaryKey)) {
+            return tableRows.get(primaryKey);
+        } else {
             throw new NoSuchRowException("Row with primary key does not exist");
         }
-        return tableRows.get(primaryKey);
     }
 
     public List<Row> getMultipleRow(List<String> columns, List<DataType> values) throws NoSuchRowException, NoSuchColumnException {
@@ -82,10 +83,11 @@ public class Table {
     }
 
     public void removeRow(DataType primaryKey) throws NoSuchRowException {
-        if (!tableRows.containsKey(primaryKey)) {
+        if (tableRows.containsKey(primaryKey)) {
+            tableRows.remove(primaryKey);
+        } else {
             throw new NoSuchRowException("Primary key do not exist in table");
         }
-        tableRows.remove(primaryKey);
     }
 
     public void updateRow(Row updatedRow) throws NoSuchRowException, ColumnMismatchException {
