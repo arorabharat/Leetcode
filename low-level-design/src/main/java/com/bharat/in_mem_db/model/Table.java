@@ -11,13 +11,18 @@ import java.util.Map;
 public class Table {
 
     private final String name;
-    private final Map<DataType, Row> rows;
+    private final int primaryKeyColumn;
+    private final Map<DataType, Row> tableRows;
     private final List<Class<? extends DataType>> columns;
 
-    public Table(String name, List<Class<? extends DataType>> columns) {
+    public Table(String name, List<Class<? extends DataType>> columns,int primaryKeyColumn) {
         this.name = name;
-        this.rows = new HashMap<>();
+        this.tableRows = new HashMap<>();
         this.columns = columns;
+        this.primaryKeyColumn = primaryKeyColumn;
+        if(primaryKeyColumn >= columns.size()) {
+            // throw error
+        }
     }
 
     public String getName() {
@@ -25,41 +30,43 @@ public class Table {
     }
 
     public Row getRow(DataType primaryKey) {
-        return rows.get(primaryKey);
+        return tableRows.get(primaryKey);
     }
 
-    public Row addRow(Row row) throws DuplicatePrimaryKeyEntryException, ColumnMismatchException {
-        if (rows.containsKey(row.getPrimaryKey())) {
-            throw new DuplicatePrimaryKeyEntryException("Primary key already exist in table");
-        }
-        int n = row.values.size();
+    public Row addRow(Row newRow) throws DuplicatePrimaryKeyEntryException, ColumnMismatchException {
+        int n = newRow.values.size();
         int m = columns.size();
         if (m != n) {
-            throw new ColumnMismatchException("Number of values in row is not equal to the number of column in table.");
+            throw new ColumnMismatchException("Number of values in newRow is not equal to the number of column in table.");
+        }
+        DataType primaryKey = newRow.getValues().get(primaryKeyColumn);
+        if (tableRows.containsKey(primaryKey)) {
+            throw new DuplicatePrimaryKeyEntryException("Primary key already exist in table");
         }
         for (int i = 0; i < n; i++) {
-            Class<? extends DataType> fromRow = row.values.get(i).getClass();
+            Class<? extends DataType> fromRow = newRow.values.get(i).getClass();
             Class<? extends DataType> fromColumn = columns.get(i);
             if (!fromRow.equals(fromColumn)) {
-                throw new ColumnMismatchException("Number of values in row is not equal to the number of column in table.");
+                throw new ColumnMismatchException("Number of values in newRow is not equal to the number of column in table.");
 
             }
         }
-        return rows.put(row.getPrimaryKey(), row);
+        return tableRows.put(primaryKey, newRow);
     }
 
-    public Row updateRow(Row row) throws NoSuchRowException {
-        if (!rows.containsKey(row.getPrimaryKey())) {
+    public void updateRow(Row updatedRow) throws NoSuchRowException {
+        DataType primaryKey = updatedRow.getValues().get(primaryKeyColumn);
+        if (!tableRows.containsKey(primaryKey)) {
             throw new NoSuchRowException("Row does not exist in table");
         }
-        return rows.get(row.getPrimaryKey());
+        tableRows.put(primaryKey,updatedRow);
     }
 
     @Override
     public String toString() {
         return "Table{" +
                 "name='" + name + '\'' +
-                ", rows=" + rows +
+                ", rows=" + tableRows +
                 '}';
     }
 }
