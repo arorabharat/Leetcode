@@ -2,7 +2,9 @@ package com.bharat.in_mem_db.model;
 
 import com.bharat.in_mem_db.exceptions.NoTableFoundException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Database {
@@ -36,6 +38,10 @@ public class Database {
             throw new NoTableFoundException("Table does not exist");
         }
         return tableMap.get(tableName);
+    }
+
+    public List<Table> getAllTable() {
+        return new ArrayList<>(tableMap.values());
     }
 
     public String getName() {

@@ -10,6 +10,8 @@ public interface TableController {
 
     Response<String> dropTable(String databaseName, String tableName);
 
+    Response<String> showTables(String databaseName);
+
     Response<String> insertInto(String databaseName, String tableName, Row row);
 
     Response<String> findMultiple(String databaseName);
