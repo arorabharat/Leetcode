@@ -30,11 +30,11 @@ public class Main {
         String headphone = "Headphone";
         Table table = new Table(headphone, columns, 0);
         tableController.createTable(products, table);
-        List<DataType> values = new ArrayList<>();
-        values.add(new CustomInt(1));
-        values.add(new CustomString("bharat"));
-        Row row = new Row(values);
-        tableController.insertInto(products, headphone, row);
-        System.out.println(table);
+//        List<DataType> values = new ArrayList<>();
+//        values.add(new CustomInt(1));
+//        values.add(new CustomString("bharat"));
+//        Row row = new Row(values);
+//        tableController.insertInto(products, headphone, row);
+//        System.out.println(table);table
     }
 }

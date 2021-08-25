@@ -20,9 +20,9 @@ public class Table {
         this.tableRows = new HashMap<>();
         this.columns = columns;
         this.primaryKeyColumn = primaryKeyColumn;
-        if(primaryKeyColumn >= columns.size()) {
-            // throw error
-        }
+//        if(primaryKeyColumn >= columns.size()) {
+//            // throw error
+//        }
     }
 
     public String getName() {
