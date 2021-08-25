@@ -2,11 +2,10 @@ package com.bharat.in_mem_db.model;
 
 import java.util.Objects;
 
-public class CustomString extends DataType {
+public class CustomInt extends DataType {
+    private final Integer value;
 
-    private final String value;
-
-    public CustomString(String value) {
+    public CustomInt(Integer value) {
         this.value = value;
     }
 
@@ -14,11 +13,11 @@ public class CustomString extends DataType {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CustomString that = (CustomString) o;
+        CustomInt that = (CustomInt) o;
         return Objects.equals(value, that.value);
     }
 
-    public String getValue() {
+    public Integer getValue() {
         return value;
     }
 
@@ -29,8 +28,8 @@ public class CustomString extends DataType {
 
     @Override
     public String toString() {
-        return "CustomString{" +
-                "value='" + value + '\'' +
+        return "CustomInt{" +
+                "value=" + value +
                 '}';
     }
 }

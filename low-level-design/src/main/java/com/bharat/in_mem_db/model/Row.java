@@ -5,20 +5,21 @@ import java.util.List;
 
 public class Row {
 
-    DataType primaryKey;
     List<DataType> values;
 
-    public Row(DataType primaryKey, List<DataType> values) {
-        this.primaryKey = primaryKey;
+    public Row(List<DataType> values) {
         this.values = values;
-    }
-
-    public DataType getPrimaryKey() {
-        return primaryKey;
     }
 
     public List<DataType> getValues() {
         return Collections.unmodifiableList(values);
+    }
+
+    @Override
+    public String toString() {
+        return "Row{" +
+                "values=" + values +
+                '}';
     }
 }
 

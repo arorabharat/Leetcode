@@ -1,8 +1,8 @@
 package com.bharat.task_planner.controller;
 
-import com.bharat.model.User;
-import com.bharat.repo.UserRepository;
-import com.bharat.utils.IDGenerator;
+import com.bharat.task_planner.model.User;
+import com.bharat.task_planner.repo.UserRepository;
+import com.bharat.task_planner.utils.IDGenerator;
 
 public class UserController {
 

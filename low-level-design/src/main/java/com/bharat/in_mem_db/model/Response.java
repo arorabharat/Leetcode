@@ -9,4 +9,12 @@ public class Response<K> {
         this.statusCode = statusCode;
         this.object = object;
     }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public K getObject() {
+        return object;
+    }
 }
