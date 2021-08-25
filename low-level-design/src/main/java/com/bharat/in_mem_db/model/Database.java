@@ -1,5 +1,6 @@
 package com.bharat.in_mem_db.model;
 
+import com.bharat.in_mem_db.exceptions.DuplicateTableException;
 import com.bharat.in_mem_db.exceptions.NoTableFoundException;
 
 import java.util.ArrayList;
@@ -17,8 +18,12 @@ public class Database {
         this.tableMap = new HashMap<>();
     }
 
-    public void addTable(Table table) {
-        tableMap.put(table.getName(), table);
+    public void addTable(Table table) throws DuplicateTableException {
+        if (tableMap.containsKey(table.getName())) {
+            throw new DuplicateTableException("Table with sma name already exist");
+        } else {
+            tableMap.put(table.getName(), table);
+        }
     }
 
     public void removeTable(String tableName) throws NoTableFoundException {
@@ -29,15 +34,16 @@ public class Database {
         }
     }
 
-    public boolean containsTable(String tableName) {
+    private boolean containsTable(String tableName) {
         return tableMap.containsKey(tableName);
     }
 
     public Table getTable(String tableName) throws NoTableFoundException {
-        if (!tableMap.containsKey(tableName)) {
+        if (this.containsTable(tableName)) {
+            return tableMap.get(tableName);
+        } else {
             throw new NoTableFoundException("Table does not exist");
         }
-        return tableMap.get(tableName);
     }
 
     public List<Table> getAllTable() {
