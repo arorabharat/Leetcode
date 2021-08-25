@@ -55,7 +55,7 @@ public class TableControllerImpl implements TableController {
     }
 
     @Override
-    public Response<String> insertInto(String databaseName, String tableName, Row row) {
+    public Response<String> insertRow(String databaseName, String tableName, Row row) {
         try {
             Database database = databaseRepository.get(databaseName);
             Table table = database.getTable(tableName);
@@ -81,11 +81,28 @@ public class TableControllerImpl implements TableController {
     }
 
     @Override
+    public Response<String> findMultiple(String databaseName, String tableName, List<String> columns, List<DataType> values) {
+        try {
+            Database database = databaseRepository.get(databaseName);
+            Table table = database.getTable(tableName);
+            List<Row> rows = table.getMultipleRow(columns, values);
+            System.out.println("Rows matching the criteria : ");
+            for (Row row : rows) {
+                System.out.println(row);
+            }
+            return new Response<>(200, "success");
+        } catch (NoDbFoundException | NoTableFoundException | NoSuchRowException | NoSuchColumnException e) {
+            e.printStackTrace();
+            return new Response<>(400, e.getMessage());
+        }
+    }
+
+    @Override
     public Response<String> findOne(String databaseName, String tableName, DataType primaryKey) {
         try {
             Database database = databaseRepository.get(databaseName);
             Table table = database.getTable(tableName);
-            Row row = table.getRow(primaryKey);
+            Row row = table.getOneRow(primaryKey);
             return new Response<>(200, row.toString());
         } catch (NoDbFoundException | NoTableFoundException | NoSuchRowException e) {
             e.printStackTrace();
@@ -94,7 +111,7 @@ public class TableControllerImpl implements TableController {
     }
 
     @Override
-    public Response<String> findAll(String databaseName, String tableName) {
+    public Response<String> getAllRows(String databaseName, String tableName) {
         try {
             Database database = databaseRepository.get(databaseName);
             Table table = database.getTable(tableName);
@@ -108,10 +125,5 @@ public class TableControllerImpl implements TableController {
             e.printStackTrace();
             return new Response<>(400, e.getMessage());
         }
-    }
-
-    @Override
-    public Response<String> findMultiple(String databaseName) {
-        return new Response<>(200, "success");
     }
 }
