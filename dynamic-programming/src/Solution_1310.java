@@ -6,7 +6,7 @@ class Solution_1310 {
     /**
      * we keep the xor from index 0 to i.
      * To get the xor of i,j we revert the
-     *
+     * <p>
      * dp[j] = ]a0, a1, a2, a3 ..ai, .. aj
      * dp[i] = ]a0, a1, a2, a3 ..ai
      * So dp[i] ^ dp[j] we cancel all the terms till i. hence we will get xor of a[i+1].. a[j]
