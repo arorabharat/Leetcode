@@ -1,5 +1,7 @@
 /**
  * https://leetcode.com/problems/jump-game-vi/
+ * TODO : read all other approaches
+ * https://leetcode.com/problems/jump-game-vi/solution/
  */
 class Solution_1696 {
 
