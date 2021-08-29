@@ -14,6 +14,11 @@ class Solution_1277 {
     /**
      * Time Complexity :  O( N*M )
      * Space Complexity :  O( N*M )
+     *
+     * For each cell ew would calculate the maximum size of the square we could make if the cell is bottom right corner of the square
+     *
+     * Once we know the maximum size of the square for each cell, we would all the maximum size to get the final answer
+     * because if maximum size if 3 we could make 3 different square fro that cell as right bottom corner
      */
     public int countSquares(int[][] matrix) {
         int n = matrix.length;
