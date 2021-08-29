@@ -7,7 +7,7 @@
  */
 class Solution_1277 {
 
-    int min(int a, int b, int c) {
+    private int min(int a, int b, int c) {
         return Math.min(a, Math.min(b, c));
     }
 
