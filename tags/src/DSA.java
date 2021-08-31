@@ -37,6 +37,7 @@ public enum DSA {
      */
     BINARY_SEARCH,
     BINARY_SEARCH_ON_ROTATED_ARRAY,
+    MARK_NEGATIVE_STRATEGY,
 
     /**
      * Graph
