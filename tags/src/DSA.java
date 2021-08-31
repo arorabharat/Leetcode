@@ -36,6 +36,7 @@ public enum DSA {
      * Searching
      */
     BINARY_SEARCH,
+    BINARY_SEARCH_ON_ROTATED_ARRAY,
 
     /**
      * Graph
