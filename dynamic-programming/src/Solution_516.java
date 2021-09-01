@@ -1,5 +1,6 @@
 /**
  * https://leetcode.com/problems/longest-palindromic-subsequence/
+ * TODO : solve in simple way
  */
 class Solution_516 {
 
