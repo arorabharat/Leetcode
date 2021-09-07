@@ -30,23 +30,24 @@ class Solution_113 {
         List<Deque<Integer>> pathLeftList = _pathSum(root.left, targetSum - root.val);
         List<Deque<Integer>> pathRightList = _pathSum(root.right, targetSum - root.val);
         List<Deque<Integer>> pathRoot = new LinkedList<>();
-        for (Deque<Integer> path : pathLeftList) {
+        pathLeftList.forEach(path -> {
             path.addFirst(root.val);
             pathRoot.add(path);
-        }
-        for (Deque<Integer> path : pathRightList) {
+        });
+
+        pathRightList.forEach(path -> {
             path.addFirst(root.val);
             pathRoot.add(path);
-        }
+        });
         return pathRoot;
     }
 
     public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
         List<Deque<Integer>> pathDeque = _pathSum(root, targetSum);
         List<List<Integer>> pathList = new ArrayList<>();
-        for (Deque<Integer> path : pathDeque) {
+        pathDeque.forEach(path -> {
             pathList.add(new ArrayList<>(path));
-        }
+        });
         return pathList;
     }
 
