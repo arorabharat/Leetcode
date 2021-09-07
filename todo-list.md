@@ -7,3 +7,5 @@ https://leetcode.com/problems/shortest-distance-to-a-character/
 
 https://leetcode.com/problems/multiply-strings/
 https://leetcode.com/problems/delete-columns-to-make-sorted/
+
+[![Alt text](./resources/google.png)](https://leetcode.com/problemset/all/?difficulty=MEDIUM&page=1&status=NOT_STARTED&companySlugs=google)
