@@ -37,5 +37,32 @@ class Solution_240 {
         }
         return false;
     }
+
+
+    /**
+     * TWo pointer approach
+     */
+    public boolean searchMatrix2(int[][] matrix, int target) {
+        int R = matrix.length;
+        if (R == 0) {
+            return false;
+        }
+        int C = matrix[0].length;
+        if (C == 0) {
+            return false;
+        }
+        int r = R - 1;
+        int c = 0;
+        while (r >= 0 && c < C) {
+            if (matrix[r][c] == target) {
+                return true;
+            } else if (matrix[r][c] < target) {
+                c++;
+            } else {
+                r--;
+            }
+        }
+        return false;
+    }
 }
 
