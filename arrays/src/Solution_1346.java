@@ -2,6 +2,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * https://leetcode.com/problems/check-if-n-and-its-double-exist/
+ */
 public class Solution_1346 {
 
     /**
