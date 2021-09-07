@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * https://leetcode.com/problems/generate-parentheses/
@@ -39,7 +36,35 @@ public class Solution_22 {
 
     /**
      * Dynamic programming
-     *
      */
+    private Map<Integer, List<String>> cache;
+
+    private List<String> _generateParenthesis2(int n) {
+        if (cache.containsKey(n)) {
+            return cache.get(n);
+        }
+        List<String> result = new ArrayList<>();
+        if (n == 0) {
+            result.add("");
+            cache.put(0, result);
+            return result;
+        }
+        for (int i = 0; i < n; i++) {
+            List<String> part1 = _generateParenthesis2(i);
+            List<String> part2 = _generateParenthesis2(n - i - 1);
+            for (String p1 : part1) {
+                for (String p2 : part2) {
+                    result.add("(" + p1 + ")" + p2);
+                }
+            }
+        }
+        cache.put(n, result);
+        return result;
+    }
+
+    public List<String> generateParenthesis2(int n) {
+        cache = new HashMap<>();
+        return new ArrayList<>(_generateParenthesis(n));
+    }
 }
 
