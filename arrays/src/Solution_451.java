@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 
 /**
  * https://leetcode.com/problems/sort-characters-by-frequency/
+ * TODO try bucket sort next time
  */
 class Solution_451 {
     public String frequencySort(String s) {
