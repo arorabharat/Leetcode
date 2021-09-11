@@ -3,6 +3,8 @@ import java.util.stream.IntStream;
 
 /**
  * https://leetcode.com/problems/random-pick-index/
+ * TODO Reservoir sampling
+ * https://youtu.be/Ybra0uGEkpM
  */
 public class Solution_398 {
 
