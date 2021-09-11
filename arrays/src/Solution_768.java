@@ -3,7 +3,7 @@ import java.util.TreeMap;
 
 /**
  * https://leetcode.com/problems/max-chunks-to-make-sorted-ii/
- * TODO : there is simple solution, try that next time 
+ * TODO : there is simple solution, try that next time
  */
 class Solution_768 {
 
