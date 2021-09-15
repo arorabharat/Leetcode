@@ -39,11 +39,8 @@ public class Solution_373 {
         q.add(new int[]{0, 0});
         int count = 0;
         while (!q.isEmpty() && count < k) {
-            List<Integer> pair = new ArrayList<>();
             int[] index = q.remove();
-            pair.add(nums1[index[0]]);
-            pair.add(nums2[index[1]]);
-            result.add(pair);
+            result.add(List.of(index[0],index[1]));
             count++;
             int[] p1 = new int[]{index[0] + 1, index[1]};
             Pair pr1 = new Pair(index[0] + 1, index[1]);
