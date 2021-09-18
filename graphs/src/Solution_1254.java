@@ -34,7 +34,7 @@ class Solution_1254 {
     /**
      * 0's which touch the edge of the grid can not make the island. So start bfs using all of the zero and mark them
      * visited.
-     * Now, do the bfs on the remaining unvisited cell which are zero and could the number of connected components.
+     * Now, do the bfs on the remaining unvisited cell which are zero and count the number of connected components.
      */
     public int closedIsland(int[][] grid) {
         R = grid.length;
