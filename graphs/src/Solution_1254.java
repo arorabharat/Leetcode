@@ -1,7 +1,10 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Solution_1254 {
+/**
+ * https://leetcode.com/problems/number-of-closed-islands/
+ */
+class Solution_1254 {
 
     private boolean[][] visited;
     private final Queue<int[]> q = new LinkedList<>();
@@ -28,6 +31,11 @@ public class Solution_1254 {
         }
     }
 
+    /**
+     * 0's which touch the edge of the grid can not make the island. So start bfs using all of the zero and mark them
+     * visited.
+     * Now, do the bfs on the remaining unvisited cell which are zero and could the number of connected components.
+     */
     public int closedIsland(int[][] grid) {
         R = grid.length;
         C = grid[0].length;
