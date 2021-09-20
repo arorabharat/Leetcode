@@ -22,12 +22,25 @@ class Solution_207 {
         stack[s] = true;
         v[s] = true;
         for (Integer c : g.get(s)) {
-            if (stack[c] || cycle(c)) {
+            if (!v[c] && cycle(c)) {
+                return true;
+            } else if (v[c] && stack[c]) {
                 return true;
             }
         }
         stack[s] = false;
         return false;
+    }
+
+    /**
+     * Stream api style , cycle detection
+     */
+    boolean cycle1(int s) {
+        stack[s] = true;
+        v[s] = true;
+        boolean result = g.get(s).stream().anyMatch(c -> !v[c] && cycle1(c) || v[c] && stack[c]);
+        stack[s] = false;
+        return result;
     }
 
     public boolean canFinish(int n, int[][] pre) {
