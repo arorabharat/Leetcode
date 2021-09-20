@@ -23,8 +23,10 @@ class Solution_207 {
         v[s] = true;
         for (Integer c : g.get(s)) {
             if (!v[c] && cycle(c)) {
+                stack[s] = false;
                 return true;
             } else if (v[c] && stack[c]) {
+                stack[s] = false;
                 return true;
             }
         }

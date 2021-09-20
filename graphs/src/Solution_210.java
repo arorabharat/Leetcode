@@ -28,7 +28,10 @@ class Solution_210 {
         stack[u] = true;
         visit.add(u);
         for (int v : g.list(u)) {
-            if (stack[v] || cycle(v)) {
+            if (!visit.contains(v) && cycle(v)) {
+                stack[u] = false;
+                return true;
+            } else if (visit.contains(v) && stack[v]) {
                 stack[u] = false;
                 return true;
             }
