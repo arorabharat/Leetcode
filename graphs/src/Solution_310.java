@@ -4,10 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * https://leetcode.com/problems/maximum-product-of-word-lengths/
- * TODO : fix wrong question linked
+ * https://leetcode.com/problems/minimum-height-trees/
  */
-class Solution_318 {
+class Solution_310 {
 
     public List<Integer> findMinHeightTrees(int n, int[][] edges) {
         Graph g = new Graph(n);
