@@ -1,4 +1,6 @@
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * https://leetcode.com/problems/clone-graph/
@@ -13,25 +15,51 @@ class Solution_133 {
         Queue<Node> q = new LinkedList<>();
         q.add(s);
         boolean[] v = new boolean[101];
-        v[1] = true;
+        v[s.val] = true;
 
         Node root = new Node(s.val);
-        Map<Integer, Node> map = new HashMap<>();
-        map.put(s.val, root);
+        Map<Integer, Node> cache = new HashMap<>();
+        cache.put(s.val, root);
 
         while (!q.isEmpty()) {
             Node f = q.remove();
-            Node clone = map.get(f.val);
+            Node clone = cache.get(f.val);
             for (Node c : f.neighbors) {
                 if (!v[c.val]) {
                     v[c.val] = true;
                     q.add(c);
                     Node child = new Node(c.val);
-                    map.put(c.val, child);
+                    cache.put(c.val, child);
                 }
-                clone.neighbors.add(map.get(c.val));
+                clone.neighbors.add(cache.get(c.val));
             }
+        }
+        return root;
+    }
 
+    Node bfs1(Node g1) {
+        if (g1 == null) return null;
+
+        Queue<Node> q = new LinkedList<>();
+        q.add(g1);
+        boolean[] v = new boolean[101];
+        v[g1.val] = true;
+
+        Map<Integer, Node> cache = new HashMap<>();
+        Node root = new Node(g1.val);
+        cache.put(g1.val, root);
+
+        while (!q.isEmpty()) {
+            g1 = q.remove();
+            Node g2 = cache.get(g1.val);
+            Predicate<Node> visited = c -> v[c.val];
+            Consumer<Node> addToCache = c -> cache.put(c.val, new Node(c.val));
+            Consumer<Node> cloneNeighbour = c -> g2.neighbors.add(cache.get(c.val));
+            Consumer<Node> markVisited = c -> v[c.val] = true;
+            g1.neighbors.stream().filter(visited.negate()).forEach(q::add);
+            g1.neighbors.stream().filter(visited.negate()).forEach(addToCache);
+            g1.neighbors.forEach(cloneNeighbour);
+            g1.neighbors.forEach(markVisited);
         }
         return root;
     }
