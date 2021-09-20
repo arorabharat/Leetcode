@@ -5,6 +5,7 @@ import java.util.Map;
 
 /**
  * https://leetcode.com/problems/maximum-product-of-word-lengths/
+ * TODO : fix wrong question linked
  */
 class Solution_318 {
 
