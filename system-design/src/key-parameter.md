@@ -25,6 +25,9 @@
 5. Scalability - Sharding etc
 6. Data purging technique
 
+## SQL vs NOSQL
+[![Alt text](https://img.youtube.com/vi/ZS_kXvOeQ5Y/0.jpg)](https://www.youtube.com/watch?v=ZS_kXvOeQ5Y)
+
 ## CAP theorem
 
 1. Consistency
