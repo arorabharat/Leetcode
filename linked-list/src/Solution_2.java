@@ -81,4 +81,44 @@ class Solution_2 {
             this.next = next;
         }
     }
+
+    /**
+     * Re-attempt
+     */
+    public ListNode addTwoNumbers3(ListNode l1, ListNode l2) {
+        if (l1 == null) return l2;
+        if (l2 == null) return l1;
+
+        ListNode result = new ListNode();
+        ListNode tr1 = l1;
+        ListNode tr2 = l2;
+        ListNode tr = result;
+        int carry = 0;
+        while (tr1 != null && tr2 != null) {
+            int sum = tr1.val + tr2.val + carry;
+            tr.next = new ListNode(sum % 10);
+            carry = sum / 10;
+            tr1 = tr1.next;
+            tr2 = tr2.next;
+            tr = tr.next;
+        }
+        while (tr1 != null) {
+            int sum = tr1.val + carry;
+            tr.next = new ListNode(sum % 10);
+            carry = sum / 10;
+            tr1 = tr1.next;
+            tr = tr.next;
+        }
+        while (tr2 != null) {
+            int sum = tr2.val + carry;
+            tr.next = new ListNode(sum % 10);
+            carry = sum / 10;
+            tr2 = tr2.next;
+            tr = tr.next;
+        }
+        if (carry != 0) {
+            tr.next = new ListNode(carry);
+        }
+        return result.next;
+    }
 }
