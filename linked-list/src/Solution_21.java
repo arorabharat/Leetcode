@@ -104,4 +104,39 @@ class Solution_21 {
             this.next = next;
         }
     }
+
+    /**
+     * Re-Attempt Tue Feb 14 01:11:06 IST 2023 and code was improved
+     */
+    public ListNode mergeTwoLists3(ListNode list1, ListNode list2) {
+        if (list1 == null) return list2;
+        if (list2 == null) return list1;
+        ListNode tr1 = list1;
+        ListNode tr2 = list2;
+        ListNode result = new ListNode();
+        ListNode tr = result;
+        while (tr1 != null && tr2 != null) {
+            if (tr1.val < tr2.val) {
+                tr.next = tr1;
+                tr1 = removeNextPointerAndMoveNext(tr1);
+            } else {
+                tr.next = tr2;
+                tr2 = removeNextPointerAndMoveNext(tr2);
+            }
+            tr = tr.next;
+        }
+        if (tr1 == null) {
+            tr.next = tr2;
+        }
+        if (tr2 == null) {
+            tr.next = tr1;
+        }
+        return removeNextPointerAndMoveNext(result);
+    }
+
+    private ListNode removeNextPointerAndMoveNext(ListNode tr) {
+        ListNode next = tr.next;
+        tr.next = null;
+        return next;
+    }
 }
