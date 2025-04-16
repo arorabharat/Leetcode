@@ -3,8 +3,61 @@ import java.util.*;
 /**
  * https://leetcode.com/problems/3sum/
  * TODO : read this -> https://en.wikipedia.org/wiki/3SUM
+ * // TODO:  -
+ * // TODO: 16/04/25 - revisit the question as you are not able to solve it
  */
 class Solution_15 {
+
+    /**
+     * leveraging brute force solution
+     *
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> threeSum5(int[] nums) {
+        int n = nums.length;
+        List<List<Integer>> tripletsList = new ArrayList<>();
+        Set<Triplet> tripletsSet = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                for (int k = j + 1; k < n; k++) {
+                    Triplet newTriplet = new Triplet(nums[i], nums[j], nums[k]);
+                    if (nums[i] + nums[j] + nums[k] == 0 && !tripletsSet.contains(newTriplet)) {
+                        tripletsList.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                        tripletsSet.add(newTriplet);
+                    }
+                }
+            }
+        }
+        return tripletsList;
+    }
+
+    static class Triplet {
+
+        private final List<Integer> numbers;
+
+        Triplet(int a, int b, int c) {
+            this.numbers = Arrays.asList(a, b, c);
+            Collections.sort(numbers);
+        }
+
+        public List<Integer> getNumbers() {
+            return Collections.unmodifiableList(this.numbers);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(this.numbers);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (obj == null || getClass() != obj.getClass()) return false;
+            Triplet t2 = (Triplet) obj;
+            return Arrays.equals(this.getNumbers().toArray(), t2.getNumbers().toArray());
+        }
+    }
 
     /**
      *
