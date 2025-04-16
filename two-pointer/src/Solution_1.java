@@ -53,4 +53,52 @@ class Solution_1 {
         }
         return new int[]{-1, -1};
     }
+
+    /**
+     * brute force approach.
+     * Thu Sep 21 23:38:28 IST 2023
+     */
+    public int[] twoSum3(int[] nums, int target) {
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < nums.length; j++) {
+                if (i != j && nums[i] + nums[j] == target) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+        return new int[]{-1, -1};
+    }
+
+
+    int binarySearch(int[] nums, int s, int e, int key) {
+        if (e < s) return -1;
+        int mid = (s + e) / 2;
+        if (nums[mid] == key) {
+            return mid;
+        } else if (nums[mid] > key) {
+            return binarySearch(nums, s, mid - 1, key);
+        } else {
+            return binarySearch(nums, mid + 1, e, key);
+        }
+    }
+
+    public int[] twoSum4(int[] nums, int target) {
+        int[][] arrWithIndices = new int[2][nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            arrWithIndices[0][i] = i;
+            arrWithIndices[1][i] = nums[i];
+        }
+        Arrays.sort(arrWithIndices, Comparator.comparingInt(a -> a[1]));
+        for (int i = 0; i < arrWithIndices.length; i++) {
+            System.out.println(arrWithIndices[0][i] + " " + arrWithIndices[1][i]);
+        }
+        for (int i = 0; i < nums.length; i++) {
+            int j = binarySearch(nums, i + 1, nums.length - 1, target - nums[i]);
+            if (j != -1) {
+                return new int[]{i, j};
+            }
+        }
+        return new int[]{-1, -1};
+    }
+
 }
