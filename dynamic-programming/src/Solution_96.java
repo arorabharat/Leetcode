@@ -1,9 +1,34 @@
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * https://leetcode.com/problems/unique-binary-search-trees/
  */
 class Solution_96 {
+
+    /**
+     * ========================================
+     */
+
+    Map<Integer, Integer> resultsCache = new HashMap<>();
+
+    public int numTrees4(int n) {
+        if (n < 0) return -1;
+        if (n == 0 || n == 1) return 1;
+        if (resultsCache.containsKey(n)) return resultsCache.get(n);
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            count = count + numTrees4(n - 1 - i) * numTrees(i);
+        }
+        resultsCache.put(n, count);
+        return count;
+    }
+
+    /**
+     * ========================================
+     */
+
     /**
      * Number of unique structural BST could calculated by the following algo.
      * Each BST will have some root, lets fix all the possible root one by one from 1 to n ( for i loop )
