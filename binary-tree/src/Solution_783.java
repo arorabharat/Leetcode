@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /**
  * https://leetcode.com/problems/minimum-distance-between-bst-nodes/
  *
@@ -6,6 +8,51 @@
  * @see Solution_1485
  */
 class Solution_783 {
+
+    // TODO: 20/04/25 - this solution is not working need to fix it
+    public Pair<Integer> _minDiffInBST4(TreeNode root) {
+        if (Objects.isNull(root)) {
+            return new Pair<>(Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        }
+        if (Objects.isNull(root.left) && Objects.isNull(root.right)) {
+            return new Pair<>(root.val, root.val, Integer.MAX_VALUE);
+        }
+        int value = root.val;
+        Pair<Integer> left = _minDiffInBST4(root.left);
+        Pair<Integer> right = _minDiffInBST4(root.right);
+        int minVal = Math.min(left.minDiff, right.minDiff);
+        minVal = Math.min(minVal, (value - left.max));
+        return new Pair<>(left.min, right.max, minVal);
+    }
+
+    public int minDiffInBST4(TreeNode root) {
+        return _minDiffInBST4(root).minDiff;
+    }
+
+    static class Pair<T> {
+
+        private final T min;
+        private final T max;
+        private final Integer minDiff;
+
+        public Pair(T min, T max, Integer minDiff) {
+            this.min = min;
+            this.max = max;
+            this.minDiff = minDiff;
+        }
+
+        public Integer getMinDiff() {
+            return minDiff;
+        }
+
+        public T getMin() {
+            return min;
+        }
+
+        public T getMax() {
+            return max;
+        }
+    }
 
     int minDifference = Integer.MAX_VALUE;
     Integer prev, ans;
