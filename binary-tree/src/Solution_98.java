@@ -1,9 +1,30 @@
+import java.util.Objects;
+
 /**
  * https://leetcode.com/problems/balanced-binary-tree/
  *
  * @see Solution_104
  */
 class Solution_98 {
+
+    /*
+     Practice again -
+     */
+
+    private boolean _isValidBST4(TreeNode root,
+                                 long lowerLimit,
+                                 long upperLimit) {
+        if (Objects.isNull(root)) return true;
+        if (root.val >= upperLimit || root.val <= lowerLimit) return false;
+        return _isValidBST(root.left, lowerLimit, root.val)
+                && _isValidBST(root.right, root.val, upperLimit);
+    }
+
+    public boolean isValidBST4(TreeNode root) {
+        if (Objects.isNull(root)) return true;
+        return _isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
 
     /**
      * third approach
