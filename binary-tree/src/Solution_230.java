@@ -1,3 +1,4 @@
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -5,6 +6,31 @@ import java.util.Optional;
  * TODO  : read solution
  */
 class Solution_230 {
+
+    public Pair _kthSmallest(TreeNode root, int k) {
+        if (Objects.isNull(root)) return new Pair(0, null);
+        if (k == 1) new Pair(null, root.val);
+        Pair leftResult = _kthSmallest(root.left, k);
+        if (Objects.nonNull(leftResult.kElement)) return leftResult;
+        if (leftResult.count + 1 == k) return new Pair(null, root.val);
+        Pair rightResult = _kthSmallest(root.right, k - leftResult.count - 1);
+        if (Objects.nonNull(rightResult.kElement)) return rightResult;
+        return new Pair(leftResult.count + 1 + rightResult.count, null);
+    }
+
+    public int kthSmallest3(TreeNode root, int k) {
+        return _kthSmallest(root, k).kElement;
+    }
+
+    class Pair {
+        Integer count;
+        Integer kElement;
+
+        public Pair(Integer count, Integer kElement) {
+            this.count = count;
+            this.kElement = kElement;
+        }
+    }
 
     int nodeCount = 0;
 
