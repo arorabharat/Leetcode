@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -8,6 +9,27 @@ import java.util.Objects;
  * @see Solution_1485
  */
 class Solution_783 {
+
+    //    ====================================
+
+    public int minDiffInBST5(TreeNode root) {
+        ArrayList<Integer> sortedIntegers = new ArrayList<>();
+        inorderTraversal(root, sortedIntegers);
+        int minVal = Integer.MAX_VALUE;
+        for (int i = 1; i < sortedIntegers.size(); i++) {
+            minVal = Math.min(minVal, sortedIntegers.get(i) - sortedIntegers.get(i - 1));
+        }
+        return minVal;
+    }
+
+    public void inorderTraversal(TreeNode root, ArrayList<Integer> arrayList) {
+        if (Objects.isNull(root)) return;
+        inorderTraversal(root.left, arrayList);
+        arrayList.add(root.val);
+        inorderTraversal(root.right, arrayList);
+    }
+
+    //========================================================================
 
     // TODO: 20/04/25 - this solution is not working need to fix it
     public Pair<Integer> _minDiffInBST4(TreeNode root) {
