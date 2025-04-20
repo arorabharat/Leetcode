@@ -7,6 +7,41 @@ import java.util.Queue;
  */
 class Solution_225 {
 
+
+    class MyStack2 {
+
+        private Queue<Integer> reversed;
+        private Queue<Integer> reversedPlusOne;
+
+        public MyStack2() {
+            reversed = new LinkedList<>();
+            reversedPlusOne = new LinkedList<>();
+        }
+
+        public void push(int x) {
+
+            reversedPlusOne.add(x);
+            while (!reversed.isEmpty()) reversedPlusOne.add(reversed.remove());
+
+            Queue<Integer> temp = reversed;
+            reversed = reversedPlusOne;
+            reversedPlusOne = temp;
+
+        }
+
+        public int pop() {
+            return reversed.remove();
+        }
+
+        public int top() {
+            return reversed.peek();
+        }
+
+        public boolean empty() {
+            return reversed.isEmpty();
+        }
+    }
+
     static class MyStack {
 
         private final Queue<Integer> inputOrder;
