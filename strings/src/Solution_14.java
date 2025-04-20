@@ -7,6 +7,37 @@
  */
 class Solution_14 {
 
+    private static int getMinSizeString(String[] strs) {
+        int minSize = Integer.MAX_VALUE;
+        for (String str : strs) {
+            if (str.length() < minSize) {
+                minSize = str.length();
+            }
+        }
+        return minSize;
+    }
+
+    private boolean isMatching(String[] strs, int i) {
+        char c = strs[0].charAt(i);
+        for (String str : strs) {
+            if (str.charAt(i) != c) return false;
+        }
+        return true;
+    }
+
+    public String longestCommonPrefix4(String[] strs) {
+        if (strs.length == 0) return "";
+        int minSize = getMinSizeString(strs);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < minSize; i++) {
+            if (!isMatching(strs, i)) {
+                break;
+            }
+            stringBuilder.append(strs[0].charAt(i));
+        }
+        return stringBuilder.toString();
+    }
+
     public String longestCommonPrefix(String[] strs) {
         if (strs.length == 1) return strs[0];
         int minLen = Integer.MAX_VALUE;
