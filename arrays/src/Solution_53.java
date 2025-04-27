@@ -3,6 +3,29 @@
  */
 class Solution_53 {
 
+
+    public int maxSubArray1(int[] nums) {
+        int length = nums.length;
+        int[][] dp = new int[length][length];
+        for (int i = 0; i < length; i++) {
+            for (int j = i; j < length; j++) {
+                if (j == i) {
+                    dp[i][j] = nums[j];
+                } else {
+                    dp[i][j] = dp[i][j - 1] + nums[j];
+                }
+            }
+        }
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < length; i++) {
+            for (int j = i; j < length; j++) {
+                max = Math.max(max, dp[i][j]);
+            }
+        }
+        return max;
+    }
+
+
     public int maxSubArray(int[] nums) {
         int maxSum = Integer.MIN_VALUE;
         int sum = 0;
