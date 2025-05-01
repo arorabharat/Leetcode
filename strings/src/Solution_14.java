@@ -1,3 +1,7 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 /**
  * https://leetcode.com/problems/longest-common-prefix/
  *
@@ -6,6 +10,65 @@
  * @see Solution_942
  */
 class Solution_14 {
+
+    public String longestCommonPrefix(String[] strs) {
+        Trie trie = new Trie();
+        for (String str : strs) {
+            trie.addString(str);
+        }
+        Map<Character, Node> dictionary = trie.root.children;
+        StringBuilder stringBuilder = new StringBuilder();
+        while (dictionary.size() == 1) {
+            Optional<Node> first = dictionary.values().stream().findFirst();
+            char c = first.get().c;
+            if (c == '$') break;
+            stringBuilder.append(c);
+            dictionary = first.get().children;
+        }
+        return stringBuilder.toString();
+    }
+
+    class Node {
+
+        public final char c;
+        private final Map<Character, Node> children;
+
+        Node(char c) {
+            this.c = c;
+            children = new HashMap<>();
+        }
+
+        public Optional<Node> getNodeWithValue(char c) {
+            return Optional.ofNullable(children.get(c));
+        }
+
+        public Node addChildren(char c) {
+            Optional<Node> node = this.getNodeWithValue(c);
+            if (node.isEmpty()) {
+                Node newNode = new Node(c);
+                this.children.put(c, newNode);
+                return newNode;
+            } else {
+                return node.get();
+            }
+        }
+    }
+
+    class Trie {
+        private final Node root;
+
+        Trie() {
+            this.root = new Node('^');
+        }
+
+        void addString(String str) {
+            Node curr = this.root;
+            for (char c : str.toCharArray()) {
+                curr = curr.addChildren(c);
+            }
+            curr.addChildren('$');
+        }
+    }
 
     private static int getMinSizeString(String[] strs) {
         int minSize = Integer.MAX_VALUE;
