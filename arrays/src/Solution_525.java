@@ -10,7 +10,7 @@ public class Solution_525 {
         for (int i = 1; i <= N; i++) {
             prefix[i] = prefix[i - 1] + (nums[i - 1] == 0 ? -1 : 1);
         }
-        int maxLen = Integer.MIN_VALUE;
+        int maxLen = 0;
         for (int i = 0; i < N; i++) {
             for (int j = i + 1; j <= N; j++) {
                 // [i,j)
