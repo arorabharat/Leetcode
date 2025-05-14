@@ -49,4 +49,33 @@ public class Solution_525 {
         }
         return maxLen;
     }
+
+    public int findMaxLength3(int[] nums) {
+        // Map from running sum to its first occurrence index
+        Map<Integer, Integer> firstIndex = new HashMap<>();
+        // Initialize: sum = 0 “occurs” just before the array starts
+        firstIndex.put(0, -1);
+
+        int maxLen = 0;
+        int sum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            // Update running sum: +1 for a 1, -1 for a 0
+            sum += (nums[i] == 1 ? 1 : -1);
+
+            if (firstIndex.containsKey(sum)) {
+                // We’ve seen this sum before; subarray (firstIndex.get(sum)+1 .. i)
+                // has net sum zero → equal #0s and #1s
+                int prevIndex = firstIndex.get(sum);
+                int len = i - prevIndex;
+                if (len > maxLen) {
+                    maxLen = len;
+                }
+            } else {
+                // First time seeing this sum: record index
+                firstIndex.put(sum, i);
+            }
+        }
+
+        return maxLen;
+    }
 }
