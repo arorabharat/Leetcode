@@ -4,6 +4,69 @@ import java.util.Map;
 
 class Solution_91 {
 
+
+    class Solution1 {
+
+        Map<Integer, Integer> cache = new HashMap<>();
+
+        private int _numDecodings(char[] s, int i, int n) {
+            if (i > n) return 0;
+            if (i < 0) return 0;
+            if (i == n) return 1;
+            if (cache.containsKey(i)) return cache.get(i);
+            int ans;
+            if (s[i] == '0') {
+                ans = 0;
+            } else {
+                int way1 = _numDecodings(s, i + 1, n);
+                if (s[i] == '1' && i + 1 < n) {
+                    ans = way1 + _numDecodings(s, i + 2, n);
+                } else if (s[i] == '2' && i + 1 < n && s[i + 1] <= '6' && s[i + 1] >= '0') {
+                    ans = way1 + _numDecodings(s, i + 2, n);
+                } else {
+                    ans = way1;
+                }
+            }
+            cache.put(i, ans);
+            return ans;
+        }
+
+        public int numDecodings(String s) {
+            return _numDecodings(s.toCharArray(), 0, s.length());
+        }
+    }
+
+    class Solution2 {
+
+        private static boolean isBetween20To26(char[] c, int i, int n) {
+            return c[i] == '2' && i + 1 < n && c[i + 1] <= '6' && c[i + 1] >= '0';
+        }
+
+        private static boolean isBetween10To19(char[] c, int i, int n) {
+            return c[i] == '1' && i + 1 < n;
+        }
+
+        public int numDecodings(String s) {
+            char[] c = s.toCharArray();
+            int n = s.length();
+            int[] dp = new int[n + 2];
+            dp[n] = 1;
+            dp[n + 1] = 0;
+            for (int i = n - 1; i >= 0; i--) {
+                if (c[i] == '0') {
+                    dp[i] = 0;
+                } else {
+                    dp[i] = dp[i + 1];
+                    if (isBetween10To19(c, i, n) || isBetween20To26(c, i, n)) {
+                        dp[i] += dp[i + 2];
+                    }
+                }
+            }
+            return dp[0];
+        }
+    }
+
+
     /**
      * second solution
      */
