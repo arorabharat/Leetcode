@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * https://leetcode.com/problems/course-schedule/
@@ -10,6 +7,67 @@ import java.util.Queue;
  * is topological sort exist
  */
 class Solution_207 {
+
+
+    class Solution1 {
+
+        public boolean canFinish(int numCourses, int[][] prerequisites) {
+            int edgeCount = prerequisites.length;
+            Graph graph = new Graph(numCourses);
+            for (int i = 0; i < edgeCount; i++) {
+                int u = prerequisites[i][0];
+                int v = prerequisites[i][1];
+                graph.addDirectEdge(u, v);
+            }
+            return !graph.hasCycle();
+        }
+
+        class Graph {
+
+            Map<Integer, List<Integer>> adj;
+            int n;
+
+            public Graph(int n) {
+                this.n = n;
+                this.adj = new HashMap<>();
+                for (int i = 0; i < n; i++) {
+                    this.adj.put(i, new ArrayList<>());
+                }
+            }
+
+            void addDirectEdge(int u, int v) {
+                this.adj.get(u).add(v);
+            }
+
+            boolean _hasCycle(int u, boolean[] visited, boolean[] stack) {
+                stack[u] = true;
+                visited[u] = true;
+                for (int v : this.adj.get(u)) {
+                    if (!visited[v] && _hasCycle(v, visited, stack)) {
+                        return true;
+                    } else if (stack[v]) {
+                        return true;
+                    }
+                }
+                stack[u] = false;
+                return false;
+            }
+
+            boolean hasCycle() {
+                boolean[] visited = new boolean[n];
+                boolean[] stack = new boolean[n];
+                for (int i = 0; i < n; i++) {
+                    if (!visited[i] && _hasCycle(i, visited, stack)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+    }
+
+
+
 
     List<List<Integer>> g;
     boolean[] stack;
