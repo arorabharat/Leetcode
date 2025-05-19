@@ -9,14 +9,14 @@ import java.util.*;
 class Solution_207 {
 
 
+    // using DFS cycle detection
     class Solution1 {
 
         public boolean canFinish(int numCourses, int[][] prerequisites) {
-            int edgeCount = prerequisites.length;
             Graph graph = new Graph(numCourses);
-            for (int i = 0; i < edgeCount; i++) {
-                int u = prerequisites[i][0];
-                int v = prerequisites[i][1];
+            for (int[] prerequisite : prerequisites) {
+                int u = prerequisite[0];
+                int v = prerequisite[1];
                 graph.addDirectEdge(u, v);
             }
             return !graph.hasCycle();
@@ -66,7 +66,36 @@ class Solution_207 {
         }
     }
 
+    // using khan's in degree algorithm
+    // TODO: 19/05/25 - complete this with khan algo
+    class Solution2 {
 
+        public boolean canFinish(int numCourses, int[][] prerequisites) {
+            Graph graph = new Graph(numCourses);
+            for (int[] prerequisite : prerequisites) {
+                int u = prerequisite[0];
+                int v = prerequisite[1];
+                graph.addDirectEdge(u, v);
+            }
+            return !graph.hasCycle();
+        }
+
+        class Graph {
+
+
+            Graph(int n) {
+
+            }
+
+            void addDirectEdge(int u, int v) {
+
+            }
+
+            boolean hasCycle() {
+                return false;
+            }
+        }
+    }
 
 
     List<List<Integer>> g;
