@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class Solution_2787 {
 
     class Solution1 {
@@ -40,7 +43,7 @@ public class Solution_2787 {
         }
     }
 
-    // dynamic programming approach
+    // dynamic programming approach - bottom up
     class Solution2 {
         long modulo(long x) {
             return x % 1_000_000_007;
@@ -66,6 +69,47 @@ public class Solution_2787 {
                 }
             }
             return (int) dp[S][N];
+        }
+    }
+
+
+    // dynamic programming approach - top down
+    class Solution {
+        private final Map<String, Integer> memo = new HashMap<>();
+        private int n, x;
+
+        public int waysToExpress(int n, int x) {
+            this.n = n;
+            this.x = x;
+            return dfs(1, n);
+        }
+
+        // Try numbers starting from 'start' to use or skip
+        private int dfs(int start, int remaining) {
+            if (remaining == 0) return 1;  // Found a valid way
+            if (remaining < 0) return 0;   // Invalid path
+
+            String key = start + "," + remaining;
+            if (memo.containsKey(key)) return memo.get(key);
+
+            int ways = 0;
+            long power = (long) Math.pow(start, x);
+            if (power > remaining) {
+                memo.put(key, 0);
+                return 0;
+            }
+
+            // Include start^x
+            ways += dfs(start + 1, (int) (remaining - power));
+            int MOD = 1_000_000_007;
+            ways %= MOD;
+
+            // Exclude start^x
+            ways += dfs(start + 1, remaining);
+            ways %= MOD;
+
+            memo.put(key, ways);
+            return ways;
         }
     }
 }
