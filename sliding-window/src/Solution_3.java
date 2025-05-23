@@ -39,4 +39,28 @@ public class Solution_3 {
             return windowSize;
         }
     }
+
+    class Solution2 {
+        public int lengthOfLongestSubstring(String s) {
+            int n = s.length();
+            HashSet<Character> set = new HashSet<>();
+            int left = 0, right = 0, maxLength = 0;
+
+            while (right < n) {
+                // Add character at 'right' to the set
+                if (!set.contains(s.charAt(right))) {
+                    set.add(s.charAt(right));
+                    right++;  // Expand the window
+                    maxLength = Math.max(maxLength, right - left);  // Update maxLength
+                } else {
+                    // If character is repeating, shrink window from left
+                    set.remove(s.charAt(left));
+                    left++;
+                }
+            }
+
+            return maxLength;
+        }
+    }
+
 }
