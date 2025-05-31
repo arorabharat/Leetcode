@@ -1,6 +1,30 @@
 import java.util.Arrays;
 
 class Solution_16 {
+
+    class Solution {
+        public int threeSumClosest(int[] nums, int target) {
+            int n = nums.length;
+            Arrays.sort(nums);
+            if (n < 3) {
+                return -1;
+            }
+            int closest =
+            for (int i = 0; i < n; i++) {
+                int s = i + 1;
+                int e = n - 1;
+                int subTarget = target - nums[i];
+                int closest = nums[i] + nums[s] + nums[e];
+                while (s < e) {
+                    if (nums[s] + nums[e] < subTarget) {
+                        closest =
+                    }
+                }
+            }
+        }
+    }
+
+
     /**
      * [-4,-1,1,2]
      * target : 2
