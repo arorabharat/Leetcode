@@ -10,6 +10,51 @@ import java.util.PriorityQueue;
  */
 class Solution_1584 {
 
+
+    class Solution2 {
+
+        private static int[] getQElement(int[] point, int index, int cost) {
+            return new int[]{index, cost};
+        }
+
+        private static int getManhattanDistance(int[][] points, int p1, int p2) {
+            return Math.abs(points[p1][0] - points[p2][0]) + Math.abs(points[p1][1] - points[p2][1]);
+        }
+
+        Comparator<int[]> comparator() {
+            return new Comparator<int[]>() {
+                @Override
+                public int compare(int[] e1, int[] e2) {
+                    return Integer.compare(e1[1], e2[1]);
+                }
+            };
+        }
+
+        public int minCostConnectPoints(int[][] points) {
+            int n = points.length;
+            boolean[] visited = new boolean[n];
+            PriorityQueue<int[]> q = new PriorityQueue<>(comparator());
+            int[] point = points[0];
+            int cost = 0;
+            // index, cost
+            q.add(getQElement(point, 0, 0));
+            while (!q.isEmpty()) {
+                int[] nextPoint = q.remove();
+                int pointIndex = nextPoint[0];
+                if (visited[pointIndex]) continue;
+                visited[pointIndex] = true;
+                cost = cost + nextPoint[1];
+                for (int j = 0; j < n; j++) {
+                    if (!visited[j]) {
+                        int manhattanDistance = getManhattanDistance(points, pointIndex, j);
+                        q.add(getQElement(point, j, manhattanDistance));
+                    }
+                }
+            }
+            return cost;
+        }
+    }
+
     // approach 1 : prims algorithm
     public int minCostConnectPoints1(int[][] points) {
         Graph graph = new Graph(points.length, points);
