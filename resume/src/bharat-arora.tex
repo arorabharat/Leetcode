@@ -1,9 +1,3 @@
-%-------------------------------------------
-% Resume in LuaLatex
-% Author: Kumar Pallav
-% (Works with Overleaf)
-%-------------------------------------------
-
 \documentclass[letterpaper,11pt]{article}
 
 \usepackage{latexsym}
@@ -79,46 +73,26 @@
 
 \begin{document}
 
-% Load lua script
-%-------------------------------------------
     \begin{luacode}
 require("lua/parser.lua")
     \end{luacode}
 
-% Print Heading
-%-------------------------------------------
     \directlua{printHeading("_data/personal.json")}
-
-% Print Education
-%-------------------------------------------
-
 
     \section{Education}
     \resumeSubHeadingListStart
     \directlua{printEduItems("_data/edu.json")}
     \resumeSubHeadingListEnd
 
-% Print Experience
-%-------------------------------------------
-
-
     \section{Experience}
     \resumeSubHeadingListStart
     \directlua{printExpItems("_data/exp.json")}
     \resumeSubHeadingListEnd
 
-% Print Projects
-%-------------------------------------------
-
-
     \section{\href{https://github.com/pforpallav}{Projects}}
     \resumeSubHeadingListStart
     \directlua{printProjItems("_data/proj.json")}
     \resumeSubHeadingListEnd
-
-% Print Skills
-%-------------------------------------------
-
 
     \section{Programming Skills}
     \resumeSubHeadingListStart
