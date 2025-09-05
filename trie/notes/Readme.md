@@ -1,5 +1,6 @@
 ## Trie Data structure
-[![Alt txt](../resources/wiki.png)](https://en.wikipedia.org/wiki/Trie)
+
+[![Alt txt](../../resources/wiki.png)](https://en.wikipedia.org/wiki/Trie)
 
 
 1. Deleting in the trie 
