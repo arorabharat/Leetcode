@@ -87,18 +87,20 @@ sequenceDiagram
     participant User
     participant OrderService
     participant StatsService
+    participant BackgroundJob
 
-    Note over User, StatsService: Strong Consistency
+    %% Strong Consistency Flow
     User->>OrderService: Place Order
     OrderService->>StatsService: Update order count
     StatsService-->>OrderService: Acknowledgement
     OrderService-->>User: Order confirmed
 
-    Note over User, StatsService: Eventual Consistency
+    %% Eventual Consistency Flow
     User->>OrderService: Place Order
     OrderService-->>User: Order confirmed
     OrderService->>BackgroundJob: Queue order update
     BackgroundJob->>StatsService: Update order count later
+
 ```
 
 ---
