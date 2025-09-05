@@ -1,5 +1,7 @@
 # Eventual Consistency in Distributed Systems
 
+[![Alt text](https://img.youtube.com/vi/rpqsSkTIdAw/0.jpg)](https://www.youtube.com/watch?v=rpqsSkTIdAw)
+
 ## Introduction
 
 * **Consistency** has different meanings depending on context:
