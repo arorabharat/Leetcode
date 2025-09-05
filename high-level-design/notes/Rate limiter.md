@@ -251,3 +251,21 @@ flowchart LR
 
 Do you want me to also add a **comparison table of the four algorithms** (pros, cons, use cases) so you can quickly
 revise before interviews?
+
+## Algorithm Comparison — **Rate Limiting**
+
+| **Algorithm**               | **How it works (summary)**                                                                                                        | **Pros**                                                                                         | **Cons**                                                                                 | **Burst Handling**                                       | **Memory per Client**                   | **Accuracy**                                 | **When to use**                                                                              |
+|-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|----------------------------------------------------------|-----------------------------------------|----------------------------------------------|----------------------------------------------------------------------------------------------|
+| **Fixed Window Counter**    | Count requests in a fixed interval (e.g., minute); reset counter at window boundary.                                              | **Trivial to implement**; constant-time checks; tiny state.                                      | **Boundary effect** (can spike across edges); **starvation** right after limit.          | Poor at smoothing; can allow large bursts at boundaries. | **Very low** (counter + window start).  | **Low** near boundaries.                     | Simple systems; rough protection where bursts are acceptable.                                |
+| **Sliding Window Log**      | Track **exact timestamps** of recent requests in a rolling window; allow if count < limit.                                        | **Most accurate**; eliminates boundary effect.                                                   | **High memory** (store timestamps); more compute (heap/deque ops).                       | Good (precise smoothing).                                | **High** (stores recent request times). | **High** (exact).                            | Strict accuracy requirements and lower scale.                                                |
+| **Sliding Window Counter**  | Keep **two counters** (previous + current fixed windows) and **weight** previous by elapsed fraction.                             | **Low memory**; **better smoothing** than fixed window.                                          | **Approximation**; assumes near-even distribution within windows.                        | Moderate; smoother than fixed window.                    | **Very low** (two integers).            | **Medium** (approximate).                    | Large-scale systems needing balance of cost & smoothness.                                    |
+| **Token Bucket** *(chosen)* | Each client has **bucket size** (burst capacity) and **refill rate** (steady rate). Consume 1 token per request; reject if empty. | **Handles bursts + steady rate**; simple state (**tokens + last refill**); easy to reason about. | Requires tuning **bucket size** & **refill rate**; needs atomic updates in shared store. | **Excellent** (explicit burst capacity).                 | **Very low** (two numbers).             | **High** for target behavior (burst + rate). | Most production systems (gateways, APIs) aiming for controlled bursts and steady throughput. |
+
+### Quick Takeaways
+
+* If you need **accuracy** above all else → **Sliding Window Log**.
+* If you need **simplicity** and can tolerate edge bursts → **Fixed Window**.
+* If you want **low memory** with **some smoothing** → **Sliding Window Counter**.
+* If you want **production-friendly** control of **bursts** and **steady rate** with tiny state → **Token Bucket** (plus
+  atomic updates, e.g., **Redis + Lua**).
+
