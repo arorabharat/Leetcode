@@ -192,3 +192,7 @@ Beyond “strong vs eventual,” know these gradations:
 * **Reconciliation** strategy post-partition (read repair, replays, conflict resolution)?
 
 Use this structure to keep the CAP discussion crisp, justified, and connected to concrete design decisions.
+
+## More videos
+
+[![Alt text](https://img.youtube.com/vi/k-Yaq8AHlFA/0.jpg)](https://www.youtube.com/watch?v=k-Yaq8AHlFA)
