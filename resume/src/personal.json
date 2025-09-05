@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Bharat Arora",
+    "website": "www.linkedin.com/in/arorabharat3072",
+    "email": "bharatarora3072@gmail.com",
+    "phone": "+91 9673213072",
+    "linkedin": "www.linkedin.com/in/arorabharat3072",
+    "languages": [
+      {
+        "language": "C++"
+      },
+      {
+        "language": "CSharp"
+      },
+      {
+        "language": "JavaScript"
+      },
+      {
+        "language": "Java"
+      },
+      {
+        "language": "C"
+      }
+    ],
+    "technologies": [
+      {
+        "technology": "NodeJs"
+      },
+      {
+        "technology": "UWP"
+      },
+      {
+        "technology": "Win32"
+      }
+    ]
+  }
+]

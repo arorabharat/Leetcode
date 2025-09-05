@@ -31,6 +31,7 @@ public class Solution_695 {
         return count;
     }
 
+
     int bfs(int[][] grid) {
         int m = grid.length;
         if (m == 0) return 0;
