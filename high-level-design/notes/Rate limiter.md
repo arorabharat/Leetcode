@@ -91,10 +91,14 @@ isRequestAllowed(clientId, rule) → {allowed: true/false, metadata}
 
 ```mermaid
 flowchart LR
+    Client[[Client]]
+    Gateway[[API Gateway]]
+    RateLimiter[[Rate Limiter]]
+    Services{{Microservices}}
     Client --> Gateway
     Gateway --> RateLimiter
-    RateLimiter -->|Pass| Microservices
-    RateLimiter -->|Fail ( 429 )|Client
+    RateLimiter -->|pass| Services
+    RateLimiter -->|fail 429| Client
 ```
 
 ### Client Identification
