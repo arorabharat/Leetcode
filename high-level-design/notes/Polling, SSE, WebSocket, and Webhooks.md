@@ -38,21 +38,13 @@ These notes summarize four **real-time communication** approaches used on the we
 ```mermaid
 sequenceDiagram
   autonumber
-  participant C as Client
+  participant C as Client (EventSource)
   participant S as Server
-  rect rgb(245,245,245)
-  Note over C,S: Short Polling (fixed intervals)
-  C->>S: GET /updates
-  S-->>C: data | empty
-  C->>S: GET /updates (after 15s)
-  S-->>C: data | empty
-  end
-  rect rgb(235,245,255)
-  Note over C,S: Long Polling (held connection)
-  C->>S: GET /updates?wait=true
-  S-->>C: data (when ready) OR timeout
-  C->>S: GET /updates?wait=true (immediate re-request)
-  end
+  C->>S: GET /stream (text/event-stream)
+  S-->>C: event: update\ndata: ...
+  S-->>C: event: update\ndata: ...
+  Note over C,S: Connection stays open; server pushes whenever ready
+  S-->>C: event: update\ndata: ...
 ```
 
 ### Advantages
