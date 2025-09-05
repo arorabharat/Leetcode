@@ -113,13 +113,16 @@ Space Complexity :
 Time Complexity :
 Space Complexity :
 ```
-[![Alt txt](../resources/wiki.png)](https://en.wikipedia.org/wiki/Kruskal%27s_algorithm)
+
+[![Alt txt](../../resources/wiki.png)](https://en.wikipedia.org/wiki/Kruskal%27s_algorithm)
 
 ## Disjoint Data structure 
-[![Alt txt](../resources/wiki.png)](https://en.wikipedia.org/wiki/Disjoint-set_data_structure)
+
+[![Alt txt](../../resources/wiki.png)](https://en.wikipedia.org/wiki/Disjoint-set_data_structure)
 
 ## Strongly connected components
-[![Alt txt](../resources/wiki.png)](https://en.wikipedia.org/wiki/Strongly_connected_component)
+
+[![Alt txt](../../resources/wiki.png)](https://en.wikipedia.org/wiki/Strongly_connected_component)
 
 ### Tarjan's algorithm to find strongly connected component Algorithm
 
@@ -174,7 +177,8 @@ Same as check if the graph has odd length cycle
    [![Alt text](https://img.youtube.com/vi/Y78KivF-hm0/0.jpg)](https://www.youtube.com/watch?v=Y78KivF-hm0)
 
 #### Connected components
-[![Alt txt](../resources/wiki.png)](https://en.wikipedia.org/wiki/Component_(graph_theory))  
+
+[![Alt txt](../../resources/wiki.png)](https://en.wikipedia.org/wiki/Component_(graph_theory))  
 Disjoint set allow dynamic counting of connected components, whereby dynamic means edges are being added and removed during counting
 
 #### Directed Acyclic graph
