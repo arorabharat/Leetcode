@@ -1,239 +1,431 @@
-# Kafka (called “CFA” in the talk) — System Design Interview Revision Notes
+# Event Streaming with **CFA / Kafka** — System Design Interview Notes
 
 [![Alt text](https://img.youtube.com/vi/DU8o-OTeoCc/0.jpg)](https://www.youtube.com/watch?v=DU8o-OTeoCc)
 
-> The speaker repeatedly says **CFA** while describing **Kafka**. Treat **CFA = Kafka** for the purposes of these notes.
 
-## What Kafka/CFA Is (Big Picture)
+> Senior-level revision notes based on the transcript. Focus on *when/why to use CFA (Kafka)*, core concepts,
+> trade-offs, and deep-dive topics.
 
-* **Event streaming platform** usable as a **message queue** and for **stream processing**.
-* Scales via **topics** (logical grouping) and **partitions** (physical append-only logs) across **brokers** (servers).
-* Core pitch for interviews: reliable ordering *within a partition*, horizontal scalability via partitioning, consumer *
-  *groups** for parallelism, and strong **durability** via replication.
+## Big Picture
 
----
-
-## Motivating Example (World Cup Live Updates)
-
-* **Producers** (match reporters) push **events** (goals, bookings, subs).
-* **Consumers** update the website in (per-game) **order**.
-* Horizontal scale introduces ordering issues → **partition by game** to keep per-game order.
-* High read throughput → multiple consumers but avoid duplicates via **consumer groups** (each message processed by
-  exactly one consumer in a group).
-* Multi-sport expansion → use **topics** (e.g., `soccer`, `basketball`) so consumers subscribe to only what they need.
+* **What it is:** **CFA** (used interchangeably with **Kafka** in the talk) is a distributed **event streaming**
+  platform that can act as a **message queue** and a **stream-processing backbone**.
+* **Why it matters:** Ubiquitous in large-scale systems (used by many Fortune 100). Common in interviews for decoupling
+  services, real-time analytics, back-pressure control, and ordered processing.
+* **Interview stance:** Be able to (1) identify **when** to introduce CFA, (2) explain **core primitives**, and (3) go
+  deep on **scalability, fault tolerance, retries, performance, and retention**.
 
 ---
 
-## Core Concepts & Terms (highlighted for recall)
+## Core Concepts & Terminology
 
-* **Broker**: server (physical/virtual) in the cluster; stores partitions.
-* **Partition**: **ordered**, **immutable**, append-only **log file** on disk. Provides **per-partition ordering**.
-* **Topic**: **logical grouping** of partitions (organize data); partitions **physically scale** data.
-* **Producer / Consumer**: writes to / reads from topics.
-* **Consumer Group**: a set of consumers where **each message is delivered to exactly one** consumer in the group.
-* **Record/Message**: consists of **key**, **value**, **timestamp** (ordering), **headers** (key–value metadata).
-* **Offset**: per-partition position (0, 1, 2, …). Consumers track and **commit offsets** (to Kafka) for recovery.
-* **Partitioning strategy**: choose **partition key** (e.g., `gameId`) → **hash(key) mod N** decides partition (speaker
-  mentions **Murmur** as a typical fast hash).
-* **Leader / Followers**: each partition has a **leader** replica handling reads/writes and **followers** that replicate
-  and can take over on failure.
-* **Cluster Controller**: assigns partition leadership and tracks partition → broker mapping.
+* **Broker**: A **server** (physical/virtual) that stores data and serves reads/writes. Clusters comprise multiple
+  brokers.
+* **Partition**: An **ordered, immutable append-only log** on disk. Scaling and parallelism happen via partitions.
+* **Topic**: A **logical grouping** of partitions (n ≥ 1). You **produce to** and **consume from** topics.
 
----
-
-## Message Lifecycle (High Level)
-
-```mermaid
-sequenceDiagram
-    autonumber
-    participant P as Producer
-    participant CC as Cluster Controller
-    participant B as Broker (Leader for P_i)
-    participant C as Consumer (Group G)
-    P ->> P: Create record (key, value, ts, headers)
-    P ->> P: Pick topic; compute partition = hash(key) % N (or round-robin if no key)
-  P->>CC: Discover metadata (which broker leads partition)
-P->>B: Append record to partition (append-only log)
-Note right of B: Offsets assigned 0..N
-C->>B: Fetch from last committed offset+1
-C->>B: Process record
-C->>B: (periodically) Commit offset to Kafka
-Note over C, B: On consumer restart, resume from committed offset
-```
+  * **Topic vs Partition**: *Topic* = logical label; *Partition* = physical log file. Topics organize; partitions scale.
+* **Producer**: Writes **messages/records** to a topic.
+* **Consumer**: Reads messages from a topic.
+* **Consumer Group**: A set of consumers where **each message is processed by exactly one consumer in the group** (
+  parallelism without duplication).
+* **Message/Record**: **Key**, **Value**, **Timestamp** (ordering), **Headers** (metadata KV pairs).
+* **Partition Key** (**Key**): Determines which partition a message goes to (via **hash + modulo**). **Choosing this
+  well is central to ordering and scale.**
+* **Offset**: Per-partition, monotonically increasing index. Consumers track and **commit** the latest processed offset.
+* **Leader / Followers**: Each partition has one **leader** (handles reads/writes) and **followers** (replicate, can
+  take over on failure).
+* **Cluster Controller**: Coordinates leader assignment and tracks partition→broker mappings.
 
 ---
 
-## When to Use Kafka in an Interview
+## Motivating Example (Ordering & Scale)
 
-* **Asynchronous processing**: e.g., **video transcoding**—emit `videoId` + **S3 URL**; workers transcode
-  asynchronously.
-* **Ordered processing**: e.g., **ticketing wait queues**—release users in batches while respecting arrival order (per
-  key).
-* **Decoupling & independent scaling**: e.g., code-judging—frontends enqueue, controlled pool of workers executes.
-* **Streaming analytics / aggregation**: e.g., **ad click aggregator**—continuous counts/metrics in near real time.
-* **Pub/Sub fan-out**: e.g., **live comments**—multiple services subscribe to the same stream to update many clients.
+* Live sports updates: with many concurrent games, **horizontal scaling** requires **partitioning** by a game identifier
+  to preserve **per-game order** while allowing parallelism across games.
+* **Key insight**: You can’t guarantee global order, but you **can** guarantee **per-key** order (e.g., *all events for
+  Brazil-Argentina*).
 
 ---
 
-## Ordering & Partitioning (Trade-offs)
+## Lifecycle (Under the Hood)
 
-* **Order guarantee**: only **within a single partition**. Choosing the **key** is crucial.
-* **Without a key**: round-robin distribution; **no cross-partition ordering**.
-* **Hot partitions** (skewed keys, e.g., a viral **adId**):
-
-    * **Remove key** (if you truly don’t need order).
-    * **Compound key** (e.g., `adId:shardId` where `shardId`∈\[1..K]) to spread load.
-    * **Use another dimension** (e.g., add **userId** prefix or partial).
-    * **Backpressure**: slow producers if a topic/partition is overwhelmed (only feasible in some systems).
-
----
-
-## Consumer Groups, Offsets & Recovery
-
-* **Exactly-once per group**: each record goes to **one** consumer in the group.
-* **Offset commits**:
-
-    * Commit **after** finishing the logical unit of work (e.g., after persisting to **S3**).
-    * Committing **too early** risks **data loss** on crash; committing **too late** risks **reprocessing**.
-* **Rebalance**: if a consumer dies, the group **rebalances** partition assignments automatically.
+1. **Produce**: App sets the **key** (partition key) and message **value** (payload).
+2. **Route**: Cluster **hashes key** → `hash(key) % numPartitions` → selects partition; controller maps to a **broker**.
+3. **Append**: Broker **appends** to the partition log (offset assigned).
+4. **Consume**: Consumer reads from the **next offset**, processes work, and **commits offset** (periodically and/or
+   after unit of work).
+5. **Recover**: On restart or failover, consumer **resumes** from last committed offset; **consumer groups** rebalance
+   partition assignments.
 
 ---
 
-## Durability & Fault Tolerance
+## When to Use CFA in an Interview
 
-* **Replication**: leader + followers; followers replicate from leader; auto leader election on failure.
-* **Key configs**:
-
-    * **`acks`**: how many replicas must acknowledge a write before the producer proceeds.
-
-        * `all` → highest durability (wait for all in-sync replicas), lower throughput.
-        * lower values → higher throughput, lower durability.
-    * **Replication factor** (default **3**): more replicas → higher durability & storage cost.
+* **Asynchronous processing**: e.g., video **transcoding** pipeline. Put **small messages** with **pointers** (e.g., S3
+  URL), not massive blobs.
+* **Ordered processing per key**: e.g., **ticketing wait queues** that admit users in batches while preserving order per
+  event.
+* **Decoupling & independent scaling**: **burst-heavy producers** decoupled from **costly/slow consumers** (e.g.,
+  code-execution workers).
+* **Streams / real-time analytics**: **Ad-click aggregation**; compute rolling metrics with stream processors (e.g., *
+  *Flink**) reading CFA.
+* **Pub/Sub fan-out**: Same stream consumed by **multiple, independent services** (e.g., real-time comments to all
+  subscribed viewers).
 
 ---
 
-## Errors & Retries
-
-* **Producer retries**: configure retry count/backoff; enable **idempotent producer** to avoid duplicates on retry.
-* **Consumer retries**: Kafka doesn’t natively retry consumer processing.
-
-    * Pattern: **main topic** → on failure, send to **retry topic** (include attempt count) → if still failing after N
-      attempts, send to **dead-letter queue (DLQ)** for inspection.
+## Diagram — High-Level Architecture
 
 ```mermaid
 flowchart LR
-    A[Consume from main topic] -->|process ok| B[Commit offset]
-    A -->|process fails| R[Publish to retry topic (+attempt)]
-R -->|retry consumer|A2[Reprocess]
-A2 -->|>N fails| D[DLQ (no consumers)]
+  subgraph Producers
+    P1[Producer A]
+    P2[Producer B]
+  end
+
+  P1 -->|keyed records| T[Topic]
+  P2 -->|keyed records| T
+
+  subgraph Brokers
+    B1[Broker 1]
+    B2[Broker 2]
+  end
+
+  T -->|partition 0| B1
+  T -->|partition 1| B2
+  T -->|partition 2| B1
+
+  subgraph ConsumerGroup CG1
+    C1[Consumer 1]
+    C2[Consumer 2]
+    C3[Consumer 3]
+  end
+
+  B1 --> C1
+  B2 --> C2
+  B1 --> C3
 ```
 
 ---
 
-## Performance Optimizations (Throughput/Latency)
+## Deep Dives & Trade-offs (What Interviewers Probe)
 
-* **Batching** on the producer: send multiple records per request (limits by **batch size** and **linger time**).
-* **Compression** on the producer (e.g., **gzip**): fewer bytes over the wire → higher throughput.
-* **Partitioning for parallelism**: the **biggest lever**—spread uniformly across partitions/brokers.
-* **Record size guidance**: keep messages **< \~1 MB** for performance (avoid giant payloads).
+### 1) Scalability
 
-    * **Anti-pattern**: placing **media blobs** directly on Kafka.
-    * **Preferred**: store blob in **S3** and put a **pointer (URL)** + metadata in the Kafka record.
+* **Message size guidance**: Keep **< \~1 MB**. Anti-pattern: putting the **media blob** on CFA; instead store in **S3**
+  and send **{videoId, S3 URL}**.
+* **Broker ballpark** (rule-of-thumb from talk): \~**1 TB** storage, \~**10k msgs/s** per well-provisioned broker (
+  varies widely with hardware and payloads).
+* **Scale out**:
 
----
+  * Add **more brokers** (capacity).
+  * **Increase partitions** and **choose a good partition key** to distribute evenly and maximize parallelism.
+* **Hot partitions** (e.g., a viral ad ID):
 
-## Retention Policies (Storage & Cost)
+  * **Remove key** (random/round-robin) if ordering isn’t required.
+  * **Compound keys** (e.g., `adId:shard` where `shard ∈ [1..N]`, or add **userId**/**prefix**).
+  * **Back-pressure** from producers if feasible.
+* **Managed services**: **Confluent Cloud**, **AWS MSK** reduce operational toil (still need to pick keys/partitions
+  thoughtfully).
 
-* Per-topic settings; log segments are purged by **time** or **size** (whichever comes first):
+### 2) Fault Tolerance & Durability
 
-    * **`retention.ms`**: default **7 days**.
-    * **`retention.bytes`**: default **\~1 GB** (speaker says “1 GB”).
-* If you need longer **replay** windows (weeks/months), **raise retention** and **call out storage/cost impact**.
+* **Replication**: **Leader + followers** per partition; followers replicate and can take over.
+* **Key configs**:
 
----
+  * **`acks=all`** → wait for **all replicas** to acknowledge (**max durability**, **higher latency**).
+  * **Replication factor** (often **3** by default): raise for higher durability (at storage cost).
+* **“What if CFA goes down?”**: With replication and failover, **cluster-wide outage is unlikely**; a more realistic
+  focus is **consumer failure & rebalancing**.
+* **Offset commit timing**:
 
-## Rough Capacity Numbers (Back-of-the-Envelope)
+  * **Commit *after* completing the unit of work** (e.g., only after persisting fetched HTML to S3 in a web crawler) to
+    avoid message loss.
 
-* **Per broker** (hardware dependent; for interview math):
+### 3) Errors & Retries
 
-    * \~**1 TB** storable data.
-    * \~**10,000 msgs/sec** throughput.
-* If your estimated load is below this, you can explicitly state **a single broker suffices**; otherwise **add brokers**
-  and **increase partitions** (plus a good partition key).
+* **Producer retries**:
 
----
+  * Configure **retry count** and **backoff**; enable **idempotent producer** to avoid duplicates on retry.
+* **Consumer retries** (CFA doesn’t provide built-in):
 
-## Managed Kafka Notes
+  * Adopt **retry topics** (+ retry count in headers) and ultimately a **Dead-Letter Queue (DLQ)** topic after N
+    failures.
+  * Note: Some managed queues (e.g., **AWS SQS**) support consumer retries/DLQs natively—useful comparison in
+    interviews.
 
-* **Managed services** (e.g., **Confluent Cloud**, **AWS MSK**) automate broker scaling/ops.
-* Even with managed Kafka, **you still must choose** an effective **partition key** and **topic design**.
-
----
-
-## End-to-End Architecture (At a Glance)
+#### Diagram — Consumer Retry & DLQ Pattern
 
 ```mermaid
-graph LR
-    subgraph Producers
-        P1[Web/App Servers]
-        P2[Services]
-    end
+flowchart LR
+  Main[Main Topic] --> Consumer
+  Consumer -->|Failure| Retry["Retry Topic"]
+  Retry -->|Max retries exceeded| DLQ["Dead-Letter Topic - manual inspection"]
+```
 
-    subgraph Kafka Cluster
-        T1((Topic A)):::topic
-        T2((Topic B)):::topic
-        classDef topic fill: #eef, stroke: #99f, stroke-width: 1px;
-    end
+### 4) Performance Optimizations (Throughput/Latency)
 
-subgraph Consumers
-CG1[Consumer Group 1<br/>(Workers)]
-CG2[Consumer Group 2<br/>(Analytics)]
-end
+* **Batching** (producer): send messages in **batches** (max batch size and linger time) → fewer requests, higher
+  throughput.
+* **Compression** (producer): **gzip** (or other) on payloads → fewer bytes over the wire.
+* **Partition strategy first**: The **biggest lever** is an **even key distribution** across partitions/brokers.
 
-P1 --> T1
-P2 --> T1
-P2 --> T2
-T1 --> CG1
-T1 --> CG2
-T2 --> CG1
+### 5) Retention Policies (Cost vs Reprocessing Needs)
+
+* **Per-topic** settings:
+
+  * **`retention.ms`** (default ≈ **7 days** in the talk) — time-based purge of old log segments.
+  * **`retention.bytes`** (default ≈ **1 GB** in the talk) — size-based purge.
+* **Whichever triggers first** purges oldest segments. Extend for replay requirements, but call out **storage cost** and
+  **I/O impact**.
+
+---
+
+## Patterns & Best Practices (Interview-friendly Sound Bites)
+
+* **Decouple** using topics; **scale** via partitions; **preserve order per key**.
+* **Pick keys carefully** (domain-aware): e.g., gameId, userId, orderId; mitigate hotspots with **sharding**.
+* **Keep messages small**; store **large blobs** out-of-band (e.g., S3) and reference them.
+* **Commit offsets after side-effects** complete (exactly-once per consumer group).
+* **Plan for retries**: producer configs + **retry topic → DLQ**.
+* **Tune for throughput**: batching + compression; verify that **consumers** keep up (or add more in the group).
+* **Use managed Kafka** when ops time is constrained; still justify **partitioning** and **retention** choices.
+
+---
+
+## Example Use Cases You Can Name-Drop
+
+* **Video pipeline**: Upload → enqueue `{videoId, s3Url}` → **transcoders** consume and write variants.
+* **High-demand ticketing**: Enqueue users; **batched releases** off a queue to reduce contention.
+* **Online judge / coding contests**: **Spike-tolerant** submission ingestion; worker pool consumes at steady rate.
+* **Ad click aggregation (stream)**: Continuous counts per ad; downstream dashboards/alerts.
+* **Pub/Sub for live features**: Live comments fan-out to all subscribed viewers/services.
+
+---
+
+## Quick Glossary (Bolded Keywords)
+
+* **Broker**: Kafka/CFA server storing partitions and serving traffic.
+* **Topic**: Logical stream label grouping partitions.
+* **Partition**: Append-only **log**; unit of parallelism and ordering.
+* **Producer / Consumer**: Writers/readers of records to/from topics.
+* **Consumer Group**: Ensures **exactly-once within group** (no duplicate processing in group).
+* **Key (Partition Key)**: Field used to **hash** and route to a partition; preserves **per-key order**.
+* **Offset**: Monotonic index in a partition; consumers **commit** progress.
+* **Leader / Follower**: Primary replica vs. replicas for **durability** and **failover**.
+* **`acks`**: Producer durability setting (e.g., **`acks=all`**).
+* **Replication Factor**: Number of replicas per partition (commonly **3**).
+* **Back-pressure**: Slowing producers when consumers/partitions are overloaded.
+* **DLQ (Dead-Letter Queue)**: Terminal topic for **permanent failures** after retries.
+* **Retention**: **Time/size** rules (e.g., **`retention.ms`**, **`retention.bytes`**) for log cleanup.
+* **Batching / Compression**: Producer optimizations for **throughput**.
+* **Managed Kafka**: **Confluent Cloud / AWS MSK** (ops offload).
+
+---
+
+## Open Questions to Clarify in Interviews (if relevant)
+
+* Required **ordering** scope? (global vs **per key**).
+* **Replay** horizon? (drives **retention** and storage).
+* **Throughput/latency** SLOs? (guides batching, compression, partition counts).
+* Failure semantics: **at-least-once** acceptable, or stronger? (**offset commit timing**, idempotency).
+* Expected **hot keys**? (plan **sharding** scheme and monitoring).
+
+---
+
+*With these points, you can confidently introduce CFA/Kafka, justify it, and dive deep on the trade-offs interviewers
+care about.*
+
+Got it ✅ — here are the **system design interview prep notes on Kafka (CFA)** with only **GitHub-compatible Mermaid
+diagrams** included.
+
+---
+
+# Kafka (CFA) – System Design Interview Notes
+
+## What is Kafka (CFA)?
+
+* **Distributed event streaming platform**
+* Can function as:
+
+  * **Message queue** (asynchronous decoupling, buffering)
+  * **Stream processing system** (real-time analytics, pub/sub)
+* Used by **80% of Fortune 100 companies**
+* Common in **system design interviews** → demonstrates knowledge of scalability, fault tolerance, and event-driven
+  design
+
+---
+
+## Motivating Example: World Cup Event Updates
+
+* **Producer**: Records events (goal, substitution, card) → sends to Kafka
+* **Consumer**: Reads from Kafka → updates website
+* Challenges as scale increases:
+
+  1. **Too many events** → solution: **horizontal scaling** (more brokers/partitions)
+  2. **Ordering issues** → solution: **partition by key** (e.g., game ID)
+  3. **Duplicate processing** → solution: **consumer groups**
+  4. **Multiple domains (soccer vs basketball)** → solution: **topics**
+
+---
+
+## Core Kafka Concepts
+
+* **Broker**: A Kafka server storing data (manages partitions)
+* **Partition**: Append-only log file (ordered, immutable messages)
+* **Topic**: Logical grouping of partitions (data organization)
+* **Producer**: Writes messages to topics
+* **Consumer**: Reads messages from topics
+* **Consumer Group**: Ensures each message is processed by exactly one consumer in the group
+* **Replication**: Leader/follower partitions ensure durability
+
+---
+
+```mermaid
+flowchart LR
+  Producer1((Producer)) -->|Write to Topic| Broker1
+  Producer2((Producer)) --> Broker2
+
+  subgraph KafkaCluster
+    Broker1[(Broker 1)]
+    Broker2[(Broker 2)]
+    Broker3[(Broker 3)]
+  end
+
+  Broker1 --> PartitionA[/Partition A/]
+  Broker2 --> PartitionB[/Partition B/]
+  Broker3 --> PartitionC[/Partition C/]
+  PartitionA --> Consumer1((Consumer Group Member 1))
+  PartitionB --> Consumer2((Consumer Group Member 2))
+  PartitionC --> Consumer3((Consumer Group Member 3))
 ```
 
 ---
 
-## Interview-Ready Talking Points & Trade-offs
+## Message Lifecycle
 
-* **Partition key choice**: what guarantees you need (**ordering**) and how to avoid **hot partitions**.
-* **Consumer offset commit timing**: **at-least-once** vs **at-most-once** behavior; when to commit to balance
-  duplicates vs loss.
-* **Durability vs throughput**: **`acks=all`** & higher **replication factor** increase durability but reduce
-  throughput.
-* **Retry strategy**: explain **retry topic + DLQ** pattern for consumer failures.
-* **Payload design**: **pointer vs blob**; keep records small (<\~1 MB).
-* **Retention**: justify **retention.ms/bytes** based on **replay needs** vs **storage cost**.
-* **Scalability path**: start single broker → add brokers → increase partitions → revisit keys → compound
-  keys/backpressure if needed.
+1. **Producer creates message** → (key, value, timestamp, headers)
+2. **Partitioning**:
 
----
+* If key exists → hash(key) % numPartitions
+* Else → round robin
 
-## Quick Glossary (1-liners)
-
-* **Topic**: named stream; logical grouping of messages.
-* **Partition**: ordered, append-only log backing a topic; unit of parallelism.
-* **Broker**: server hosting partitions.
-* **Consumer Group**: consumers sharing work so each message is processed once per group.
-* **Offset**: position of a record in a partition.
-* **DLQ (Dead-Letter Queue)**: holding area for messages that repeatedly fail processing.
-* **Backpressure**: producers deliberately slow down when downstream is saturated.
+3. **Broker lookup**: Controller maps partition → broker
+4. **Append to log file** (offset-based, immutable)
+5. **Consumer reads** message at next offset
+6. **Offset committed** periodically to Kafka for fault recovery
 
 ---
 
-## Open Notes (from the talk)
-
-* Hashing noted as “I believe Murmur” → for interviews, you can say **“hash(key) mod partitions”** (hash family
-  implementation is not the key point).
-* Defaults mentioned: **replication factor = 3**, **retention.ms = 7 days**, **retention.bytes ≈ 1 GB**.
+```mermaid
+sequenceDiagram
+  participant P as Producer
+  participant K as Kafka Cluster
+  participant B as Broker (Partition)
+  participant C as Consumer
+  P ->> K: Send message (key, value)
+  K ->> B: Route to correct partition
+  B ->> B: Append to log (offset N)
+  C ->> B: Request next offset
+  B ->> C: Deliver message
+  C ->> K: Commit offset
+```
 
 ---
 
-*Use these notes to confidently (1) decide when Kafka belongs in your design, and (2) go deep on partitions, groups,
-durability, retries, and performance when probed.*
+## When to Use Kafka in Interviews
+
+* **Asynchronous processing** → e.g., YouTube transcoding
+* **Ordered processing** → e.g., TicketMaster wait queue
+* **Decoupling producers/consumers** → independent scaling
+* **Streaming analytics** → e.g., ad click aggregation
+* **Pub/Sub** → e.g., chat or live comments
+
+---
+
+## Deep Dive Areas (Follow-Up Topics)
+
+### 1. Scalability
+
+* Add **more brokers** (storage + throughput)
+* Use **partition keys** to balance load
+* Avoid **hot partitions**:
+
+  * Use **compound keys** (e.g., `adId:userId`)
+  * Apply **backpressure** or random distribution
+* Constraints:
+
+  * Message size < **1MB** recommended
+  * Broker ≈ **1TB storage, 10k msgs/sec**
+
+---
+
+### 2. Fault Tolerance & Durability
+
+* **Replication factor** (default 3)
+* **acks setting**:
+
+  * `acks=all` → maximum durability
+  * `acks=1` → faster but less safe
+* **Leader/follower** → failover handled automatically
+* **Offset commits** ensure recovery from consumer crashes
+
+---
+
+### 3. Errors & Retries
+
+* **Producer retries**:
+
+  * Configure retries + backoff
+  * Use **idempotent producer** to avoid duplicates
+* **Consumer retries**:
+
+  * No built-in → use **retry topics** + **dead letter queues (DLQ)**
+
+---
+
+### 4. Performance Optimizations
+
+* **Batching** → fewer requests, higher throughput
+* **Compression** (gzip, snappy, lz4)
+* **Partition strategy** → ensures parallelism
+* **Consumer group scaling** → multiple consumers read in parallel
+
+---
+
+### 5. Retention Policies
+
+* Configurable **per topic**:
+
+  * `retention.ms` → default **7 days**
+  * `retention.bytes` → default **1GB**
+* Messages purged when either limit is reached
+* Trade-off: storage cost vs replayability
+
+---
+
+```mermaid
+flowchart TB
+  subgraph TopicRetention
+    A[Topic: UserEvents]
+    A -->|Messages expire after 7 days| B[Retention.ms]
+    A -->|Messages expire after 1 GB| C[Retention.bytes]
+  end
+```
+
+---
+
+## Key Interview Takeaways
+
+* Always explain **partitioning strategy** (ordering + scaling trade-offs)
+* Mention **consumer groups** for load balancing
+* Cover **replication and durability** settings
+* Bring up **retry and DLQ patterns** for reliability
+* Show awareness of **managed Kafka services** (Confluent Cloud, AWS MSK)
+
+---
+
+Would you like me to also create a **condensed one-page cheat sheet version** of this (only keywords & diagrams, no long
+explanations) for quick pre-interview revision?
+
