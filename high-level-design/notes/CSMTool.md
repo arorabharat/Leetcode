@@ -50,84 +50,44 @@ with minimal SDK overhead.
 
 ### High level design diagram
 
-```plantuml
-@startuml
-title Client-Side Metrics Capture Service - High Level Design
+```mermaid
+graph TD
+%% ---------- Clients ----------
+    subgraph Clients
+        SDK_Web[Web SDK]
+        SDK_iOS[iOS SDK]
+        SDK_Android[Android SDK]
+    end
 
-skinparam componentStyle rectangle
-skinparam rectangle {
-BackgroundColor<<edge>> #f5f5f5
-BackgroundColor<<compute>> #eef7ff
-BackgroundColor<<data>> #fff9e6
-BackgroundColor<<security>> #f0fff0
-}
-skinparam packageStyle rectangle
-
-package "Clients" {
-[Web SDK] as SDK_Web
-[iOS SDK] as SDK_iOS
-[Android SDK] as SDK_Android
-}
-
-rectangle "CloudFront / WAF" <<edge>> as Edge_WAF
-rectangle "API Gateway / Ingest LB" <<edge>> as API_GW
-
-rectangle "Ingestion Service (Go/ECS)" <<compute>> as Ingest
-rectangle "Redis RateLimiter" <<compute>> as RateLimiter
-rectangle "Ingest Metrics" <<compute>> as IngestMetrics
-
-rectangle "Kinesis / Kafka (Stream)" <<data>> as Stream
-rectangle "Raw Writer" <<compute>> as RawWriter
-database "S3 Data Lake\n(Parquet partitioned)" <<data>> as S3
-
-rectangle "Stream Aggregator" <<compute>> as Aggregator
-database "ClickHouse (Hot Store)" <<data>> as CH
-rectangle "Materialized Views / Rollups" <<compute>> as Rollups
-
-package "Query Plane" {
-rectangle "Query API (gRPC/HTTP)" <<compute>> as QueryAPI
-rectangle "Dashboard UI" <<edge>> as Dashboard
-}
-
-rectangle "Admin API" <<compute>> as AdminAPI
-database "DynamoDB Config" <<data>> as Config
-
-rectangle "KMS" <<security>> as KMS
-
-' ---------- Client -> Edge ----------
-SDK_Web -down-> Edge_WAF : HTTPS batched+gzip
-SDK_iOS -down-> Edge_WAF : HTTPS batched+gzip
-SDK_Android -down-> Edge_WAF : HTTPS batched+gzip
-
-' ---------- Edge -> Ingest ----------
-Edge_WAF --> API_GW
-API_GW --> Ingest
-
-' ---------- Ingest plumbing ----------
-Ingest --> RateLimiter : rate limit / quotas
-Ingest --> IngestMetrics : pipeline telemetry
-Ingest --> Stream : enqueue (auth/validate/enrich)
-
-' ---------- Storage & Processing ----------
-Stream --> RawWriter
-RawWriter --> S3 : hourly parquet
-
-Stream --> Aggregator
-Aggregator --> CH : upsert minute/hour buckets
-Aggregator --> Rollups
-
-' ---------- Query Plane ----------
-Dashboard --> QueryAPI
-QueryAPI --> CH : time-series / quantiles
-AdminAPI --> Config : app/org lookup
-QueryAPI --> Config : authZ, app/org scope
-
-' ---------- Security / KMS ----------
-KMS ..> Ingest : decrypt API key/secret (KMS)
-KMS ..> CH : at-rest encryption
-KMS ..> S3 : bucket encryption
-
-@enduml
+%% ---------- Edge ----------
+    SDK_Web -->|HTTPS batched+gzip| Edge_WAF[CloudFront/WAF]
+    SDK_iOS -->|HTTPS batched+gzip| Edge_WAF
+    SDK_Android -->|HTTPS batched+gzip| Edge_WAF
+    Edge_WAF --> API_GW[API Gateway / Ingest LB]
+    API_GW --> Ingest[Ingestion Service - Go/ECS]
+%% ---------- Ingest plumbing ----------
+    Ingest -->|auth/validate/enrich| Stream[Kinesis / Kafka]
+    Ingest --> RateLimiter[Redis RateLimiter]
+    Ingest --> Ingest_Metrics[Ingest Metrics]
+%% ---------- Storage & Processing ----------
+    Stream --> Raw_Writer[Raw Writer]
+    Raw_Writer --> S3[(S3 Data Lake\nParquet partitioned)]
+    Stream --> Aggregator[Stream Aggregator]
+    Aggregator --> ClickHouse[(ClickHouse Hot Store)]
+    Aggregator --> Rollups[Materialized Views / Rollups]
+%% ---------- Query Plane ----------
+    subgraph QueryPlane
+        Query_API[Query API gRPC/HTTP]
+        Dashboard[Dashboard UI]
+    end
+    Dashboard --> Query_API
+    Query_API --> ClickHouse
+    Admin_API[Admin API] --> Config[(DynamoDB Config)]
+    Query_API --> Config
+%% ---------- Security ----------
+    KMS[Key Management KMS] -.-> Ingest
+    KMS -.-> ClickHouse
+    KMS -.-> S3
 ```
 
 ### Throughput and Latency calculations
