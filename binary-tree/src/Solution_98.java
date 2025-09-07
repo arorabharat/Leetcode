@@ -7,6 +7,21 @@ import java.util.Objects;
  */
 class Solution_98 {
 
+
+    class Approach_1 {
+
+        private boolean _isValidBST(TreeNode root, int start, int end) {
+            if (root == null) return true;
+            if (root.val < start || root.val > end) return false;
+            return _isValidBST(root.left, start, root.val - 1)
+                    && _isValidBST(root.right, root.val + 1, end);
+        }
+
+        public boolean isValidBST(TreeNode root) {
+            return _isValidBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        }
+    }
+
     /*
      Practice again -
      */
