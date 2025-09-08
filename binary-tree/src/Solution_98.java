@@ -7,7 +7,7 @@ import java.util.Objects;
  */
 class Solution_98 {
 
-
+    // this will fail because of the integer overflow.
     class Approach_1 {
 
         private boolean _isValidBST(TreeNode root, int start, int end) {
@@ -22,83 +22,91 @@ class Solution_98 {
         }
     }
 
-    /*
-     Practice again -
-     */
+    // the same as approach 1 but upper and lower bound are not subtracted by 1,
+    // hence it will not fail because of integer overflow
+    class Approach_2 {
 
-    private boolean _isValidBST4(TreeNode root,
-                                 long lowerLimit,
-                                 long upperLimit) {
-        if (Objects.isNull(root)) return true;
-        if (root.val >= upperLimit || root.val <= lowerLimit) return false;
-        return _isValidBST(root.left, lowerLimit, root.val)
-                && _isValidBST(root.right, root.val, upperLimit);
-    }
-
-    public boolean isValidBST4(TreeNode root) {
-        if (Objects.isNull(root)) return true;
-        return _isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
-    }
-
-
-    /**
-     * third approach
-     */
-    private Integer prev;
-
-    private boolean inRange(long x, long min, long max) {
-        return min <= x && x <= max;
-    }
-
-    private boolean _isValidBST(TreeNode root, long min, long max) {
-        if (root == null) return true;
-        return inRange(root.val, min, max)
-                && _isValidBST(root.left, min, (long) root.val - 1)
-                && _isValidBST(root.right, (long) root.val + 1, max);
-    }
-
-    public boolean isValidBST(TreeNode root) {
-        return _isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
-    }
-
-
-    /**
-     * second approach
-     */
-    public boolean validate(TreeNode root, Integer low, Integer high) {
-        // Empty trees are valid BSTs.
-        if (root == null) {
-            return true;
+        private boolean _isValidBST(TreeNode root,
+                                    long lowerLimit,
+                                    long upperLimit) {
+            if (Objects.isNull(root)) return true;
+            if (root.val >= upperLimit || root.val <= lowerLimit) return false;
+            return _isValidBST(root.left, lowerLimit, root.val)
+                    && _isValidBST(root.right, root.val, upperLimit);
         }
-        // The current node's value must be between low and high.
-        if ((low != null && root.val <= low) || (high != null && root.val >= high)) {
-            return false;
+
+        public boolean isValidBST(TreeNode root) {
+            if (Objects.isNull(root)) return true;
+            return _isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
         }
-        // The left and right subtree must also be valid.
-        return validate(root.right, root.val, high) && validate(root.left, low, root.val);
     }
 
-    public boolean isValidBST2(TreeNode root) {
-        return validate(root, null, null);
+    // cast to long to prevent the integer overflow..
+    class Approach_3 {
+
+        private boolean inRange(long x, long min, long max) {
+            return min <= x && x <= max;
+        }
+
+        private boolean _isValidBST(TreeNode root, long min, long max) {
+            if (root == null) return true;
+            return inRange(root.val, min, max)
+                    && _isValidBST(root.left, min, (long) root.val - 1)
+                    && _isValidBST(root.right, (long) root.val + 1, max);
+        }
+
+        public boolean isValidBST(TreeNode root) {
+            return _isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+        }
     }
 
-    public boolean isValidBST3(TreeNode root) {
-        prev = null;
-        return inorder(root);
+    // same as approach 2, just we do not pass negative infinity and positive infinity.
+    class Approach_4 {
+
+        public boolean _isValidBST(TreeNode root, Integer low, Integer high) {
+            if (root == null) {
+                return true;
+            }
+
+            if ((low != null && root.val <= low) || (high != null && root.val >= high)) {
+                return false;
+            }
+            return _isValidBST(root.right, root.val, high) && _isValidBST(root.left, low, root.val);
+        }
+
+        public boolean isValidBST(TreeNode root) {
+            return _isValidBST(root, null, null);
+        }
+
     }
 
-    private boolean inorder(TreeNode root) {
-        if (root == null) {
-            return true;
+    // this one is actually a different approach
+    class Approach_5 {
+
+        private Integer prev;
+
+        public boolean _isValidBST(TreeNode root) {
+            prev = null;
+            return inorder(root);
         }
-        if (!inorder(root.left)) {
-            return false;
+
+        private boolean inorder(TreeNode root) {
+            if (root == null) {
+                return true;
+            }
+            if (!inorder(root.left)) {
+                return false;
+            }
+            if (prev != null && root.val <= prev) x {
+                return false;
+            }
+            prev = root.val;
+            return inorder(root.right);
         }
-        if (prev != null && root.val <= prev) {
-            return false;
+
+        public boolean isValidBST(TreeNode root) {
+            return _isValidBST(root);
         }
-        prev = root.val;
-        return inorder(root.right);
     }
 
     static class TreeNode {
