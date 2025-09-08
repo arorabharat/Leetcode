@@ -8,23 +8,48 @@ import java.util.Map;
  */
 class Solution_110 {
 
-    private final Map<TreeNode, Integer> cache = new HashMap<>();
+    // basic recursive approach
+    class Approach_1 {
 
-    private int height(TreeNode root) {
-        if (root == null) return 0;
-        if (cache.containsKey(root)) return cache.get(root);
-        int leftHeight = height(root.left);
-        int rightHeight = height(root.right);
-        int h = Math.max(leftHeight, rightHeight) + 1;
-        cache.put(root, h);
-        return h;
+        public int height(TreeNode root) {
+            if (root == null) return 0;
+            return Math.max(height(root.left), height(root.right)) + 1;
+        }
+
+        public boolean isBalanced(TreeNode root) {
+            if (root == null) return true;
+            int leftHeight = height(root.left);
+            int rightHeight = height(root.right);
+            return Math.abs(leftHeight - rightHeight) <= 1 &&
+                    isBalanced(root.left) && isBalanced(root.right);
+        }
     }
 
-    public boolean isBalanced(TreeNode root) {
-        if (root == null) return true;
-        int heightDiff = Math.abs(height(root.left) - height(root.right));
-        return heightDiff <= 1 && isBalanced(root.right) && isBalanced(root.left);
+    class Approach_2 {
+
+        private final Map<TreeNode, Integer> cache = new HashMap<>();
+
+        public int height(TreeNode root) {
+            if (root == null) return 0;
+            if (cache.containsKey(root)) {
+                return cache.get(root);
+            }
+            int leftHeight = height(root.left);
+            int rightHeight = height(root.right);
+            int rootHeight = Math.max(leftHeight, rightHeight) + 1;
+            cache.put(root, rootHeight);
+            return rootHeight;
+        }
+
+        public boolean isBalanced(TreeNode root) {
+            if (root == null) return true;
+            int leftHeight = height(root.left);
+            int rightHeight = height(root.right);
+            return Math.abs(leftHeight - rightHeight) <= 1 &&
+                    isBalanced(root.left) && isBalanced(root.right);
+        }
     }
+
 
     /**
      * Another approach similar to above -
