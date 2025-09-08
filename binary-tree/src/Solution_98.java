@@ -97,7 +97,7 @@ class Solution_98 {
             if (!inorder(root.left)) {
                 return false;
             }
-            if (prev != null && root.val <= prev) x {
+            if (prev != null && root.val <= prev) {
                 return false;
             }
             prev = root.val;
