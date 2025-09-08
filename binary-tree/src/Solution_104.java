@@ -52,6 +52,26 @@ class Solution_104 {
         }
     }
 
+    class Approach_3 {
+
+        public int maxDepth(TreeNode root) {
+            if (root == null) return 0;
+            Queue<TreeNode> q = new LinkedList<>();
+            q.offer(root);
+            int depth = 0;
+            while (!q.isEmpty()) {
+                int size = q.size();
+                depth++;
+                for (int i = 0; i < size; i++) {
+                    TreeNode cur = q.poll();
+                    if (cur.left != null) q.offer(cur.left);
+                    if (cur.right != null) q.offer(cur.right);
+                }
+            }
+            return depth;
+        }
+    }
+
     static class TreeNode {
         int val;
         TreeNode left;
