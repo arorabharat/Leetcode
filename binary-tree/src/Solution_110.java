@@ -51,7 +51,7 @@ class Solution_110 {
         }
     }
 
-    // early exit for optimisation, same as approach 2 otherwise
+    // early exit for optimization, same as approach 2 otherwise
     class Approach_3 {
 
         public boolean isBalanced(TreeNode root) {
