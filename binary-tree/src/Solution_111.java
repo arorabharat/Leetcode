@@ -46,38 +46,39 @@ class Solution_111 {
             }
             return min + 1;
         }
-
     }
 
+    class Approach_3 {
 
-    /**
-     * Using DFS
-     */
-    public int minDepth2(TreeNode root) {
-        LinkedList<Pair<TreeNode, Integer>> stack = new LinkedList<>();
-        if (root == null) {
-            return 0;
-        } else {
-            stack.add(new Pair<>(root, 1));
+        /**
+         * Using DFS
+         */
+        public int minDepth2(TreeNode root) {
+            LinkedList<Pair<TreeNode, Integer>> stack = new LinkedList<>();
+            if (root == null) {
+                return 0;
+            } else {
+                stack.add(new Pair<>(root, 1));
+            }
+            int min_depth = Integer.MAX_VALUE;
+            while (!stack.isEmpty()) {
+                Pair<TreeNode, Integer> current = stack.pollLast();
+                root = current.getFirst();
+                int current_depth = current.getSecond();
+                if ((root.left == null) && (root.right == null)) {
+                    min_depth = Math.min(min_depth, current_depth);
+                }
+                if (root.left != null) {
+                    stack.add(new Pair<>(root.left, current_depth + 1));
+                }
+                if (root.right != null) {
+                    stack.add(new Pair<>(root.right, current_depth + 1));
+                }
+            }
+            return min_depth;
         }
-
-        int min_depth = Integer.MAX_VALUE;
-        while (!stack.isEmpty()) {
-            Pair<TreeNode, Integer> current = stack.pollLast();
-            root = current.getFirst();
-            int current_depth = current.getSecond();
-            if ((root.left == null) && (root.right == null)) {
-                min_depth = Math.min(min_depth, current_depth);
-            }
-            if (root.left != null) {
-                stack.add(new Pair<>(root.left, current_depth + 1));
-            }
-            if (root.right != null) {
-                stack.add(new Pair<>(root.right, current_depth + 1));
-            }
-        }
-        return min_depth;
     }
+
 
     static class TreeNode {
         int val;
