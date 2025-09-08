@@ -51,6 +51,29 @@ class Solution_110 {
         }
     }
 
+    // early exit for optimisation, same as approach 2 otherwise
+    class Approach_3 {
+
+        public boolean isBalanced(TreeNode root) {
+            return dfsHeight(root) != -1;
+        }
+
+        // Returns height if balanced; otherwise returns -1 as a sentinel.
+        private int dfsHeight(TreeNode node) {
+            if (node == null) return 0;
+
+            int lh = dfsHeight(node.left);
+            if (lh == -1) return -1;
+
+            int rh = dfsHeight(node.right);
+            if (rh == -1) return -1;
+
+            if (Math.abs(lh - rh) > 1) return -1;
+
+            return 1 + Math.max(lh, rh);             // height if balanced
+        }
+    }
+
 
     /**
      * Another approach similar to above -
