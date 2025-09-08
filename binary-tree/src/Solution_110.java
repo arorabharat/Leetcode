@@ -74,32 +74,33 @@ class Solution_110 {
         }
     }
 
+    // same as approach 3
+    class Approch_4 {
 
-    /**
-     * Another approach similar to above -
-     * Fact : if the one of the child is unbalanced then node can not be balanced.
-     * So we will recursively traverse the root ad store height if only tree is balance otherwise we will just store null
-     */
-    private TreeInfo isBalancedTreeHelper(TreeNode root) {
-        if (root == null) {
-            return new TreeInfo(0, true);
-        }
-        TreeInfo left = isBalancedTreeHelper(root.left);
-        if (!left.balanced) {
+        private TreeInfo _isBalanced(TreeNode root) {
+            if (root == null) {
+                return new TreeInfo(0, true);
+            }
+            TreeInfo left = _isBalanced(root.left);
+            if (!left.balanced) {
+                return new TreeInfo(null, false);
+            }
+            TreeInfo right = _isBalanced(root.right);
+            if (!right.balanced) {
+                return new TreeInfo(null, false);
+            }
+            if (Math.abs(left.height - right.height) <= 1) {
+                return new TreeInfo(Math.max(left.height, right.height) + 1, true);
+            }
             return new TreeInfo(null, false);
         }
-        TreeInfo right = isBalancedTreeHelper(root.right);
-        if (!right.balanced) {
-            return new TreeInfo(null, false);
-        }
-        if (Math.abs(left.height - right.height) <= 1) {
-            return new TreeInfo(Math.max(left.height, right.height) + 1, true);
-        }
-        return new TreeInfo(null, false);
-    }
 
-    public boolean isBalanced2(TreeNode root) {
-        return isBalancedTreeHelper(root).balanced;
+        public boolean isBalanced(TreeNode root) {
+            return _isBalanced(root).balanced;
+        }
+
+        record TreeInfo(Integer height, boolean balanced) {
+        }
     }
 
     static class TreeNode {
@@ -121,14 +122,5 @@ class Solution_110 {
         }
     }
 
-    static class TreeInfo {
-        public final Integer height;
-        public final boolean balanced;
-
-        public TreeInfo(Integer height, boolean balanced) {
-            this.height = height;
-            this.balanced = balanced;
-        }
-    }
 
 }
