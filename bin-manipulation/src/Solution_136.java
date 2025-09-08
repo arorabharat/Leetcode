@@ -7,11 +7,13 @@
  */
 class Solution_136 {
 
-    public int singleNumber(int[] nums) {
-        int xor = 0;
-        for (int num : nums) {
-            xor = xor ^ num;
+    class Approach_1 {
+        public int singleNumber(int[] nums) {
+            int xor = 0;
+            for (int num : nums) {
+                xor = xor ^ num;
+            }
+            return xor;
         }
-        return xor;
     }
 }
