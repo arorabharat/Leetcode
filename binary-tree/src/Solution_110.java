@@ -70,7 +70,7 @@ class Solution_110 {
 
             if (Math.abs(lh - rh) > 1) return -1;
 
-            return 1 + Math.max(lh, rh);             // height if balanced
+            return 1 + Math.max(lh, rh);
         }
     }
 
