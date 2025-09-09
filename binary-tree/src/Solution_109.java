@@ -6,6 +6,38 @@ import java.util.List;
  */
 class Solution_109 {
 
+
+    class Approach_1 {
+
+        private List<Integer> convertToArray(ListNode head) {
+            final List<Integer> list = new ArrayList<>();
+            ListNode curr = head;
+            while (curr != null) {
+                list.add(curr.val);
+                curr = curr.next;
+            }
+            return list;
+        }
+
+        private TreeNode _listToBST(List<Integer> arr, final int s, final int e) {
+            if (s > e) {
+                return null;
+            }
+            if (s == e) {
+                return new TreeNode(arr.get(s), null, null);
+            }
+            int m = s + (e - s + 1) / 2;
+            TreeNode left = _listToBST(arr, s, m - 1);
+            TreeNode right = _listToBST(arr, m + 1, e);
+            return new TreeNode(arr.get(m), left, right);
+        }
+
+        public TreeNode sortedListToBST(ListNode head) {
+            final List<Integer> list = convertToArray(head);
+            return _listToBST(list, 0, list.size() - 1);
+        }
+    }
+
     private ListNode head;
 
     /**
