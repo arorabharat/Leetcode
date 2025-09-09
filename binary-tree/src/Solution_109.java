@@ -7,6 +7,7 @@ import java.util.List;
 class Solution_109 {
 
 
+    // recurssive approach
     class Approach_1 {
 
         private List<Integer> convertToArray(ListNode head) {
