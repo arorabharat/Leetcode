@@ -31,7 +31,6 @@ class Solution_103 {
         }
     }
 
-
     static class TreeNode {
         int val;
         TreeNode left;
