@@ -5,6 +5,32 @@ import java.util.*;
  */
 class Solution_107 {
 
+    class Approach_1 {
+
+        public List<List<Integer>> levelOrderBottom(TreeNode root) {
+            List<List<Integer>> levelTraversal = new ArrayList<>();
+            if (root == null) return levelTraversal;
+            Queue<TreeNode> q = new LinkedList<>();
+            q.add(root);
+            Stack<List<Integer>> forwardLevelTraversal = new Stack<>();
+            while (!q.isEmpty()) {
+                int size = q.size();
+                List<Integer> currLevelTraversal = new ArrayList<>();
+                for (int i = 0; i < size; i++) {
+                    TreeNode node = q.poll();
+                    currLevelTraversal.add(node.val);
+                    if (node.left != null) q.add(node.left);
+                    if (node.right != null) q.add(node.right);
+                }
+                forwardLevelTraversal.add(currLevelTraversal);
+            }
+            while (!forwardLevelTraversal.isEmpty()) {
+                levelTraversal.add(forwardLevelTraversal.pop());
+            }
+            return levelTraversal;
+        }
+    }
+
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
         List<List<Integer>> result = new ArrayList<>();
         if (root == null) return result;
