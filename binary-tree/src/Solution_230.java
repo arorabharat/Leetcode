@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -6,6 +8,23 @@ import java.util.Optional;
  * TODO  : read solution
  */
 class Solution_230 {
+
+    // recursive approach
+    class Approach_1 {
+
+        private void bstInorderTraversal(TreeNode root, List<Integer> sortedList) {
+            if (root == null) return;
+            bstInorderTraversal(root.left, sortedList);
+            sortedList.add(root.val);
+            bstInorderTraversal(root.right, sortedList);
+        }
+
+        public int kthSmallest(TreeNode root, int k) {
+            List<Integer> sortedList = new ArrayList<>();
+            bstInorderTraversal(root, sortedList);
+            return sortedList.get(k - 1);
+        }
+    }
 
     public Pair _kthSmallest(TreeNode root, int k) {
         if (Objects.isNull(root)) return new Pair(0, null);
