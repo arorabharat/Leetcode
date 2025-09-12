@@ -26,6 +26,34 @@ class Solution_230 {
         }
     }
 
+    // optimize for early close,
+    // but this cannot be used in the REST api kind of area, as there might be multiple thread
+    // calling the same method on the same object, while processing of another REST request is in process.
+    class Approach_2 {
+
+        private int count = 0;
+        private int k;
+
+        private int bstInorderTraversal(TreeNode root) {
+            if (root == null) return -1;
+            int res = bstInorderTraversal(root.left);
+            if (res != -1) {
+                return res;
+            }
+            count++;
+            if (count == this.k) {
+                return root.val;
+            }
+            return bstInorderTraversal(root.right);
+        }
+
+        public int kthSmallest(TreeNode root, int k) {
+            this.count = 0;
+            this.k = k;
+            return bstInorderTraversal(root);
+        }
+    }
+
     public Pair _kthSmallest(TreeNode root, int k) {
         if (Objects.isNull(root)) return new Pair(0, null);
         if (k == 1) new Pair(null, root.val);
