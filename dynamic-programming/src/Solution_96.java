@@ -30,6 +30,7 @@ class Solution_96 {
     }
 
     class Approach_2 {
+
         public int numTrees(int n) {
             int[] dp = new int[n + 1];
             dp[0] = 1;
