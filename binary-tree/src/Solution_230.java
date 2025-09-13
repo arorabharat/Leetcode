@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * https://leetcode.com/problems/kth-smallest-element-in-a-bst/
@@ -90,7 +87,7 @@ class Solution_230 {
             return new Pair(leftResult.count + 1 + rightResult.count, null);
         }
 
-        public int kthSmallest3(TreeNode root, int k) {
+        public int kthSmallest(TreeNode root, int k) {
             return _kthSmallest(root, k).kElement;
         }
 
@@ -101,6 +98,35 @@ class Solution_230 {
             public Pair(Integer count, Integer kElement) {
                 this.count = count;
                 this.kElement = kElement;
+            }
+        }
+    }
+
+    class Approach_5 {
+
+        public int kthSmallest(TreeNode root, int k) {
+            if (Objects.isNull(root)) {
+                return -1;
+            }
+            int count = 0;
+            Stack<TreeNode> stack = new Stack<>();
+            TreeNode in = root;
+            while (!stack.isEmpty() || in != null) {
+                addLeftBranch(in, stack);
+                TreeNode out = stack.pop();
+                count++;
+                if (count == k) {
+                    return out.val;
+                }
+                in = out.right;
+            }
+            return -1;
+        }
+
+        private void addLeftBranch(TreeNode curr, Stack<TreeNode> stack) {
+            while (curr != null) {
+                stack.add(curr);
+                curr = curr.left;
             }
         }
     }
