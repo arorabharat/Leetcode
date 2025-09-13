@@ -5,7 +5,6 @@ import java.util.Optional;
 
 /**
  * https://leetcode.com/problems/kth-smallest-element-in-a-bst/
- * TODO  : read solution
  */
 class Solution_230 {
 
@@ -55,6 +54,7 @@ class Solution_230 {
     }
 
     class Approach_3 {
+
         int nodeCount = 0;
 
         private Optional<TreeNode> inorder(TreeNode root, int k) {
@@ -78,6 +78,7 @@ class Solution_230 {
     }
 
     class Approach_4 {
+
         public Pair _kthSmallest(TreeNode root, int k) {
             if (Objects.isNull(root)) return new Pair(0, null);
             if (k == 1) new Pair(null, root.val);
@@ -93,7 +94,7 @@ class Solution_230 {
             return _kthSmallest(root, k).kElement;
         }
 
-        class Pair {
+        static class Pair {
             Integer count;
             Integer kElement;
 
