@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 /**
  * https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
  *
@@ -162,6 +164,27 @@ class Solution_236 {
 
             if (left != null && right != null) return root; // p and q found in different branches
             return (left != null) ? left : right;           // bubble up the non-null side (or null)
+        }
+    }
+
+    // iterative approach
+    class Approach_5 {
+
+        TreeNode getPath(TreeNode root, TreeNode find) {
+            Stack<TreeNode> dq = new Stack<>();
+            dq.add(root);
+            while (!dq.isEmpty()) {
+                TreeNode f = dq.pop();
+                if (f == find) {
+                    return f;
+                }
+
+            }
+        }
+
+        public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+            if (root == null || root == p || root == q) return root;
+
         }
     }
 
