@@ -2,7 +2,7 @@ import java.util.Objects;
 
 public class Solution_700 {
 
-
+    // pre order traversal
     class Approach_1 {
         public TreeNode searchBST(TreeNode root, int val) {
             if (root == null) return null;
