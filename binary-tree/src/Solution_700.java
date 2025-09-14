@@ -1,8 +1,8 @@
-import java.util.Objects;
+import java.util.Stack;
 
 public class Solution_700 {
 
-    // pre order traversal
+    // pre order traversal, recursive
     class Approach_1 {
         public TreeNode searchBST(TreeNode root, int val) {
             if (root == null) return null;
@@ -15,12 +15,26 @@ public class Solution_700 {
         }
     }
 
-    public TreeNode searchBST(TreeNode root, int val) {
-        if (Objects.isNull(root)) return null;
-        if (root.val == val) return root;
-        TreeNode leftSearch = searchBST(root.left, val);
-        if (Objects.nonNull(leftSearch)) return leftSearch;
-        return searchBST(root.right, val);
+    // iterative using DFS
+    class Approach_2 {
+
+        public TreeNode searchBST(TreeNode root, int val) {
+            Stack<TreeNode> stack = new Stack<>();
+            stack.add(root);
+            while (!stack.isEmpty()) {
+                TreeNode f = stack.pop();
+                if (f.val == val) {
+                    return f;
+                }
+                if (f.right != null) {
+                    stack.add(f.right);
+                }
+                if (f.left != null) {
+                    stack.add(f.left);
+                }
+            }
+            return null;
+        }
     }
 
     public class TreeNode {
