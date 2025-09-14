@@ -1,9 +1,5 @@
 /**
  * https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
- * Lowest common ancestor special case.
- * Where keys exits
- * Only two nodes
- * Keys are unique
  *
  * @see Solution_235
  */
