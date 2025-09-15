@@ -167,24 +167,35 @@ class Solution_236 {
         }
     }
 
-    // iterative approach
+    // DFS approach
     class Approach_5 {
 
-        TreeNode getPath(TreeNode root, TreeNode find) {
-            Stack<TreeNode> dq = new Stack<>();
-            dq.add(root);
-            while (!dq.isEmpty()) {
-                TreeNode f = dq.pop();
-                if (f == find) {
-                    return f;
+        boolean dfs(TreeNode root, TreeNode key, Stack<TreeNode> path) {
+            if (root != null) {
+                if (root == key || dfs(root.left, key, path) || dfs(root.right, key, path)) {
+                    path.add(root);
+                    return true;
                 }
-
             }
+            return false;
         }
 
         public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
             if (root == null || root == p || root == q) return root;
-
+            Stack<TreeNode> path_p = new Stack<>();
+            if (!dfs(root, p, path_p)) {
+                return null;
+            }
+            Stack<TreeNode> path_q = new Stack<>();
+            if (!dfs(root, q, path_q)) {
+                return null;
+            }
+            TreeNode lca = null;
+            while (!path_q.isEmpty() && !path_p.isEmpty() && path_q.peek() == path_p.peek()) {
+                lca = path_p.pop();
+                path_q.pop();
+            }
+            return lca;
         }
     }
 
