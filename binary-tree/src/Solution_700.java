@@ -40,6 +40,23 @@ public class Solution_700 {
         }
     }
 
+    // leveraging BST property
+    class Approach_3 {
+        public TreeNode searchBST(TreeNode root, int val) {
+            TreeNode it = root;
+            while (it != null) {
+                if (it.val < val) {
+                    it = it.right;
+                } else if (it.val == val) {
+                    return it;
+                } else {
+                    it = it.left;
+                }
+            }
+            return null;
+        }
+    }
+
     public class TreeNode {
         int val;
         TreeNode left;
