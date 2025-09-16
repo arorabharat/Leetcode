@@ -13,6 +13,14 @@ import java.util.List;
  */
 class Solution_113 {
 
+
+    class Approach_1 {
+
+        public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+
+        }
+    }
+
     public List<Deque<Integer>> _pathSum(TreeNode root, int targetSum) {
         if (root == null) {
             return new LinkedList<>();
