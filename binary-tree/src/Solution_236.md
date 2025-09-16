@@ -113,6 +113,61 @@ diverge; the last equal node is the LCA.
 
 **Notes:** Clear conceptually, a bit more code and memory than Approach 1.
 
+Here’s **Approach 3 (root→node paths, then compare)** in Java.
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+import java.util.*;
+
+class Solution {
+  public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    List<TreeNode> pathP = new ArrayList<>();
+    List<TreeNode> pathQ = new ArrayList<>();
+
+    // LeetCode guarantees p and q exist, but guard anyway.
+    if (!findPath(root, p, pathP) || !findPath(root, q, pathQ)) return null;
+
+    // Compare the two paths to find the last common node.
+    int i = 0, minLen = Math.min(pathP.size(), pathQ.size());
+    TreeNode lca = null;
+    while (i < minLen && pathP.get(i) == pathQ.get(i)) {
+      lca = pathP.get(i);
+      i++;
+    }
+    return lca;
+  }
+
+  // Adds nodes from root to target into 'path'; returns true if target is found.
+  private boolean findPath(TreeNode node, TreeNode target, List<TreeNode> path) {
+    if (node == null) return false;
+    path.add(node);
+    if (node == target) return true;  // identity comparison is correct for LeetCode
+
+    if (findPath(node.left, target, path) || findPath(node.right, target, path)) {
+      return true;
+    }
+
+    path.remove(path.size() - 1); // backtrack
+    return false;
+  }
+}
+```
+
+**Complexity:**
+
+* Time: `O(n)` to collect both paths (each node visited at most once).
+* Space: `O(h)` extra for each path + recursion stack, where `h` is the tree height (`O(n)` worst-case skewed,
+  `O(log n)` for balanced).
+
 ---
 
 # Approach 4 (overkill here): Euler Tour + RMQ / Binary Lifting
@@ -153,3 +208,4 @@ diverge; the last equal node is the LCA.
 
 If you want, I can also show a version that detects the case where one of `p` or `q` might be missing (common interview
 twist) and returns `null` accordingly.
+
