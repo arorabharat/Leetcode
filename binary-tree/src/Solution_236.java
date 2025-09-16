@@ -1,4 +1,4 @@
-import java.util.Stack;
+import java.util.*;
 
 /**
  * https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
@@ -194,6 +194,49 @@ class Solution_236 {
             while (!path_q.isEmpty() && !path_p.isEmpty() && path_q.peek() == path_p.peek()) {
                 lca = path_p.pop();
                 path_q.pop();
+            }
+            return lca;
+        }
+    }
+
+    // iterative DFS
+    class Approach_6 {
+
+        Deque<TreeNode> dfs(TreeNode root, TreeNode key) {
+            Stack<TreeNode> stack = new Stack<>();
+            Map<TreeNode, TreeNode> parent = new HashMap<>();
+            Deque<TreeNode> q = new LinkedList<>();
+            stack.add(root);
+            parent.put(root, null);
+            while (!stack.isEmpty()) {
+                TreeNode out = stack.pop();
+                if (out == key) {
+                    TreeNode it = key;
+                    while (parent.containsKey(it) && it != null) {
+                        q.addFirst(it);
+                        it = parent.get(it);
+                    }
+                    return q;
+                }
+                if (out.left != null) {
+                    stack.add(out.left);
+                    parent.put(out.left, out);
+                }
+                if (out.right != null) {
+                    stack.add(out.right);
+                    parent.put(out.right, out);
+                }
+            }
+            return q;
+        }
+
+        public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+            Deque<TreeNode> path_p = dfs(root, p);
+            Deque<TreeNode> path_q = dfs(root, q);
+            TreeNode lca = null;
+            while (!path_p.isEmpty() && !path_q.isEmpty() && path_p.getFirst() == path_q.getFirst()) {
+                lca = path_p.removeFirst();
+                path_q.removeFirst();
             }
             return lca;
         }
