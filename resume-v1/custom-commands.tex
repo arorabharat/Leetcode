@@ -1,10 +1,16 @@
 %-------------------------%
 % Custom commands
 \newcommand{\resumeItem}[1]{
-    \item\small{
-            {#1 \vspace{-2pt}}
-    }
+    \item\small{#1}
 }
+
+\newcommand{\resumeItemMiniPage}[1]{%
+    \item
+    \begin{minipage}[t]{0.97\linewidth}
+    \small #1
+    \end{minipage}%
+}
+
 
 \newcommand{\resumeSubheading}[4]{
     \vspace{-2pt}\item
@@ -32,8 +38,9 @@
 
 \renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
 
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.1in, label={}]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+
 \newcommand{\resumeItemListStart}{\begin{itemize}}
 \newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
 
