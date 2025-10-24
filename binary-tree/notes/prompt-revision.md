@@ -8,3 +8,8 @@
 8. Write a method to do iterative in-order traversal of a tree in JAVA ?
 9. Write a method to do iterative BFS traversal of a tree in JAVA ?
 10. Write a method to return sorted elements from binary search tree ?  
+11. Write a iterative method to find a node in a binary tree in JAVA language ?
+12. Write a recursive method to find a node in a binary tree in JAVA language ?
+13. Write a method to get lowest common ancestor of two nodes in a binary tree in JAVA ?
+14. Write a iterative method to find a node in a binary search tree in JAVA language ?
+15. Write a recursive method to find a node in a binary search tree in JAVA language ?
