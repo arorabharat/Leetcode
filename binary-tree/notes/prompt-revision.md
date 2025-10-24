@@ -7,4 +7,4 @@
 7. Write a method to do iterative post-order traversal of a tree in JAVA ?
 8. Write a method to do iterative in-order traversal of a tree in JAVA ?
 9. Write a method to do iterative BFS traversal of a tree in JAVA ?
-10. Write  
+10. Write a method to return sorted elements from binary search tree ?  
