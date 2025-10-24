@@ -33,4 +33,27 @@ public class Solution_686 {
             return -1;
         }
     }
+
+    class Approach_2 {
+
+        public int repeatedStringMatch(String a, String b) {
+            int m = a.length();
+            int n = b.length();
+            // minimum repetitions so that repeated a has length >= b.length
+            int minRepeats = (n + m - 1) / m;
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < minRepeats; i++) {
+                sb.append(a);
+            }
+            // Try with minRepeats, and maybe minRepeats+1, minRepeats+2
+            for (int extra = 0; extra < 3; extra++) {
+                if (sb.toString().contains(b)) {
+                    return minRepeats + extra;
+                }
+                sb.append(a);
+            }
+            return -1;
+        }
+    }
+
 }
