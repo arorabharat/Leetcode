@@ -26,7 +26,7 @@
 
 ## 🔍 **Insert Operations**
 * Write a method to insert a node from binary search tree in JAVA language — Explain its time and space complexity
-
+* Write a method to insert a node in a binary tree in level order traversal in JAVA language
 ---
 
 ## 🔍 **Search Operations**
