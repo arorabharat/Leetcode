@@ -19,15 +19,12 @@
 ## 🔤 **Binary Search Tree Operations**
 
 * Write a method to return sorted elements from binary search tree
-* Write a method to get the kth largest element in a Binary Search tree in JAVA language
-
 * Write a method to delete a node from binary search tree in JAVA language — Explain its time complexity and space complexity — TODO
 
 ---
 
 ## 🔍 **Insert Operations**
 * Write a method to insert a node from binary search tree in JAVA language — Explain its time and space complexity
-
 
 ---
 
@@ -41,6 +38,7 @@
 * Write a method to find the minimum node in a binary search tree in JAVA language
 * Write a recursive method to get the kth smallest element in a Binary Search tree in JAVA language — Explain its time complexity and space complexity
 * Write an iterative method to get the kth smallest element in a Binary Search tree in JAVA language — Explain its time complexity and space complexity
+* Write a method to get the kth largest element in a Binary Search tree in JAVA language
 
 ---
 
