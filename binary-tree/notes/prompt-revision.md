@@ -1,5 +1,3 @@
-Sure — here’s your prompt list reorganized neatly **without numbering**, grouped by topic and using **bullet points only** 👇
-
 ---
 
 ## 🌳 **Tree Height Calculation**
@@ -13,10 +11,10 @@ Sure — here’s your prompt list reorganized neatly **without numbering**, gro
 
 ## 🔁 **Iterative Traversals**
 
-* Write a method to do iterative pre-order traversal of a tree in JAVA
-* Write a method to do iterative post-order traversal of a tree in JAVA
-* Write a method to do iterative in-order traversal of a tree in JAVA
-* Write a method to do iterative BFS traversal of a tree in JAVA
+* Write a method to do iterative pre-order traversal of a tree in JAVA - Tough
+* Write a method to do iterative post-order traversal of a tree in JAVA - Tough
+* Write a method to do iterative in-order traversal of a tree in JAVA - Tough
+* Write a method to do iterative BFS traversal of a tree in JAVA - Easy
 
 ---
 
