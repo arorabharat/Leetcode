@@ -18,7 +18,8 @@
 17. Write a method to get a top view of a binary tree in JAVA language ?
 18. Write a method to get a top view of a binary tree using pre-order traversal in JAVA language ?
 19. Write a method to get the kth largest element in a Binary Search tree in JAVA language ?
-20. Write a recursive method to get the kth smallest element in a Binary Search tree in JAVA language ? Explain it time
-    complexity and space complexity ?
-21. Write a recursive method to do in-order traversal of a binary tree in JAVA language and explain its time and space
+20. Write a recursive method to get the kth smallest element in a Binary Search tree in JAVA language ? Explain it time complexity and space complexity ?
+21. Write a recursive method to get the kth smallest element in a Binary Search tree in JAVA language ? Explain it time complexity and space complexity ?
+22. Write a recursive method to do in-order traversal of a binary tree in JAVA language and explain its time and space
     complexity ?
+22. 
