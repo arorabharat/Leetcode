@@ -4,11 +4,10 @@ Sure — here’s your prompt list reorganized neatly **without numbering**, gro
 
 ## 🌳 **Tree Height Calculation**
 
-* Write method to get height of the tree using pre-order traversal of a tree in JAVA
-* Write method to get height of the tree using post-order traversal of a tree in JAVA
 * Write method to get height of the tree using in-order traversal of a tree in JAVA
-* Write method to get height of the tree using BFS traversal of a tree in JAVA
+* Write method to get height of the tree using post-order traversal of a tree in JAVA
 * Write method to get height of the tree using DFS traversal of a tree in JAVA
+* Write method to get height of the tree using BFS traversal of a tree in JAVA
 
 ---
 
