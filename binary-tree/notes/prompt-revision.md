@@ -57,6 +57,9 @@
 * Write a method to get the lowest common ancestor of two nodes in a binary tree in JAVA
 * Write a method to get a top view of a binary tree in JAVA language
 * Write a method to get a top view of a binary tree using pre-order traversal in JAVA language
+* Write a method to get a bottom view of a binary tree in JAVA language - #Repeat
+* Write a method to get a left view of a binary tree in JAVA language
+* Write a method to get a right view of a binary tree in JAVA language
 
 ---
 
