@@ -49,6 +49,9 @@
 * Write a recursive method to do in-order traversal of a binary tree in JAVA language — Explain its time and space complexity
 * Write a recursive method to do pre-order traversal of a binary tree in JAVA language — Explain its time and space complexity
 * Write a recursive method to do post-order traversal of a binary tree in JAVA language — Explain its time and space complexity
+* Write a method to do inorder traversal using Morris Traversal in JAVA language - #Tough, #TODO
+* Write a method to find the longest path from root in a binary tree in JAVA language #TODO
+* Write a method to get diameter of binary tree in JAVA language. #TODO
 
 ---
 
