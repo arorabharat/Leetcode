@@ -14,33 +14,37 @@
 * Write a method to do iterative pre-order traversal of a tree in JAVA - Tough
 * Write a method to do iterative post-order traversal of a tree in JAVA - #Tough,#TODO
 * Write a method to do iterative in-order traversal of a tree in JAVA - Tough
-* Write a method to do iterative BFS traversal of a tree in JAVA - Easy
-c
 ---
 
 ## 🔤 **Binary Search Tree Operations**
 
 * Write a method to return sorted elements from binary search tree
 * Write a method to get the kth largest element in a Binary Search tree in JAVA language
-* Write a recursive method to get the kth smallest element in a Binary Search tree in JAVA language — Explain its time complexity and space complexity
-* Write a iterative method to get the kth smallest element in a Binary Search tree in JAVA language — Explain its time complexity and space complexity
+
 * Write a method to delete a node from binary search tree in JAVA language — Explain its time complexity and space complexity — TODO
+
+---
+
+## 🔍 **Insert Operations**
 * Write a method to insert a node from binary search tree in JAVA language — Explain its time and space complexity
-* Write a method to find the maximum node in a binary search tree in JAVA language
-* Write a method to find the minimum node in a binary search tree in JAVA language
+
 
 ---
 
 ## 🔍 **Search Operations**
 
-* Write a iterative method to find a node in a binary tree in JAVA language
+* Write an iterative method to find a node in a binary tree in JAVA language
 * Write a recursive method to find a node in a binary tree in JAVA language
-* Write a recursive method to search a node from binary search tree in JAVA language — Explain its time complexity and space complexity
-* Write a iterative method to search a node from binary search tree in JAVA language — Explain its time complexity and space complexity
+* Write a recursive method to find a node from binary search tree in JAVA language — Explain its time complexity and space complexity
+* Write an iterative method to find a node from binary search tree in JAVA language — Explain its time complexity and space complexity
+* Write a method to find the maximum node in a binary search tree in JAVA language
+* Write a method to find the minimum node in a binary search tree in JAVA language
+* Write a recursive method to get the kth smallest element in a Binary Search tree in JAVA language — Explain its time complexity and space complexity
+* Write an iterative method to get the kth smallest element in a Binary Search tree in JAVA language — Explain its time complexity and space complexity
 
 ---
 
-## 🌐 **Tree Traversal (Recursive + Level Order)**
+## 🌐 **Tree Traversal **
 
 * Write a method to do return level order traversal of binary tree in JAVA language
 * Write a recursive method to do in-order traversal of a binary tree in JAVA language — Explain its time and space complexity
