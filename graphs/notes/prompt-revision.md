@@ -8,6 +8,10 @@
 * Write a recursive method to Depth first traversal of an undirected graph in JAVA language
 * Write a iterative method to Depth first traversal of an undirected graph in JAVA language
 
+## Cycle Detection
+* Write a method to detect cycle in an undirected graph in JAVA language.
+* Write a method to detect cycle in an directed graph in JAVA language.
+
 
 ## Shortest Distance
 
