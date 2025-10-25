@@ -21,6 +21,8 @@
 20. Write a recursive method to get the kth smallest element in a Binary Search tree in JAVA language ? Explain it time complexity and space complexity ?
 21. Write a iterative method to get the kth smallest element in a Binary Search tree in JAVA language ? Explain it time complexity and space complexity ?
 22. Write a recursive method to do in-order traversal of a binary tree in JAVA language and explain its time and space complexity ?
-23. Write a method to search a node from binary search tree in JAVA language ? Explain it time complexity and space complexity
-24. Write a method to delete a node from binary search tree in JAVA language ?
-25. Write a method to insert a node from binary search tree in JAVA language ?
+23. Write a method to search a node from binary search tree in JAVA language ? Explain its time complexity and space complexity
+24. Write a method to delete a node from binary search tree in JAVA language ? Explain its time complexity and space complexity ? TODO
+25. Write a method to insert a node from binary search tree in JAVA language ? Explain its time and space complexity ?
+26. Write a method to find the maximum node in a binary search tree in JAVA language ?
+27. Write a method to find the minimum node in a binary search tree in JAVA language ?
