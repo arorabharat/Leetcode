@@ -12,10 +12,10 @@
 ## 🔁 **Iterative Traversals**
 
 * Write a method to do iterative pre-order traversal of a tree in JAVA - Tough
-* Write a method to do iterative post-order traversal of a tree in JAVA - Tough
+* Write a method to do iterative post-order traversal of a tree in JAVA - #Tough,#TODO
 * Write a method to do iterative in-order traversal of a tree in JAVA - Tough
 * Write a method to do iterative BFS traversal of a tree in JAVA - Easy
-
+c
 ---
 
 ## 🔤 **Binary Search Tree Operations**
@@ -35,8 +35,6 @@
 
 * Write a iterative method to find a node in a binary tree in JAVA language
 * Write a recursive method to find a node in a binary tree in JAVA language
-* Write a iterative method to find a node in a binary search tree in JAVA language
-* Write a recursive method to find a node in a binary search tree in JAVA language
 * Write a recursive method to search a node from binary search tree in JAVA language — Explain its time complexity and space complexity
 * Write a iterative method to search a node from binary search tree in JAVA language — Explain its time complexity and space complexity
 * Write a iterative method to search a node from binary search tree in JAVA language — Explain its time complexity and space complexity
