@@ -1,3 +1,4 @@
+## Recursive traversal
 1. Write method to get height of the tree using pre-order traversal of a tree in JAVA ?
 2. Write method to get height of the tree using post-order traversal of a tree in JAVA ?
 3. Write method to get height of the tree using in-order traversal of a tree in JAVA ?
@@ -14,3 +15,5 @@
 14. Write a iterative method to find a node in a binary search tree in JAVA language ?
 15. Write a recursive method to find a node in a binary search tree in JAVA language ?
 16. Write a method to do return level order traversal of binary tree in JAVA language ?
+17. Write a method to get a top view of a binary tree in JAVA language ?
+18. Write a method to get a top view of a binary tree using pre-order traversal in JAVA language ?
