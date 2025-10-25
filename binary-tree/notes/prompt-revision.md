@@ -37,7 +37,6 @@ c
 * Write a recursive method to find a node in a binary tree in JAVA language
 * Write a recursive method to search a node from binary search tree in JAVA language — Explain its time complexity and space complexity
 * Write a iterative method to search a node from binary search tree in JAVA language — Explain its time complexity and space complexity
-* Write a iterative method to search a node from binary search tree in JAVA language — Explain its time complexity and space complexity
 
 ---
 
