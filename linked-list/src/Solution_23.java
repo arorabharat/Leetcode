@@ -5,6 +5,7 @@ import java.util.PriorityQueue;
  */
 class Solution_23 {
 
+
     /**
      * it merges the two sorted list
      */
@@ -111,6 +112,30 @@ class Solution_23 {
             curr = front;
         }
         return pseudo.next;
+    }
+
+    class Approach4 {
+        public ListNode mergeKLists(ListNode[] lists) {
+            PriorityQueue<ListNode> q = new PriorityQueue<>((a, b) -> a.val - b.val);
+            for (ListNode node : lists) {
+                if (node != null) {
+                    q.add(node);
+                }
+            }
+            ListNode head = new ListNode(-1);
+            ListNode curr = head;
+
+            while (!q.isEmpty()) {
+                ListNode node = q.remove();
+                curr.next = node;
+                curr = curr.next;
+                if (node.next != null) {
+                    q.add(node.next);
+                }
+            }
+
+            return head.next;
+        }
     }
 
     static class ListNode {
