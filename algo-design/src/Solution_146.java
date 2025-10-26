@@ -8,19 +8,123 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 class Solution_146 {
 
-    /**
-     * Your LRUCache object will be instantiated and called as such:
-     * LRUCache obj = new LRUCache(capacity);
-     * int param_1 = obj.get(key);
-     * obj.put(key,value);
-     */
-    static class LRUCache {
+
+    class LRUCache {
+
+        static class Node {
+            int key;
+            int val;
+            Node prev;
+            Node next;
+
+            public Node(int key, int val, Node prev, Node next) {
+                this.key = key;
+                this.val = val;
+                this.prev = prev;
+                this.next = next;
+            }
+        }
+
+        class DoublyLinkedList {
+
+            private Node head;
+            private Node tail;
+
+            Node addFront(int key, int value) {
+                if (this.head == null) {
+                    this.head = new Node(key, value, null, null);
+                    this.tail = this.head;
+                } else {
+                    Node curr = new Node(key, value, null, head);
+                    curr.next = this.head;
+                    this.head.prev = curr;
+                    this.head = curr;
+                }
+                return this.head;
+            }
+
+            Node removeLast() {
+                if (this.tail != null) {
+                    Node curr = this.tail;
+                    Node prev = curr.prev;
+                    if (prev == null) {
+                        this.head = null;
+                        this.tail = null;
+                    } else {
+                        curr.prev = null;
+                        prev.next = null;
+                        this.tail = prev;
+                    }
+                    return curr;
+                }
+                return null;
+            }
+
+            void moveFront(Node curr) {
+                if (curr == null) {
+                    return;
+                }
+                Node prev = curr.prev;
+                Node next = curr.next;
+                if (prev == null) {
+                    return;
+                } else if (next == null) {
+                    prev.next = null;
+                    this.tail = this.tail.prev;
+                } else {
+                    prev.next = next;
+                    next.prev = prev;
+                }
+                this.head.prev = curr;
+                curr.prev = null;
+                curr.next = this.head;
+                this.head = curr;
+            }
+        }
+
+        private final int capacity;
+        private final Map<Integer, Node> cache;
+        private final DoublyLinkedList list;
+
+        public LRUCache(int capacity) {
+            this.cache = new HashMap<>();
+            this.list = new DoublyLinkedList();
+            this.capacity = capacity;
+        }
+
+        public int get(int key) {
+            if (this.cache.containsKey(key)) {
+                Node curr = this.cache.get(key);
+                this.list.moveFront(curr);
+                return curr.val;
+            } else {
+                return -1;
+            }
+        }
+
+        public void put(int key, int value) {
+            if (this.cache.containsKey(key)) {
+                Node curr = this.cache.get(key);
+                curr.val = value;
+                this.list.moveFront(curr);
+            } else {
+                if (this.cache.size() == this.capacity) {
+                    Node removed = this.list.removeLast();
+                    this.cache.remove(removed.key);
+                }
+                Node curr = this.list.addFront(key, value);
+                this.cache.put(key, curr);
+            }
+        }
+    }
+
+    static class LRUCache_2 {
 
         int capacity;
         Map<Integer, Integer> keyValueMap;
         Set<Integer> linkedHashSet;
 
-        public LRUCache(int capacity) {
+        public LRUCache_2(int capacity) {
             this.capacity = capacity;
             this.keyValueMap = new ConcurrentHashMap<>();
             this.linkedHashSet = new LinkedHashSet<>();
