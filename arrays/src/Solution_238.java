@@ -28,7 +28,7 @@ class Solution_238 {
 
     class Approach_2 {
 
-        public int[] productExceptSelf2(int[] nums) {
+        public int[] productExceptSelf(int[] nums) {
             int n = nums.length;
             int[] result = new int[n];
             int prefix = 1;
