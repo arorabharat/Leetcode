@@ -3,6 +3,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// todo better approaches available
+// https://leetcode.com/problems/count-beautiful-substrings-i/?envType=problem-list-v2&envId=prefix-sum
+
 public class Solution_151 {
 
 
