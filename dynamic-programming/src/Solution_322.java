@@ -118,6 +118,7 @@ class Solution_322 {
         }
     }
 
+    // best approach and best implementation
     class Approach_5 {
 
         /**
@@ -134,8 +135,6 @@ class Solution_322 {
                     int coin = coins[i - 1];
                     if (j - coin >= 0 && dp[j - coin] != Integer.MAX_VALUE) {
                         dp[j] = Math.min(dp[j], dp[j - coin] + 1);
-                    } else {
-                        dp[j] = dp[j];
                     }
                 }
             }
