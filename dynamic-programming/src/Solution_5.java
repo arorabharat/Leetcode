@@ -3,50 +3,130 @@
  */
 class Solution_5 {
 
-    private int[][] longestCommonSubstringEndingAt(String a, String b) {
-        int m = a.length();
-        int n = b.length();
-        int[][] dp = new int[m + 1][n + 1];
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-                if (a.charAt(i - 1) == b.charAt(j - 1)) {
-                    dp[i][j] = 1 + dp[i - 1][j - 1];
-                } else {
-                    dp[i][j] = 0;
+    class Approach_1 {
+
+        public String longestPalindrome(String s) {
+            if (s == null || s.isEmpty()) {
+                return "";
+            }
+
+            int n = s.length();
+            int ls = 0;
+            int le = 0;
+            for (int left = 0; left < n; left++) {
+                for (int right = left; right < n; right++) {
+                    if (isPalindrome(s, left, right) && (right - left) > (le - ls)) {
+                        ls = left;
+                        le = right;
+                    }
                 }
             }
+            return s.substring(ls, le + 1);
         }
-        return dp;
+
+        public boolean isPalindrome(String s, int left, int right) {
+            while (left < right) {
+                if (s.charAt(left) != s.charAt(right)) {
+                    return false;
+                }
+                left++;
+                right--;
+            }
+            return true;
+        }
     }
 
-    // 1 based index
-    private int startIndex(int endIndex, int len) {
-        return endIndex - len + 1;
-    }
+    // using common subsequence
+    class Approach_2 {
 
-    // 1 based index
-    private int reverseIndex(int len, int index) {
-        return len - index + 1;
-    }
-
-    public String longestPalindrome(String s) {
-        StringBuilder sb = new StringBuilder(s);
-        String sr = sb.reverse().toString();
-        int[][] dp = longestCommonSubstringEndingAt(s, sr);
-        int m = s.length();
-        int mi = 1;
-        int mj = 1;
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= m; j++) {
-                // expected starting index of palindrome string
-                // actual starting index of palindrome character
-                if (dp[mi][mj] < dp[i][j] && startIndex(i, dp[i][j]) == reverseIndex(m, j)) {
-                    mi = i;
-                    mj = j;
+        private int[][] longestCommonSubstringEndingAt(String a, String b) {
+            int m = a.length();
+            int n = b.length();
+            int[][] dp = new int[m + 1][n + 1];
+            for (int i = 1; i <= m; i++) {
+                for (int j = 1; j <= n; j++) {
+                    if (a.charAt(i - 1) == b.charAt(j - 1)) {
+                        dp[i][j] = 1 + dp[i - 1][j - 1];
+                    } else {
+                        dp[i][j] = 0;
+                    }
                 }
             }
+            return dp;
         }
-        return s.substring(startIndex(mi, dp[mi][mj]) - 1, mi);
+
+        // 1 based index
+        private int startIndex(int endIndex, int len) {
+            return endIndex - len + 1;
+        }
+
+
+        public String longestPalindrome(String s) {
+            StringBuilder sb = new StringBuilder(s);
+            String sr = sb.reverse().toString();
+            int[][] dp = longestCommonSubstringEndingAt(s, sr);
+            int m = s.length();
+            int mi = 1;
+            int mj = 1;
+            for (int i = 1; i <= m; i++) {
+                for (int j = 1; j <= m; j++) {
+                    // expected starting index of palindrome string
+                    // actual starting index of palindrome character
+                    if (dp[mi][mj] < dp[i][j] && startIndex(i, dp[i][j]) == reverseIndex(m, j)) {
+                        mi = i;
+                        mj = j;
+                    }
+                }
+            }
+            return s.substring(startIndex(mi, dp[mi][mj]) - 1, mi);
+        }
+
+        // 1 based index
+        private int reverseIndex(int len, int index) {
+            return len - index + 1;
+        }
+    }
+
+    // using DP memorisation
+    class Approach_3 {
+
+        private Pair[][] lpCache;
+
+        record Pair(int l, int r) {
+
+            public int getLength() {
+                return r - l + 1;
+            }
+        }
+
+        private Pair longestPalindrome(String s, int l, int r) {
+            if (r <= l) {
+                return new Pair(l, r);
+            } else {
+                if (lpCache[l][r] != null) {
+                    return lpCache[l][r];
+                }
+                Pair llp = longestPalindrome(s, l, r - 1);
+                Pair rlp = longestPalindrome(s, l + 1, r);
+                Pair plp = (rlp.getLength() > llp.getLength()) ? rlp : llp;
+                if (s.charAt(l) == s.charAt(r)) {
+                    Pair clp = longestPalindrome(s, l + 1, r - 1);
+                    if (clp.l() == l + 1 && clp.r() == r - 1) {
+                        plp = new Pair(l, r);
+                    }
+                }
+                lpCache[l][r] = plp;
+                return plp;
+            }
+        }
+
+        public String longestPalindrome(String s) {
+            if (s == null || s.isEmpty()) return "";
+            int n = s.length();
+            lpCache = new Pair[n][n];
+            Pair longestPalindrome = longestPalindrome(s, 0, n - 1);
+            return s.substring(longestPalindrome.l(), longestPalindrome.r() + 1);
+        }
     }
 }
 
