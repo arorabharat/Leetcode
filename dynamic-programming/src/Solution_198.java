@@ -2,6 +2,53 @@
  * https://leetcode.com/problems/house-robber/
  */
 class Solution_198 {
+
+
+    // recursive appraoch
+    class Approach_1 {
+
+        private int rob(int[] nums, int it) {
+            if (it < 0) {
+                return 0;
+            } else if (it == 0) {
+                return nums[0];
+            } else if (it == 1) {
+                return Math.max(nums[0], nums[1]);
+            } else {
+                int c1 = rob(nums, it - 2) + nums[it];
+                int c2 = rob(nums, it - 1);
+                return Math.max(c1, c2);
+            }
+        }
+
+        public int rob(int[] nums) {
+            return rob(nums, nums.length - 1);
+        }
+    }
+
+    class Approach_2 {
+
+        public int rob(int[] nums) {
+            int n = nums.length;
+            if (n == 1) {
+                return nums[0];
+            }
+            if (n == 2) {
+                return Math.max(nums[0], nums[1]);
+            }
+            int maxMoneyCurrMinus2 = nums[0];
+            int maxMoneyCurrMinus1 = Math.max(nums[0], nums[1]);
+            int maxMoneyCurr = 0;
+            for (int i = 2; i < n; i++) {
+                maxMoneyCurr = Math.max(maxMoneyCurrMinus1, (maxMoneyCurrMinus2 + nums[i]));
+                maxMoneyCurrMinus2 = maxMoneyCurrMinus1;
+                maxMoneyCurrMinus1 = maxMoneyCurr;
+            }
+            return maxMoneyCurr;
+        }
+    }
+
+
     /**
      * Recursive approach
      */
