@@ -3,6 +3,44 @@
  */
 class Solution_5 {
 
+
+    class Approach_6 {
+
+        public String longestPalindrome(String s) {
+            if (s == null || s.length() < 1) return s;
+            int n = s.length();
+            boolean[][] dp = new boolean[n][n];
+
+            int bestStart = 0;
+            int bestLen = 1;
+
+            // substrings of length 1 are palindromes
+            for (int i = 0; i < n; i++) dp[i][i] = true;
+
+            // consider substrings of length L from 2..n
+            for (int L = 2; L <= n; L++) {
+                for (int i = 0; i + L - 1 < n; i++) {
+                    int j = i + L - 1;
+                    if (s.charAt(i) != s.charAt(j)) {
+                        dp[i][j] = false;
+                    } else {
+                        // if length <= 2 then it's palindrome when ends match (e.g., "aa")
+                        // otherwise rely on inner substring dp[i+1][j-1]
+                        if (L <= 2) dp[i][j] = true;
+                        else dp[i][j] = dp[i + 1][j - 1];
+                    }
+
+                    if (dp[i][j] && L > bestLen) {
+                        bestLen = L;
+                        bestStart = i;
+                    }
+                }
+            }
+
+            return s.substring(bestStart, bestStart + bestLen);
+        }
+    }
+
     class Approach_1 {
 
         public String longestPalindrome(String s) {
