@@ -7,7 +7,7 @@ class Solution_5 {
     class Approach_6 {
         // DP approach: O(n^2) time, O(n^2) space
         public String longestPalindrome(String s) {
-            if (s == null || s.length() < 1) return s;
+            if (s == null || s.isEmpty()) return s;
             int n = s.length();
             boolean[][] dp = new boolean[n][n];
 
