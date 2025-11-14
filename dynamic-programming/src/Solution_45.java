@@ -14,15 +14,13 @@ class Solution_45 {
     public int jump(int[] nums) {
         int n = nums.length;
         int[] dp = new int[n];
-        Arrays.fill(dp, Integer.MAX_VALUE);
+        int infinity = Integer.MAX_VALUE;
+        Arrays.fill(dp, infinity);
         dp[0] = 0;
         for (int i = 0; i < n; i++) {
-            for (int j = 1; j <= nums[i]; j++) {
-                if (i + j < n) {
-                    dp[i + j] = Math.min(dp[i + j], dp[i] + 1);
-                } else {
-                    break;
-                }
+            if (dp[i] == infinity) continue;
+            for (int j = i + 1; j < n && j <= i + nums[i]; j++) {
+                dp[j] = Math.min(dp[j], dp[i] + 1);
             }
         }
         return dp[n - 1];
