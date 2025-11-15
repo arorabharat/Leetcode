@@ -10,6 +10,42 @@ import java.util.Map;
  */
 class Solution_1 {
 
+    class Approach_1 {
+
+        record Pair(int a, int b) {
+        }
+
+        public int[] twoSum(int[] nums, int target) {
+            int n = nums.length;
+            if(n < 2) {
+                return new int[]{-1,-1};
+            }
+            Pair[] p = new Pair[n];
+            for(int i=0;i<n;i++) {
+                p[i] = new Pair(nums[i],i);
+            }
+            Arrays.sort(p,(x,y)->x.a-y.a); // o(logN)
+            int l = 0;
+            int r = n - 1;
+            while(l<r) {
+                int s = p[l].a + p[r].a;
+                if(s == target) {
+                    break;
+                }
+                else if(s > target) {
+                    r--;
+                }
+                else {
+                    l++;
+                }
+            }
+            if(l == r) {
+                return new int[]{-1,-1};
+            }
+            return new int[]{p[l].b,p[r].b};
+        }
+    }
+
     /**
      * Using hashmap,
      * we hash all the numbers and iterate through all the element if the target - current number exist in the map then we have found the solution.
