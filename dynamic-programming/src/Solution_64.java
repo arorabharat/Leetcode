@@ -82,4 +82,31 @@ class Solution_64 {
         }
         return dp[n - 1];
     }
+
+    public int minPathSum5(int[][] grid) {
+        int inf = Integer.MAX_VALUE;
+        int m = grid.length;
+        if (m == 0) return inf;
+        int n = grid[0].length;
+        if (n == 0) return inf;
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                dp[i][j] = inf;
+            }
+        }
+        dp[0][0] = grid[0][0];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int v = grid[i][j];
+                if (i > 0) {
+                    dp[i][j] = dp[i - 1][j] + v;
+                }
+                if (j > 0) {
+                    dp[i][j] = Math.min(dp[i][j], dp[i][j - 1] + v);
+                }
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
 }
