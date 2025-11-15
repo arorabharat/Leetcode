@@ -2,102 +2,118 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.IntStream;
 
 /**
  * https://leetcode.com/problems/two-sum/
+ * 
+ * Problem: Given an array of integers nums and an integer target, 
+ * return indices of the two numbers such that they add up to target.
+ * 
+ * Time Complexity Analysis:
+ * - HashMap approach: O(n) time, O(n) space - OPTIMAL
+ * - Two pointer with sort: O(n log n) time, O(n) space
+ * - Binary search: O(n log n) time, O(n) space
+ * - Brute force: O(n²) time, O(1) space
  *
  * @see Solution_15
  */
 class Solution_1 {
 
+    /**
+     * Approach 1: Two Pointer with Sorting (using Record)
+     * Time: O(n log n), Space: O(n)
+     * Optimized: Using Integer.compare to avoid overflow, cleaner comparator
+     */
     class Approach_1 {
-
-        record Pair(int a, int b) {
+        record Pair(int value, int index) {
         }
 
         public int[] twoSum(int[] nums, int target) {
             int n = nums.length;
-            if(n < 2) {
-                return new int[]{-1,-1};
+            if (n < 2) {
+                return new int[]{-1, -1};
             }
-            Pair[] p = new Pair[n];
-            for(int i=0;i<n;i++) {
-                p[i] = new Pair(nums[i],i);
+            Pair[] pairs = new Pair[n];
+            for (int i = 0; i < n; i++) {
+                pairs[i] = new Pair(nums[i], i);
             }
-            Arrays.sort(p,(x,y)->x.a-y.a); // o(logN)
-            int l = 0;
-            int r = n - 1;
-            while(l<r) {
-                int s = p[l].a + p[r].a;
-                if(s == target) {
-                    break;
+            // Using Integer.compare to avoid integer overflow
+            Arrays.sort(pairs, Comparator.comparingInt(Pair::value));
+            int left = 0;
+            int right = n - 1;
+            while (left < right) {
+                int sum = pairs[left].value() + pairs[right].value();
+                if (sum == target) {
+                    return new int[]{pairs[left].index(), pairs[right].index()};
+                } else if (sum > target) {
+                    right--;
+                } else {
+                    left++;
                 }
-                else if(s > target) {
-                    r--;
-                }
-                else {
-                    l++;
-                }
             }
-            if(l == r) {
-                return new int[]{-1,-1};
-            }
-            return new int[]{p[l].b,p[r].b};
+            return new int[]{-1, -1};
         }
     }
 
     /**
-     * Using hashmap,
-     * we hash all the numbers and iterate through all the element if the target - current number exist in the map then we have found the solution.
-     * We do not pre hash to avoid picking the same number again , we use running hash to solve that problem
+     * Approach 2: HashMap (One-Pass) - OPTIMAL
+     * Time: O(n), Space: O(n)
+     * 
+     * We use a running hash to avoid picking the same number twice.
+     * For each element, check if (target - current) exists in map.
+     * If found, return indices; otherwise, add current to map.
      */
     public int[] twoSum(int[] nums, int target) {
-        int n = nums.length;
-        Map<Integer, Integer> hash = new HashMap<>();
-        for (int i = 0; i < n; i++) {
-            int req = target - nums[i];
-            if (hash.containsKey(req)) {
-                return new int[]{hash.get(req), i};
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+            if (map.containsKey(complement)) {
+                return new int[]{map.get(complement), i};
             }
-            hash.put(nums[i], i);
+            map.put(nums[i], i);
         }
         return new int[]{-1, -1};
     }
 
     /**
-     * Two pointer,
-     * Sort the array and take two pointer i and j
+     * Approach 3: Two Pointer with Sorting (using Record - optimized version of twoSum2)
+     * Time: O(n log n), Space: O(n)
+     * Optimized: Using record instead of 2D array for better readability and performance
      */
     public int[] twoSum2(int[] nums, int target) {
         int n = nums.length;
-        int i = 0;
-        int j = n - 1;
-        int[][] numsWithIndex = new int[n][2];
-        for (int k = 0; k < n; k++) {
-            numsWithIndex[k][0] = nums[k];
-            numsWithIndex[k][1] = k;
+        record Pair(int value, int index) {
         }
-        Arrays.sort(numsWithIndex, Comparator.comparingInt(a -> a[0]));
-        while (i < j) {
-            if (numsWithIndex[i][0] + numsWithIndex[j][0] == target) {
-                return new int[]{numsWithIndex[i][1], numsWithIndex[j][1]};
-            } else if (numsWithIndex[i][0] + numsWithIndex[j][0] < target) {
-                i++;
+        Pair[] pairs = new Pair[n];
+        for (int i = 0; i < n; i++) {
+            pairs[i] = new Pair(nums[i], i);
+        }
+        Arrays.sort(pairs, Comparator.comparingInt(Pair::value));
+        int left = 0, right = n - 1;
+        while (left < right) {
+            int sum = pairs[left].value() + pairs[right].value();
+            if (sum == target) {
+                return new int[]{pairs[left].index(), pairs[right].index()};
+            } else if (sum < target) {
+                left++;
             } else {
-                j--;
+                right--;
             }
         }
         return new int[]{-1, -1};
     }
 
     /**
-     * brute force approach.
-     * Thu Sep 21 23:38:28 IST 2023
+     * Approach 4: Brute Force (Optimized)
+     * Time: O(n²), Space: O(1)
+     * Optimized: Start j from i+1 to avoid checking same pairs twice and remove redundant i != j check
      */
     public int[] twoSum3(int[] nums, int target) {
         for (int i = 0; i < nums.length; i++) {
-            for (int j = 0; j < nums.length; j++) {
-                if (i != j && nums[i] + nums[j] == target) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[i] + nums[j] == target) {
                     return new int[]{i, j};
                 }
             }
@@ -105,34 +121,94 @@ class Solution_1 {
         return new int[]{-1, -1};
     }
 
-
-    int binarySearch(int[] nums, int s, int e, int key) {
-        if (e < s) return -1;
-        int mid = (s + e) / 2;
-        if (nums[mid] == key) {
-            return mid;
-        } else if (nums[mid] > key) {
-            return binarySearch(nums, s, mid - 1, key);
-        } else {
-            return binarySearch(nums, mid + 1, e, key);
+    /**
+     * Approach 5: Binary Search (Fixed and Optimized)
+     * Time: O(n log n), Space: O(n)
+     * Fixed: Properly sorts array with indices and searches on sorted array
+     */
+    private int binarySearch(Pair[] arr, int start, int end, int key) {
+        while (start <= end) {
+            int mid = start + (end - start) / 2; // Avoid overflow
+            if (arr[mid].value() == key) {
+                return mid;
+            } else if (arr[mid].value() > key) {
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
         }
+        return -1;
+    }
+
+    record Pair(int value, int index) {
     }
 
     public int[] twoSum4(int[] nums, int target) {
-        int[][] arrWithIndices = new int[2][nums.length];
-        for (int i = 0; i < nums.length; i++) {
-            arrWithIndices[0][i] = i;
-            arrWithIndices[1][i] = nums[i];
+        int n = nums.length;
+        Pair[] pairs = new Pair[n];
+        for (int i = 0; i < n; i++) {
+            pairs[i] = new Pair(nums[i], i);
         }
-        Arrays.sort(arrWithIndices, Comparator.comparingInt(a -> a[1]));
-        for (int i = 0; i < arrWithIndices.length; i++) {
-            System.out.println(arrWithIndices[0][i] + " " + arrWithIndices[1][i]);
-        }
-        for (int i = 0; i < nums.length; i++) {
-            int j = binarySearch(nums, i + 1, nums.length - 1, target - nums[i]);
+        Arrays.sort(pairs, Comparator.comparingInt(Pair::value));
+        for (int i = 0; i < n; i++) {
+            int complement = target - pairs[i].value();
+            int j = binarySearch(pairs, i + 1, n - 1, complement);
             if (j != -1) {
-                return new int[]{i, j};
+                return new int[]{pairs[i].index(), pairs[j].index()};
             }
+        }
+        return new int[]{-1, -1};
+    }
+
+    /**
+     * Approach 6: TreeMap (Different Data Structure)
+     * Time: O(n log n), Space: O(n)
+     * Uses TreeMap instead of HashMap - maintains sorted order but slower
+     * Note: Less efficient than HashMap but demonstrates different approach
+     */
+    public int[] twoSum5(int[] nums, int target) {
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+            if (map.containsKey(complement)) {
+                return new int[]{map.get(complement), i};
+            }
+            map.put(nums[i], i);
+        }
+        return new int[]{-1, -1};
+    }
+
+    /**
+     * Approach 7: Stream-based (Functional Programming Style)
+     * Time: O(n²), Space: O(1)
+     * Different approach using Java Streams - more readable but less efficient
+     * Note: This is more of a demonstration of functional style, not optimal
+     */
+    public int[] twoSum6(int[] nums, int target) {
+        return IntStream.range(0, nums.length)
+                .boxed()
+                .flatMap(i -> IntStream.range(i + 1, nums.length)
+                        .filter(j -> nums[i] + nums[j] == target)
+                        .mapToObj(j -> new int[]{i, j}))
+                .findFirst()
+                .orElse(new int[]{-1, -1});
+    }
+
+    /**
+     * Approach 8: HashMap with Early Size Optimization
+     * Time: O(n), Space: O(n)
+     * Optimized: Pre-allocates HashMap with expected size to reduce rehashing
+     */
+    public int[] twoSum7(int[] nums, int target) {
+        // Pre-allocate with load factor to reduce rehashing
+        Map<Integer, Integer> map = new HashMap<>((int) (nums.length / 0.75f) + 1);
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+            Integer complementIndex = map.get(complement);
+            if (complementIndex != null) {
+                return new int[]{complementIndex, i};
+            }
+            map.put(nums[i], i);
         }
         return new int[]{-1, -1};
     }
