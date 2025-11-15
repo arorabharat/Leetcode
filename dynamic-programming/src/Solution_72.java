@@ -67,8 +67,8 @@ class Solution_72 {
 
     // top down approach
     public int minDistance2(String word1, String word2) {
-        if (word1.length() == 0) return word2.length();
-        if (word2.length() == 0) return word1.length();
+        if (word1.isEmpty()) return word2.length();
+        if (word2.isEmpty()) return word1.length();
 
         return match(word1.toCharArray(), word2.toCharArray(), 0, 0, new Integer[word1.length()][word2.length()]);
     }
