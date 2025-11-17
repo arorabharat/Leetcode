@@ -1,6 +1,3 @@
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * https://www.youtube.com/watch?v=Osz-Vwer6rw&list=PL_z_8CaSLPWekqhdCPmFohncHwz8TY2Go&index=49
  * https://leetcode.com/problems/binary-tree-maximum-path-sum/
@@ -9,73 +6,91 @@ class Solution_124 {
 
 
     class Approach_1 {
+        /**
+         * Single-pass DFS approach (optimized from original two-pass with memoization).
+         * 
+         * Algorithm:
+         * For each node, we compute two things:
+         * 1. Max path sum going THROUGH this node (can use both left and right branches)
+         * 2. Max path sum going DOWNWARD from this node (for parent's calculation)
+         * 
+         * Key insight: When computing path through a node, only include non-negative
+         * contributions from children to maximize the sum.
+         */
+        private int maxSum = Integer.MIN_VALUE;
 
-        private Map<TreeNode, Integer> memo;
-
-        int dfs(TreeNode root) {
+        /**
+         * Returns maximum path sum starting from root going downward (to any descendant).
+         * Updates global maxSum when considering paths through each node.
+         */
+        private int maxPathSumDownward(TreeNode root) {
             if (root == null) {
                 return 0;
             }
-            if (memo.containsKey(root)) {
-                return memo.get(root);
-            }
-            TreeNode left = root.left;
-            int leftSum = dfs(left);
-            TreeNode right = root.right;
-            int rightSum = dfs(right);
-            int maxSum = Math.max(0, Math.max(leftSum, rightSum)) + root.val;
-            memo.put(root, maxSum);
-            return maxSum;
+
+            int leftSum = maxPathSumDownward(root.left);
+            int rightSum = maxPathSumDownward(root.right);
+
+            // Maximum path sum going through current node
+            // Only consider non-negative contributions from left and right
+            int pathThroughNode = Math.max(0, leftSum) + Math.max(0, rightSum) + root.val;
+            maxSum = Math.max(maxSum, pathThroughNode);
+
+            // Return maximum path sum downward from current node
+            // Choose the better branch (left or right) and add current node's value
+            int maxPathDownward = Math.max(0, Math.max(leftSum, rightSum)) + root.val;
+            return maxPathDownward;
         }
-
-        int max = Integer.MIN_VALUE;
-
-        void maxFindDfs(TreeNode root) {
-            if (root == null) {
-                return;
-            }
-            int leftSum = Math.max(0, memo.getOrDefault(root.left, 0));
-            int rightSum = Math.max(0, memo.getOrDefault(root.right, 0));
-            max = Math.max(max, (leftSum + rightSum + root.val));
-            maxFindDfs(root.left);
-            maxFindDfs(root.right);
-        }
-
 
         public int maxPathSum(TreeNode root) {
-            memo = new HashMap<>();
-            dfs(root);
-            maxFindDfs(root);
-            return max;
+            maxSum = Integer.MIN_VALUE;
+            maxPathSumDownward(root);
+            return maxSum;
         }
     }
 
     class Approach_2 {
-
-        int sum;
+        /**
+         * Same algorithm as Approach_1, but with more concise variable naming.
+         * 
+         * Max path sum is defined as the sum of node values on any path in the tree
+         * (where path is defined between any source and destination node).
+         * It is not necessary for source and destination to be leaf nodes (unlike diameter problem).
+         * 
+         * Time: O(n) - single pass through all nodes
+         * Space: O(h) - recursion stack, where h is height of tree
+         */
+        private int maxSum = Integer.MIN_VALUE;
 
         /**
-         * Max path sum is defined as the sum of nodes values on any path on the tree ( where path is defined between any source and destination node ).
-         * It is not necessary for source and destination to be leaf node like diameter
-         * we calculate maxPathSumInSubTreeFromRootNode() for left and right child,
-         * Using this we could calculate the max sum path for each node , assuming path pass through root. Take maximum of those path to get the answer
+         * Returns maximum path sum starting from root going downward to any descendant.
+         * Updates global maxSum when considering paths that go through each node.
          */
-        private int maxPathSumInSubTreeFromRootNode(TreeNode root) {
-            if (root == null) return 0;
-            int ls = maxPathSumInSubTreeFromRootNode(root.left);
-            int rs = maxPathSumInSubTreeFromRootNode(root.right);
-            sum = Math.max(sum, ls + rs + root.val);
-            int maxPathSumInSubtreeFromRoot = Math.max(ls, rs) + root.val;
-            return Math.max(0, maxPathSumInSubtreeFromRoot); // because source and destination not necessary to leaf we could reject the sum if it is not adding value.
+        private int maxPathSumDownward(TreeNode root) {
+            if (root == null) {
+                return 0;
+            }
+
+            // Get max path sum downward from left and right children
+            int leftSum = maxPathSumDownward(root.left);
+            int rightSum = maxPathSumDownward(root.right);
+
+            // Path going through current node (can use both left and right branches)
+            // Only include non-negative contributions to maximize the sum
+            int pathThroughNode = Math.max(0, leftSum) + Math.max(0, rightSum) + root.val;
+            maxSum = Math.max(maxSum, pathThroughNode);
+
+            // Return max path sum downward from current node (for parent)
+            // Can only choose one branch (left or right) when going upward
+            int maxPathDownward = Math.max(0, Math.max(leftSum, rightSum)) + root.val;
+            return maxPathDownward;
         }
 
         public int maxPathSum(TreeNode root) {
-            if (root == null) return 0;
-            sum = Integer.MIN_VALUE;
-            maxPathSumInSubTreeFromRootNode(root);
-            return sum;
+            maxSum = Integer.MIN_VALUE;
+            maxPathSumDownward(root);
+            return maxSum;
         }
-
     }
 
     static class TreeNode {
