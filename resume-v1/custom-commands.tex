@@ -29,7 +29,7 @@
 
 % Ensures second-level nested bullets are also circular (tiny •)
 % This maintains consistent bullet styling throughout the document
-\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\renewcommand{\labelitemii}{$\vcenter{\hbox{\tiny$\bullet$}}$}
 
 %-------------------------%
 % Section List Commands
@@ -59,8 +59,8 @@
 \newcommand{\resumeExperienceHeading}[3]{%
     \vspace{4pt}\item
     \begin{tabular*}{0.96\textwidth}[t]{l@{\extracolsep{\fill}}r}
-        \textbf{#1} (\small{#2}) & \textit{\small{#3}} \vspace{4pt}
-    \end{tabular*}\vspace{-7pt}%
+        \textbf{#1} (\small{#2}) & \textit{\small{#3}}
+    \end{tabular*}\vspace{-3pt}%
 }
 
 % Creates an education entry with institution, dates, degree, and GPA
@@ -99,7 +99,7 @@
 %            [2] - Contact information text
 % Example: \resumeContactItem{faPhone}{+91-9673213072}
 \newcommand{\resumeContactItem}[2]{%
-    \resumeIcon{#1} \small #2%
+    \resumeIcon{#1} \small{#2}%
 }
 
 % Creates a contact information link with icon and text (for linked items like email, LinkedIn)
@@ -109,5 +109,5 @@
 %            [3] - Link text to display
 % Example: \resumeContactLink{mailto:email@example.com}{faEnvelope}{email@example.com}
 \newcommand{\resumeContactLink}[3]{%
-    \href{#1}{\small\resumeIcon{#2} #3}%
+    \href{#1}{\small{\resumeIcon{#2} #3}}%
 }
