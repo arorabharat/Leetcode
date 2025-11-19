@@ -37,14 +37,14 @@
 
 % Begins a section-level list with custom left margin (0.1 inch) and no label
 % Used for sections like Experience, Education, Skills, etc.
-% Must be paired with \resumeSectionListEnd
-% Usage: \startListPointOneInchAwayFromLeft ... \resumeSectionListEnd
+% Must be paired with \makeLinePointOneInchAwayEnd
+% Usage: \startListPointOneInchAwayFromLeft ... \makeLinePointOneInchAwayEnd
 \newcommand{\startListPointOneInchAwayFromLeft}{\begin{itemize}[leftmargin=0.1in, label={}]}
 
 % Ends a section-level list
 % Must be paired with \startListPointOneInchAwayFromLeft
-% Usage: \startListPointOneInchAwayFromLeft ... \resumeSectionListEnd
-\newcommand{\resumeSectionListEnd}{\end{itemize}}
+% Usage: \startListPointOneInchAwayFromLeft ... \makeLinePointOneInchAwayEnd
+\newcommand{\makeLinePointOneInchAwayEnd}{\end{itemize}}
 
 %-------------------------%
 % Heading Commands
