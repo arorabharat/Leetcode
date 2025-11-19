@@ -56,12 +56,13 @@
 %            [2] - Job title/role (small, in parentheses)
 %            [3] - Date range (small, italic, right-aligned)
 % Example: \resumeExperienceHeading{Amazon}{Software Engineer}{Jan 2020 -- Present}
-\newcommand{\resumeExperienceHeading}[3]{%
+\newcommand{\resumeExperienceHeading}[3]{
     \vspace{4pt}\item
     \begin{tabular*}{0.96\textwidth}[t]{l@{\extracolsep{\fill}}r}
-        \textbf{#1} (\small{#2}) & \textit{\small{#3}}
-    \end{tabular*}\vspace{-3pt}%
+    \textbf{#1} (\small{#2})  & \textit{\small{#3}} \vspace{4pt}
+    \end{tabular*}\vspace{-7pt}
 }
+
 
 % Creates an education entry with institution, dates, degree, and GPA
 % Usage: \resumeEducationEntry{Institution}{Date Range}{Degree}{GPA}
