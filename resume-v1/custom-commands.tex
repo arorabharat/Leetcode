@@ -135,6 +135,41 @@
 % Example: \resumeLink{https://example.com}{Example} creates a bold clickable link
 \newcommand{\resumeLink}[2]{\href{#1}{\resumeBold{#2}}}
 
+% Formats the resume name (large, small caps, bold)
+% Usage: \resumeName{Name}
+% Parameters: [1] - Name to display
+% Example: \resumeName{Bharat Arora}
+\newcommand{\resumeName}[1]{\textbf{\Huge \scshape #1}}
+
+%-------------------------%
+% Spacing Commands
+%-------------------------%
+
+% Horizontal spacing between contact items
+% Usage: \resumeContactSpacing
+% Note: Provides consistent spacing between contact information items
+\newcommand{\resumeContactSpacing}{\qquad}
+
+% Vertical spacing before first item in a section
+% Usage: \resumeItemSpacing
+% Note: Provides consistent 4pt spacing before section items
+\newcommand{\resumeItemSpacing}{\vspace{4pt}}
+
+% Vertical spacing after name in header
+% Usage: \resumeNameSpacing
+% Note: Provides consistent 10pt spacing after the name
+\newcommand{\resumeNameSpacing}{\vspace{10pt}}
+
+% Line break with spacing
+% Usage: \resumeLineBreak
+% Note: Creates a line break
+\newcommand{\resumeLineBreak}{\\}
+
+% Line break with extra spacing (for skills section)
+% Usage: \resumeLineBreakSpaced
+% Note: Creates a line break with 0.5ex spacing
+\newcommand{\resumeLineBreakSpaced}{\\[0.5ex]}
+
 %-------------------------%
 % Contact Information Commands
 %-------------------------%
