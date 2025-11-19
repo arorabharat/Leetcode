@@ -1,5 +1,5 @@
 %-------------------------
-% Resume in Latex
+% Resume in LaTeX
 % Author : Audric Serador
 % Inspired by: https://github.com/sb2nov/resume
 % License : MIT
@@ -7,6 +7,9 @@
 
 \documentclass[letterpaper,11pt]{article}
 
+%-------------------------%
+% Required Packages
+%-------------------------%
 \usepackage{fontawesome5}
 \usepackage[empty]{fullpage}
 \usepackage{titlesec}
@@ -16,58 +19,72 @@
 \usepackage{fancyhdr}
 \usepackage{tabularx}
 
-% Custom font
+%-------------------------%
+% Custom Font
+%-------------------------%
 \usepackage[default]{lato}
 
+%-------------------------%
+% Page Style Configuration
+%-------------------------%
 \pagestyle{fancy}
-\fancyhf{} % clear all header and footer fields
+\fancyhf{} % Clear all header and footer fields
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
-% Adjust margins
+%-------------------------%
+% Margin Adjustments
+%-------------------------%
 \addtolength{\oddsidemargin}{-0.5in}
 \addtolength{\evensidemargin}{-0.5in}
 \addtolength{\textwidth}{1in}
 \addtolength{\topmargin}{-.5in}
 \addtolength{\textheight}{1.0in}
 
+%-------------------------%
+% Text Formatting
+%-------------------------%
 \urlstyle{same}
-
 \raggedbottom
 \raggedright
 \setlength{\tabcolsep}{0in}
 
-% Sections formatting
-\titleformat{\section}{
+%-------------------------%
+% Section Formatting
+%-------------------------%
+\titleformat{\section}{%
     \vspace{-4pt}\scshape\raggedright\large
 }{}{0em}{}[\color{black}\titlerule\vspace{-5pt}]
 
-% Ensure that generate pdf is machine readable/ATS parsable
+%-------------------------%
+% ATS Compatibility
+%-------------------------%
+% Ensure that generated PDF is machine readable/ATS parsable
 \pdfgentounicode=1
 
 %-------------------------%
-% Custom commands
+% Custom Commands
+%-------------------------%
 \input{custom-commands}
 
+%-------------------------%
+% Document Body
+%-------------------------%
 \begin{document}
 
-%-------------------------------------------%
-%%%%%%  RESUME STARTS HERE  %%%%%
-
 %----------HEADING----------%
-    \input{src/heading}
+\input{src/heading}
 
 %-----------EXPERIENCE-----------%
-    \input{src/experience}
+\input{src/experience}
 
 %-----------EDUCATION-----------%
-    \input{src/education}
+\input{src/education}
 
 %-----------SKILLS-----------%
-    \input{src/skills}
+\input{src/skills}
 
 %-----------PUBLICATIONS-----------%
-    \input{src/publications}
+\input{src/publications}
 
-%-------------------------------------------%
 \end{document}
