@@ -1,39 +1,9 @@
-%-------------------------%
-% Custom Commands
-%-------------------------%
-
-%-------------------------%
-% List Item Commands
-%-------------------------%
-
-% Begins a bulleted list with circular bullets (•)
-% Must be paired with \resumeItemMiniPageListEnd
-% Usage: \resumeItemMiniPageListStart ... \resumeItemMiniPageListEnd
 \newcommand{\resumeItemMiniPageListStart}{\begin{itemize}[label=\textbullet]}
 
-% Ends a bulleted list and adds spacing
-% Must be paired with \resumeItemMiniPageListStart
-% Usage: \resumeItemMiniPageListStart ... \resumeItemMiniPageListEnd
 \newcommand{\resumeItemMiniPageListEnd}{\end{itemize}\vspace{-5pt}}
 
-% Ensures second-level nested bullets are also circular (tiny •)
-% This maintains consistent bullet styling throughout the document
 \renewcommand{\labelitemii}{$\vcenter{\hbox{\tiny$\bullet$}}$}
 
-%-------------------------%
-% Section List Commands
-%-------------------------%
-
-%-------------------------%
-% Heading Commands
-%-------------------------%
-
-% Creates an experience entry heading with company, role, and date
-% Usage: \resumeExperienceHeading{Company Name}{Job Title}{Date Range}
-% Parameters: [1] - Company name (bold)
-%            [2] - Job title/role (small, in parentheses)
-%            [3] - Date range (small, italic, right-aligned)
-% Example: \resumeExperienceHeading{Amazon}{Software Engineer}{Jan 2020 -- Present}
 \newcommand{\resumeExperienceHeading}[3]{
     \vspace{4pt}\item
     \begin{tabular*}{0.96\textwidth}[t]{l@{\extracolsep{\fill}}r}
@@ -41,118 +11,38 @@
     \end{tabular*}\vspace{-7pt}
 }
 
-
-%-------------------------%
-% Icon Commands
-%-------------------------%
-
-% Renders a FontAwesome icon in black color
-% Usage: \resumeIcon{faIconName}
-% Parameters: [1] - FontAwesome icon name (without the 'fa' prefix in the command)
-% Example: \resumeIcon{faPhone} renders the phone icon
-% Note: Requires fontawesome5 package and the icon must be defined
 \newcommand{\resumeIcon}[1]{\textcolor{black}{\csname #1\endcsname}}
 
-%-------------------------%
-% Metric Formatting Commands
-%-------------------------%
-
-% Formats a percentage metric (e.g., 3% becomes ~3%)
-% Usage: \metricPercent{3} produces ~3%
-% Parameters: [1] - The percentage value (number only, without % sign)
 \newcommand{\metricPercent}[1]{$\sim#1\%$}
 
-% Formats an approximate metric with unit (e.g., 620K, 6M)
-% Usage: \metricApprox{620K} produces ~620K
-% Parameters: [1] - The metric value with unit (e.g., 620K, 6M, 80K)
 \newcommand{\metricApprox}[1]{$\sim#1$}
 
-% Formats a range metric (e.g., 4-5M becomes ~4-5M)
-% Usage: \metricRange{4-5M} produces ~4-5M
-% Parameters: [1] - The range value with unit (e.g., 4-5M, 1.2-1.5K)
 \newcommand{\metricRange}[1]{$\sim#1$}
 
-% Formats a greater-than metric (e.g., >80%)
-% Usage: \metricGreater{80} produces >80%
-% Parameters: [1] - The value (number only, without % sign)
 \newcommand{\metricGreater}[1]{$>#1\%$}
 
-% Formats a greater-than metric with unit (e.g., >100K)
-% Usage: \metricGreaterUnit{100K} produces >100K
-% Parameters: [1] - The value with unit (e.g., 100K, 50M)
 \newcommand{\metricGreaterUnit}[1]{$>#1$}
 
-%-------------------------%
-% Text Formatting Commands
-%-------------------------%
-
-% Makes text bold (for highlighting key achievements, technologies, etc.)
-% Usage: \resumeBold{text to make bold}
-% Parameters: [1] - Text to make bold
-% Example: \resumeBold{key achievement} produces bold text
 \newcommand{\resumeBold}[1]{\textbf{#1}}
 
-% Creates a clickable link with optional bold formatting
-% Usage: \resumeLink{URL}{Link Text}
-% Parameters: [1] - URL for the link
-%            [2] - Text to display (will be bold)
-% Example: \resumeLink{https://example.com}{Example} creates a bold clickable link
 \newcommand{\resumeLink}[2]{\href{#1}{\resumeBold{#2}}}
 
-% Formats the resume name (large, small caps, bold)
-% Usage: \resumeName{Name}
-% Parameters: [1] - Name to display
-% Example: \resumeName{Bharat Arora}
 \newcommand{\resumeName}[1]{\textbf{\Huge \scshape #1}}
 
-%-------------------------%
-% Spacing Commands
-%-------------------------%
-
-% Horizontal spacing between contact items
-% Usage: \resumeContactSpacing
-% Note: Provides consistent spacing between contact information items
 \newcommand{\resumeContactSpacing}{\qquad}
 
-% Vertical spacing before first item in a section
-% Usage: \resumeItemMiniPageSpacing
-% Note: Provides consistent 4pt spacing before section items
 \newcommand{\resumeItemMiniPageSpacing}{\vspace{4pt}}
 
-% Vertical spacing after name in header
-% Usage: \resumeNameSpacing
-% Note: Provides consistent 10pt spacing after the name
 \newcommand{\resumeNameSpacing}{\vspace{10pt}}
 
-% Line break with spacing
-% Usage: \resumeLineBreak
-% Note: Creates a line break
 \newcommand{\resumeLineBreak}{\\}
 
-% Line break with extra spacing (for skills section)
-% Usage: \resumeLineBreakSpaced
-% Note: Creates a line break with 0.5ex spacing
 \newcommand{\resumeLineBreakSpaced}{\\[0.5ex]}
 
-%-------------------------%
-% Contact Information Commands
-%-------------------------%
-
-% Creates a contact information item with icon and text (for non-linked items like phone)
-% Usage: \resumeContactItem{faIconName}{Contact Text}
-% Parameters: [1] - FontAwesome icon name
-%            [2] - Contact information text
-% Example: \resumeContactItem{faPhone}{+91-9673213072}
 \newcommand{\resumeContactItem}[2]{%
     \resumeIcon{#1} \small{#2}%
 }
 
-% Creates a contact information link with icon and text (for linked items like email, LinkedIn)
-% Usage: \resumeContactLink{URL}{faIconName}{Link Text}
-% Parameters: [1] - URL for the link
-%            [2] - FontAwesome icon name
-%            [3] - Link text to display
-% Example: \resumeContactLink{mailto:email@example.com}{faEnvelope}{email@example.com}
 \newcommand{\resumeContactLink}[3]{%
     \href{#1}{\small{\resumeIcon{#2} #3}}%
 }
