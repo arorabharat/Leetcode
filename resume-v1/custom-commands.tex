@@ -65,13 +65,13 @@
 
 
 % Creates an education entry with institution, dates, degree, and GPA
-% Usage: \resumeEducationEntry{Institution}{Date Range}{Degree}{GPA}
+% Usage: \arrangeInTwoByTwoTable{Institution}{Date Range}{Degree}{GPA}
 % Parameters: [1] - Institution name (bold, left column)
 %            [2] - Date range (small, italic, right column)
 %            [3] - Degree/field of study (small, italic, left column, second row)
 %            [4] - GPA/grade (small, italic, right column, second row)
-% Example: \resumeEducationEntry{University Name}{2018-2022}{B.S. Computer Science}{3.8/4.0}
-\newcommand{\resumeEducationEntry}[4]{%
+% Example: \arrangeInTwoByTwoTable{University Name}{2018-2022}{B.S. Computer Science}{3.8/4.0}
+\newcommand{\arrangeInTwoByTwoTable}[4]{%
     \vspace{4pt}\item
     \begin{tabular*}{0.96\textwidth}[t]{l@{\extracolsep{\fill}}r}
         \textbf{#1} & \textit{\small{#2}} \\[0.5ex]
