@@ -90,6 +90,35 @@
 \newcommand{\resumeIcon}[1]{\textcolor{black}{\csname #1\endcsname}}
 
 %-------------------------%
+% Metric Formatting Commands
+%-------------------------%
+
+% Formats a percentage metric (e.g., 3% becomes ~3%)
+% Usage: \metricPercent{3} produces ~3%
+% Parameters: [1] - The percentage value (number only, without % sign)
+\newcommand{\metricPercent}[1]{$\sim#1\%$}
+
+% Formats an approximate metric with unit (e.g., 620K, 6M)
+% Usage: \metricApprox{620K} produces ~620K
+% Parameters: [1] - The metric value with unit (e.g., 620K, 6M, 80K)
+\newcommand{\metricApprox}[1]{$\sim#1$}
+
+% Formats a range metric (e.g., 4-5M becomes ~4-5M)
+% Usage: \metricRange{4-5M} produces ~4-5M
+% Parameters: [1] - The range value with unit (e.g., 4-5M, 1.2-1.5K)
+\newcommand{\metricRange}[1]{$\sim#1$}
+
+% Formats a greater-than metric (e.g., >80%)
+% Usage: \metricGreater{80} produces >80%
+% Parameters: [1] - The value (number only, without % sign)
+\newcommand{\metricGreater}[1]{$>#1\%$}
+
+% Formats a greater-than metric with unit (e.g., >100K)
+% Usage: \metricGreaterUnit{100K} produces >100K
+% Parameters: [1] - The value with unit (e.g., 100K, 50M)
+\newcommand{\metricGreaterUnit}[1]{$>#1$}
+
+%-------------------------%
 % Contact Information Commands
 %-------------------------%
 
