@@ -88,3 +88,26 @@
 % Example: \resumeIcon{faPhone} renders the phone icon
 % Note: Requires fontawesome5 package and the icon must be defined
 \newcommand{\resumeIcon}[1]{\textcolor{black}{\csname #1\endcsname}}
+
+%-------------------------%
+% Contact Information Commands
+%-------------------------%
+
+% Creates a contact information item with icon and text (for non-linked items like phone)
+% Usage: \resumeContactItem{faIconName}{Contact Text}
+% Parameters: [1] - FontAwesome icon name
+%            [2] - Contact information text
+% Example: \resumeContactItem{faPhone}{+91-9673213072}
+\newcommand{\resumeContactItem}[2]{%
+    \resumeIcon{#1} \small #2%
+}
+
+% Creates a contact information link with icon and text (for linked items like email, LinkedIn)
+% Usage: \resumeContactLink{URL}{faIconName}{Link Text}
+% Parameters: [1] - URL for the link
+%            [2] - FontAwesome icon name
+%            [3] - Link text to display
+% Example: \resumeContactLink{mailto:email@example.com}{faEnvelope}{email@example.com}
+\newcommand{\resumeContactLink}[3]{%
+    \href{#1}{\small\resumeIcon{#2} #3}%
+}
