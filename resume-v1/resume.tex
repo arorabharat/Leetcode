@@ -19,11 +19,12 @@
 \usepackage{fancyhdr}
 \usepackage[english]{babel}
 \usepackage{tabularx}
-%\input{glyphtounicode}
+% Enable glyph to unicode mapping for ATS compatibility
+\pdfgentounicode=1
 
-
-% Custom font
+% Custom font - ensure proper embedding for ATS
 \usepackage[default]{lato}
+\usepackage[T1]{fontenc} % Better character encoding for ATS
 
 \pagestyle{fancy}
 \fancyhf{} % clear all header and footer fields
@@ -49,9 +50,6 @@
     \vspace{-4pt}\scshape\raggedright\large
 }{}{0em}{}[\color{black}\titlerule\vspace{-5pt}]
 
-% Ensure that generate pdf is machine readable/ATS parsable
-\pdfgentounicode=1
-
 %-------------------------%
 % Custom commands
 \begin{document}
@@ -63,7 +61,7 @@
 %----------HEADING----------%
     \input{src/heading}
 
-%-----------PURPOSE-----------%
+%-----------SUMMARY-----------%
 \input{src/purpose}
 
 %-----------EXPERIENCE-----------%
