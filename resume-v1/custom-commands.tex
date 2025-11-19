@@ -19,12 +19,12 @@
 
 % Begins a bulleted list with circular bullets (•)
 % Must be paired with \resumeItemListEnd
-% Usage: \resumeItemListBegin ... \resumeItemListEnd
-\newcommand{\resumeItemListBegin}{\begin{itemize}[label=\textbullet]}
+% Usage: \resumeItemListStart ... \resumeItemListEnd
+\newcommand{\resumeItemListStart}{\begin{itemize}[label=\textbullet]}
 
 % Ends a bulleted list and adds spacing
-% Must be paired with \resumeItemListBegin
-% Usage: \resumeItemListBegin ... \resumeItemListEnd
+% Must be paired with \resumeItemListStart
+% Usage: \resumeItemListStart ... \resumeItemListEnd
 \newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
 
 % Ensures second-level nested bullets are also circular (tiny •)
