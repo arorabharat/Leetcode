@@ -7,10 +7,10 @@
 %-------------------------%
 
 % Creates a resume item with proper formatting and wrapping
-% Usage: \resumeItem{Your bullet point text here}
+% Usage: \resumeItemMiniPage{Your bullet point text here}
 % Parameters: [1] - The text content for the bullet point
 % Note: Uses \small font size for consistency with other resume content
-\newcommand{\resumeItem}[1]{%
+\newcommand{\resumeItemMiniPage}[1]{%
     \item
     \begin{minipage}[t]{0.97\linewidth}
         \small{#1}
@@ -18,14 +18,14 @@
 }
 
 % Begins a bulleted list with circular bullets (•)
-% Must be paired with \resumeItemListEnd
-% Usage: \resumeItemListStart ... \resumeItemListEnd
-\newcommand{\resumeItemListStart}{\begin{itemize}[label=\textbullet]}
+% Must be paired with \resumeItemMiniPageListEnd
+% Usage: \resumeItemMiniPageListStart ... \resumeItemMiniPageListEnd
+\newcommand{\resumeItemMiniPageListStart}{\begin{itemize}[label=\textbullet]}
 
 % Ends a bulleted list and adds spacing
-% Must be paired with \resumeItemListStart
-% Usage: \resumeItemListStart ... \resumeItemListEnd
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+% Must be paired with \resumeItemMiniPageListStart
+% Usage: \resumeItemMiniPageListStart ... \resumeItemMiniPageListEnd
+\newcommand{\resumeItemMiniPageListEnd}{\end{itemize}\vspace{-5pt}}
 
 % Ensures second-level nested bullets are also circular (tiny •)
 % This maintains consistent bullet styling throughout the document
@@ -152,9 +152,9 @@
 \newcommand{\resumeContactSpacing}{\qquad}
 
 % Vertical spacing before first item in a section
-% Usage: \resumeItemSpacing
+% Usage: \resumeItemMiniPageSpacing
 % Note: Provides consistent 4pt spacing before section items
-\newcommand{\resumeItemSpacing}{\vspace{4pt}}
+\newcommand{\resumeItemMiniPageSpacing}{\vspace{4pt}}
 
 % Vertical spacing after name in header
 % Usage: \resumeNameSpacing
