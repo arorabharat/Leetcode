@@ -1,5 +1,5 @@
 %-------------------------
-% Resume in LaTeX
+% Resume in Latex
 % Author : Audric Serador
 % Inspired by: https://github.com/sb2nov/resume
 % License : MIT
@@ -7,87 +7,77 @@
 
 \documentclass[letterpaper,11pt]{article}
 
-%-------------------------%
-% Required Packages
-%-------------------------%
 \usepackage{fontawesome5}
+\usepackage{latexsym}
 \usepackage[empty]{fullpage}
 \usepackage{titlesec}
-\usepackage{xcolor}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
 \usepackage{fancyhdr}
+\usepackage[english]{babel}
 \usepackage{tabularx}
+%\input{glyphtounicode}
 
-%-------------------------%
-% Custom Font
-%-------------------------%
+
+% Custom font
 \usepackage[default]{lato}
 
-%-------------------------%
-% Page Style Configuration
-%-------------------------%
 \pagestyle{fancy}
-\fancyhf{} % Clear all header and footer fields
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
-%-------------------------%
-% Margin Adjustments
-%-------------------------%
+% Adjust margins
 \addtolength{\oddsidemargin}{-0.5in}
 \addtolength{\evensidemargin}{-0.5in}
 \addtolength{\textwidth}{1in}
 \addtolength{\topmargin}{-.5in}
 \addtolength{\textheight}{1.0in}
 
-%-------------------------%
-% Text Formatting
-%-------------------------%
 \urlstyle{same}
+
 \raggedbottom
 \raggedright
 \setlength{\tabcolsep}{0in}
 
-%-------------------------%
-% Section Formatting
-%-------------------------%
-\titleformat{\section}{%
+% Sections formatting
+\titleformat{\section}{
     \vspace{-4pt}\scshape\raggedright\large
 }{}{0em}{}[\color{black}\titlerule\vspace{-5pt}]
 
-%-------------------------%
-% ATS Compatibility
-%-------------------------%
-% Ensure that generated PDF is machine readable/ATS parsable
+% Ensure that generate pdf is machine readable/ATS parsable
 \pdfgentounicode=1
 
 %-------------------------%
-% Custom Commands
-%-------------------------%
-\input{custom-commands}
-
-%-------------------------%
-% Document Body
-%-------------------------%
+% Custom commands
 \begin{document}
+    \include{custom-commands}
+
+%-------------------------------------------%
+%%%%%%  RESUME STARTS HERE  %%%%%
 
 %----------HEADING----------%
-\input{src/heading}
+    \input{src/heading}
 
 %-----------PURPOSE-----------%
 \input{src/purpose}
 
 %-----------EXPERIENCE-----------%
-\input{src/experience}
+    \input{src/experience}
 
 %-----------EDUCATION-----------%
-\input{src/education}
+    \input{src/education}
 
 %-----------SKILLS-----------%
-\input{src/skills}
+    \input{src/skills}
 
-%-----------PUBLICATIONS-----------%
-\input{src/publications}
+%-----------SKILLS-----------%
+    \input{src/publications}
 
+
+%-------------------------------------------%
 \end{document}
