@@ -1,18 +1,3 @@
-\newcommand{\resumeItemMiniPageListStart}{\begin{itemize}[label=\textbullet]}
-
-\newcommand{\resumeItemMiniPageListEnd}{\end{itemize}\vspace{-5pt}}
-
-\renewcommand{\labelitemii}{$\vcenter{\hbox{\tiny$\bullet$}}$}
-
-\newcommand{\resumeExperienceHeading}[3]{
-    \vspace{4pt}\item
-    \begin{tabular*}{0.96\textwidth}[t]{l@{\extracolsep{\fill}}r}
-    \textbf{#1} (\small{#2})  & \textit{\small{#3}} \vspace{4pt}
-    \end{tabular*}\vspace{-7pt}
-}
-
-\newcommand{\resumeIcon}[1]{\textcolor{black}{\csname #1\endcsname}}
-
 \newcommand{\metricPercent}[1]{$\sim#1\%$}
 
 \newcommand{\metricApprox}[1]{$\sim#1$}
@@ -23,11 +8,9 @@
 
 \newcommand{\metricGreaterUnit}[1]{$>#1$}
 
-\newcommand{\resumeBold}[1]{\textbf{#1}}
-
-\newcommand{\resumeLink}[2]{\href{#1}{\textbf{#2}}}
-
 \newcommand{\resumeItemMiniPageSpacing}{\vspace{4pt}}
+
+\newcommand{\resumeIcon}[1]{\textcolor{black}{\csname #1\endcsname}}
 
 \newcommand{\resumeContactItem}[2]{%
     \resumeIcon{#1} \small{#2}%
@@ -36,6 +19,8 @@
 \newcommand{\resumeContactLink}[3]{%
     \href{#1}{\small{\resumeIcon{#2} #3}}%
 }
+
+\newcommand{\resumeLink}[2]{\href{#1}{\textbf{#2}}}
 
 % =================================================================
 
