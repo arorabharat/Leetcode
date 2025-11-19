@@ -6,17 +6,6 @@
 % List Item Commands
 %-------------------------%
 
-% Creates a resume item with proper formatting and wrapping
-% Usage: \resumeItemMiniPage{Your bullet point text here}
-% Parameters: [1] - The text content for the bullet point
-% Note: Uses \small font size for consistency with other resume content
-\newcommand{\resumeItemMiniPage}[1]{%
-    \item
-    \begin{minipage}[t]{0.97\linewidth}
-        \small{#1}
-    \end{minipage}%
-}
-
 % Begins a bulleted list with circular bullets (•)
 % Must be paired with \resumeItemMiniPageListEnd
 % Usage: \resumeItemMiniPageListStart ... \resumeItemMiniPageListEnd
@@ -35,17 +24,6 @@
 % Section List Commands
 %-------------------------%
 
-% Begins a section-level list with custom left margin (0.1 inch) and no label
-% Used for sections like Experience, Education, Skills, etc.
-% Must be paired with \makeLinePointOneInchAwayEnd
-% Usage: \startListPointOneInchAwayFromLeft ... \makeLinePointOneInchAwayEnd
-\newcommand{\startListPointOneInchAwayFromLeft}{\begin{itemize}[leftmargin=0.1in, label={}]}
-
-% Ends a section-level list
-% Must be paired with \startListPointOneInchAwayFromLeft
-% Usage: \startListPointOneInchAwayFromLeft ... \makeLinePointOneInchAwayEnd
-\newcommand{\makeLinePointOneInchAwayEnd}{\end{itemize}}
-
 %-------------------------%
 % Heading Commands
 %-------------------------%
@@ -63,21 +41,6 @@
     \end{tabular*}\vspace{-7pt}
 }
 
-
-% Creates an education entry with institution, dates, degree, and GPA
-% Usage: \arrangeInTwoByTwoTable{Institution}{Date Range}{Degree}{GPA}
-% Parameters: [1] - Institution name (bold, left column)
-%            [2] - Date range (small, italic, right column)
-%            [3] - Degree/field of study (small, italic, left column, second row)
-%            [4] - GPA/grade (small, italic, right column, second row)
-% Example: \arrangeInTwoByTwoTable{University Name}{2018-2022}{B.S. Computer Science}{3.8/4.0}
-\newcommand{\arrangeInTwoByTwoTable}[4]{%
-    \vspace{4pt}\item
-    \begin{tabular*}{0.96\textwidth}[t]{l@{\extracolsep{\fill}}r}
-        \textbf{#1} & \textit{\small{#2}} \\[0.5ex]
-        \textit{\small{#3}} & \textit{\small{#4}}
-    \end{tabular*}%
-}
 
 %-------------------------%
 % Icon Commands
@@ -193,3 +156,74 @@
 \newcommand{\resumeContactLink}[3]{%
     \href{#1}{\small{\resumeIcon{#2} #3}}%
 }
+
+% =================================================================
+
+% Custom commands
+\newcommand{\resumeItem}[1]{
+    \item\small{#1}
+}
+
+\newcommand{\resumeItemMiniPage}[1]{%
+    \item
+    \begin{minipage}[t]{0.97\linewidth}
+    #1
+    \end{minipage}%
+}
+
+
+\newcommand{\resumeSubheading}[4]{
+    \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+    \textbf{#1} & #2 \\
+    \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+    \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+    \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+
+
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+\definecolor{Black}{RGB}{0, 0, 0}
+\newcommand{\seticon}[1]{\textcolor{Black}{\csname #1\endcsname}}
+
+% reviewed
+
+\newcommand{\arrangeInTwoByTwoTable}[4]{
+    \vspace{4pt}\item
+    \begin{tabular*}{0.96\textwidth}[t]{l@{\extracolsep{\fill}}r}
+    \textbf{#1} & \textit{\small{#2}} \\[0.5ex]
+    \textit{#3} & \textit{\small{#4}}
+    \end{tabular*}
+}
+
+\newcommand{\resumeSubheadingExperience}[3]{
+    \vspace{4pt}\item
+    \begin{tabular*}{0.96\textwidth}[t]{l@{\extracolsep{\fill}}r}
+    \textbf{#1} (\small{#2})  & \textit{\small{#3}} \vspace{4pt}
+    \end{tabular*}\vspace{-7pt}
+}
+
+% heading under all sections will be 0.1 inch away from section vertical line
+\newcommand{\startListPointOneInchAwayFromLeft}{\begin{itemize}[leftmargin=0.1in, label={}]}
+\newcommand{\makeLinePointOneInchAwayEnd}{\end{itemize}}
+% ===============
