@@ -5,14 +5,14 @@
 %-------------------------%
 % List Item Commands
 %-------------------------%
-\newcommand{\resumeItemMiniPage}[1]{%
+\newcommand{\resumeItem}[1]{%
     \item
     \begin{minipage}[t]{0.97\linewidth}
         #1
     \end{minipage}%
 }
 
-\newcommand{\resumeItemListStart}{\begin{itemize}[label=\textbullet]}
+\newcommand{\resumeItemListBegin}{\begin{itemize}[label=\textbullet]}
 \newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
 
 % Ensure second-level bullets are also circular
@@ -21,20 +21,20 @@
 %-------------------------%
 % Section List Commands
 %-------------------------%
-\newcommand{\startListPointOneInchAwayFromLeft}{\begin{itemize}[leftmargin=0.1in, label={}]}
-\newcommand{\makeLinePointOneInchAwayEnd}{\end{itemize}}
+\newcommand{\resumeSectionListBegin}{\begin{itemize}[leftmargin=0.1in, label={}]}
+\newcommand{\resumeSectionListEnd}{\end{itemize}}
 
 %-------------------------%
 % Heading Commands
 %-------------------------%
-\newcommand{\resumeSubheadingExperience}[3]{%
+\newcommand{\resumeExperienceHeading}[3]{%
     \vspace{4pt}\item
     \begin{tabular*}{0.96\textwidth}[t]{l@{\extracolsep{\fill}}r}
         \textbf{#1} (\small{#2}) & \textit{\small{#3}} \vspace{4pt}
     \end{tabular*}\vspace{-7pt}%
 }
 
-\newcommand{\arrangeInTwoByTwoTable}[4]{%
+\newcommand{\resumeEducationEntry}[4]{%
     \vspace{4pt}\item
     \begin{tabular*}{0.96\textwidth}[t]{l@{\extracolsep{\fill}}r}
         \textbf{#1} & \textit{\small{#2}} \\[0.5ex]
@@ -45,4 +45,4 @@
 %-------------------------%
 % Icon Commands
 %-------------------------%
-\newcommand{\seticon}[1]{\textcolor{black}{\csname #1\endcsname}}
+\newcommand{\resumeIcon}[1]{\textcolor{black}{\csname #1\endcsname}}
