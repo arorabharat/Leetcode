@@ -1,8 +1,5 @@
 %-------------------------%
 % Custom commands
-\newcommand{\resumeItem}[1]{
-    \item\small{#1}
-}
 
 \newcommand{\resumeItemMiniPage}[1]{%
     \item
@@ -11,42 +8,13 @@
     \end{minipage}%
 }
 
-
-\newcommand{\resumeSubheading}[4]{
-    \vspace{-2pt}\item
-    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
-    \textbf{#1} & #2 \\
-    \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-7pt}
-}
-
-\newcommand{\resumeSubSubheading}[2]{
-    \item
-    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
-    \textit{\small#1} & \textit{\small #2} \\
-    \end{tabular*}\vspace{-7pt}
-}
-
-\newcommand{\resumeProjectHeading}[2]{
-    \item
-    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
-    \small#1 & #2 \\
-    \end{tabular*}\vspace{-7pt}
-}
-
-\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
-
-\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
-
-
-
-\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[label=\textbullet]}
 \newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
 
-\definecolor{Black}{RGB}{0, 0, 0}
-\newcommand{\seticon}[1]{\textcolor{Black}{\csname #1\endcsname}}
+% Ensure second-level bullets are also circular
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
 
-% reviewed
+\newcommand{\seticon}[1]{\textcolor{black}{\csname #1\endcsname}}
 
 \newcommand{\arrangeInTwoByTwoTable}[4]{
     \vspace{4pt}\item
@@ -63,7 +31,5 @@
     \end{tabular*}\vspace{-7pt}
 }
 
-% heading under all sections will be 0.1 inch away from section vertical line
 \newcommand{\startListPointOneInchAwayFromLeft}{\begin{itemize}[leftmargin=0.1in, label={}]}
 \newcommand{\makeLinePointOneInchAwayEnd}{\end{itemize}}
-% ===============
