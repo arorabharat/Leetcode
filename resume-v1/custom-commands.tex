@@ -5,6 +5,10 @@
 %-------------------------%
 % List Item Commands
 %-------------------------%
+
+% Creates a resume item with proper formatting and wrapping
+% Usage: \resumeItem{Your bullet point text here}
+% Parameters: [1] - The text content for the bullet point
 \newcommand{\resumeItem}[1]{%
     \item
     \begin{minipage}[t]{0.97\linewidth}
@@ -12,21 +16,45 @@
     \end{minipage}%
 }
 
+% Begins a bulleted list with circular bullets (•)
+% Must be paired with \resumeItemListEnd
+% Usage: \resumeItemListBegin ... \resumeItemListEnd
 \newcommand{\resumeItemListBegin}{\begin{itemize}[label=\textbullet]}
+
+% Ends a bulleted list and adds spacing
+% Must be paired with \resumeItemListBegin
+% Usage: \resumeItemListBegin ... \resumeItemListEnd
 \newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
 
-% Ensure second-level bullets are also circular
+% Ensures second-level nested bullets are also circular (tiny •)
+% This maintains consistent bullet styling throughout the document
 \renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
 
 %-------------------------%
 % Section List Commands
 %-------------------------%
+
+% Begins a section-level list with custom left margin (0.1 inch) and no label
+% Used for sections like Experience, Education, Skills, etc.
+% Must be paired with \resumeSectionListEnd
+% Usage: \resumeSectionListBegin ... \resumeSectionListEnd
 \newcommand{\resumeSectionListBegin}{\begin{itemize}[leftmargin=0.1in, label={}]}
+
+% Ends a section-level list
+% Must be paired with \resumeSectionListBegin
+% Usage: \resumeSectionListBegin ... \resumeSectionListEnd
 \newcommand{\resumeSectionListEnd}{\end{itemize}}
 
 %-------------------------%
 % Heading Commands
 %-------------------------%
+
+% Creates an experience entry heading with company, role, and date
+% Usage: \resumeExperienceHeading{Company Name}{Job Title}{Date Range}
+% Parameters: [1] - Company name (bold)
+%            [2] - Job title/role (small, in parentheses)
+%            [3] - Date range (small, italic, right-aligned)
+% Example: \resumeExperienceHeading{Amazon}{Software Engineer}{Jan 2020 -- Present}
 \newcommand{\resumeExperienceHeading}[3]{%
     \vspace{4pt}\item
     \begin{tabular*}{0.96\textwidth}[t]{l@{\extracolsep{\fill}}r}
@@ -34,6 +62,13 @@
     \end{tabular*}\vspace{-7pt}%
 }
 
+% Creates an education entry with institution, dates, degree, and GPA
+% Usage: \resumeEducationEntry{Institution}{Date Range}{Degree}{GPA}
+% Parameters: [1] - Institution name (bold, left column)
+%            [2] - Date range (small, italic, right column)
+%            [3] - Degree/field of study (italic, left column, second row)
+%            [4] - GPA/grade (small, italic, right column, second row)
+% Example: \resumeEducationEntry{University Name}{2018-2022}{B.S. Computer Science}{3.8/4.0}
 \newcommand{\resumeEducationEntry}[4]{%
     \vspace{4pt}\item
     \begin{tabular*}{0.96\textwidth}[t]{l@{\extracolsep{\fill}}r}
@@ -45,4 +80,10 @@
 %-------------------------%
 % Icon Commands
 %-------------------------%
+
+% Renders a FontAwesome icon in black color
+% Usage: \resumeIcon{faIconName}
+% Parameters: [1] - FontAwesome icon name (without the 'fa' prefix in the command)
+% Example: \resumeIcon{faPhone} renders the phone icon
+% Note: Requires fontawesome5 package and the icon must be defined
 \newcommand{\resumeIcon}[1]{\textcolor{black}{\csname #1\endcsname}}
