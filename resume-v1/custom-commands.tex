@@ -119,6 +119,23 @@
 \newcommand{\metricGreaterUnit}[1]{$>#1$}
 
 %-------------------------%
+% Text Formatting Commands
+%-------------------------%
+
+% Makes text bold (for highlighting key achievements, technologies, etc.)
+% Usage: \resumeBold{text to make bold}
+% Parameters: [1] - Text to make bold
+% Example: \resumeBold{key achievement} produces bold text
+\newcommand{\resumeBold}[1]{\textbf{#1}}
+
+% Creates a clickable link with optional bold formatting
+% Usage: \resumeLink{URL}{Link Text}
+% Parameters: [1] - URL for the link
+%            [2] - Text to display (will be bold)
+% Example: \resumeLink{https://example.com}{Example} creates a bold clickable link
+\newcommand{\resumeLink}[2]{\href{#1}{\resumeBold{#2}}}
+
+%-------------------------%
 % Contact Information Commands
 %-------------------------%
 
