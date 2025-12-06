@@ -1,3 +1,4 @@
+Good for capturing non-functional requirement
 | Letter | Name           | Comment                                                                                                        |
 |--------|----------------|----------------------------------------------------------------------------------------------------------------|
 | S      | Scalability    | What should be the TPS ?                                                                                       |
@@ -8,6 +9,7 @@
 
 
 
+Good while making the design diagram
 | Letter | Name           | Comment                       |
 |--------|----------------|-------------------------------|
 | A      | API Gateway    | AAA, ROUsing , authentication |
