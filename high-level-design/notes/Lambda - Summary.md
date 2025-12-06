@@ -1,0 +1,7 @@
+[![Alt text](https://img.youtube.com/vi/h-vD_hycQjk/0.jpg)](https://www.youtube.com/watch?v=h-vD_hycQjk)
+
+This video explains Function as a Service (FaaS), using AWS Lambda as a primary example. It breaks down how FaaS works: developers upload functions, which are then stored and only deployed to compute resources on-demand when a request (an event) comes in (0:45). Key features highlighted are no upfront provisioning of instances and a pay-per-use billing model, where you're only charged for the actual execution time of your function (1:45).
+
+The video also discusses scalability, explaining how FaaS automatically deploys multiple instances of a function to handle simultaneous requests (2:58). It then details various types of events that can trigger these functions, such as scheduled events (5:00), S3 (storage) events when files are uploaded (5:57), HTTP triggers (7:23), database changes (8:10), and publish/subscribe messages (8:27).
+
+Finally, the video introduces event-driven architecture, where different functions are chained together, with the output of one function triggering another (13:37). It concludes by placing FaaS as the highest level of abstraction in cloud compute offerings, above PaaS, containers, and VMs, recommending it for new applications due to its cost efficiency and scalability (15:15).
