@@ -10,12 +10,15 @@ Good for capturing non-functional requirement
 
 
 Good while making the design diagram
-| Letter | Name           | Comment                       |
-|--------|----------------|-------------------------------|
-| A      | API Gateway    | AAA, ROUsing , authentication |
-| B      | Business layer | Controller etc                |
-| C      | Caching        | Caching layer                 |
-| D      | data later     |                               |
+
+| Letter | Name           | Comment                                            |
+|--------|----------------|----------------------------------------------------|
+| A      | API Gateway    | AAA , authentication                               |
+| R      | Routing        | which microservice request should go to ?          |
+| R      | Rate limiting  | How many request you want to allow ? or throttling |
+| B      | Business layer | Controller, handlers etc                           |
+| C      | Caching        | Caching layer - business data                      |
+| D      | data later     |                                                    |
 
 
 
@@ -25,4 +28,9 @@ Good while making the design diagram
 | R      | Recovery    |         |
 | R      | Resilient   |         |
 
+| Letter | Name      | Comment |
+|--------|-----------|---------|
+| C      |           |         |
+| A      | Recovery  |         |
+| P      | Resilient |         |
 
