@@ -1,3 +1,11 @@
+1. Write the business requirement or functional requirement ?
+2. Write non-functional requirement
+3. Write some sample customer journey to understand the process.
+4. Understand number fo users and latency requirement
+5. Understand what is out of scope ?
+6. Try to do some dry run to ensure the correct data flow.
+7. 
+
 Here is a **clean, structured template** in the **exact style and progression** you want.
 Each section is written as a **form page**, with **questions, descriptions, and example values**, so it becomes a reusable *requirements-capture engine* for HLD/LLD.
 
