@@ -14,3 +14,13 @@
 | B      | Business layer | Controller etc                |
 | C      | Caching        | Caching layer                 |
 | D      | data later     |                               |
+
+
+
+| Letter | Name        | Comment |
+|--------|-------------|---------|
+| R      | Reliability |         |
+| R      | Recovery    |         |
+| R      | Resilient   |         |
+
+
