@@ -28,9 +28,21 @@ Good while making the design diagram
 | R      | Recovery    |         |
 | R      | Resilient   |         |
 
+Letter,Name,Comment
+C,Consistency,All nodes see the same data at the same time (Linearizability).
+A,Availability,"Every request receives a (non-error) response, without the guarantee that it contains the most recent write."
+P,Partition Tolerance,The system continues to operate despite an arbitrary number of messages being dropped or delayed by the network between nodes.
+
 | Letter | Name      | Comment |
 |--------|-----------|---------|
 | C      |           |         |
 | A      | Recovery  |         |
 | P      | Resilient |         |
+
+
+| Letter | Name    | Comment                                                                              |
+|--------|---------|--------------------------------------------------------------------------------------|
+| L      | Logging | """What happened?"" (ELK Stack Splunk). Events with context."                        | 
+| M      | Metrics | """Is it healthy?"" (Prometheus Grafana). Time-series data (CPU usage RPS Latency)." |   
+| T      | Tracing | """Where is the bottleneck?"" (Jaeger, Zipkin). Tracking a request across microservices." |
 
