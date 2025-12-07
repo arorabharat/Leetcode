@@ -35,3 +35,17 @@ Optimizing like write volume using logarithm of likes (49:05).
 Sharding Redis with keyword as a partitioning key (52:58).
 Handling storage requirements by separating hot and cold data using S3 (58:32) and leveraging Count-Min Sketch (59:44) to identify cold data.
 Extending search to handle multi-keyword queries (1:02:07) using biograms and Count-Min Sketch to filter uncommon ones.
+
+What is CDC ?
+The video mentions CDC, or Change Data Capture (29:59).
+It explains that CDC is a way for a service, like the ingestion service, to read changes (like new posts or updates) directly from a database (29:59). This means that whenever a post is created or changed in the database, the ingestion service automatically knows about it, eliminating the need for other services to directly tell the search index about these changes (30:14).
+The video also notes that if you tag Elastic Search as a CDC on your database, it will be eventually consistent with the data you're writing (1:10:59).
+
+What is inverted index ?
+An inverted index is described in the video as an ideal data structure for fast searches (27:45).
+It works by taking the content of a post, breaking it into individual keywords (a process called tokenization), and then associating those keywords with the post IDs that contain them (28:23).
+The "ideal data structure" for an inverted index would, for a given keyword, have a list of all the post IDs that match that keyword (28:09). This allows the system to return search results very quickly by looking up the keyword and getting the corresponding post IDs (28:35).
+
+
+
+
