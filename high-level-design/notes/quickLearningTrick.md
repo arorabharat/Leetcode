@@ -60,4 +60,8 @@ RCA - DHD
 | D      | Deep dive          | Deep Dive          |
 
 
+Functional requirements - divide into two categories
+ATL - Above the line
+BTL - Below the line
+
 
