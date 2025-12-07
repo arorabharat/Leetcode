@@ -40,9 +40,24 @@ P,Partition Tolerance,The system continues to operate despite an arbitrary numbe
 | P      | Resilient |         |
 
 
-| Letter | Name    | Comment                                                                              |
-|--------|---------|--------------------------------------------------------------------------------------|
-| L      | Logging | """What happened?"" (ELK Stack Splunk). Events with context."                        | 
-| M      | Metrics | """Is it healthy?"" (Prometheus Grafana). Time-series data (CPU usage RPS Latency)." |   
+| Letter | Name    | Comment                                                                                   |
+|--------|---------|-------------------------------------------------------------------------------------------|
+| L      | Logging | """What happened?"" (ELK Stack Splunk). Events with context."                             | 
+| M      | Metrics | """Is it healthy?"" (Prometheus Grafana). Time-series data (CPU usage RPS Latency)."      |   
 | T      | Tracing | """Where is the bottleneck?"" (Jaeger, Zipkin). Tracking a request across microservices." |
+
+
+
+RCA - DHD
+
+| Letter | Name               | Comment            |
+|--------|--------------------|--------------------|
+| R      | Requirements       | Requirements       | 
+| C      | Core entities      | Core entities      |   
+| A      | API / Interface    | API / Interface    |
+| D      | Data flow          | Data flow          |
+| H      | High Level Diagram | High Level Diagram |
+| D      | Deep dive          | Deep Dive          |
+
+
 
