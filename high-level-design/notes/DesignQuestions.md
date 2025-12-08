@@ -46,6 +46,24 @@ An inverted index is described in the video as an ideal data structure for fast 
 It works by taking the content of a post, breaking it into individual keywords (a process called tokenization), and then associating those keywords with the post IDs that contain them (28:23).
 The "ideal data structure" for an inverted index would, for a given keyword, have a list of all the post IDs that match that keyword (28:09). This allows the system to return search results very quickly by looking up the keyword and getting the corresponding post IDs (28:35).
 
+## Ad click aggregator
+
+[![Alt text](https://img.youtube.com/vi/Zcv_899yqhI/0.jpg)](https://www.youtube.com/watch?v=Zcv_899yqhI)
+
+This video walks through designing an ad click aggregator system, a common system design interview question. The presenter outlines a roadmap for infrastructure design questions, starting with defining functional and non-functional requirements (2:35).
+
+Key takeaways:
+
+Functional Requirements [(5:00)](https://www.youtube.com/watch?v=Zcv_899yqhI): Users click ads and are redirected; advertisers can query click metrics over time (e.g., clicks per hour or minute).
+Non-functional Requirements (6:58): Scalability (10,000 ad clicks per second peak), low latency analytics queries (less than 1 second), fault tolerance, high data integrity (no lost clicks), real-time data (within 1 minute granularity), and idempotency of ad clicks (one click per ad impression per user).
+System Interface & Data Flow (1:49): The system takes click data and advertiser queries as input, and outputs redirections and aggregated click metrics. The data flow involves receiving clicks, redirecting users, validating and logging clicks, and then aggregating them.
+High-Level Design (14:12): The initial design involves a Click Processor Service, an Ad DB, and a Query Service to store and retrieve raw click data in a write-optimized database like Cassandra.
+Deep Dives (29:39):
+Real-time Analytics: To achieve real-time data, the design shifts from batch processing (Spark jobs) to stream processing using a Click Event Stream (Kinesis/Kafka) and a stream aggregator (Flink) for real-time aggregation and flushing (31:04).
+Scalability: Services are scaled horizontally, streams are sharded (e.g., by ad ID), and Flink jobs scale to read from multiple shards (3:57). The "celebrity problem" for hot shards is addressed by adding a number to the shard key (39:11).
+Fault Tolerance & Data Integrity: Retention policies on the stream (7-day retention) prevent data loss if Flink goes down (4:24), and periodic reconciliation using batch processing (Spark dumping raw events to S3) ensures high data accuracy (45:24).
+Idempotency of Ad Clicks: To prevent users/bots from spamming clicks, the system generates an "ad impression ID" on the server. When a user clicks, this ID is sent along with a signed impression ID. The Click Processor Service verifies the signature and checks a Redis cache to ensure the impression ID hasn't been clicked before (53:05).
+
 
 
 
