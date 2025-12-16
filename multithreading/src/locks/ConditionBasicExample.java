@@ -4,62 +4,68 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * ======================================================
- * Example 1: Basic Thread Communication using Condition
- * ======================================================
- * <p>
- * Goal:
- * - One thread waits for a signal
- * - Another thread sends the signal
- * <p>
- * This is equivalent to wait()/notify(), but explicit.
+ * =====================================================
+ * Condition Example – Waiting for State Change
+ * =====================================================
+ *
+ * This example demonstrates:
+ *   - How a thread waits using Condition.await()
+ *   - How another thread wakes it using Condition.signal()
+ *   - Why a while loop is mandatory
+ *
+ * This is the canonical use of Condition.
  */
 public class ConditionBasicExample {
 
-    private static final ReentrantLock lock = new ReentrantLock();
-    private static final Condition waitCondition = lock.newCondition();
+    private final ReentrantLock lock = new ReentrantLock();
+    private final Condition dataAvailable = lock.newCondition();
 
-    public static void main(String[] args) throws InterruptedException {
+    // Shared state protected by the lock
+    private boolean hasData = false;
 
-        // Waiting thread
-        Thread waiter = new Thread(() -> {
-            lock.lock();
-            try {
-                System.out.println("Waiter: waiting for signal...");
-                waitCondition.await(); // releases lock + waits
-                System.out.println("Waiter: received signal, resuming work");
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            } finally {
-                System.out.println("Waiter: unlock");
-                lock.unlock();
-            }
-        });
-
-        // Signaling thread
-        Thread signaler = new Thread(() -> {
-            lock.lock();
-            try {
-                System.out.println("Signaler: doing some work");
-                sleepOneSecond();
-                System.out.println("Signaler: sending signal");
-                waitCondition.signal(); // wakes one waiting thread
-            } finally {
-                System.out.println("Signaler: unlock");
-                lock.unlock();
-            }
-        });
-
-        waiter.start();
-        Thread.sleep(500); // ensure waiter starts waiting first
-        signaler.start();
-    }
-
-    private static void sleepOneSecond() {
+    /**
+     * Consumer waits until data is available.
+     */
+    public void consume() {
+        lock.lock();
         try {
-            Thread.sleep(1000);
+            // Wait until the condition (state) becomes true
+            while (!hasData) {
+                System.out.println("Consumer waiting for data...");
+                dataAvailable.await(); // releases lock + waits
+            }
+            System.out.println("Consumer consumed data");
+            hasData = false;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+        } finally {
+            lock.unlock();
         }
     }
+
+    /**
+     * Producer creates data and signals waiting thread.
+     */
+    public void produce() {
+        lock.lock();
+        try {
+            System.out.println("Producer produced data");
+            hasData = true;
+            dataAvailable.signal(); // notify waiting thread
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        ConditionBasicExample example = new ConditionBasicExample();
+
+        Thread consumer = new Thread(example::consume, "Consumer");
+        Thread producer = new Thread(example::produce, "Producer");
+
+        consumer.start();
+        Thread.sleep(1000); // ensure consumer waits first
+        producer.start();
+    }
 }
+
