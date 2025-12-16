@@ -64,7 +64,7 @@ public class ScheduledThreadPoolExample {
 
         // Pool with 2 threads
         ScheduledExecutorService scheduler =
-                Executors.newScheduledThreadPool(2);
+                Executors.newScheduledThreadPool(1);
 
         // One-time delayed task
         scheduler.schedule(() -> {
@@ -75,16 +75,16 @@ public class ScheduledThreadPoolExample {
         scheduler.scheduleAtFixedRate(() -> {
             System.out.println(time() + " Fixed-rate task start");
             sleepOneSecond();
-        }, 1, 2, TimeUnit.SECONDS);
+        }, 1, 5, TimeUnit.SECONDS);
 
         // Fixed-delay task (runs 2 seconds AFTER previous run finishes)
         scheduler.scheduleWithFixedDelay(() -> {
             System.out.println(time() + " Fixed-delay task start");
             sleepOneSecond();
-        }, 1, 2, TimeUnit.SECONDS);
+        }, 1, 5, TimeUnit.SECONDS);
 
         // Let it run for a while
-        Thread.sleep(15000);
+        Thread.sleep(50000);
 
         // Graceful shutdown
         scheduler.shutdown();
@@ -97,9 +97,82 @@ public class ScheduledThreadPoolExample {
 
     private static void sleepOneSecond() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
     }
 }
+
+
+/**
+ * ==========================================================
+ * scheduleWithFixedDelay(...) — Timing & Thread Availability
+ * ==========================================================
+ * <p>
+ * IMPORTANT:
+ * scheduleWithFixedDelay does NOT guarantee execution exactly
+ * after the specified delay if threads are unavailable.
+ * <p>
+ * ------------------------------------------
+ * What is guaranteed
+ * ------------------------------------------
+ * <p>
+ * - The next execution is scheduled ONLY AFTER
+ * the previous execution finishes.
+ * <p>
+ * - A delay of at least the specified duration
+ * is applied after task completion.
+ * <p>
+ * - The same task never overlaps with itself.
+ * <p>
+ * ------------------------------------------
+ * What is NOT guaranteed
+ * ------------------------------------------
+ * <p>
+ * - Exact wall-clock execution time.
+ * <p>
+ * - Execution exactly at (finish time + delay).
+ * <p>
+ * - Execution if no worker thread is available.
+ * <p>
+ * ------------------------------------------
+ * Thread availability behavior
+ * ------------------------------------------
+ * <p>
+ * Timeline model:
+ * <p>
+ * Task finishes
+ * ↓
+ * Wait "delay" duration
+ * ↓
+ * Task becomes eligible to run
+ * ↓
+ * Executes ONLY when a thread is free
+ * <p>
+ * If all threads are busy, the task waits.
+ * The delay is a MINIMUM, not a deadline.
+ * <p>
+ * ------------------------------------------
+ * Comparison with scheduleAtFixedRate
+ * ------------------------------------------
+ * <p>
+ * - scheduleAtFixedRate:
+ * • Attempts to maintain a fixed schedule
+ * • May run back-to-back to catch up
+ * <p>
+ * - scheduleWithFixedDelay:
+ * • Never overlaps
+ * • Never catches up
+ * • Always waits after completion
+ * <p>
+ * Both depend on thread availability.
+ * <p>
+ * ------------------------------------------
+ * Mental model
+ * ------------------------------------------
+ * <p>
+ * "Finish work → wait → ask for a worker."
+ * <p>
+ * Timing is cooperative, not guaranteed.
+ */
