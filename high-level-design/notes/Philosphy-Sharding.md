@@ -33,4 +33,4 @@ Address Growth Handling (29:34-29:46): Explain how you'll start with a certain n
 3. Now you post office grew and 10 people are coming per second, even the most efficient person on earth is not able to take 10 courier per second.
 4. So you decided to hire one more person, this is point where you have sharded, i.e. split the traffic into two queue.
 5. Now sharding should be done in a way where all the data for a user live on same physical machine , ie with same courier guy so he can answer all the queries instantly.
-6. 
+6. it should take care of hotkey, i.e it should not split the user such that one courier guy is over burdened.
