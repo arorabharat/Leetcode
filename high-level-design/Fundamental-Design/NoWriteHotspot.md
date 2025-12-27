@@ -64,6 +64,7 @@ Databases like DynamoDB, Cassandra, and Bigtable-inspired systems explicitly adv
 
 Without this property, adding nodes doesn’t help—you just create more idle machines around the same bottleneck.
 
+
 ### The subtle truth
 
 “No write hotspots” doesn’t mean **writes are magically balanced forever**. It means:
