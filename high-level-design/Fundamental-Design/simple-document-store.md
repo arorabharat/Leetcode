@@ -273,3 +273,306 @@ If you want next, we can:
 * Convert this into **code-level LLD**
 
 This design is done. Everything else is refinement.
+
+
+Perfect place to slow down and be precise. **Idempotency sounds abstract until you see the exact state transitions.** Let’s walk it end-to-end with **one concrete flow**, no hand-waving.
+
+I’ll explain:
+
+1. what problem idempotency solves
+2. the exact data we store
+3. the exact request flow (step by step)
+4. all failure scenarios
+5. why this works with our Create / Read / Delete–only system
+
+---
+
+## 1️⃣ What problem are we solving?
+
+**Reality:**
+Clients retry. Networks drop ACKs. Load balancers retry. Mobile apps panic.
+
+So this happens:
+
+```
+Client → CreateDocument
+(Server stores document)
+(Server crashes before responding)
+
+Client retries CreateDocument
+```
+
+Without idempotency → **duplicate documents**
+With idempotency → **same document returned**
+
+**Goal:**
+
+> Multiple identical Create requests should behave like **one request executed once**.
+
+---
+
+## 2️⃣ Core idea (one sentence)
+
+> The client supplies an **Idempotency Key**, and the server remembers the result of the *first successful request* made with that key.
+
+That’s it. Everything else is mechanics.
+
+---
+
+## 3️⃣ What data do we store?
+
+We add **one small table / logical record**.
+
+### Idempotency Record
+
+```
+Key: idempotency_key
+--------------------------------
+document_id
+request_hash
+status: IN_PROGRESS | COMPLETED
+created_at
+```
+
+This lives in the **same KV store** as documents (or a separate table in the same system).
+
+---
+
+## 4️⃣ Client behavior (important)
+
+For **CreateDocument only**:
+
+* Client generates a **unique idempotency key**
+* Same key is reused **for retries**
+* Different create = different key
+
+Example HTTP header:
+
+```
+Idempotency-Key: 9f7c2a91-6a21-4d9a-b1b8-77b9e3d9aabc
+```
+
+Deletes and reads usually don’t need idempotency, but they can reuse the same pattern.
+
+---
+
+## 5️⃣ Create flow (step by step, no gaps)
+
+Let’s walk through the **happy path first**.
+
+### Step 1: Client sends request
+
+```
+POST /documents
+Headers:
+  Idempotency-Key: K1
+
+Body:
+  "Hello world, 150 words..."
+```
+
+---
+
+### Step 2: API server checks idempotency table
+
+```
+GET idempotency_record WHERE key = K1
+```
+
+#### Case A: **No record exists**
+
+→ This is the first attempt
+→ Server **creates an idempotency record**
+
+```
+K1 → {
+  status: IN_PROGRESS
+}
+```
+
+This write is **atomic**.
+
+---
+
+### Step 3: Server creates document
+
+* Generate `DocumentID`
+* Store document in KV store
+* Status = ACTIVE
+
+---
+
+### Step 4: Server finalizes idempotency record
+
+```
+K1 → {
+  status: COMPLETED
+  document_id: D123
+}
+```
+
+---
+
+### Step 5: Server responds
+
+```
+201 Created
+document_id = D123
+```
+
+---
+
+## 6️⃣ Retry flow (this is the magic)
+
+Now imagine the server **crashes after Step 4 but before Step 5**.
+
+Client retries with the **same Idempotency-Key (K1)**.
+
+---
+
+### Step 1 (retry): API checks idempotency table
+
+```
+GET idempotency_record WHERE key = K1
+```
+
+#### Case B: **Record exists + COMPLETED**
+
+Server immediately returns:
+
+```
+200 OK
+document_id = D123
+```
+
+❗ No new document is created
+❗ No duplicate write
+❗ No race condition
+
+---
+
+## 7️⃣ What if retry happens mid-flight?
+
+This is the subtle case interviewers care about.
+
+### Scenario
+
+* First request created idempotency record
+* Status = IN_PROGRESS
+* Document creation not finished yet
+* Client retries immediately
+
+### Server behavior
+
+```
+GET idempotency_record WHERE key = K1
+```
+
+#### Case C: **IN_PROGRESS**
+
+Two safe options:
+
+### Option 1 (simple & common)
+
+* Return `409 Conflict` or `202 Accepted`
+* Client retries after backoff
+
+### Option 2 (cleaner UX)
+
+* Block briefly (few ms)
+* Re-check record
+* Return result if completed
+
+Either way:
+
+* No duplicate document
+* No inconsistent state
+
+---
+
+## 8️⃣ Why this works perfectly for *our* system
+
+This design is especially strong because:
+
+### 1. No updates
+
+Once a document is created, it never changes.
+So returning the same `document_id` is always correct.
+
+### 2. DocumentID is generated **server-side**
+
+So client retries cannot accidentally generate new IDs.
+
+### 3. Small payload
+
+Storing idempotency records is cheap.
+
+### 4. Availability-first
+
+Even under retries, partitions, crashes:
+
+* At most one document is created
+* System never blocks globally
+
+---
+
+## 9️⃣ Delete idempotency (quick note)
+
+Delete is already **naturally idempotent**:
+
+```
+DELETE /documents/D123
+```
+
+* First call → status = DELETED
+* Second call → still DELETED → return success
+
+So idempotency keys are optional for delete.
+
+---
+
+## 🔁 Full lifecycle summary (single view)
+
+```
+Client
+  |
+  | Create (Idempotency-Key = K1)
+  v
+Document Service
+  |
+  | Check idempotency table
+  | Create record (IN_PROGRESS)
+  |
+  | Create document
+  |
+  | Mark idempotency COMPLETED
+  v
+Return document_id
+```
+
+Retries short-circuit at the idempotency check.
+
+---
+
+## 🔑 Interview-grade explanation (concise)
+
+> We ensure idempotency by requiring clients to send an idempotency key with create requests. The server stores the result of the first successful request associated with that key. On retries, the server detects the existing record and returns the previously created document ID instead of creating a new document. This guarantees at-most-once creation even under retries, crashes, or network failures.
+
+---
+
+## Final intuition (important)
+
+Idempotency is **not** about retries.
+It’s about **remembering outcomes**.
+
+Once you internalize that, the whole flow becomes obvious.
+
+If you want next, we can:
+
+* Draw this as a **state machine**
+* Discuss **TTL for idempotency keys**
+* Compare **client-generated IDs vs idempotency keys**
+* Implement this in **Java / Spring / Go**
+
+This is a foundational distributed-systems pattern—and now you truly have it.
+
