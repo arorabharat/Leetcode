@@ -65,3 +65,13 @@ ATL - Above the line
 BTL - Below the line
 
 
+PSR - Scaling techniques
+
+| Letter | Name         | Comment             |
+|--------|--------------|---------------------|
+| P      | Partitioning | Kafka partition     | 
+| S      | Sharding     | Database Sharding   |   
+| R      | Replication  | Service replication |
+
+
+
