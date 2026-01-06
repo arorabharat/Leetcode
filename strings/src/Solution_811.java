@@ -43,6 +43,41 @@ public class Solution_811 {
             return result;
         }
     }
+
+
+    class Approach_2 {
+
+        private List<String> getSubDomains(String domain) {
+            List<String> subDomains = new ArrayList<>();
+            for (int i = domain.length() - 1; i >= 0; i--) {
+                if (domain.charAt(i) == '.') {
+                    subDomains.add(domain.substring(i + 1));
+                }
+            }
+            subDomains.add(domain);
+            return subDomains;
+        }
+
+        public List<String> subdomainVisits(String[] cpdomains) {
+            Map<String, Integer> domainCount = new HashMap<>();
+            for (String domainString : cpdomains) {
+                String domain = domainString.split(" ")[1];
+                Integer domainVistCount = Integer.parseInt(domainString.split(" ")[0]);
+                List<String> subDomainList = getSubDomains(domain);
+                for (String subDomain : subDomainList) {
+                    domainCount.put(subDomain, domainCount.getOrDefault(subDomain, 0) + domainVistCount);
+                }
+            }
+            List<String> result = new ArrayList<>();
+            System.out.println(domainCount);
+            for (var entrySet : domainCount.entrySet()) {
+                String domain = entrySet.getKey();
+                Integer count = entrySet.getValue();
+                result.add(count + " " + domain);
+            }
+            return result;
+        }
+    }
 }
 
 
