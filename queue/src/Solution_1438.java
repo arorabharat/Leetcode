@@ -1,12 +1,29 @@
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class Solution_1438 {
 
+    class Approach_2 {
+
+        public int longestSubarray(int[] nums, int limit) {
+            PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+            PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
+            int left = 0 ;
+            int maxLen = 0 ;
+            for (int right = 0; right < nums.length; right++) {
+                minHeap.add(nums[right]);
+                maxHeap.add(nums[right]);
+                while(!minHeap.isEmpty() && !maxHeap.isEmpty() && (minHeap.peek() - maxHeap.peek() > limit)) {
+                    minHeap.remove(nums[left]);
+                    maxHeap.remove(nums[left]);
+                }
+                maxLen = Math.max(maxLen, minHeap.size());
+            }
+            return maxLen;
+        }
+    }
+
     class Approach_1 {
 
-        class Solution {
 
             class MinQueue {
 
@@ -112,7 +129,6 @@ public class Solution_1438 {
                 len = Math.max(len, minmaxq.size());
                 return len;
             }
-        }
     }
 
     /**
