@@ -1,8 +1,56 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
 /**
  * https://leetcode.com/problems/binary-tree-paths/
  * TODO
  */
 class Solution_257 {
+
+
+    class Approach_1 {
+
+        private String convertToString(Stack<Integer> stack) {
+            StringBuilder sb = new StringBuilder();
+            while (!stack.isEmpty()) {
+                sb.append(stack.pop());
+                if (!stack.isEmpty()) {
+                    sb.append("->");
+                }
+            }
+            return sb.toString();
+        }
+
+        public List<String> binaryTreePaths(TreeNode root) {
+            List<Stack<Integer>> paths = binaryTreePathsHelper(root);
+            List<String> strPaths = new ArrayList<>();
+            for (Stack<Integer> path : paths) {
+                strPaths.add(convertToString(path));
+            }
+            return strPaths;
+        }
+
+        public List<Stack<Integer>> binaryTreePathsHelper(TreeNode root) {
+            List<Stack<Integer>> rootPath = new ArrayList<>();
+            if (root == null) {
+                return rootPath;
+            }
+            if (root.left == null && root.right == null) {
+                Stack<Integer> path = new Stack<>();
+                path.push(root.val);
+                rootPath.add(path);
+                return rootPath;
+            }
+            List<Stack<Integer>> leftPaths = binaryTreePathsHelper(root.left);
+            List<Stack<Integer>> rightPaths = binaryTreePathsHelper(root.right);
+            leftPaths.forEach(x -> x.push(root.val));
+            rightPaths.forEach(x -> x.push(root.val));
+            rootPath.addAll(leftPaths);
+            rootPath.addAll(rightPaths);
+            return rootPath;
+        }
+    }
 
     static class TreeNode {
         int val;
