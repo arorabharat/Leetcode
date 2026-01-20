@@ -41,7 +41,7 @@ public class Solution_432 {
             if (count.containsKey(key)) {
                 int prev = count.get(key);
                 if (count.get(key) > 1) {
-                    count.put(key, count.get(key) - 1);
+                    count.put(key, prev - 1);
                 } else {
                     count.remove(key);
                 }
@@ -51,11 +51,75 @@ public class Solution_432 {
         }
 
         public String getMaxKey() {
-            return count.isEmpty() ? "" : sortedKeys.lastEntry().getValue().stream().findFirst().get();
+            return sortedKeys.isEmpty() ? "" : sortedKeys.lastEntry().getValue().iterator().next();
         }
 
         public String getMinKey() {
-            return count.isEmpty() ? "" : sortedKeys.firstEntry().getValue().stream().findFirst().get();
+            return sortedKeys.isEmpty() ? "" : sortedKeys.firstEntry().getValue().iterator().next();
+        }
+    }
+
+    class AllOne_2 {
+
+        // count -> set of keys
+        private final TreeMap<Integer, Set<String>> freqMap = new TreeMap<>();
+        // key -> count
+        private final Map<String, Integer> keyCount = new HashMap<>();
+
+        public AllOne_2() {
+        }
+
+        /* ---------- Helpers ---------- */
+
+        private void removeFromBucket(int freq, String key) {
+            Set<String> keys = freqMap.get(freq);
+            if (keys == null) return;
+            keys.remove(key);
+            if (keys.isEmpty()) {
+                freqMap.remove(freq);
+            }
+        }
+
+        private void addToBucket(int freq, String key) {
+            if (freq <= 0) return;
+            freqMap.computeIfAbsent(freq, f -> new HashSet<>())
+                    .add(key);
+        }
+
+        private void moveKey(String key, int prev, int next) {
+            removeFromBucket(prev, key);
+            addToBucket(next, key);
+        }
+
+        /* ---------- Operations ---------- */
+
+        public void inc(String key) {
+            int prev = keyCount.getOrDefault(key, 0);
+            int next = prev + 1;
+            keyCount.put(key, next);
+            moveKey(key, prev, next);
+        }
+
+        public void dec(String key) {
+            Integer prev = keyCount.getOrDefault(key, 0);
+            if (prev == 0) return;
+            int next = prev - 1;
+            if (next == 0) {
+                keyCount.remove(key);
+            } else {
+                keyCount.put(key, next);
+            }
+            moveKey(key, prev, next);
+        }
+
+        public String getMaxKey() {
+            if (freqMap.isEmpty()) return "";
+            return freqMap.lastEntry().getValue().iterator().next();
+        }
+
+        public String getMinKey() {
+            if (freqMap.isEmpty()) return "";
+            return freqMap.firstEntry().getValue().iterator().next();
         }
     }
 
