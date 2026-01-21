@@ -143,7 +143,7 @@ class RatingHandler {
 }
 
 
-public class Main {
+public class Main1 {
 
     public static void main(String[] args) {
         AgentRatingRepository agentRatingRepository = new AgentRatingRepository(new HashMap<>());
