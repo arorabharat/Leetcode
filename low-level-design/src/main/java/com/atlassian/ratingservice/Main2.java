@@ -70,21 +70,21 @@ public class Main2 {
         String a3 = ratingService.addAgent("Sen");
         String a4 = ratingService.addAgent("Sen");
 
-        ratingService.addRating(new AgentRatingInputBO(a1,  3));
-        ratingService.addRating(new AgentRatingInputBO(a1,  4));
-        ratingService.addRating(new AgentRatingInputBO(a1,  5));
+        ratingService.addRating(new AgentRatingInputBO(a1, 3));
+        ratingService.addRating(new AgentRatingInputBO(a1, 4));
+        ratingService.addRating(new AgentRatingInputBO(a1, 5));
 
-        ratingService.addRating(new AgentRatingInputBO(a2,  1));
-        ratingService.addRating(new AgentRatingInputBO(a2,  2));
-        ratingService.addRating(new AgentRatingInputBO(a2,  3));
+        ratingService.addRating(new AgentRatingInputBO(a2, 1));
+        ratingService.addRating(new AgentRatingInputBO(a2, 2));
+        ratingService.addRating(new AgentRatingInputBO(a2, 3));
 
-        ratingService.addRating(new AgentRatingInputBO(a3,  5));
-        ratingService.addRating(new AgentRatingInputBO(a3,  5));
-        ratingService.addRating(new AgentRatingInputBO(a3,  5));
+        ratingService.addRating(new AgentRatingInputBO(a3, 5));
+        ratingService.addRating(new AgentRatingInputBO(a3, 5));
+        ratingService.addRating(new AgentRatingInputBO(a3, 5));
 
-        ratingService.addRating(new AgentRatingInputBO(a4,  0));
-        ratingService.addRating(new AgentRatingInputBO(a4,  1));
-        ratingService.addRating(new AgentRatingInputBO(a4,  2));
+        ratingService.addRating(new AgentRatingInputBO(a4, 0));
+        ratingService.addRating(new AgentRatingInputBO(a4, 1));
+        ratingService.addRating(new AgentRatingInputBO(a4, 2));
 
         List<AgentRatingOutputBO> agentsSortedByAverageRating = ratingService.getAgentsSortedByAverageRating();
 
