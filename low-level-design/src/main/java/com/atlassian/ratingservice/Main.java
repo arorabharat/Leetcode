@@ -1,7 +1,6 @@
 package com.atlassian.ratingservice;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 class Agent {
 
@@ -39,6 +38,15 @@ class Rating {
 class AggregateRating {
     private long totalRating;
     private int numberOfRating;
+    private Agent agent;
+
+    public AggregateRating(Agent agent) {
+        this.agent = agent;
+    }
+
+    public Agent getAgent() {
+        return agent;
+    }
 
     public void addRating(long newRating) {
         this.totalRating = totalRating + newRating;
@@ -62,6 +70,12 @@ class AgentRatingRepository {
 
     private final Map<String, AggregateRating> ratingDb;
 
+    PriorityQueue<AggregateRating> sortedAgentRatings = new PriorityQueue<>((a, b) -> Double.compare(averageRating(b), averageRating(a)));
+
+    private double averageRating(AggregateRating rating) {
+        return (double) rating.getTotalRating() / rating.getNumberOfRating();
+    }
+
     public AgentRatingRepository(Map<String, AggregateRating> ratingDb) {
         this.ratingDb = ratingDb;
     }
@@ -69,9 +83,13 @@ class AgentRatingRepository {
     void addRatingForAgent(Agent agent, Rating rating) {
         String agentId = agent.getAgentId();
         if (!ratingDb.containsKey(agentId)) {
-            ratingDb.put(agentId, new AggregateRating());
+            ratingDb.put(agentId, new AggregateRating(agent));
+        } else {
+            sortedAgentRatings.remove(ratingDb.get(agentId));
         }
-        ratingDb.get(agentId).addRating(rating.getValue());
+        AggregateRating aggregateRating = ratingDb.get(agentId);
+        aggregateRating.addRating(rating.getValue());
+        sortedAgentRatings.add(aggregateRating);
     }
 
     AggregateRating getAggregateRating(Agent agent) {
@@ -82,11 +100,29 @@ class AgentRatingRepository {
             return ratingDb.get(agentId);
         }
     }
+
+    double getAverageRatingOfAgent(Agent agent) {
+        String agentId = agent.getAgentId();
+        if (!ratingDb.containsKey(agentId)) {
+            throw new RuntimeException("Agent not found");
+        } else {
+            return averageRating(ratingDb.get(agentId));
+        }
+    }
+
+    List<Agent> getAgentsSortedByAvgRating() {
+        List<Agent> result = new ArrayList<>();
+        sortedAgentRatings.forEach(rating -> result.add(rating.getAgent()));
+        return result;
+    }
 }
 
 class RatingHandler {
 
+
+
     private final AgentRatingRepository agentRatingRepository;
+
 
     public RatingHandler(AgentRatingRepository agentRatingRepository) {
         this.agentRatingRepository = agentRatingRepository;
@@ -98,10 +134,13 @@ class RatingHandler {
 
     double getAverageRating(Agent agent) {
         AggregateRating aggregateRating = this.agentRatingRepository.getAggregateRating(agent);
-        return (double) aggregateRating.getTotalRating() / aggregateRating.getNumberOfRating();
+        return this.agentRatingRepository.getAverageRatingOfAgent(agent);
+    }
+
+    List<Agent> getSortedAgentByAvgRating() {
+        return this.agentRatingRepository.getAgentsSortedByAvgRating();
     }
 }
-
 
 
 public class Main {
@@ -111,11 +150,18 @@ public class Main {
         RatingHandler ratingHandler = new RatingHandler(agentRatingRepository);
         Agent agent1 = new Agent("1", "mitsi");
         Agent agent2 = new Agent("2", "shinchan");
+        Agent agent3 = new Agent("3", "nohra");
         ratingHandler.submitRating(agent1, new Rating(5));
         ratingHandler.submitRating(agent1, new Rating(3));
         ratingHandler.submitRating(agent1, new Rating(5));
         ratingHandler.submitRating(agent2, new Rating(5));
+        ratingHandler.submitRating(agent3, new Rating(4));
+        ratingHandler.submitRating(agent3, new Rating(5));
         System.out.println(ratingHandler.getAverageRating(agent1));
         System.out.println(ratingHandler.getAverageRating(agent2));
+        System.out.println(ratingHandler.getAverageRating(agent3));
+        for (Agent agent : ratingHandler.getSortedAgentByAvgRating()) {
+            System.out.println(agent.getName());
+        }
     }
 }
