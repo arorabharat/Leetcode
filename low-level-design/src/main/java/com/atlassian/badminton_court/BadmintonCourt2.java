@@ -105,6 +105,10 @@ public class BadmintonCourt2 {
                 booking.setAssignedCourt(assignedCourt.id);
             }
 
+            sortBookingById(bookings);
+        }
+
+        private void sortBookingById(List<Booking> bookings) {
             Comparator<Booking> sortById = Comparator.comparing(Booking::getId);
             bookings.sort(sortById);
         }
