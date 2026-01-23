@@ -1,4 +1,4 @@
-package com.atlassian.votes;
+package com.atlassian.dsa.votes;
 
 
 import java.util.*;

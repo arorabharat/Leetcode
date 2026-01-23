@@ -1,4 +1,4 @@
-package com.atlassian.kclosest;
+package com.atlassian.dsa.kclosest;
 
 import java.util.*;
 
