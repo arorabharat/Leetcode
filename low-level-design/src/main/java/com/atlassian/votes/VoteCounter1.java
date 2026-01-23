@@ -3,7 +3,7 @@ package com.atlassian.votes;
 
 import java.util.*;
 
-public class VoteCounter {
+public class VoteCounter1 {
 
     /**
      * Candidates - name, uuid
@@ -64,7 +64,7 @@ public class VoteCounter {
     Map<String, Candidate> uuidCandidateMap;
     Map<String, Integer> voteCountMap;
 
-    VoteCounter(List<Candidate> candidates) {
+    VoteCounter1(List<Candidate> candidates) {
         if (candidates == null) {
             throw new RuntimeException("candidate should not be null");
         }
@@ -122,7 +122,7 @@ public class VoteCounter {
         Candidate c2 = new Candidate("c2");
         Candidate c3 = new Candidate("c3");
         Candidate c4 = new Candidate("c4");
-        VoteCounter voteCounter = new VoteCounter(List.of(c1, c2, c3, c4));
+        VoteCounter1 voteCounter = new VoteCounter1(List.of(c1, c2, c3, c4));
 
         Ballot b1 = new Ballot(c3.uuid, c2.uuid);
         Ballot b2 = new Ballot(c3.uuid, c1.uuid);
