@@ -63,6 +63,7 @@ public class Main {
 
     public class BallotService2 {
 
+
         record Ballot (List<String> candidates) {
         }
 
