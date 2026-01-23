@@ -2,7 +2,7 @@ package com.atlassian.votes;
 
 import java.util.*;
 
-public class VoterCounter {
+public class VoteCounter2 {
 
 
     static class Candidate {

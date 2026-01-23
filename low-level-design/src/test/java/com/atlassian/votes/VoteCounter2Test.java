@@ -26,11 +26,10 @@ public class VoteCounter2Test {
 
         VoteCounter2.VoteCounterService voteCounterService = new VoteCounter2.VoteCounterService();
 
-        List<String> ids = voteCounterService.getResults(List.of(b1, b2, b3));
-        List<VoteCounter2.Candidate> winners = voteCounterService.getCandidatesFromId(ids);
-        assertEquals(5, winners.size());
-        assertEquals(c3, winners.get(0));
-        assertEquals(c2, winners.get(1));
+        List<VoteCounter2.Candidate> results = voteCounterService.getResults(List.of(b1, b2, b3));
+        assertEquals(5, results.size());
+        assertEquals(c3, results.get(0));
+        assertEquals(c2, results.get(1));
     }
 
 }
