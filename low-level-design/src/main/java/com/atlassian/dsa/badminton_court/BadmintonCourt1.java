@@ -1,4 +1,4 @@
-package com.atlassian.badminton_court;
+package com.atlassian.dsa.badminton_court;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,5 +1,6 @@
 package com.atlassian.votes;
 
+import com.atlassian.dsa.votes.VoteCounter2;
 import org.junit.Test;
 
 import java.util.List;
