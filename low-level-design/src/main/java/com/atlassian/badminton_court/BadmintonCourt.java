@@ -7,19 +7,25 @@ public class BadmintonCourt {
 
     static class Booking {
 
-        private final int id;
+        private final String id;
         private final long startTime;
         private final long endTime;
-        private int assignedCourt;
+        private String assignedCourt;
 
-        public Booking(int id, long startTime, long endTime) {
+        public Booking(String id, long startTime, long endTime) {
             this.id = id;
             this.startTime = startTime;
             this.endTime = endTime;
-            this.assignedCourt = -1;
         }
 
-        public int getId() {
+        public Booking(long startTime, long endTime, String assignedCourt) {
+            this.id = UUID.randomUUID().toString();
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.assignedCourt = assignedCourt;
+        }
+
+        public String getId() {
             return id;
         }
 
@@ -31,7 +37,7 @@ public class BadmintonCourt {
             return endTime;
         }
 
-        public void setAssignedCourt(int assignedCourt) {
+        public void setAssignedCourt(String assignedCourt) {
             this.assignedCourt = assignedCourt;
         }
 
@@ -42,18 +48,22 @@ public class BadmintonCourt {
                     ", startTime=" + startTime +
                     ", endTime=" + endTime +
                     ", assignedCourt=" + assignedCourt +
-                    "}\n" ;
+                    "}\n";
         }
     }
 
 
     static class Court {
 
-        private final int id;
+        private final String id;
         private final List<Booking> bookings = new ArrayList<>();
 
-        public Court(int id) {
+        public Court(String id) {
             this.id = id;
+        }
+
+        public Court() {
+            this.id = UUID.randomUUID().toString();
         }
 
         public boolean isAvailable(Booking bookingRecord) {
@@ -82,11 +92,8 @@ public class BadmintonCourt {
     static class CourtBookingService {
 
         private final List<Court> courts = new ArrayList<>();
-        private final Map<Integer, Court> courtsDb = new HashMap<>();
+        private final Map<String, Court> courtsDb = new HashMap<>();
 
-        String addBooking(Booking booking) {
-            return "";
-        }
 
         void addBooking(List<Booking> bookings) {
             Comparator<Booking> sortByStartTime = (b1, b2) -> {
@@ -114,12 +121,12 @@ public class BadmintonCourt {
                 }
                 booking.setAssignedCourt(assignedCourt.id);
             }
-            Comparator<Booking> sortByStartId = Comparator.comparingInt(Booking::getId);
+            Comparator<Booking> sortByStartId = Comparator.comparing(Booking::getId);
             bookings.sort(sortByStartId);
         }
 
         private Court addBookingToNewCourt(Booking booking) {
-            Court court = new Court(courts.size()+1);
+            Court court = new Court(String.valueOf(courts.size() + 1));
             court.addBooking(booking);
             courts.add(court);
             courtsDb.put(court.id, court);
@@ -128,10 +135,10 @@ public class BadmintonCourt {
     }
 
     public static void main(String[] args) {
-        Booking b1 = new Booking(1, 1,2);
-        Booking b2 = new Booking(2, 2,3);
-        Booking b3 = new Booking(3, 1,3);
-        Booking b4 = new Booking(4, 2,4);
+        Booking b1 = new Booking("1", 1, 2);
+        Booking b2 = new Booking("2", 2, 3);
+        Booking b3 = new Booking("3", 1, 3);
+        Booking b4 = new Booking("4", 2, 4);
         List<Booking> bookingList = new ArrayList<>();
         bookingList.add(b1);
         bookingList.add(b2);

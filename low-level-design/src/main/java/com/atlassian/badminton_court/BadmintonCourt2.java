@@ -2,7 +2,7 @@ package com.atlassian.badminton_court;
 
 import java.util.*;
 
-public class BookingCourt2 {
+public class BadmintonCourt2 {
 
     static class Booking {
 
@@ -72,8 +72,7 @@ public class BookingCourt2 {
 
         public boolean addBooking(Booking booking) {
             if(isAvailable(booking)) {
-                bookings.add(booking);
-                return true;
+                return bookings.add(booking);
             }
             return false;
         }
@@ -87,13 +86,8 @@ public class BookingCourt2 {
 
         void assignCourts(List<Booking> bookings) {
             // sorted bookings
-            Comparator<Booking> sortByStartTime = (b1, b2) -> {
-                if (b1.startTime == b2.endTime) {
-                    return Long.compare(b1.endTime, b2.endTime);
-                }
-                return Long.compare(b1.startTime, b2.startTime);
-            };
-            bookings.sort(sortByStartTime);
+            sortBookingByTime(bookings);
+
             for (Booking booking : bookings) {
                 Court assignedCourt = null;
                 if(courtList.isEmpty()) {
@@ -113,6 +107,16 @@ public class BookingCourt2 {
 
             Comparator<Booking> sortById = Comparator.comparing(Booking::getId);
             bookings.sort(sortById);
+        }
+
+        private void sortBookingByTime(List<Booking> bookings) {
+            Comparator<Booking> sortByStartTime = (b1, b2) -> {
+                if (b1.startTime == b2.endTime) {
+                    return Long.compare(b1.endTime, b2.endTime);
+                }
+                return Long.compare(b1.startTime, b2.startTime);
+            };
+            bookings.sort(sortByStartTime);
         }
 
         private Court addBookingToNewCourt(Booking booking) {
