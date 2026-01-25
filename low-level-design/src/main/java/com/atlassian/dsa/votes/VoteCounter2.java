@@ -5,7 +5,7 @@ import java.util.*;
 public class VoteCounter2 {
 
 
-    static class Candidate {
+    public static class Candidate {
 
         private final String name;
         private final String id;
@@ -32,7 +32,7 @@ public class VoteCounter2 {
         }
     }
 
-    static class Ballot {
+    public static class Ballot {
 
         private final List<Candidate> candidates;
 
@@ -48,13 +48,13 @@ public class VoteCounter2 {
         }
     }
 
-    static class VoteCounterService {
+    public static class VoteCounterService {
 
         private final Map<String, Integer> scoreBoard = new HashMap<>();
         private final Map<String, Candidate> candidateMap = new HashMap<>();
         private final int[] points = {3, 2, 1};
 
-        List<Candidate> getResults(List<Ballot> ballots) {
+        public List<Candidate> getResults(List<Ballot> ballots) {
 
             // aggregate the score
             for (Ballot ballot : ballots) {
