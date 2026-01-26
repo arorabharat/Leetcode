@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StreamingTracker1Test {
+class StreamingTicker1Test {
 
     @BeforeEach
     void setUp() {
@@ -18,7 +18,7 @@ class StreamingTracker1Test {
 
     @Test
     void testBaseCase() {
-        StreamingTracker1.StreamingPrice streamingPrice = new StreamingTracker1.StreamingPrice();
+        StreamingTicker1.StreamingPrice streamingPrice = new StreamingTicker1.StreamingPrice();
         assertEquals(Integer.MAX_VALUE, streamingPrice.getMinPrice());
         assertEquals(Integer.MIN_VALUE, streamingPrice.getMaxPrice());
         assertEquals(-1, streamingPrice.getCurrentPrice());
@@ -26,7 +26,7 @@ class StreamingTracker1Test {
 
     @Test
     void testWithOnePrice() {
-        StreamingTracker1.StreamingPrice streamingPrice = new StreamingTracker1.StreamingPrice();
+        StreamingTicker1.StreamingPrice streamingPrice = new StreamingTicker1.StreamingPrice();
         streamingPrice.updatePrice(1, 10);
         assertEquals(10, streamingPrice.getMinPrice());
         assertEquals(10, streamingPrice.getMaxPrice());
@@ -35,7 +35,7 @@ class StreamingTracker1Test {
 
     @Test
     void testWithPriceCorrection() {
-        StreamingTracker1.StreamingPrice streamingPrice = new StreamingTracker1.StreamingPrice();
+        StreamingTicker1.StreamingPrice streamingPrice = new StreamingTicker1.StreamingPrice();
         streamingPrice.updatePrice(1, 10);
         streamingPrice.updatePrice(1, 5);
         assertEquals(5, streamingPrice.getMinPrice());
@@ -45,7 +45,7 @@ class StreamingTracker1Test {
 
     @Test
     void testWithMultiplePrice() {
-        StreamingTracker1.StreamingPrice streamingPrice = new StreamingTracker1.StreamingPrice();
+        StreamingTicker1.StreamingPrice streamingPrice = new StreamingTicker1.StreamingPrice();
         streamingPrice.updatePrice(1, 10);
         streamingPrice.updatePrice(1, 5);
         streamingPrice.updatePrice(2, 15);
