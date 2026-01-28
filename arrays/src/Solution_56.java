@@ -8,7 +8,6 @@ class Solution_56 {
 
     class Approach_1 {
 
-
         public int[][] merge(int[][] intervals) {
             if (intervals.length == 0) return new int[0][0];
             Arrays.sort(intervals,
@@ -34,7 +33,7 @@ class Solution_56 {
         }
     }
 
-    class Solution2 {
+    class Approach_2 {
 
         public int[][] merge(int[][] intervalsArray) {
             List<Interval> intervals = new ArrayList<>();
@@ -82,7 +81,7 @@ class Solution_56 {
     }
 
 
-    class Solution1 {
+    class Approach_3 {
 
         private static final int END = 1;
         private static final int START = 0;
