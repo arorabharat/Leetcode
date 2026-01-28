@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * https://github.com/arorabharat/Leetcode/tree/main/arrays/src/Solution_56.java
@@ -9,6 +6,33 @@ import java.util.List;
  */
 class Solution_56 {
 
+    class Approach_1 {
+
+
+        public int[][] merge(int[][] intervals) {
+            if (intervals.length == 0) return new int[0][0];
+            Arrays.sort(intervals,
+                    Comparator.comparingInt((int[] a) -> a[0])
+                            .thenComparingInt(a -> a[1])
+            );
+
+            List<int[]> res = new ArrayList<>();
+            int[] cur = intervals[0];
+            res.add(cur);
+
+            for (int i = 1; i < intervals.length; i++) {
+                int[] next = intervals[i];
+                if (next[0] <= cur[1]) {
+                    cur[1] = Math.max(cur[1], next[1]);
+                } else {
+                    cur = next;
+                    res.add(cur);
+                }
+            }
+
+            return res.toArray(new int[res.size()][2]);
+        }
+    }
 
     class Solution2 {
 
