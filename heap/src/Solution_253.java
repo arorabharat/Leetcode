@@ -1,12 +1,41 @@
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * https://leetcode.com/problems/meeting-rooms-ii/
  */
 class Solution_253 {
 
+
+    class Approach_2 {
+
+        public int minMeetingRooms(int[][] intervals) {
+            Arrays.sort(intervals,
+                    Comparator.comparingInt((int[] x) -> x[0]).thenComparing(x -> x[1]));
+            PriorityQueue<Integer> rooms = new PriorityQueue<>();
+            Arrays.stream(intervals).forEach(
+                    interval -> {
+                        if(rooms.isEmpty()) {
+                            rooms.add(interval[1]);
+                        } else {
+                            boolean isAvailable = false;
+                            for (int roomEndTime : rooms) {
+                                if (roomEndTime <= interval[0]) {
+                                    isAvailable = true;
+                                    break;
+                                }
+                            }
+                            if(!isAvailable) {
+                                rooms.add(interval[1]);
+                            } else {
+                                rooms.remove();
+                                rooms.add(interval[1]);
+                            }
+                        }
+                    }
+            );
+            return rooms.size();
+        }
+    }
 
     class Approach_1 {
 
