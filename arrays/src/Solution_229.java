@@ -1,13 +1,13 @@
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.IntConsumer;
 import java.util.function.Predicate;
-import java.util.function.ToIntFunction;
-import java.util.stream.Collectors;
 
 public class Solution_229 {
 
-    class Solution {
+    class Solution1 {
 
 
         Map<Integer, Integer> count = new HashMap<>();
