@@ -1,12 +1,156 @@
 import java.util.*;
 
 public class Solution_432 {
+
+
     class AllOne {
+
+        static class Node {
+
+            private final Set<String> keys;
+            private final int count;
+            private Node prev;
+            private Node next;
+
+            public Node(int count) {
+                this.keys = new HashSet<>();
+                this.count = count;
+            }
+
+            boolean isEmpty() {
+                return this.keys.isEmpty();
+            }
+
+            void addKey(String key) {
+                assert key != null;
+                this.keys.add(key);
+            }
+
+            void removeKey(String key) {
+                assert this.keys.contains(key);
+                this.keys.remove(key);
+            }
+        }
+
+        void print() {
+            Node tr = this.head.next;
+            while (tr != tail && tr != null) {
+                System.out.println(tr.keys.toString() + " " + tr.count);
+                tr = tr.next;
+            }
+        }
+
+        private final Node head = new Node(Integer.MAX_VALUE);
+        private final Node tail = new Node(Integer.MIN_VALUE);
+
+        void join(Node n1, Node n2) {
+            assert n1 != null;
+            assert n2 != null;
+            n1.next = n2;
+            n2.prev = n1;
+        }
+
+        private void join(Node n1, Node n2, Node n3) {
+            assert n1 != null;
+            assert n2 != null;
+            assert n3 != null;
+            join(n1, n2);
+            join(n2, n3);
+        }
+
+        private void remove(Node node) {
+            assert node != null && node != head && node != tail;
+            join(node.prev, node.next);
+        }
+
+        private final Map<String, Integer> countMap = new HashMap<>();
+        private final Map<Integer, Node> bucketMap = new HashMap<>();
+
+        public AllOne() {
+            this.head.addKey("");
+            this.tail.addKey("");
+            join(this.head, this.tail);
+        }
+
+        public void inc(String key) {
+            Node newBucket;
+            int newCount;
+            if (countMap.containsKey(key)) {
+                Node oldBucket = bucketMap.get(countMap.get(key));
+                cleanUp(oldBucket, key);
+                newCount = oldBucket.count + 1;
+                newBucket = bucketMap.getOrDefault(newCount, new Node(newCount));
+                if (!bucketMap.containsKey(newCount)) {
+                    join(oldBucket.prev, newBucket, oldBucket);
+                    bucketMap.put(newBucket.count, newBucket);
+                }
+                countMap.put(key, newCount);
+            } else {
+                newBucket = bucketMap.getOrDefault(1, new Node(1));
+                if (!bucketMap.containsKey(1)) {
+                    join(this.tail.prev, newBucket, this.tail);
+                    bucketMap.put(newBucket.count, newBucket);
+                }
+                newCount = 1;
+            }
+            countMap.put(key, newCount);
+            newBucket.addKey(key);
+            bucketMap.putIfAbsent(newBucket.count, newBucket);
+            print();
+        }
+
+        public void dec(String key) {
+            if (!this.countMap.containsKey(key)) {
+                return;
+            }
+            Node oldBucket = bucketMap.get(this.countMap.get(key));
+            int newCount = oldBucket.count - 1;
+            if (newCount != 0) {
+                Node newBucket = bucketMap.getOrDefault(newCount, new Node(newCount));
+                if (!bucketMap.containsKey(newCount)) {
+                    join(oldBucket, newBucket, oldBucket.next);
+                    bucketMap.put(newBucket.count, newBucket);
+                }
+                newBucket.addKey(key);
+                countMap.put(key, newCount);
+            }
+            cleanUp(oldBucket, key);
+            print();
+        }
+
+        private void cleanUp(Node bucket, String key) {
+            bucket.removeKey(key);
+            if (bucket.isEmpty()) {
+                remove(bucket);
+                this.bucketMap.remove(bucket.count);
+            }
+        }
+
+        public String getMaxKey() {
+            return this.head.next.keys.iterator().next();
+        }
+
+        public String getMinKey() {
+            return this.tail.prev.keys.iterator().next();
+        }
+    }
+
+    /**
+     * Your AllOne object will be instantiated and called as such:
+     * AllOne obj = new AllOne();
+     * obj.inc(key);
+     * obj.dec(key);
+     * String param_3 = obj.getMaxKey();
+     * String param_4 = obj.getMinKey();
+     */
+
+
+    class AllOne2 {
 
         TreeMap<Integer, Set<String>> sortedKeys = new TreeMap<>();
         Map<String, Integer> count = new HashMap<>();
 
-        public AllOne() {
+        public AllOne2() {
         }
 
         private void updateTreeMap(TreeMap<Integer, Set<String>> map, int prev, int next, String key) {
