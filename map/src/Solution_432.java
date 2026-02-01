@@ -75,45 +75,50 @@ public class Solution_432 {
         public void inc(String key) {
             Node newBucket;
             int newCount;
+
             if (countMap.containsKey(key)) {
                 Node oldBucket = bucketMap.get(countMap.get(key));
                 cleanUp(oldBucket, key);
                 newCount = oldBucket.count + 1;
+
                 newBucket = bucketMap.getOrDefault(newCount, new Node(newCount));
                 if (!bucketMap.containsKey(newCount)) {
                     join(oldBucket.prev, newBucket, oldBucket);
                     bucketMap.put(newBucket.count, newBucket);
                 }
-                countMap.put(key, newCount);
             } else {
+                newCount = 1;
                 newBucket = bucketMap.getOrDefault(1, new Node(1));
                 if (!bucketMap.containsKey(1)) {
                     join(this.tail.prev, newBucket, this.tail);
                     bucketMap.put(newBucket.count, newBucket);
                 }
-                newCount = 1;
             }
-            countMap.put(key, newCount);
+
             newBucket.addKey(key);
-            bucketMap.putIfAbsent(newBucket.count, newBucket);
+            countMap.put(key, newCount);
             print();
         }
 
         public void dec(String key) {
-            if (!this.countMap.containsKey(key)) {
-                return;
-            }
+            if (!this.countMap.containsKey(key)) return;
+
             Node oldBucket = bucketMap.get(this.countMap.get(key));
             int newCount = oldBucket.count - 1;
+
             if (newCount != 0) {
                 Node newBucket = bucketMap.getOrDefault(newCount, new Node(newCount));
                 if (!bucketMap.containsKey(newCount)) {
+                    // 🔧 FIX: insert AFTER oldBucket (towards tail)
                     join(oldBucket, newBucket, oldBucket.next);
                     bucketMap.put(newBucket.count, newBucket);
                 }
                 newBucket.addKey(key);
                 countMap.put(key, newCount);
+            } else {
+                countMap.remove(key);
             }
+
             cleanUp(oldBucket, key);
             print();
         }
@@ -510,6 +515,103 @@ public class Solution_432 {
             return buckets.isEmpty()
                     ? ""
                     : buckets.head.next.keys.iterator().next();
+        }
+    }
+
+
+    class AllOne4 {
+
+        class Node {
+
+            int count;
+            Set<String> keys = new HashSet<>();
+            Node prev, next;
+
+            Node(int count) {
+                this.count = count;
+            }
+        }
+
+        private final Node head = new Node(0);
+        private final Node tail = new Node(Integer.MAX_VALUE);
+        private final Map<String, Node> keyToNode = new HashMap<>();
+
+        public AllOne4() {
+            join(head, tail);
+        }
+
+        public void inc(String key) {
+            if (!keyToNode.containsKey(key)) {
+                ensureNextNode(head, 1);
+                moveKey(key, head, head.next);
+            } else {
+                Node curr = keyToNode.get(key);
+                ensureNextNode(curr, curr.count + 1);
+                moveKey(key, curr, curr.next);
+                if (curr.keys.isEmpty()) {
+                    removeNode(curr);
+                }
+            }
+        }
+
+        public void dec(String key) {
+            Node curr = keyToNode.get(key);
+            if (curr.count == 1) {
+                keyToNode.remove(key);
+                curr.keys.remove(key);
+            } else {
+                ensurePrevNode(curr, curr.count - 1);
+                moveKey(key, curr, curr.prev);
+            }
+
+            if (curr.keys.isEmpty()) {
+                removeNode(curr);
+            }
+        }
+
+        private void moveKey(String key, Node from, Node to) {
+            if (from != head) {
+                from.keys.remove(key);
+            }
+            to.keys.add(key);
+            keyToNode.put(key, to);
+        }
+
+        private void ensureNextNode(Node curr, int targetCount) {
+            if (curr.next.count != targetCount) {
+                join(curr, new Node(targetCount), curr.next);
+            }
+        }
+
+        private void ensurePrevNode(Node curr, int targetCount) {
+            if (curr.prev.count != targetCount) {
+                join(curr.prev, new Node(targetCount), curr);
+            }
+        }
+
+        private void join(Node n1, Node n2) {
+            n1.next = n2;
+            n2.prev = n1;
+        }
+
+        private void join(Node n1, Node n2, Node n3) {
+            join(n1, n2);
+            join(n2, n3);
+        }
+
+        private void removeNode(Node node) {
+            if (node == head || node == tail){
+                return;
+            }
+            join(node.prev, node.next);
+        }
+
+        public String getMaxKey() {
+            return tail.prev == head ? "" : tail.prev.keys.iterator().next();
+        }
+
+        public String getMinKey() {
+            return head.next == tail ? "" : head.next.keys.iterator().next();
         }
     }
 
