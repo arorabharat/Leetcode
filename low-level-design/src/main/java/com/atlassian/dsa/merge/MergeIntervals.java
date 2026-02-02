@@ -78,7 +78,10 @@ public class MergeIntervals {
         System.out.println("==============================");
         List<int[]> windows2 = new ArrayList<>();
         windows2.add(new int[]{2,5});
-        windows2.add(new int[]{1,2});
+        windows2.add(new int[]{4,8});
+        windows2.add(new int[]{12,15});
+        windows2.add(new int[]{13,17});
+        windows2.add(new int[]{13,18});
         List<int[]> result2 = minOneWindow(windows2);
         for (int[] window : result2) {
             System.out.println(Arrays.toString(window));
