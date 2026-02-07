@@ -7,6 +7,23 @@ import java.util.*;
 public class CostExplorer2 {
 
 
+    // immutable objects
+
+    enum PlanType {
+        BASIC,
+        PREMIUM
+    }
+
+    enum Product {
+        P1,
+        P2
+    }
+
+    record Price (BigDecimal val) {}
+
+    record Subscription(Product product, PlanType planType) {
+    }
+
     static class Customer {
 
         private final String id;
@@ -18,136 +35,151 @@ public class CostExplorer2 {
         }
     }
 
-    static class Subscription {
-
-        private final String id;
-        private final String name;
-
-        public Subscription(String name) {
-            this.id = UUID.randomUUID().toString();
-            this.name = name;
-        }
-    }
-
     static class Contract {
 
         private final String id;
-        private final String subscriptionId;
+        private final Subscription subscription;
+        private final Price price;
+
         private final long starTime;
 
-        public Contract(String subscriptionId, long starTime) {
+        public Contract(Subscription subscription, long starTime, Price price) {
             this.id = UUID.randomUUID().toString();
             this.starTime = starTime;
-            this.subscriptionId = subscriptionId;
+            this.subscription = subscription;
+            this.price = price;
+        }
+    }
+
+
+    // immutable objects
+
+    static class CustomerService {
+
+        private final Map<String, Customer> customers = new HashMap<>();
+
+        public CustomerService(List<Customer> customerList) {
+            for (Customer c : customerList) {
+                customers.put(c.id, c);
+            }
         }
 
-        @Override
-        public int hashCode() {
-            return super.hashCode();
+        public void validate(String cid) {
+            if (!this.customers.containsKey(cid)) {
+                throw new RuntimeException("Invalid customerId");
+            }
+        }
+    }
+
+    static class PricingService {
+
+        private final Map<Subscription, BigDecimal> product2Price = new HashMap<>();
+
+        public PricingService() {
+            this.product2Price.put(new Subscription(Product.P1, PlanType.BASIC), new BigDecimal("20.0"));
+            this.product2Price.put(new Subscription(Product.P1, PlanType.PREMIUM), new BigDecimal("100.0"));
+            this.product2Price.put(new Subscription(Product.P2, PlanType.BASIC), new BigDecimal("40.0"));
+            this.product2Price.put(new Subscription(Product.P2, PlanType.PREMIUM), new BigDecimal("200.0"));
         }
 
-        @Override
-        public boolean equals(Object obj) {
-            return super.equals(obj);
+        Price getPrice(Subscription subscription) {
+            validate(subscription);
+            return new Price(this.product2Price.get(subscription));
+        }
+
+        private void validate(Subscription subscription) {
+            if (!this.product2Price.containsKey(subscription)) {
+                throw new RuntimeException("Invalid subscription");
+            }
+        }
+    }
+
+
+    static class SubscriptionService {
+
+        private final PricingService pricingService = new PricingService();
+
+        private final Map<String, Map<Subscription, Contract>> cust2Subs = new HashMap<>();
+
+        public boolean isSubscribed(String customerId, Subscription subscription) {
+            return cust2Subs.containsKey(customerId) && cust2Subs.get(customerId).containsKey(subscription);
+        }
+
+        public Contract subscribe(String customerId, Subscription subscription) {
+            if (this.isSubscribed(customerId, subscription)) {
+                return cust2Subs.get(customerId).get(subscription);
+            } else {
+                Price offerredPrice = pricingService.getPrice(subscription);
+                Contract contract = new Contract(subscription, System.currentTimeMillis(), offerredPrice);
+                cust2Subs.put(customerId, new HashMap<>());
+                cust2Subs.get(customerId).put(subscription, contract);
+                return contract;
+            }
+        }
+
+        public List<Contract> getAllContracts(String cid) {
+            return this.cust2Subs.get(cid).values().stream().toList();
         }
     }
 
 
     static class CostExplorerService {
 
+        private final SubscriptionService subscriptionService;
+        private final CustomerService customerService;
+
         boolean isValidYearStartMonth(Month month) {
             return month == Month.JANUARY || month == Month.APRIL || month == Month.JULY || month == Month.OCTOBER;
         }
 
-        private final Map<String, Subscription> subscriptions = new HashMap<>();
-        private final Map<String, Customer> customers = new HashMap<>();
-        private final Map<String, Map<Month, Set<Contract>>> cust2Contract = new HashMap<>();
-        private final Map<String, Map<String, Contract>> cust2Subs = new HashMap<>();
-
-        public CostExplorerService(List<Customer> customerList, List<Subscription> subscriptionList) {
-
-            for (Customer c : customerList) {
-                customers.put(c.id, c);
-            }
-
-            for (Subscription s : subscriptionList) {
-                subscriptions.put(s.id, s);
-            }
+        public CostExplorerService(CustomerService customerService, SubscriptionService subscriptionService) {
+            this.customerService = customerService;
+            this.subscriptionService = subscriptionService;
         }
 
-        public boolean subscribe(String customerId, String subscriptionId, Month month) {
-            if (!customers.containsKey(customerId)) {
-                throw new RuntimeException("Invalid customer");
+        List<Month> getOrderedMonthsForYear(Month startMonth) {
+            List<Month> months = new ArrayList<>();
+            boolean start = false;
+            for (Month month : Month.values()) {
+                if (month == startMonth) {
+                    start = true;
+                }
+                if (start) {
+                    months.add(month);
+                }
             }
-            if (!subscriptions.containsKey(subscriptionId)) {
-                throw new RuntimeException("Invalid subscription");
+            for (Month month : Month.values()) {
+                if (month == startMonth) {
+                    break;
+                }
+                months.add(month);
             }
-            if (cust2Subs.containsKey(customerId) && cust2Subs.get(customerId).containsKey(subscriptionId)) {
-                return false;
-            }
-            Contract contract = createContractForCustomer(customerId, subscriptionId, month);
-            addSubscriptionForCustomer(customerId, subscriptionId, contract);
+            return months;
+        }
+
+        boolean beforeStartMonth (long time, Month month) {
             return true;
         }
 
-        private void addSubscriptionForCustomer(String customerId, String subscriptionId, Contract contract) {
-            cust2Subs.putIfAbsent(customerId, new HashMap<>());
-            cust2Subs.get(customerId).put(subscriptionId, contract);
-        }
-
-        private Contract createContractForCustomer(String customerId, String subscriptionId, Month month) {
-            cust2Contract.putIfAbsent(customerId, new HashMap<>());
-            Contract contract = new Contract(subscriptionId, System.currentTimeMillis());
-            cust2Contract.get(customerId).putIfAbsent(month, new HashSet<>());
-            cust2Contract.get(customerId).get(month).add(contract);
-            return contract;
-        }
-
-        public List<BigDecimal> getMonthlyCost(String customerId, Month yearStartMonth) {
-            if (!isValidYearStartMonth(yearStartMonth)) {
-                throw new RuntimeException("Invalid Data");
+        public List<BigDecimal> getMonthlyCost(String customerId, Month reportingStartMonth) {
+            customerService.validate(customerId);
+            if (!isValidYearStartMonth(reportingStartMonth)) {
+                throw new RuntimeException("Invalid Reporting start Month");
             }
-            if (!customers.containsKey(customerId)) {
-                throw new RuntimeException("Invalid Data");
-            }
-            List<Month> months = List.of(Month.values());
+            List<Contract> allContracts = subscriptionService.getAllContracts(customerId);
+            allContracts.sort(Comparator.comparingLong(c -> c.starTime));
+//            List<Month> orderedMonths = getOrderedMonthsForYear(reportingStartMonth);
+//            List<Contract> beforeReportingMonth = allContracts.stream().filter(c -> beforeStartMonth(c.starTime, reportingStartMonth)).toList();
+//            List<Contract> afterReportingMonth = allContracts.stream().filter(c -> !beforeStartMonth(c.starTime, reportingStartMonth)).toList();
+//            BigDecimal totalSubscription = new BigDecimal(0);
 
-            boolean rollOverYear = true;
-            List<BigDecimal> costForCurrentYear = new ArrayList<>();
-            BigDecimal productPrice = new BigDecimal("100");
-            BigDecimal totalSubscription = new BigDecimal(0);
+            for (Contract c : allContracts) {
+                Price price = c.price;
+                long starTime = c.starTime;
 
-            for (Month month : months) {
-                if (month == yearStartMonth) {
-                    rollOverYear = false;
-                }
-                BigDecimal totalSubscriptionForMonth = getTotalSubscriptionForMonth(customerId, month);
-                totalSubscription = totalSubscription.add(totalSubscriptionForMonth);
-                if (!rollOverYear) {
-                    costForCurrentYear.add(productPrice.multiply(totalSubscription));
-                }
             }
 
-            List<BigDecimal> costForRollOverYear = new ArrayList<>();
-
-            for (Month month : months) {
-                if (month == yearStartMonth) {
-                    break;
-                }
-                costForRollOverYear.add(productPrice.multiply(totalSubscription));
-            }
-
-            List<BigDecimal> costForNext12Months = new ArrayList<>();
-            costForNext12Months.addAll(costForRollOverYear);
-            costForNext12Months.addAll(costForCurrentYear);
-            return costForNext12Months;
-        }
-
-        private BigDecimal getTotalSubscriptionForMonth(String customerId, Month month) {
-            if (!cust2Contract.containsKey(customerId) || !cust2Contract.get(customerId).containsKey(month)) {
-                return new BigDecimal(0);
-            }
-            return new BigDecimal(cust2Contract.get(customerId).get(month).size());
+            return new ArrayList<>();
         }
     }
 
@@ -159,15 +191,13 @@ public class CostExplorer2 {
         customerList.add(c1);
         customerList.add(c2);
 
-        Subscription s1 = new Subscription("s1");
-        Subscription s2 = new Subscription("s2");
-        List<Subscription> subscriptionList = new ArrayList<>();
-        subscriptionList.add(s1);
-        subscriptionList.add(s2);
-        CostExplorerService service = new CostExplorerService(customerList, subscriptionList);
+        CustomerService customerService = new CustomerService(customerList);
 
-        service.subscribe(c1.id, s1.id, Month.JANUARY);
-        service.subscribe(c1.id, s2.id, Month.JUNE);
+        SubscriptionService subscriptionService = new SubscriptionService();
+        subscriptionService.subscribe(c1.id, new Subscription(Product.P1, PlanType.BASIC));
+        subscriptionService.subscribe(c1.id, new Subscription(Product.P1, PlanType.PREMIUM));
+
+        CostExplorerService service = new CostExplorerService(customerService, subscriptionService);
 
         System.out.println(service.getMonthlyCost(c1.id, Month.APRIL));
     }
