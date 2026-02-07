@@ -1,4 +1,4 @@
-package com.atlassian.ratingservice;
+package com.atlassian.dsa.ratingservice;
 
 import java.util.*;
 
