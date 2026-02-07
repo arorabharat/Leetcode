@@ -1,4 +1,4 @@
-package com.atlassian.costexplorer;
+package com.atlassian.lld.costexplorer;
 
 import java.util.*;
 
