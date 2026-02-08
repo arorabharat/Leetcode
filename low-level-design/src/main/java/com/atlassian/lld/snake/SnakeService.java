@@ -2,16 +2,6 @@ package com.atlassian.lld.snake;
 
 import java.util.*;
 
-enum Direction {
-    UP(-1, 0),
-    DOWN(1, 0),
-    LEFT(0, -1),
-    RIGHT(0, 1);
-
-    final int dx, dy;
-    Direction(int dx, int dy) { this.dx = dx; this.dy = dy; }
-}
-
 
 interface SnakeGame {
     void moveSnake(Direction direction);
@@ -21,10 +11,23 @@ interface SnakeGame {
     void print();
 }
 
-class Point {
+enum Direction {
 
-    int x;
-    int y;
+    UP(-1, 0),
+    DOWN(1, 0),
+    LEFT(0, -1),
+    RIGHT(0, 1);
+
+    final int dx, dy;
+
+    Direction(int dx, int dy) {
+        this.dx = dx;
+        this.dy = dy;
+    }
+}
+
+class Point {
+    int x, y;
 
     public Point(int x, int y) {
         this.x = x;
@@ -33,8 +36,7 @@ class Point {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Point point = (Point) o;
+        if (!(o instanceof Point point)) return false;
         return x == point.x && y == point.y;
     }
 
@@ -45,38 +47,24 @@ class Point {
 
     @Override
     public String toString() {
-        return "{" + x +
-                "," + y +
-                '}';
+        return "(" + x + "," + y + ")";
     }
 }
 
 class SnakeGameImpl implements SnakeGame {
     private final int rows, cols;
-    private final Deque<Point> body = new LinkedList<>();
+    private final LinkedList<Point> body = new LinkedList<>();
     private final Set<Point> bodyLookup = new HashSet<>();
-    private Point food;
+    private int moveCount = 0;
     private boolean isGameOver = false;
 
     public SnakeGameImpl(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
-        // Start snake at (0,0)
-        Point start = new Point(0, 0);
-        body.add(start);
-        bodyLookup.add(start);
-        spawnFood();
-    }
-
-    private void spawnFood() {
-        // Simple random spawn (could be optimized)
-        Random rand = new Random();
-        while (true) {
-            Point p = new Point(rand.nextInt(rows), rand.nextInt(cols));
-            if (!bodyLookup.contains(p)) {
-                this.food = p;
-                break;
-            }
+        for (int i = 0; i < 3; i++) {
+            Point p = new Point(0, i); // Head at (0,2), Tail at (0,0)
+            body.add(p);
+            bodyLookup.add(p);
         }
     }
 
@@ -85,47 +73,62 @@ class SnakeGameImpl implements SnakeGame {
         if (isGameOver) return;
 
         Point head = body.peekFirst();
-        Point nextHead = new Point(head.x + dir.dx, head.y + dir.dy);
 
-        // 1. Check Wall Collision
-        if (nextHead.x < 0 || nextHead.x >= rows || nextHead.y < 0 || nextHead.y >= cols) {
-            isGameOver = true;
-            return;
+        // Calculate wrapped next position
+        int nextX = (head.x + dir.dx + rows) % rows;
+        int nextY = (head.y + dir.dy + cols) % cols;
+        Point nextHead = new Point(nextX, nextY);
+
+        // Requirement 4: Head/Tail Switch logic
+        // If there's at least 2 segments, check if moving into the 'neck'
+        if (body.size() > 1) {
+            Point neck = body.get(1);
+            if (nextHead.equals(neck)) {
+                Collections.reverse(body);
+                // After reversing, re-calculate nextHead from the "new" head
+                head = body.peekFirst();
+                nextX = (head.x + dir.dx + rows) % rows;
+                nextY = (head.y + dir.dy + cols) % cols;
+                nextHead = new Point(nextX, nextY);
+            }
         }
 
-        // 2. Check Self-Collision (excluding tail if it's about to move)
-        // If nextHead is current tail, it won't be a collision because tail moves up.
+        // Check self-collision (Game Over)
+        // Note: nextHead could be the current tail, which will move, so that's safe.
         if (bodyLookup.contains(nextHead) && !nextHead.equals(body.peekLast())) {
-            isGameOver = true;
+            this.isGameOver = true;
             return;
         }
 
-        // 3. Move Logic
+        // Requirement 2: Growth every 5 moves
+        moveCount++;
+        boolean shouldGrow = (moveCount % 5 == 0);
+
+        // Execute Move
         body.addFirst(nextHead);
         bodyLookup.add(nextHead);
 
-        if (nextHead.equals(food)) {
-            spawnFood(); // Grow: don't remove tail
-        } else {
+        if (!shouldGrow) {
             Point tail = body.removeLast();
             bodyLookup.remove(tail);
         }
     }
 
     @Override
-    public boolean isGameOver() { return isGameOver; }
+    public boolean isGameOver() {
+        return isGameOver;
+    }
 
     @Override
     public void print() {
-        System.out.println("Snake Head at: (" + body.peekFirst().x + "," + body.peekFirst().y + ")");
+        System.out.println("Move: " + moveCount + " | Body: " + body);
     }
 }
-
 
 public class SnakeService {
 
     public static void main(String[] args) {
-        SnakeGame snakeGame = new SnakeGameImpl(100,100);
+        SnakeGame snakeGame = new SnakeGameImpl(100, 100);
         snakeGame.print();
         snakeGame.moveSnake(Direction.RIGHT);
         System.out.println(snakeGame.isGameOver());
