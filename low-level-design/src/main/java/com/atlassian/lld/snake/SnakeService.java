@@ -70,14 +70,13 @@ class SnakeGameImpl implements SnakeGame {
 
     @Override
     public void moveSnake(Direction dir) {
+
         if (isGameOver) return;
 
         Point head = body.peekFirst();
+        assert head != null;
 
-        // Calculate wrapped next position
-        int nextX = (head.x + dir.dx + rows) % rows;
-        int nextY = (head.y + dir.dy + cols) % cols;
-        Point nextHead = new Point(nextX, nextY);
+        Point nextHead = nextPoint(dir, head);
 
         // Requirement 4: Head/Tail Switch logic
         // If there's at least 2 segments, check if moving into the 'neck'
@@ -85,11 +84,9 @@ class SnakeGameImpl implements SnakeGame {
             Point neck = body.get(1);
             if (nextHead.equals(neck)) {
                 Collections.reverse(body);
-                // After reversing, re-calculate nextHead from the "new" head
                 head = body.peekFirst();
-                nextX = (head.x + dir.dx + rows) % rows;
-                nextY = (head.y + dir.dy + cols) % cols;
-                nextHead = new Point(nextX, nextY);
+                assert head != null;
+                nextHead = nextPoint(dir, head);
             }
         }
 
@@ -112,6 +109,12 @@ class SnakeGameImpl implements SnakeGame {
             Point tail = body.removeLast();
             bodyLookup.remove(tail);
         }
+    }
+
+    private Point nextPoint(Direction dir, Point head) {
+        int nextX = (head.x + dir.dx + rows) % rows;
+        int nextY = (head.y + dir.dy + cols) % cols;
+        return new Point(nextX, nextY);
     }
 
     @Override
