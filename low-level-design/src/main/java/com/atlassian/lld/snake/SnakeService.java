@@ -3,10 +3,13 @@ package com.atlassian.lld.snake;
 import java.util.*;
 
 enum Direction {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
+    UP(-1, 0),
+    DOWN(1, 0),
+    LEFT(0, -1),
+    RIGHT(0, 1);
+
+    final int dx, dy;
+    Direction(int dx, int dy) { this.dx = dx; this.dy = dy; }
 }
 
 
@@ -18,12 +21,12 @@ interface SnakeGame {
     void print();
 }
 
-class Pair {
+class Point {
 
     int x;
     int y;
 
-    public Pair(int x, int y) {
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -31,8 +34,8 @@ class Pair {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Pair pair = (Pair) o;
-        return x == pair.x && y == pair.y;
+        Point point = (Point) o;
+        return x == point.x && y == point.y;
     }
 
     @Override
@@ -49,79 +52,72 @@ class Pair {
 }
 
 class SnakeGameImpl implements SnakeGame {
+    private final int rows, cols;
+    private final Deque<Point> body = new LinkedList<>();
+    private final Set<Point> bodyLookup = new HashSet<>();
+    private Point food;
+    private boolean isGameOver = false;
 
-    private final Set<Pair> loc = new HashSet<>();
-    private final Deque<Pair> snake = new LinkedList<>();
-    private int totalMoves = 0;
-    private boolean gameOver = false;
-
-    // (0,1) -> (0,2) -> (0,3)
-    // |
-    // |
-    // |
-    // ---------------
-    public SnakeGameImpl() {
-
-        Pair h = new Pair(1, 0);
-        Pair m = new Pair(2, 0);
-        Pair t = new Pair(3, 0);
-
-        snake.add(h);
-        snake.add(m);
-        snake.add(t);
-
-        loc.add(h);
-        loc.add(m);
-        loc.add(t);
+    public SnakeGameImpl(int rows, int cols) {
+        this.rows = rows;
+        this.cols = cols;
+        // Start snake at (0,0)
+        Point start = new Point(0, 0);
+        body.add(start);
+        bodyLookup.add(start);
+        spawnFood();
     }
 
-    private void move(int dx, int dy) {
-        if (!isGameOver()) {
-            this.totalMoves++;
-            if (this.totalMoves % 5 != 0) {
-                removeTail();
+    private void spawnFood() {
+        // Simple random spawn (could be optimized)
+        Random rand = new Random();
+        while (true) {
+            Point p = new Point(rand.nextInt(rows), rand.nextInt(cols));
+            if (!bodyLookup.contains(p)) {
+                this.food = p;
+                break;
             }
-            addHead(dx, dy);
         }
     }
 
-    private void addHead(int dx, int dy) {
-        Pair oldHead = snake.peekFirst();
-        assert oldHead != null;
-        Pair newHead = new Pair(oldHead.x + dx, oldHead.y + dy);
-        if (loc.contains(newHead)) {
-            this.gameOver = true;
+    @Override
+    public void moveSnake(Direction dir) {
+        if (isGameOver) return;
+
+        Point head = body.peekFirst();
+        Point nextHead = new Point(head.x + dir.dx, head.y + dir.dy);
+
+        // 1. Check Wall Collision
+        if (nextHead.x < 0 || nextHead.x >= rows || nextHead.y < 0 || nextHead.y >= cols) {
+            isGameOver = true;
+            return;
+        }
+
+        // 2. Check Self-Collision (excluding tail if it's about to move)
+        // If nextHead is current tail, it won't be a collision because tail moves up.
+        if (bodyLookup.contains(nextHead) && !nextHead.equals(body.peekLast())) {
+            isGameOver = true;
+            return;
+        }
+
+        // 3. Move Logic
+        body.addFirst(nextHead);
+        bodyLookup.add(nextHead);
+
+        if (nextHead.equals(food)) {
+            spawnFood(); // Grow: don't remove tail
         } else {
-            snake.addFirst(newHead);
-            loc.add(newHead);
+            Point tail = body.removeLast();
+            bodyLookup.remove(tail);
         }
     }
 
+    @Override
+    public boolean isGameOver() { return isGameOver; }
+
+    @Override
     public void print() {
-        System.out.println(snake);
-        System.out.println(loc);
-        System.out.println(totalMoves);
-    }
-
-    private void removeTail() {
-        Pair tail = snake.removeLast();
-        loc.remove(tail);
-    }
-
-    @Override
-    public void moveSnake(Direction direction) {
-        switch (direction) {
-            case UP -> move(1, 0);
-            case DOWN -> move(-1, 0);
-            case LEFT -> move(0, -1);
-            case RIGHT -> move(0, 1);
-            default -> throw new RuntimeException("Invalid direction");
-        }
-    }
-
-    @Override
-    public boolean isGameOver() {
-        return this.gameOver;
+        System.out.println("Snake Head at: (" + body.peekFirst().x + "," + body.peekFirst().y + ")");
     }
 }
 
@@ -129,7 +125,7 @@ class SnakeGameImpl implements SnakeGame {
 public class SnakeService {
 
     public static void main(String[] args) {
-        SnakeGame snakeGame = new SnakeGameImpl();
+        SnakeGame snakeGame = new SnakeGameImpl(100,100);
         snakeGame.print();
         snakeGame.moveSnake(Direction.RIGHT);
         System.out.println(snakeGame.isGameOver());
