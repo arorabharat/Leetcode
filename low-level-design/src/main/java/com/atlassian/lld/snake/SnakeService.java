@@ -51,55 +51,78 @@ class Point {
     }
 }
 
-class SnakeGameImpl implements SnakeGame {
-    private final int rows, cols;
-    private final LinkedList<Point> body = new LinkedList<>();
-    private final Set<Point> bodyLookup = new HashSet<>();
-    private int moveCount = 0;
-    private boolean isGameOver = false;
+class SnakeGameImpl extends SnakeGameBaseImpl implements SnakeGame {
+
+    private int currentMove = 0;
 
     public SnakeGameImpl(int rows, int cols) {
+        super(rows, cols);
+    }
+
+    @Override
+    protected boolean checkGrowthAndPostProcess(Point nextHead) {
+        currentMove++;
+        return currentMove % 5 == 0;
+    }
+
+    @Override
+    public void print() {
+        System.out.println("Move: " + currentMove);
+        System.out.println("Body: " + body);
+    }
+}
+
+// ... (Direction and Point classes remain the same)
+
+abstract class SnakeGameBaseImpl implements SnakeGame {
+    final LinkedList<Point> body = new LinkedList<>();
+    final Set<Point> bodyLookup = new HashSet<>();
+    final int rows, cols;
+    boolean isGameOver = false;
+
+    public SnakeGameBaseImpl(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
-        for (int i = 0; i < 3; i++) {
-            Point p = new Point(0, i); // Head at (0,2), Tail at (0,0)
+        initialiseGame();
+    }
+
+    private void initialiseGame() {
+        // Start head at (0,2), neck (0,1), tail (0,0)
+        for (int i = 2; i >= 0; i--) {
+            Point p = new Point(0, i);
             body.add(p);
             bodyLookup.add(p);
         }
     }
 
+    Point getNextPoint(Direction dir, Point head) {
+        int nextX = (head.x + dir.dx + rows) % rows;
+        int nextY = (head.y + dir.dy + cols) % cols;
+        return new Point(nextX, nextY);
+    }
+
     @Override
     public void moveSnake(Direction dir) {
-
         if (isGameOver) return;
 
         Point head = body.peekFirst();
-        assert head != null;
+        Point nextHead = getNextPoint(dir, head);
 
-        Point nextHead = nextPoint(dir, head);
-
-        // Requirement 4: Head/Tail Switch logic
-        // If there's at least 2 segments, check if moving into the 'neck'
-        if (body.size() > 1) {
-            Point neck = body.get(1);
-            if (nextHead.equals(neck)) {
-                Collections.reverse(body);
-                head = body.peekFirst();
-                assert head != null;
-                nextHead = nextPoint(dir, head);
-            }
+        // Requirement: Head/Tail Switch logic
+        if (body.size() > 1 && nextHead.equals(body.get(1))) {
+            Collections.reverse(body);
+            head = body.peekFirst();
+            nextHead = getNextPoint(dir, head);
         }
 
-        // Check self-collision (Game Over)
-        // Note: nextHead could be the current tail, which will move, so that's safe.
+        // Check self-collision
         if (bodyLookup.contains(nextHead) && !nextHead.equals(body.peekLast())) {
-            this.isGameOver = true;
+            isGameOver = true;
             return;
         }
 
-        // Requirement 2: Growth every 5 moves
-        moveCount++;
-        boolean shouldGrow = (moveCount % 5 == 0);
+        // Abstract check for growth
+        boolean shouldGrow = checkGrowthAndPostProcess(nextHead);
 
         // Execute Move
         body.addFirst(nextHead);
@@ -111,20 +134,68 @@ class SnakeGameImpl implements SnakeGame {
         }
     }
 
-    private Point nextPoint(Direction dir, Point head) {
-        int nextX = (head.x + dir.dx + rows) % rows;
-        int nextY = (head.y + dir.dy + cols) % cols;
-        return new Point(nextX, nextY);
-    }
+    /**
+     * Subclasses define when the snake grows.
+     *
+     * @return true if snake should grow this move.
+     */
+    protected abstract boolean checkGrowthAndPostProcess(Point nextHead);
 
     @Override
     public boolean isGameOver() {
         return isGameOver;
     }
+}
+
+/**
+ * Implementation 2: Growth based on Food that expires after Y moves.
+ */
+class TimedFoodSnakeGameImpl extends SnakeGameBaseImpl {
+    private Point food;
+    private int foodExpiryMove;
+    private final int lifespan;
+    private int currentMove = 0;
+    private final Random random = new Random();
+
+    public TimedFoodSnakeGameImpl(int rows, int cols, int lifespan) {
+        super(rows, cols);
+        this.lifespan = lifespan;
+        spawnFood();
+    }
+
+    private void spawnFood() {
+        while (true) {
+            Point p = new Point(random.nextInt(rows), random.nextInt(cols));
+            if (!bodyLookup.contains(p)) {
+                this.food = p;
+                this.foodExpiryMove = currentMove + lifespan;
+                break;
+            }
+        }
+    }
+
+    @Override
+    protected boolean checkGrowthAndPostProcess(Point nextHead) {
+        currentMove++;
+
+        // 1. Check if existing food expired
+        if (currentMove > foodExpiryMove) {
+            spawnFood();
+        }
+
+        // 2. Check if head reached food
+        if (nextHead.equals(food)) {
+            spawnFood(); // Move food to new spot
+            return true; // Snake grows
+        }
+
+        return false;
+    }
 
     @Override
     public void print() {
-        System.out.println("Move: " + moveCount + " | Body: " + body);
+        System.out.println("Move: " + currentMove + " | Food: " + food + " (Expires at " + foodExpiryMove + ")");
+        System.out.println("Body: " + body);
     }
 }
 
