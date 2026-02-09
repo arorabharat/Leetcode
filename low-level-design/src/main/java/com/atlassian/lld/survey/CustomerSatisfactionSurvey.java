@@ -1,6 +1,9 @@
 package com.atlassian.lld.survey;
 
 
+import java.time.Month;
+import java.time.YearMonth;
+import java.time.chrono.ChronoLocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.DoubleAdder;
@@ -68,8 +71,14 @@ class AgentRegistry {
  * Business Logic Layer
  */
 interface RatingService {
+
     void submitRating(String agentId, double score);
+
+    void submitRating(String agentId, double score, YearMonth month);
+
     List<AgentPerformance> getLeaderboard();
+
+    List<AgentPerformance> getLeaderboard(YearMonth month);
 }
 
 interface ReportSorter {
@@ -108,11 +117,21 @@ class RatingServiceImpl implements RatingService {
     }
 
     @Override
+    public void submitRating(String agentId, double score, YearMonth mont) {
+
+    }
+
+    @Override
     public List<AgentPerformance> getLeaderboard() {
         return agentRegistry.findAll().stream()
                 .map(this::mapToPerformance)
                 .sorted(comparator.get())
                 .toList();
+    }
+
+    @Override
+    public List<AgentPerformance> getLeaderboard(YearMonth month) {
+        return List.of();
     }
 
     private AgentPerformance mapToPerformance(Agent agent) {
@@ -122,6 +141,88 @@ class RatingServiceImpl implements RatingService {
                 agent.name(),
                 stats.calculateAverage(),
                 stats.getCount()
+        );
+    }
+}
+
+class RatingServiceTimeImpl implements RatingService {
+
+    private final RatingValidator validator;
+    private final ReportSorter comparator;
+    private final AgentRegistry agentRegistry;
+
+    private final Map<String, Map<YearMonth, RatingStats>> agent2MonthlyRatingStats = new ConcurrentHashMap<>();
+
+    public RatingServiceTimeImpl(RatingValidator validator, AgentRegistry agentRegistry, ReportSorter comparator) {
+        this.validator = validator;
+        this.agentRegistry = agentRegistry;
+        this.comparator = comparator;
+    }
+
+    @Override
+    public void submitRating(String agentId, double score) {
+
+    }
+
+    @Override
+    public void submitRating(String agentId, double score, YearMonth month) {
+        validator.validate(score);
+        agentRegistry.findByIdOrThrow(agentId); // Validation: Agent must exist
+        agent2MonthlyRatingStats.computeIfAbsent(agentId, k -> new ConcurrentHashMap<>());
+        agent2MonthlyRatingStats.get(agentId).computeIfAbsent(month, k -> new RatingStats()).record(score);
+    }
+
+    @Override
+    public List<AgentPerformance> getLeaderboard() {
+        return agentRegistry.findAll().stream()
+                .map(this::mapToPerformance)
+                .sorted(comparator.get())
+                .toList();
+    }
+
+    @Override
+    public List<AgentPerformance> getLeaderboard(YearMonth month) {
+        return agentRegistry.findAll().stream()
+                .map(agent -> this.mapAgentToMonthlyPerformance(agent, month))
+                .sorted(comparator.get())
+                .toList();
+    }
+
+    private AgentPerformance mapAgentToMonthlyPerformance(Agent agent, YearMonth month) {
+        Map<YearMonth, RatingStats> monthlyStats = agent2MonthlyRatingStats.get(agent.id());
+        AgentPerformance zeroRatingEntry = new AgentPerformance(agent.id(), agent.name(), 0, 0);
+        if (monthlyStats == null) {
+            return zeroRatingEntry;
+        }
+        RatingStats ratingStats = monthlyStats.get(month);
+        if (ratingStats == null) {
+            return zeroRatingEntry;
+        }
+        return new AgentPerformance(
+                agent.id(),
+                agent.name(),
+                ratingStats.calculateAverage(),
+                ratingStats.getCount()
+        );
+    }
+
+    private AgentPerformance mapToPerformance(Agent agent) {
+        Map<YearMonth, RatingStats> monthlyStats = agent2MonthlyRatingStats.get(agent.id());
+        if (monthlyStats == null) {
+            return new AgentPerformance(
+                    agent.id(),
+                    agent.name(),
+                    0,
+                    0
+            );
+        }
+        RatingStats allMonthRatingsStat = new RatingStats();
+        monthlyStats.values().forEach(v -> allMonthRatingsStat.record(v.calculateAverage()));
+        return new AgentPerformance(
+                agent.id(),
+                agent.name(),
+                allMonthRatingsStat.calculateAverage(),
+                allMonthRatingsStat.getCount()
         );
     }
 }
