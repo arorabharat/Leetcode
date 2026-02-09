@@ -109,7 +109,6 @@ class RatingServiceImpl implements RatingService {
 
     @Override
     public List<AgentPerformance> getLeaderboard() {
-        ;
         return agentRegistry.findAll().stream()
                 .map(this::mapToPerformance)
                 .sorted(comparator.get())
