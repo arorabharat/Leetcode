@@ -67,20 +67,38 @@ class AgentRegistry {
 /**
  * Business Logic Layer
  */
-interface SurveyService {
+interface RatingService {
     void submitRating(String agentId, double score);
 
     List<AgentPerformance> getLeaderboard();
 }
 
-class SurveyServiceImpl implements SurveyService {
+interface ReportSorter {
+    Comparator<AgentPerformance> get();
+}
+
+class ReverseSortByAverageRerportSorter implements ReportSorter {
+
+    @Override
+    public Comparator<AgentPerformance> get() {
+        return Comparator.comparingDouble(AgentPerformance::averageScore).reversed()
+                .thenComparing(Comparator.comparingLong(AgentPerformance::totalRatings).reversed()
+                        .thenComparing(AgentPerformance::agentName).reversed());
+    }
+}
+
+class RatingServiceImpl implements RatingService {
+
     private final RatingValidator validator;
+    private final ReportSorter comparator;
     private final AgentRegistry agentRegistry;
+
     private final Map<String, RatingStats> agent2RatingStats = new ConcurrentHashMap<>();
 
-    public SurveyServiceImpl(RatingValidator validator, AgentRegistry agentRegistry) {
+    public RatingServiceImpl(RatingValidator validator, AgentRegistry agentRegistry, ReportSorter comparator) {
         this.validator = validator;
         this.agentRegistry = agentRegistry;
+        this.comparator = comparator;
     }
 
     @Override
@@ -92,13 +110,10 @@ class SurveyServiceImpl implements SurveyService {
 
     @Override
     public List<AgentPerformance> getLeaderboard() {
+        ;
         return agentRegistry.findAll().stream()
                 .map(this::mapToPerformance)
-                .sorted(
-                        Comparator.comparingDouble(AgentPerformance::averageScore).reversed()
-                                .thenComparing(Comparator.comparingLong(AgentPerformance::totalRatings).reversed()
-                                .thenComparing(AgentPerformance::agentName).reversed())
-                )
+                .sorted(comparator.get())
                 .toList();
     }
 
@@ -140,20 +155,19 @@ class RangeRatingValidator implements RatingValidator {
 public class CustomerSatisfactionSurvey {
     public static void main(String[] args) {
         AgentRegistry registry = new AgentRegistry();
-        SurveyService surveyService = new SurveyServiceImpl(new RangeRatingValidator(0, 5), registry);
+        String alice = registry.registerAgent("a1");
+        String bob = registry.registerAgent("a2");
 
-        // Setup Data
-        String alice = registry.registerAgent("Alice");
-        String bob = registry.registerAgent("Bob");
+        ReportSorter reportSorter = new ReverseSortByAverageRerportSorter();
+        RatingService ratingService = new RatingServiceImpl(new RangeRatingValidator(0, 5), registry, reportSorter);
 
-        // Simulate Interactions
-        surveyService.submitRating(alice, 4.5);
-        surveyService.submitRating(alice, 5.0);
-        surveyService.submitRating(bob, 5.0);
+        ratingService.submitRating(alice, 4.5);
+        ratingService.submitRating(alice, 5.0);
+        ratingService.submitRating(bob, 5.0);
 
         // Display Results
         System.out.println("--- Agent Leaderboard ---");
-        surveyService.getLeaderboard().forEach(p ->
+        ratingService.getLeaderboard().forEach(p ->
                 System.out.printf("%-10s | Avg: %.2f | Ratings: %d%n", p.agentName(), p.averageScore(), p.totalRatings())
         );
     }
