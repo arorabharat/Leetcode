@@ -82,7 +82,7 @@ class ReverseSortByAverageReportSorter implements ReportSorter {
     public Comparator<AgentPerformance> get() {
         return Comparator.comparingDouble(AgentPerformance::averageScore).reversed()
                 .thenComparing(Comparator.comparingLong(AgentPerformance::totalRatings).reversed()
-                        .thenComparing(AgentPerformance::agentName).reversed());
+                        .thenComparing(AgentPerformance::agentName));
     }
 }
 
