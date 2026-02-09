@@ -5,13 +5,13 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.DoubleAdder;
 import java.util.concurrent.atomic.LongAdder;
-import java.util.stream.Collectors;
 
 /**
  * Domain Models & DTOs
  */
 
-record AgentPerformance(String agentId, String agentName, double averageScore, long totalRatings) {}
+record AgentPerformance(String agentId, String agentName, double averageScore, long totalRatings) {
+}
 
 record Agent(String id, String name) {
     public Agent(String name) {
@@ -69,13 +69,14 @@ class AgentRegistry {
  */
 interface SurveyService {
     void submitRating(String agentId, double score);
+
     List<AgentPerformance> getLeaderboard();
 }
 
 class SurveyServiceImpl implements SurveyService {
     private final RatingValidator validator;
     private final AgentRegistry agentRegistry;
-    private final Map<String, RatingStats> agentStatsMap = new ConcurrentHashMap<>();
+    private final Map<String, RatingStats> agent2RatingStats = new ConcurrentHashMap<>();
 
     public SurveyServiceImpl(RatingValidator validator, AgentRegistry agentRegistry) {
         this.validator = validator;
@@ -86,23 +87,23 @@ class SurveyServiceImpl implements SurveyService {
     public void submitRating(String agentId, double score) {
         validator.validate(score);
         agentRegistry.findByIdOrThrow(agentId); // Validation: Agent must exist
-
-        agentStatsMap.computeIfAbsent(agentId, k -> new RatingStats())
-                .record(score);
+        agent2RatingStats.computeIfAbsent(agentId, k -> new RatingStats()).record(score);
     }
 
     @Override
     public List<AgentPerformance> getLeaderboard() {
         return agentRegistry.findAll().stream()
                 .map(this::mapToPerformance)
-                // Primary Sort: Avg Score (Desc), Secondary Sort: Volume (Desc)
-                .sorted(Comparator.comparingDouble(AgentPerformance::averageScore).reversed()
-                        .thenComparing(Comparator.comparingLong(AgentPerformance::totalRatings).reversed()))
-                .collect(Collectors.toList());
+                .sorted(
+                        Comparator.comparingDouble(AgentPerformance::averageScore).reversed()
+                                .thenComparing(Comparator.comparingLong(AgentPerformance::totalRatings).reversed()
+                                .thenComparing(AgentPerformance::agentName).reversed())
+                )
+                .toList();
     }
 
     private AgentPerformance mapToPerformance(Agent agent) {
-        RatingStats stats = agentStatsMap.getOrDefault(agent.id(), new RatingStats());
+        RatingStats stats = agent2RatingStats.getOrDefault(agent.id(), new RatingStats());
         return new AgentPerformance(
                 agent.id(),
                 agent.name(),
