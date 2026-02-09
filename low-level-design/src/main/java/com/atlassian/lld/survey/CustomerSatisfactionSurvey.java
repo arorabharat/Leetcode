@@ -2,13 +2,17 @@ package com.atlassian.lld.survey;
 
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.DoubleAdder;
+import java.util.concurrent.atomic.LongAdder;
+import java.util.stream.Collectors;
 
-// immutable object
-record Rating(double val) {
-}
+/**
+ * Domain Models & DTOs
+ */
+record RatingScore(double value) {}
 
-record AgentRatingDTO(String id, String name, Rating rating) {
-}
+record AgentPerformance(String agentId, String agentName, double averageScore, long totalRatings) {}
 
 record Agent(String id, String name) {
     public Agent(String name) {
@@ -16,148 +20,141 @@ record Agent(String id, String name) {
     }
 }
 
-// mutable
-class AggregateRating {
+/**
+ * Thread-safe accumulator for rating statistics.
+ * Uses Adders to minimize contention in high-write scenarios.
+ */
+class RatingStats {
+    private final DoubleAdder scoreSum = new DoubleAdder();
+    private final LongAdder ratingCount = new LongAdder();
 
-    private final String id;
-
-    private double val;
-    private int count;
-
-    AggregateRating() {
-        this.id = UUID.randomUUID().toString();
+    void record(double score) {
+        scoreSum.add(score);
+        ratingCount.increment();
     }
 
-    void aggregate(double rating) {
-        this.val += rating;
-        this.count++;
+    double calculateAverage() {
+        long count = ratingCount.sum();
+        return count == 0 ? 0.0 : scoreSum.sum() / count;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public double getVal() {
-        return val;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public double avg() {
-        return count == 0 ? 0 : val / count;
+    long getCount() {
+        return ratingCount.sum();
     }
 }
 
-interface RatingService {
-    void rateAgent(String agentId, double rating);
+/**
+ * Repository for Agent persistence
+ */
+class AgentRegistry {
+    private final Map<String, Agent> storage = new ConcurrentHashMap<>();
 
-    List<AgentRatingDTO> getAllAgentRatings();
-}
-
-class AgentRepo {
-
-    private final Map<String, Agent> agentDb = new HashMap<>();
-
-    public String createAgent(String name) {
+    public String registerAgent(String name) {
         Agent agent = new Agent(name);
-        agentDb.put(agent.id(), agent);
+        storage.put(agent.id(), agent);
         return agent.id();
     }
 
-    public Optional<Agent> getAgent(String id) {
-        if (agentDb.containsKey(id)) {
-            return Optional.of(agentDb.get(id));
-        } else {
-            return Optional.empty();
-        }
+    public Agent findByIdOrThrow(String id) {
+        return Optional.ofNullable(storage.get(id))
+                .orElseThrow(() -> new NoSuchElementException("Agent not found with ID: " + id));
     }
 
-    public List<Agent> getAllAgents() {
-        return agentDb.values().stream().toList();
+    public List<Agent> findAll() {
+        return new ArrayList<>(storage.values());
     }
-
-    public boolean isValid(String id) {
-        return agentDb.containsKey(id);
-    }
-
 }
 
+/**
+ * Business Logic Layer
+ */
+interface SurveyService {
+    void submitRating(String agentId, double score);
+    List<AgentPerformance> getLeaderboard();
+}
+
+class SurveyServiceImpl implements SurveyService {
+    private final RatingValidator validator;
+    private final AgentRegistry agentRegistry;
+    private final Map<String, RatingStats> agentStatsMap = new ConcurrentHashMap<>();
+
+    public SurveyServiceImpl(RatingValidator validator, AgentRegistry agentRegistry) {
+        this.validator = validator;
+        this.agentRegistry = agentRegistry;
+    }
+
+    @Override
+    public void submitRating(String agentId, double score) {
+        validator.validate(score);
+        agentRegistry.findByIdOrThrow(agentId); // Validation: Agent must exist
+
+        agentStatsMap.computeIfAbsent(agentId, k -> new RatingStats())
+                .record(score);
+    }
+
+    @Override
+    public List<AgentPerformance> getLeaderboard() {
+        return agentRegistry.findAll().stream()
+                .map(this::mapToPerformance)
+                // Primary Sort: Avg Score (Desc), Secondary Sort: Volume (Desc)
+                .sorted(Comparator.comparingDouble(AgentPerformance::averageScore).reversed()
+                        .thenComparing(Comparator.comparingLong(AgentPerformance::totalRatings).reversed()))
+                .collect(Collectors.toList());
+    }
+
+    private AgentPerformance mapToPerformance(Agent agent) {
+        RatingStats stats = agentStatsMap.getOrDefault(agent.id(), new RatingStats());
+        return new AgentPerformance(
+                agent.id(),
+                agent.name(),
+                stats.calculateAverage(),
+                stats.getCount()
+        );
+    }
+}
+
+/**
+ * Validation Logic
+ */
 interface RatingValidator {
-    boolean isValid(double val);
+    void validate(double score);
 }
 
-class FivePointRatingValidator implements RatingValidator {
+class RangeRatingValidator implements RatingValidator {
+    private final double min;
+    private final double max;
 
-    @Override
-    public boolean isValid(double val) {
-        return 0 <= val && val <= 5;
-    }
-}
-
-class RatingServiceImpl implements RatingService {
-
-    private final RatingValidator ratingValidator;
-    private final AgentRepo agentRepo;
-    private final Map<String, AggregateRating> agent2Rating = new HashMap<>();
-
-
-    public RatingServiceImpl(RatingValidator ratingValidator, AgentRepo agentRepo) {
-        this.ratingValidator = ratingValidator;
-        this.agentRepo = agentRepo;
+    public RangeRatingValidator(double min, double max) {
+        this.min = min;
+        this.max = max;
     }
 
     @Override
-    public void rateAgent(String agentId, double rating) {
-        if (!ratingValidator.isValid(rating)) {
-            throw new RuntimeException("Invalid Rating");
+    public void validate(double score) {
+        if (score < min || score > max) {
+            throw new IllegalArgumentException(String.format("Score %.1f is out of range [%.1f, %.1f]", score, min, max));
         }
-        if (!agentRepo.isValid(agentId)) {
-            throw new RuntimeException("Invalid Agent Id");
-        }
-        agent2Rating.computeIfAbsent(agentId, k -> new AggregateRating());
-        agent2Rating.get(agentId).aggregate(rating);
-    }
-
-    @Override
-    public List<AgentRatingDTO> getAllAgentRatings() {
-        Comparator<Agent> agentComparator = new Comparator<Agent>() {
-            @Override
-            public int compare(Agent o1, Agent o2) {
-                AggregateRating a1 = agent2Rating.getOrDefault(o1.id(), new AggregateRating());
-                AggregateRating a2 = agent2Rating.getOrDefault(o2.id(), new AggregateRating());
-                int compare = Double.compare(a2.avg(), a1.avg());
-                if (compare == 0) {
-                    return Integer.compare(a2.getCount(), a1.getCount());
-                }
-                return compare;
-            }
-        };
-        return agentRepo.getAllAgents().stream().sorted(agentComparator).map(this::getAgentRatingDTO).toList();
-    }
-
-    private AgentRatingDTO getAgentRatingDTO(Agent agent) {
-        return new AgentRatingDTO(agent.id(), agent.name(), getRating(agent));
-    }
-
-    private Rating getRating(Agent agent) {
-        return new Rating(agent2Rating.getOrDefault(agent.id(), new AggregateRating()).avg());
     }
 }
 
 public class CustomerSatisfactionSurvey {
-
     public static void main(String[] args) {
-        AgentRepo agentRepo = new AgentRepo();
-        String a1 = agentRepo.createAgent("a1");
-        String a2 = agentRepo.createAgent("a2");
-        String a3 = agentRepo.createAgent("a3");
-        RatingService ratingService = new RatingServiceImpl(new FivePointRatingValidator(), agentRepo);
-        ratingService.rateAgent(a1, 1.0);
-        ratingService.rateAgent(a1, 5.0);
-        ratingService.rateAgent(a2, 5.0);
-        ratingService.rateAgent(a3, 4.0);
-        System.out.println(ratingService.getAllAgentRatings());
+        AgentRegistry registry = new AgentRegistry();
+        SurveyService surveyService = new SurveyServiceImpl(new RangeRatingValidator(0, 5), registry);
+
+        // Setup Data
+        String alice = registry.registerAgent("Alice");
+        String bob = registry.registerAgent("Bob");
+
+        // Simulate Interactions
+        surveyService.submitRating(alice, 4.5);
+        surveyService.submitRating(alice, 5.0);
+        surveyService.submitRating(bob, 5.0);
+
+        // Display Results
+        System.out.println("--- Agent Leaderboard ---");
+        surveyService.getLeaderboard().forEach(p ->
+                System.out.printf("%-10s | Avg: %.2f | Ratings: %d%n", p.agentName(), p.averageScore(), p.totalRatings())
+        );
     }
 }
