@@ -69,7 +69,6 @@ class AgentRegistry {
  */
 interface RatingService {
     void submitRating(String agentId, double score);
-
     List<AgentPerformance> getLeaderboard();
 }
 
@@ -155,15 +154,16 @@ class RangeRatingValidator implements RatingValidator {
 public class CustomerSatisfactionSurvey {
     public static void main(String[] args) {
         AgentRegistry registry = new AgentRegistry();
-        String alice = registry.registerAgent("a1");
-        String bob = registry.registerAgent("a2");
+        String a1 = registry.registerAgent("a1");
+        String a2 = registry.registerAgent("a2");
 
         ReportSorter reportSorter = new ReverseSortByAverageReportSorter();
         RatingService ratingService = new RatingServiceImpl(new RangeRatingValidator(0, 5), registry, reportSorter);
 
-        ratingService.submitRating(alice, 4.5);
-        ratingService.submitRating(alice, 5.0);
-        ratingService.submitRating(bob, 5.0);
+        ratingService.submitRating(a1, 4.5);
+        ratingService.submitRating(a1, 5.0);
+        ratingService.submitRating(a2, 5.0);
+        ratingService.submitRating(a2, 5.0);
 
         // Display Results
         System.out.println("--- Agent Leaderboard ---");
