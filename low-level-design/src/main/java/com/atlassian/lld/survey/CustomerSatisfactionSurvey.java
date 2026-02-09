@@ -77,7 +77,7 @@ interface ReportSorter {
     Comparator<AgentPerformance> get();
 }
 
-class ReverseSortByAverageRerportSorter implements ReportSorter {
+class ReverseSortByAverageReportSorter implements ReportSorter {
 
     @Override
     public Comparator<AgentPerformance> get() {
@@ -158,7 +158,7 @@ public class CustomerSatisfactionSurvey {
         String alice = registry.registerAgent("a1");
         String bob = registry.registerAgent("a2");
 
-        ReportSorter reportSorter = new ReverseSortByAverageRerportSorter();
+        ReportSorter reportSorter = new ReverseSortByAverageReportSorter();
         RatingService ratingService = new RatingServiceImpl(new RangeRatingValidator(0, 5), registry, reportSorter);
 
         ratingService.submitRating(alice, 4.5);
