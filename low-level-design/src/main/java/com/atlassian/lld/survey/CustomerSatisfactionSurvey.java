@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 /**
  * Domain Models & DTOs
  */
-record RatingScore(double value) {}
 
 record AgentPerformance(String agentId, String agentName, double averageScore, long totalRatings) {}
 
