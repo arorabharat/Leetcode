@@ -47,7 +47,7 @@ class ExactFieldQueryMatchStrategy implements QueryMatchingStrategy {
         if (query.project().isPresent() && !query.project().get().equals(workItem.project())) {
             return false;
         }
-        return query.project().isEmpty() || query.project().get().equals(workItem.project());
+        return query.workItemType().isEmpty() || query.workItemType().get().equals(workItem.workItemType());
     }
 }
 
@@ -72,6 +72,19 @@ class QueryMatcherServiceImpl implements QueryMatcherService {
 public class QueryService {
 
     public static void main(String[] args) {
+        QueryValidator queryValidator = new MinOneFieldQueryValidatorImpl();
+        QueryMatchingStrategy queryMatchingStrategy = new ExactFieldQueryMatchStrategy();
+        QueryMatcherService queryMatcherService = new QueryMatcherServiceImpl(queryValidator, queryMatchingStrategy);
+        Query taskQuery = new Query(Optional.empty(), Optional.empty(), Optional.of(WorkItemType.TASK));
+        WorkItem w1 = new WorkItem("k1", "p1", WorkItemType.STORY);
+        WorkItem w2 = new WorkItem("k2", "p1", WorkItemType.BUG);
+        WorkItem w3 = new WorkItem("k3", "p1", WorkItemType.TASK);
+        WorkItem w4 = new WorkItem("k4", "p2", WorkItemType.TASK);
+        List<WorkItem> filteredResults = queryMatcherService.filter(taskQuery, List.of(w1, w2, w3, w4));
+        System.out.println(filteredResults);
+        Query taskQuery2 = new Query(Optional.empty(), Optional.of("p1"), Optional.of(WorkItemType.TASK));
+        List<WorkItem> filteredResults2 = queryMatcherService.filter(taskQuery2, List.of(w1, w2, w3, w4));
+        System.out.println(filteredResults2);
 
     }
 }
