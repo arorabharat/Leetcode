@@ -84,7 +84,7 @@ class TopicHandler {
 
     private final Set<Subscriber> subscriberList = new CopyOnWriteArraySet<>();
     private final BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();
-    ExecutorService executorService;
+    private final ExecutorService executorService;
 
     public TopicHandler(ExecutorService executorService) {
         this.executorService = executorService;
