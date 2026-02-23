@@ -3,6 +3,7 @@ package com.phonepe.queue_service;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 class Message {
@@ -86,10 +87,6 @@ class TopicHandler {
     private final BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();
     private final ExecutorService executorService;
 
-    public TopicHandler(ExecutorService executorService) {
-        this.executorService = executorService;
-    }
-
     public TopicHandler() {
         this.executorService = Executors.newFixedThreadPool(5);
     }
@@ -108,7 +105,7 @@ class TopicHandler {
 
     public void startProcessing() {
         Thread thread = new Thread(() -> {
-            while(true) {
+            while (true) {
                 try {
                     Message message = blockingQueue.take();
                     broadcast(message);
@@ -125,6 +122,92 @@ class TopicHandler {
             executorService.submit(() -> subscriber.consume(message));
         }
     }
+}
+
+class TopicHandlerWithDependencyManagement {
+
+    private final Map<String, Subscriber> subscriberById = new ConcurrentHashMap<>();
+    private final Map<String, Set<String>> dependsOnMap = new ConcurrentHashMap<>();
+    private final Map<String, Set<String>> dependsByMap = new ConcurrentHashMap<>();
+    private final BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();
+    private final ExecutorService executorService;
+
+    public TopicHandlerWithDependencyManagement(ExecutorService executorService) {
+        this.executorService = executorService;
+    }
+
+    public TopicHandlerWithDependencyManagement() {
+        this.executorService = Executors.newFixedThreadPool(5);
+    }
+
+    public void addSubscriber(Subscriber subscriber, List<Subscriber> dependsOnList) {
+        this.subscriberById.put(subscriber.getId(), subscriber);
+        this.dependsOnMap.putIfAbsent(subscriber.getId(), new CopyOnWriteArraySet<>());
+        for (Subscriber dependsOn : dependsOnList) {
+            this.dependsOnMap.get(subscriber.getId()).add(dependsOn.getId());
+            this.dependsOnMap.putIfAbsent(dependsOn.getId(), new CopyOnWriteArraySet<>());
+            this.dependsByMap.get(dependsOn.getId()).add(subscriber.getId());
+        }
+    }
+
+    public void addMessageToQueue(Message message) {
+        try {
+            this.blockingQueue.put(message);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void startProcessing() {
+        Thread thread = new Thread(() -> {
+            while (true) {
+                try {
+                    Message message = blockingQueue.take();
+                    broadcast(message);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void broadcast(Message message) {
+        Map<String, AtomicInteger> pendingDependency = new ConcurrentHashMap<>();
+        for (Subscriber subscriber : subscriberById.values()) {
+            pendingDependency.put(subscriber.getId(), new AtomicInteger(dependsOnMap.get(subscriber.getId()).size()));
+        }
+
+        for (String subscriberId : subscriberById.keySet()) {
+            if (pendingDependency.get(subscriberId).get() == 0) {
+                submitToExecutor(subscriberId, message, pendingDependency);
+            }
+        }
+    }
+
+    private void submitToExecutor(String subId, Message message, Map<String, AtomicInteger> pendingDependencies) {
+        executorService.submit(() -> {
+            try {
+                Subscriber subscriber = subscriberById.get(subId);
+                subscriber.consume(message);
+                onSubscriberComplete(subId, message, pendingDependencies);
+            } catch (Exception e) {
+                System.out.println("Subscriber " + subId + " failed. Dependents will stall.");
+            }
+        });
+    }
+
+    private void onSubscriberComplete(String completedSubId, Message message, Map<String, AtomicInteger> pendingDependencies) {
+        Set<String> waitingSubscribers = dependsByMap.getOrDefault(completedSubId, Collections.emptySet());
+
+        for (String waitingSubId : waitingSubscribers) {
+            int remainingDeps = pendingDependencies.get(waitingSubId).decrementAndGet();
+            if (remainingDeps == 0) {
+                submitToExecutor(waitingSubId, message, pendingDependencies);
+            }
+        }
+    }
+
 }
 
 class TopicAlreadyExistsException extends RuntimeException {
