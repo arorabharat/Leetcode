@@ -1,11 +1,11 @@
 package com.phonepe.payment_gateway;
 
 import java.math.BigDecimal;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
-// --- 1. Models and Enums ---
+// --- 1. DOMAIN MODELS & ENUMS ---
 enum PaymentInstrumentType { CREDIT_CARD, UPI }
 enum ChargeStatus { SUCCESS, FAILED, PENDING, INITIATED }
 enum Client { FLIPKART, SWIGGY, AMAZON }
@@ -16,164 +16,152 @@ interface PaymentInstrument {
 }
 
 class UPI implements PaymentInstrument {
-    private final String id;
-    private final String upiHandle;
-
-    public UPI(String upiHandle) {
-        this.id = UUID.randomUUID().toString();
-        this.upiHandle = upiHandle;
-    }
-
-    @Override
-    public String getId() { return this.id; }
-
-    @Override
-    public PaymentInstrumentType getPaymentInstrumentType() {
-        return PaymentInstrumentType.UPI; // FIX: Changed from CREDIT_CARD
-    }
+    private final String id = UUID.randomUUID().toString();
+    private final String vpa;
+    public UPI(String vpa) { this.vpa = vpa; }
+    public String getVpa() { return vpa; }
+    @Override public String getId() { return id; }
+    @Override public PaymentInstrumentType getPaymentInstrumentType() { return PaymentInstrumentType.UPI; }
 }
 
-// Keeping Charge simple for brevity (BankCharge is identical but acts as the external DTO)
 class Charge {
     private final Client client;
-    private final String chargeId;
+    private final String chargeId = UUID.randomUUID().toString();
     private final BigDecimal amount;
-    private final PaymentInstrument paymentInstrument;
-    private ChargeStatus chargeStatus;
+    private final PaymentInstrument instrument;
+    private ChargeStatus status = ChargeStatus.INITIATED;
 
-    public Charge(Client client, BigDecimal amount, PaymentInstrument paymentInstrument) {
+    public Charge(Client client, BigDecimal amount, PaymentInstrument instrument) {
         this.client = client;
-        this.chargeId = UUID.randomUUID().toString();
         this.amount = amount;
-        this.paymentInstrument = paymentInstrument;
-        this.chargeStatus = ChargeStatus.INITIATED;
+        this.instrument = instrument;
     }
 
     public Client getClient() { return client; }
     public String getChargeId() { return chargeId; }
     public BigDecimal getAmount() { return amount; }
-    public PaymentInstrument getPaymentInstrument() { return paymentInstrument; }
-    public ChargeStatus getChargeStatus() { return chargeStatus; }
-    public void setChargeStatus(ChargeStatus chargeStatus) { this.chargeStatus = chargeStatus; }
+    public PaymentInstrument getInstrument() { return instrument; }
+    public ChargeStatus getStatus() { return status; }
+    public void setStatus(ChargeStatus status) { this.status = status; }
 }
 
-class BankCharge {
-    private ChargeStatus chargeStatus;
-    // ... same fields as Charge ...
-    public BankCharge(Charge charge) {
-        this.chargeStatus = ChargeStatus.INITIATED;
-    }
-    public ChargeStatus getChargeStatus() { return chargeStatus; }
-    public void setChargeStatus(ChargeStatus chargeStatus) { this.chargeStatus = chargeStatus; }
+// --- 2. BANK-SPECIFIC SCHEMAS (External Objects) ---
+// These prove you can handle different object types per bank
+class HDFCObject {
+    public double val;
+    public String txnRef;
+    public HDFCObject(double v, String r) { this.val = v; this.txnRef = r; }
 }
 
-// --- 2. Bank Adapters ---
-interface BankChargeAdapter {
-    void processCharge(BankCharge bankCharge);
+class ICICIObject {
+    public String amountStr;
+    public String vpaHandle;
+    public ICICIObject(String a, String v) { this.amountStr = a; this.vpaHandle = v; }
 }
 
-class HDFCBankAdapter implements BankChargeAdapter {
+// --- 3. ADAPTERS (Translation Layer) ---
+interface BankAdapter {
+    void process(Charge internalCharge);
+}
+
+class HDFCAdapter implements BankAdapter {
     @Override
-    public void processCharge(BankCharge bankCharge) {
-        System.out.println("Routing via HDFC Bank...");
-        bankCharge.setChargeStatus(ChargeStatus.SUCCESS);
+    public void process(Charge charge) {
+        // Translation logic: Internal Charge -> HDFCObject
+        HDFCObject hdfcReq = new HDFCObject(charge.getAmount().doubleValue(), charge.getChargeId());
+        System.out.println("[ADAPTER] Transformed to HDFCObject. Calling HDFC API...");
+        charge.setStatus(ChargeStatus.SUCCESS);
     }
 }
 
-class ICICIBankAdapter implements BankChargeAdapter {
+class ICICIAdapter implements BankAdapter {
     @Override
-    public void processCharge(BankCharge bankCharge) {
-        System.out.println("Routing via ICICI Bank...");
-        bankCharge.setChargeStatus(ChargeStatus.SUCCESS);
+    public void process(Charge charge) {
+        // Translation logic: Internal Charge -> ICICIObject
+        String vpa = (charge.getInstrument() instanceof UPI) ? ((UPI) charge.getInstrument()).getVpa() : "NA";
+        ICICIObject iciciReq = new ICICIObject(charge.getAmount().toPlainString(), vpa);
+        System.out.println("[ADAPTER] Transformed to ICICIObject. Calling ICICI API...");
+        charge.setStatus(ChargeStatus.SUCCESS);
     }
 }
 
-// --- 3. The Strategies ---
-interface ChargeRoutingStrategy {
-    BankChargeAdapter getChargeAdapter(Charge charge);
+// --- 4. ROUTING STRATEGIES ---
+interface RoutingStrategy {
+    BankAdapter getAdapter(Charge charge);
 }
 
-// FIX: Actually implemented the routing logic
-class FlipkartRoutingStrategy implements ChargeRoutingStrategy {
-    private final BankChargeAdapter hdfcAdapter = new HDFCBankAdapter();
-    private final BankChargeAdapter iciciAdapter = new ICICIBankAdapter();
+// Percentage-based/Weighted Strategy
+class WeightedStrategy implements RoutingStrategy {
+    private final List<BankAdapter> pool = new ArrayList<>();
+    private final AtomicInteger counter = new AtomicInteger(0);
+
+    public void addBank(BankAdapter adapter, int weight) {
+        for (int i = 0; i < weight; i++) pool.add(adapter);
+    }
 
     @Override
-    public BankChargeAdapter getChargeAdapter(Charge charge) {
-        // Example Rule: Flipkart routes all UPI to ICICI, and everything else to HDFC
-        if (charge.getPaymentInstrument().getPaymentInstrumentType() == PaymentInstrumentType.UPI) {
-            return iciciAdapter;
-        }
-        return hdfcAdapter;
+    public BankAdapter getAdapter(Charge charge) {
+        if (pool.isEmpty()) return null;
+        return pool.get(counter.getAndIncrement() % pool.size());
     }
 }
 
-// --- 4. The Core Processor ---
-class ChargeRoutingStrategyResolver {
-    // FIX: Made thread-safe for the interview
-    private final Map<Client, ChargeRoutingStrategy> strategyMap = new ConcurrentHashMap<>();
+// Rule-based Strategy
+class FlipkartStrategy implements RoutingStrategy {
+    private final BankAdapter hdfc = new HDFCAdapter();
+    private final BankAdapter icici = new ICICIAdapter();
 
-    public void setChargeRoutingStrategy(Client client, ChargeRoutingStrategy strategy) {
-        strategyMap.put(client, strategy);
-    }
-
-    public ChargeRoutingStrategy getChargeRoutingStrategy(Charge charge) {
-        return strategyMap.get(charge.getClient());
+    @Override
+    public BankAdapter getAdapter(Charge charge) {
+        // Rule: All UPI to ICICI, everything else to HDFC
+        return (charge.getInstrument().getPaymentInstrumentType() == PaymentInstrumentType.UPI) ? icici : hdfc;
     }
 }
 
-class PaymentProcessor {
-    private final ChargeRoutingStrategyResolver resolver = new ChargeRoutingStrategyResolver();
+// --- 5. CORE SERVICE ---
+class PaymentGateway {
+    private final Map<Client, RoutingStrategy> clientRules = new ConcurrentHashMap<>();
 
-    public void setRoutingStrategyForClient(Client client, ChargeRoutingStrategy strategy) {
-        resolver.setChargeRoutingStrategy(client, strategy); // FIX: Delegated to resolver
+    public void onboardClient(Client client, RoutingStrategy strategy) {
+        clientRules.put(client, strategy);
     }
 
-    public void processCharge(Charge charge) {
-        ChargeRoutingStrategy strategy = resolver.getChargeRoutingStrategy(charge);
-
-        // FIX: Handled the Null scenario gracefully
+    public void execute(Charge charge) {
+        RoutingStrategy strategy = clientRules.get(charge.getClient());
         if (strategy == null) {
-            System.out.println("Failed: No routing strategy configured for " + charge.getClient());
-            charge.setChargeStatus(ChargeStatus.FAILED);
+            System.out.println("No strategy found for client: " + charge.getClient());
             return;
         }
 
-        BankChargeAdapter adapter = strategy.getChargeAdapter(charge);
-        BankCharge bankCharge = new BankCharge(charge);
-
-        // Process the payment
-        adapter.processCharge(bankCharge);
-
-        // Sync status back to our internal system
-        charge.setChargeStatus(bankCharge.getChargeStatus());
-        System.out.println("Charge " + charge.getChargeId() + " final status: " + charge.getChargeStatus() + "\n");
+        BankAdapter adapter = strategy.getAdapter(charge);
+        adapter.process(charge);
+        System.out.println("Final Transaction Status: " + charge.getStatus() + " for ID: " + charge.getChargeId() + "\n");
     }
 }
 
-// --- 5. The Driver ---
+// --- 6. DRIVER CLASS ---
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Starting Payment Gateway...");
+        PaymentGateway pg = new PaymentGateway();
 
-        PaymentProcessor processor = new PaymentProcessor();
+        // 1. Setup Flipkart (Rule-based)
+        pg.onboardClient(Client.FLIPKART, new FlipkartStrategy());
 
-        // 1. Onboard Flipkart with their specific routing rules
-        processor.setRoutingStrategyForClient(Client.FLIPKART, new FlipkartRoutingStrategy());
+        // 2. Setup Swiggy (Weighted: 2 parts HDFC, 1 part ICICI)
+        WeightedStrategy swiggyWeighted = new WeightedStrategy();
+        swiggyWeighted.addBank(new HDFCAdapter(), 2);
+        swiggyWeighted.addBank(new ICICIAdapter(), 1);
+        pg.onboardClient(Client.SWIGGY, swiggyWeighted);
 
-        // 2. Create some dummy payment instruments
-        PaymentInstrument upiApp = new UPI("john@ybl");
+        // 3. Execute Flipkart UPI
+        Charge c1 = new Charge(Client.FLIPKART, new BigDecimal("499.00"), new UPI("customer@ybl"));
+        pg.execute(c1);
 
-        // 3. Create a transaction for Flipkart using UPI
-        Charge flipkartUpiCharge = new Charge(Client.FLIPKART, new BigDecimal("500.00"), upiApp);
-
-        // 4. Process it
-        System.out.println("Processing Flipkart UPI Charge...");
-        processor.processCharge(flipkartUpiCharge);
-
-        // 5. Try a Swiggy transaction (which we haven't onboarded yet to test failure)
-        Charge swiggyCharge = new Charge(Client.SWIGGY, new BigDecimal("200.00"), upiApp);
-        System.out.println("Processing Swiggy UPI Charge...");
-        processor.processCharge(swiggyCharge);
+        // 4. Execute Swiggy Weighted Load
+        System.out.println("--- Swiggy Load Balance Test ---");
+        for (int i = 0; i < 3; i++) {
+            Charge c = new Charge(Client.SWIGGY, new BigDecimal("150.00"), new UPI("swiggy@ybl"));
+            pg.execute(c);
+        }
     }
 }
