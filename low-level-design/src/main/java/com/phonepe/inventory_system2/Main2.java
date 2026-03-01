@@ -252,25 +252,50 @@ class InventoryServiceImpl implements InventoryService {
 
     @Override
     public void fulfillReserveInventory(Map<String, Integer> items) throws UnavailableInventoryException, InvalidProductIdException {
+        // validate all product ids are present
         for (String productId : items.keySet()) {
             if (!inventoryDB.containsKey(productId)) {
                 throw new InvalidProductIdException("Inventory not initialised for product :" + productId);
             }
         }
+        // Ship only for the requested items (iterate items.keySet())
         for (String productId : items.keySet()) {
-            inventoryDB.get(productId).shipInventory(items.get(productId));
+            Integer qty = items.get(productId);
+            if (qty == null) continue; // defensive
+            inventoryDB.get(productId).shipInventory(qty);
         }
     }
 
     @Override
     public void reserveInventory(Map<String, Integer> items) throws UnavailableInventoryException, InvalidProductIdException {
+        // validate all product ids are present
         for (String productId : items.keySet()) {
             if (!inventoryDB.containsKey(productId)) {
                 throw new InvalidProductIdException("Inventory not initialised for product :" + productId);
             }
         }
-        for (String productId : items.keySet()) {
-            inventoryDB.get(productId).reserveInventory(items.get(productId));
+        // Attempt to reserve each item. If any reservation fails, rollback previously reserved quantities for this request.
+        List<String> reservedSuccessfully = new ArrayList<>();
+        try {
+            for (String productId : items.keySet()) {
+                Integer qty = items.get(productId);
+                if (qty == null) continue; // defensive
+                inventoryDB.get(productId).reserveInventory(qty);
+                reservedSuccessfully.add(productId);
+            }
+        } catch (UnavailableInventoryException e) {
+            // rollback previous reservations
+            for (String pid : reservedSuccessfully) {
+                Integer q = items.get(pid);
+                if (q == null) continue;
+                try {
+                    inventoryDB.get(pid).releaseInventory(q);
+                } catch (UnavailableInventoryException ex) {
+                    // Should not happen: releasing what we just reserved. Log to stderr.
+                    System.err.println("Rollback failed for product " + pid + ": " + ex.getMessage());
+                }
+            }
+            throw e; // rethrow the original exception to caller
         }
     }
 
@@ -282,8 +307,11 @@ class InventoryServiceImpl implements InventoryService {
                 throw new InvalidProductIdException("Inventory not initialised for product :" + productId);
             }
         }
+        // Release only for the requested items (iterate items.keySet())
         for (String productId : items.keySet()) {
-            inventoryDB.get(productId).releaseInventory(items.get(productId));
+            Integer qty = items.get(productId);
+            if (qty == null) continue; // defensive
+            inventoryDB.get(productId).releaseInventory(qty);
         }
 
     }
@@ -328,4 +356,3 @@ public class Main2 {
         System.out.println("iphone inventory" + inventoryService.getInventory(iphone.getProductId()));
     }
 }
-
