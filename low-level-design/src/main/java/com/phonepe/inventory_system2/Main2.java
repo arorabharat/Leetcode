@@ -10,7 +10,7 @@ class Product {
     private final String desc;
 
     public Product(String desc) {
-        this.productId = UUID.randomUUID().toString();
+        this.productId = "product-" + UUID.randomUUID().toString().substring(0,8);
         this.desc = desc;
     }
 
@@ -43,7 +43,7 @@ class Order {
     private OrderStatus orderStatus;
 
     public Order(String userId) {
-        this.orderId = UUID.randomUUID().toString().substring(0, 8);
+        this.orderId = "order-" + UUID.randomUUID().toString().substring(0, 8);
         this.userId = userId;
         this.items = new ConcurrentHashMap<>();
         this.orderStatus = OrderStatus.CREATED;
@@ -133,6 +133,8 @@ interface InventoryService {
 
     void addInventory(Map<String, Integer> items);
 
+    Integer getInventory(String productId);
+
     void fulfillReserveInventory(Map<String, Integer> items) throws UnavailableInventoryException, InvalidProductIdException;
 
     void reserveInventory(Map<String, Integer> items) throws UnavailableInventoryException, InvalidProductIdException;
@@ -176,10 +178,11 @@ class OrderManagementService {
         try {
             inventoryService.reserveInventory(items);
             order.setOrderStatus(OrderStatus.ITEM_RESERVED);
+            System.out.println("Fulfilled order : " + order.getOrderId());
         } catch (UnavailableInventoryException e) {
             throw new RuntimeException("Unable to place the Order as Item is out of stock :" + order.getOrderId());
         } catch (InvalidProductIdException e) {
-            throw new RuntimeException("Invalid product Id in the order :" + order.getOrderId());
+            throw new RuntimeException("Invalid product Id  in the order :" + order.getOrderId());
         }
     }
 
@@ -222,19 +225,35 @@ class InvalidProductIdException extends Exception {
 
 class InventoryServiceImpl implements InventoryService {
 
-    private final Map<String, InventoryStats> inventoryDB = new ConcurrentHashMap<>();
+    private final Map<String, InventoryStats> inventoryDB;
+
+    public InventoryServiceImpl() {
+        this.inventoryDB = new ConcurrentHashMap<>();
+    }
 
     @Override
     public void addInventory(Map<String, Integer> items) {
-        for (String productId : inventoryDB.keySet()) {
+        for (String productId : items.keySet()) {
+            System.out.println(productId);
+            inventoryDB.computeIfAbsent(productId, k -> new InventoryStats(productId, 0));
             inventoryDB.get(productId).addInventory(items.get(productId));
+        }
+        System.out.println(inventoryDB);
+    }
+
+    @Override
+    public Integer getInventory(String productId) {
+        if(this.inventoryDB.containsKey(productId)) {
+            return this.inventoryDB.get(productId).getAvailableCount();
+        } else {
+            return 0;
         }
     }
 
     @Override
     public void fulfillReserveInventory(Map<String, Integer> items) throws UnavailableInventoryException, InvalidProductIdException {
         for (String productId : items.keySet()) {
-            if (inventoryDB.containsKey(productId)) {
+            if (!inventoryDB.containsKey(productId)) {
                 throw new InvalidProductIdException("Inventory not initialised for product :" + productId);
             }
         }
@@ -246,11 +265,11 @@ class InventoryServiceImpl implements InventoryService {
     @Override
     public void reserveInventory(Map<String, Integer> items) throws UnavailableInventoryException, InvalidProductIdException {
         for (String productId : items.keySet()) {
-            if (inventoryDB.containsKey(productId)) {
+            if (!inventoryDB.containsKey(productId)) {
                 throw new InvalidProductIdException("Inventory not initialised for product :" + productId);
             }
         }
-        for (String productId : inventoryDB.keySet()) {
+        for (String productId : items.keySet()) {
             inventoryDB.get(productId).reserveInventory(items.get(productId));
         }
     }
@@ -259,7 +278,7 @@ class InventoryServiceImpl implements InventoryService {
     public void releaseReservedInventory(Map<String, Integer> items) throws InvalidProductIdException, UnavailableInventoryException {
 
         for (String productId : items.keySet()) {
-            if (inventoryDB.containsKey(productId)) {
+            if (!inventoryDB.containsKey(productId)) {
                 throw new InvalidProductIdException("Inventory not initialised for product :" + productId);
             }
         }
@@ -273,16 +292,23 @@ class InventoryServiceImpl implements InventoryService {
 public class Main2 {
 
     public static void main(String[] args) {
+
         InventoryService inventoryService = new InventoryServiceImpl();
+
         Product iphone = new Product("Iphone");
         Map<String, Integer> items = new HashMap<>();
-        items.put(iphone.getProductId(), 1);
+        items.put(iphone.getProductId(), 2);
         inventoryService.addInventory(items);
+
+        System.out.println("iphone inventory : " + inventoryService.getInventory(iphone.getProductId()));
+
         OrderManagementService orderManagementService = new OrderManagementService(inventoryService);
         Order o1 = new Order("user1");
         o1.addItem(iphone.getProductId(), 1);
         Order o2 = new Order("user2");
         o2.addItem(iphone.getProductId(), 1);
+        System.out.println("O1 : " + o1.getOrderId());
+        System.out.println("O2 : " + o2.getOrderId());
         Runnable r1 = () -> orderManagementService.checkoutOrder(o1);
         Runnable r2 = () -> orderManagementService.checkoutOrder(o2);
         Thread t1 = new Thread(r1);
@@ -299,6 +325,7 @@ public class Main2 {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("iphone inventory" + inventoryService.getInventory(iphone.getProductId()));
     }
 }
 
