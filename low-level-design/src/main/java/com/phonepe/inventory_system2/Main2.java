@@ -257,7 +257,7 @@ class InventoryServiceImpl implements InventoryService {
                 throw new InvalidProductIdException("Inventory not initialised for product :" + productId);
             }
         }
-        for (String productId : inventoryDB.keySet()) {
+        for (String productId : items.keySet()) {
             inventoryDB.get(productId).shipInventory(items.get(productId));
         }
     }
@@ -282,7 +282,7 @@ class InventoryServiceImpl implements InventoryService {
                 throw new InvalidProductIdException("Inventory not initialised for product :" + productId);
             }
         }
-        for (String productId : inventoryDB.keySet()) {
+        for (String productId : items.keySet()) {
             inventoryDB.get(productId).releaseInventory(items.get(productId));
         }
 
