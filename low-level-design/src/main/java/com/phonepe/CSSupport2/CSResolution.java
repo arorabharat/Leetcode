@@ -27,7 +27,7 @@ class Issue {
     private final String subject;
     private final String desc;
     private final String customerEmail;
-    private final IssueStatus status;
+    private IssueStatus status;
     private String resolution;
     private String assignedAgentId;
 
@@ -51,6 +51,14 @@ class Issue {
         this.status = status;
         this.resolution = resolution;
         this.assignedAgentId = assignedAgentId;
+    }
+
+    public void setStatus(IssueStatus status) {
+        this.status = status;
+    }
+
+    public void setResolution(String resolution) {
+        this.resolution = resolution;
     }
 
     public void setAssignedAgentId(String assignedAgentId) {
@@ -137,6 +145,10 @@ class Agent {
     public boolean isAvailable() {
         return this.assignedIssue == null;
     }
+
+    public void freeAgent() {
+        this.assignedIssue = null;
+    }
 }
 
 interface AssignmentStrategy {
@@ -164,7 +176,7 @@ interface CustomerSupportService {
     Agent assignIssue(String issueId);
 
     // -> issues against the provided filter
-    List<Issue> getIssues(Predicate<Issue> issueFilter);
+    List<Issue> getIssues(IssueFilter issueFilter);
 
     boolean updateIssue(String issueId, IssueStatus status, String resolution);
 
@@ -243,7 +255,9 @@ class CustomerServiceImpl implements CustomerSupportService {
     private final Map<String, Issue> issueById = new ConcurrentHashMap<>();
     private final AssignmentStrategy assignmentStrategy;
     private final UniqueIDProvider uniqueIDProvider = new UniqueIDProvider();
+
     private final Map<IssueType, Queue<Issue>> pendingIssuesByType = new HashMap<>();
+
     private final Map<IssueType, Queue<Agent>> availableAgentsByIssuesType = new HashMap<>();
 
     public CustomerServiceImpl(AssignmentStrategy assignmentStrategy) {
@@ -301,17 +315,49 @@ class CustomerServiceImpl implements CustomerSupportService {
     }
 
     @Override
-    public List<Issue> getIssues(Predicate<Issue> issueFilter) {
-        return issueById.values().stream().filter(issueFilter).toList();
+    public List<Issue> getIssues(IssueFilter issueFilter) {
+        List<Issue> filterResults = new ArrayList<>();
+        if(issueFilter.getIssueId() != null) {
+            Issue issue = issueById.get(issueFilter.getIssueId());
+            if(issue != null) {
+                filterResults.add(issue);
+            }
+            return filterResults;
+        } else if(issueFilter.getIssueType() != null) {
+            return issueById.values().stream().filter(issue -> issue.getType().equals(issueFilter.getIssueType())).toList();
+        } else {
+            // other criteria
+            return new ArrayList<>();
+        }
     }
 
     @Override
     public boolean updateIssue(String issueId, IssueStatus status, String resolution) {
+        Issue issue = issueById.get(issueId);
+        if (issue == null) {
+            throw new RuntimeException("Issue with Id : " + issueId + " not  found");
+        }
+        issue.setStatus(status);
+        if(resolution != null) {
+            issue.setResolution(resolution);
+            System.out.println("Resolved issue : "+ issue.getId());
+        }
         return false;
     }
 
     @Override
     public boolean resolveIssue(String issueId, String resolution) {
+        Issue issue = issueById.get(issueId);
+        if (issue == null) {
+            throw new RuntimeException("Issue with Id : " + issueId + " not  found");
+        }
+        issue.setStatus(IssueStatus.RESOLVED);
+        Optional<String> assignedAgentId = issue.getAssignedAgentId();
+        if(assignedAgentId.isEmpty()) {
+            throw new RuntimeException("Invalid Issue state with Id : " + issueId);
+        }
+        Agent agent = agentById.get(assignedAgentId.get());
+        agent.freeAgent();
         return false;
     }
 
