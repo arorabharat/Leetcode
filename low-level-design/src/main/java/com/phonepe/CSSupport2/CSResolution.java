@@ -30,7 +30,6 @@ class Issue {
     private IssueStatus status;
     private String resolution;
     private String assignedAgentId;
-    private Queue<String> waitingQueue;
 
     public Issue(String id, String trxId, IssueType type, String subject, String desc, String customerEmail) {
         this.id = id;
@@ -40,7 +39,6 @@ class Issue {
         this.desc = desc;
         this.customerEmail = customerEmail;
         this.status = IssueStatus.OPEN;
-        this.waitingQueue = new LinkedList<>();
     }
 
     public Issue(String id, String trxId, IssueType type, String subject, String desc, String customerEmail, IssueStatus status, String resolution, String assignedAgentId) {
@@ -99,14 +97,6 @@ class Issue {
         return resolution;
     }
 
-    public void addToWaitingQueue(String issueId) {
-        this.waitingQueue.add(issueId);
-    }
-
-    public String pollWaitingQueue() {
-        return this.waitingQueue.poll();
-    }
-
     public Optional<String> getAssignedAgentId() {
         return assignedAgentId == null ? Optional.empty() : Optional.of(assignedAgentId);
     }
@@ -131,16 +121,26 @@ class Agent {
     private final Set<IssueType> expertiseList;
     private String assignedIssue;
     private List<String> agentWorkHistory;
+    private Queue<String> waitingQueue;
 
 
     public Agent(String id, String name, String email, List<IssueType> expertiseList) {
-        Id = id;
+        this.Id = id;
         this.name = name;
         this.email = email;
         this.expertiseList = Set.copyOf(expertiseList);
         this.agentWorkHistory = new ArrayList<>();
+        this.waitingQueue = new LinkedList<>();
     }
 
+
+    public void addToWaitingQueue(String issueId) {
+        this.waitingQueue.add(issueId);
+    }
+
+    public String pollWaitingQueue() {
+        return this.waitingQueue.poll();
+    }
     public String getId() {
         return Id;
     }
@@ -337,7 +337,7 @@ class CustomerSupportServiceImpl implements CustomerSupportService {
         issue.setStatus(status);
         if(resolution != null) {
             issue.setResolution(resolution);
-            System.out.println("Resolved issue : "+ issue.getId());
+            System.out.println("Updated issue : "+ issue.getDesc());
         }
         return false;
     }
@@ -356,7 +356,21 @@ class CustomerSupportServiceImpl implements CustomerSupportService {
         }
         Agent agent = agentById.get(assignedAgentId.get());
         agent.freeAgent();
+        assignNextFromQueue(agent);
         return false;
+    }
+
+    private void assignNextFromQueue (Agent agent) {
+        String nextIssue = agent.pollWaitingQueue();
+        if(nextIssue != null){
+            Issue issue = issueById.get(nextIssue);
+            if(issue != null) {
+                agent.setAssignedIssue(issue.getId());
+                issue.setAssignedAgentId(agent.getId());
+                issue.setStatus(IssueStatus.OPEN);
+                System.out.println("Issue id " + issue.getDesc() + " assigned to agent from waiting queue : " + agent.getName());
+            }
+        }
     }
 
     @Override
@@ -378,22 +392,33 @@ public class CSResolution {
         String issue3 = customerSupportService.createIssue("T3", IssueType.TRANSACTION, "payment failed issue", "transation issue", "zyx@gmail.com");
         customerSupportService.addAgent("a1@gmail.com", "a1",List.of(IssueType.GOLD, IssueType.TRANSACTION));
         customerSupportService.addAgent("a1@gmail.com", "a2",List.of(IssueType.MUTUAL_FUND));
+
+        System.out.println("Assigning issue :");
         customerSupportService.assignIssue(issue1);
         customerSupportService.assignIssue(issue2);
         customerSupportService.assignIssue(issue3);
         IssueFilter issueFilter = IssueFilter.byIssueId(issue1);
+
+        System.out.println("Testing fileter issue :");
         List<Issue> issueList = customerSupportService.getIssues(issueFilter);
-        System.out.println(issueList);
+        for (Issue issue : issueList) {
+            System.out.println(issue);
+        }
+
+        System.out.println("Testing update issue :");
         customerSupportService.updateIssue(issue1, IssueStatus.IN_PROGRESS, "work in progress");
         issueList = customerSupportService.getIssues(issueFilter);
         for (Issue issue : issueList) {
             System.out.println(issue);
         }
+
+        System.out.println("Testing resolved issue :");
         customerSupportService.resolveIssue(issue1,"Resolved");
         issueList = customerSupportService.getIssues(issueFilter);
         for (Issue issue : issueList) {
             System.out.println(issue);
         }
+        System.out.println("testing work history :");
         customerSupportService.viewAgentsWorkHistory();
     }
 }
