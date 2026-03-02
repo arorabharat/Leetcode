@@ -1,5 +1,6 @@
 package com.phonepe.CSSupport2;
 
+import java.sql.SQLOutput;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
@@ -109,6 +110,7 @@ class Agent {
     private final String email;
     private final Set<IssueType> expertiseList;
     private String assignedIssue;
+    private List<String> agentWorkHistory;
 
 
     public Agent(String id, String name, String email, List<IssueType> expertiseList) {
@@ -136,6 +138,7 @@ class Agent {
 
     public void setAssignedIssue(String assignedIssue) {
         this.assignedIssue = assignedIssue;
+        agentWorkHistory.add(assignedIssue);
     }
 
     public boolean canHandle(IssueType issueType) {
@@ -148,6 +151,10 @@ class Agent {
 
     public void freeAgent() {
         this.assignedIssue = null;
+    }
+
+    public List<String> getAgentWorkHistory() {
+        return Collections.unmodifiableList(agentWorkHistory);
     }
 }
 
@@ -363,6 +370,9 @@ class CustomerServiceImpl implements CustomerSupportService {
 
     @Override
     public AgentWorkHistory viewAgentsWorkHistory() {
+        for (Agent agent : agentById.values()) {
+            System.out.println( agent.getId() + "  -> " + agent.getAgentWorkHistory());
+        }
         return null;
     }
 }
