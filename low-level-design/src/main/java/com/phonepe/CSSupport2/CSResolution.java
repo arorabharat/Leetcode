@@ -180,10 +180,42 @@ class UniqueIDProvider {
     }
 }
 
-class IssueFilterBuilder {
+class IssueFilter {
 
+    private String email;
+    private String issueId;
+    private IssueType issueType;
+
+    public static IssueFilter byEmail(String email) {
+        IssueFilter issueFilter = new IssueFilter();
+        issueFilter.email = email;
+        return issueFilter;
+    }
+
+    public static IssueFilter byIssueId(String issueId) {
+        IssueFilter issueFilter = new IssueFilter();
+        issueFilter.issueId = issueId;
+        return issueFilter;
+    }
+
+    public static IssueFilter byIssueType(IssueType issueType) {
+        IssueFilter issueFilter = new IssueFilter();
+        issueFilter.issueType = issueType;
+        return issueFilter;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public String getIssueId() {
+        return issueId;
+    }
+
+    public IssueType getIssueType() {
+        return issueType;
+    }
 }
-
 
 
 interface Validator {
