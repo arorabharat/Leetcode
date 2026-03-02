@@ -29,6 +29,7 @@ class Issue {
     private IssueStatus status;
     private String resolution;
     private String assignedAgentId;
+    private Queue<String> waitingQueue;
 
     public Issue(String id, String trxId, IssueType type, String subject, String desc, String customerEmail) {
         this.id = id;
@@ -38,6 +39,7 @@ class Issue {
         this.desc = desc;
         this.customerEmail = customerEmail;
         this.status = IssueStatus.OPEN;
+        this.waitingQueue = new LinkedList<>();
     }
 
     public Issue(String id, String trxId, IssueType type, String subject, String desc, String customerEmail, IssueStatus status, String resolution, String assignedAgentId) {
@@ -94,6 +96,14 @@ class Issue {
 
     public String getResolution() {
         return resolution;
+    }
+
+    public void addToWaitingQueue(String issueId) {
+        this.waitingQueue.add(issueId);
+    }
+
+    public String pollWaitingQueue() {
+        return this.waitingQueue.poll();
     }
 
     public Optional<String> getAssignedAgentId() {
