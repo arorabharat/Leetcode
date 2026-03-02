@@ -3,22 +3,6 @@ package com.phonepe.CSSupport2;
 import java.util.*;
 import java.util.function.Predicate;
 
-/**
- * 1. createIssue(transactionId, issueType, subject, description, email)
- * <p>
- * 2. addAgent(agentEmail, agentName, List<IssueType>)
- * <p>
- * 3. assignIssue(issueId) // -> Issue can be assigned to the agents based on different strategies. For now, assign to any one of the free agents.
- * <p>
- * 4. getIssues(filter) // -> issues against the provided filter
- * <p>
- * 5. updateIssue(issueId, status, resolution)
- * <p>
- * 6. resolveIssue(issueId, resolution)
- * <p>
- * 7. viewAgentsWorkHistory() // -> a list of issue which agents worked on
- */
-
 enum IssueType {
     MUTUAL_FUND,
     TRANSACTION,
