@@ -181,6 +181,8 @@ class CustomerServiceImpl implements CustomerSupportService {
         Issue issue = new Issue(id, transactionId, issueType, subject, description, email);
         issueById.put(id, issue);
         System.out.println("Logged a new issue : " + issue.getId());
+
+        // review this later
         addIssueToQueue(issueType, issue);
         return id;
     }
