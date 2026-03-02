@@ -99,6 +99,17 @@ class Issue {
     public Optional<String> getAssignedAgentId() {
         return assignedAgentId == null ? Optional.empty() : Optional.of(assignedAgentId);
     }
+
+    @Override
+    public String toString() {
+        return "Issue{" +
+                "resolution='" + resolution + '\'' +
+                ", desc='" + desc + '\'' +
+                ", subject='" + subject + '\'' +
+                ", type=" + type +
+                ", assignedAgentId='" + assignedAgentId + '\'' +
+                '}';
+    }
 }
 
 class Agent {
@@ -340,6 +351,7 @@ class CustomerSupportServiceImpl implements CustomerSupportService {
             throw new RuntimeException("Issue with Id : " + issueId + " not  found");
         }
         issue.setStatus(IssueStatus.RESOLVED);
+        issue.setResolution(resolution);
         Optional<String> assignedAgentId = issue.getAssignedAgentId();
         if(assignedAgentId.isEmpty()) {
             throw new RuntimeException("Invalid Issue state with Id : " + issueId);
@@ -369,7 +381,19 @@ public class CSResolution {
         customerSupportService.addAgent("a1@gmail.com", "a2",List.of(IssueType.MUTUAL_FUND));
         customerSupportService.assignIssue(issue1);
         customerSupportService.assignIssue(issue2);
-
+        IssueFilter issueFilter = IssueFilter.byIssueId(issue1);
+        List<Issue> issueList = customerSupportService.getIssues(issueFilter);
+        System.out.println(issueList);
+        customerSupportService.updateIssue(issue1, IssueStatus.IN_PROGRESS, "work in progress");
+        issueList = customerSupportService.getIssues(issueFilter);
+        for (Issue issue : issueList) {
+            System.out.println(issue);
+        }
+        customerSupportService.resolveIssue(issue1,"Resolved");
+        issueList = customerSupportService.getIssues(issueFilter);
+        for (Issue issue : issueList) {
+            System.out.println(issue);
+        }
     }
 
 }
