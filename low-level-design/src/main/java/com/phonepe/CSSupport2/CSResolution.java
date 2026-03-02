@@ -98,11 +98,27 @@ class Agent {
     private final Set<IssueType> expertiseList;
 
 
-    public Agent(String id, String name, String email, Set<IssueType> expertiseList) {
+    public Agent(String id, String name, String email, List<IssueType> expertiseList) {
         Id = id;
         this.name = name;
         this.email = email;
-        this.expertiseList = expertiseList;
+        this.expertiseList = Set.copyOf(expertiseList);
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Set<IssueType> getExpertiseList() {
+        return expertiseList;
     }
 }
 
@@ -194,15 +210,14 @@ class CustomerServiceImpl implements CustomerSupportService {
 
     @Override
     public String addAgent(String agentEmail, String agentName, List<IssueType> issueTypeList) {
+        String id = "Agent-" + uniqueIDProvider.getId();
 
-        String id = uniqueIDProvider.getId();
-
-//        Agent agent = new Agent(id, agentName, agentEmail, Collections.unmodifiableList(issueTypeList));
-//        agentById.put(id, agent);
-//        for(IssueType issueType : issueTypeList) {
-//            availableAgentsByIssuesType.computeIfAbsent(issueType, k -> new LinkedList<>());
-//            availableAgentsByIssuesType.get(issueType).add(agent);
-//        }
+        Agent agent = new Agent(id, agentName, agentEmail, issueTypeList);
+        agentById.put(id, agent);
+        for(IssueType issueType : issueTypeList) {
+            availableAgentsByIssuesType.computeIfAbsent(issueType, k -> new LinkedList<>());
+            availableAgentsByIssuesType.get(issueType).add(agent);
+        }
         return id;
     }
 
