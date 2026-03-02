@@ -29,7 +29,7 @@ class Issue {
     private final String customerEmail;
     private final IssueStatus status;
     private String resolution;
-    private Optional<String> assignedAgentId;
+    private String assignedAgentId;
 
     public Issue(String id, String trxId, IssueType type, String subject, String desc, String customerEmail) {
         this.id = id;
@@ -41,7 +41,7 @@ class Issue {
         this.status = IssueStatus.OPEN;
     }
 
-    public Issue(String id, String trxId, IssueType type, String subject, String desc, String customerEmail, IssueStatus status, String resolution, Optional<String> assignedAgentId) {
+    public Issue(String id, String trxId, IssueType type, String subject, String desc, String customerEmail, IssueStatus status, String resolution, String assignedAgentId) {
         this.id = id;
         this.trxId = trxId;
         this.type = type;
@@ -50,6 +50,10 @@ class Issue {
         this.customerEmail = customerEmail;
         this.status = status;
         this.resolution = resolution;
+        this.assignedAgentId = assignedAgentId;
+    }
+
+    public void setAssignedAgentId(String assignedAgentId) {
         this.assignedAgentId = assignedAgentId;
     }
 
@@ -86,7 +90,7 @@ class Issue {
     }
 
     public Optional<String> getAssignedAgentId() {
-        return assignedAgentId;
+        return assignedAgentId == null ? Optional.empty() : Optional.of(assignedAgentId);
     }
 }
 
@@ -145,8 +149,6 @@ class FreeAgentAssignmentStrategy implements AssignmentStrategy {
         return agentList.stream().filter(agent -> agent.canHandle(issueType) && agent.isAvailable()).findFirst();
     }
 }
-
-
 
 class AgentWorkHistory {
 
@@ -207,10 +209,14 @@ class CustomerServiceImpl implements CustomerSupportService {
 
     private final Map<String, Agent> agentById = new HashMap<>();
     private final Map<String, Issue> issueById = new ConcurrentHashMap<>();
+    private final AssignmentStrategy assignmentStrategy;
     private final UniqueIDProvider uniqueIDProvider = new UniqueIDProvider();
     private final Map<IssueType, Queue<Issue>> pendingIssuesByType = new HashMap<>();
     private final Map<IssueType, Queue<Agent>> availableAgentsByIssuesType = new HashMap<>();
 
+    public CustomerServiceImpl(AssignmentStrategy assignmentStrategy) {
+        this.assignmentStrategy = assignmentStrategy;
+    }
 
     @Override
     public String createIssue(String transactionId, IssueType issueType, String subject, String description, String email) {
@@ -250,7 +256,15 @@ class CustomerServiceImpl implements CustomerSupportService {
         if (issue == null) {
             throw new RuntimeException("Issue with Id : " + issueId + " not  found");
         }
-//        List<Agent> agentList = agent
+        Optional<Agent> agent = assignmentStrategy.findAgent(issue.getType(), new ArrayList<>(agentById.values()));
+        if(agent.isPresent()) {
+            System.out.println("Issue : " + issue.getId() + " is assigned to agent :" + agent.get().getName());
+            agent.get().setAssignedIssue(issue.getId());
+            issue.setAssignedAgentId(agent.get().getId());
+        } else {
+            // review later
+            System.out.println("Unable to assign : " + issue.getId() + " to any agent");
+        }
         return null;
     }
 
@@ -261,7 +275,6 @@ class CustomerServiceImpl implements CustomerSupportService {
 
     @Override
     public boolean updateIssue(String issueId, IssueStatus status, String resolution) {
-
         return false;
     }
 
