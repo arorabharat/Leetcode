@@ -1,8 +1,10 @@
 package com.phonepe.CSSupport2;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
+ // ======================== Data model =============================
 enum IssueType {
     MUTUAL_FUND,
     TRANSACTION,
@@ -10,61 +12,112 @@ enum IssueType {
     GOLD;
 }
 
-enum AgentStatus {
-    AVAILABLE,
-    BUSY
-}
-
-class Agent {
-    String Id;
-    String name;
-    String email;
-    String assignedIssue;
-    List<IssueType> issueTypeList;
-
-
-    public Agent(String id, String name, String email, List<IssueType> issueTypeList) {
-        Id = id;
-        this.name = name;
-        this.email = email;
-        this.issueTypeList = issueTypeList;
-    }
-}
-
 enum IssueStatus {
+    OPEN,
     ASSIGNED,
-    UNASSIGNED,
-    PENDING,
+    IN_PROGRESS,
     RESOLVED
 }
 
 class Issue {
 
-    String id;
-    String trxId;
-    IssueType type;
-    String subject;
-    String desc;
-    String email;
-    IssueStatus status;
+    private final String id;
+    private final String trxId;
+    private final IssueType type;
+    private final String subject;
+    private final String desc;
+    private final String customerEmail;
+    private final IssueStatus status;
+    private String resolution;
+    private Optional<String> assignedAgentId;
 
-    public Issue(String id, String trxId, IssueType type, String subject, String desc, String email, IssueStatus status) {
+    public Issue(String id, String trxId, IssueType type, String subject, String desc, String customerEmail) {
         this.id = id;
         this.trxId = trxId;
         this.type = type;
         this.subject = subject;
         this.desc = desc;
-        this.email = email;
+        this.customerEmail = customerEmail;
+        this.status = IssueStatus.OPEN;
+    }
+
+    public Issue(String id, String trxId, IssueType type, String subject, String desc, String customerEmail, IssueStatus status, String resolution, Optional<String> assignedAgentId) {
+        this.id = id;
+        this.trxId = trxId;
+        this.type = type;
+        this.subject = subject;
+        this.desc = desc;
+        this.customerEmail = customerEmail;
         this.status = status;
+        this.resolution = resolution;
+        this.assignedAgentId = assignedAgentId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getTrxId() {
+        return trxId;
+    }
+
+    public IssueType getType() {
+        return type;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public IssueStatus getStatus() {
+        return status;
+    }
+
+    public String getResolution() {
+        return resolution;
+    }
+
+    public Optional<String> getAssignedAgentId() {
+        return assignedAgentId;
     }
 }
+
+class Agent {
+
+    private final String Id;
+    private final String name;
+    private final String email;
+    private final Set<IssueType> expertiseList;
+
+
+    public Agent(String id, String name, String email, Set<IssueType> expertiseList) {
+        Id = id;
+        this.name = name;
+        this.email = email;
+        this.expertiseList = expertiseList;
+    }
+}
+
+
+enum AgentStatus {
+    AVAILABLE,
+    BUSY
+}
+
 
 class AgentWorkHistory {
 
 }
 
-
-interface CSSupportService {
+interface CustomerSupportService {
 
     String createIssue(String transactionId, IssueType issueType, String subject, String description, String email);
 
@@ -113,10 +166,10 @@ class EmailValidator implements Validator {
 }
 
 
-class CSServiceImpl implements CSSupportService {
+class CustomerServiceImpl implements CustomerSupportService {
 
     private final Map<String, Agent> agentById = new HashMap<>();
-    private final Map<String, Issue> issueById = new HashMap<>();
+    private final Map<String, Issue> issueById = new ConcurrentHashMap<>();
     private final UniqueIDProvider uniqueIDProvider = new UniqueIDProvider();
     private final Map<IssueType, Queue<Issue>> pendingIssuesByType = new HashMap<>();
     private final Map<IssueType, Queue<Agent>> availableAgentsByIssuesType = new HashMap<>();
@@ -124,11 +177,10 @@ class CSServiceImpl implements CSSupportService {
 
     @Override
     public String createIssue(String transactionId, IssueType issueType, String subject, String description, String email) {
-
-        String id = uniqueIDProvider.getId();
-
-        Issue issue = new Issue(id, transactionId, issueType, subject, description, email, IssueStatus.UNASSIGNED);
+        String id = "Issue="+uniqueIDProvider.getId();
+        Issue issue = new Issue(id, transactionId, issueType, subject, description, email);
         issueById.put(id, issue);
+        System.out.println("Logged a new issue : " + issue.getId());
         addIssueToQueue(issueType, issue);
         return id;
     }
@@ -143,12 +195,12 @@ class CSServiceImpl implements CSSupportService {
 
         String id = uniqueIDProvider.getId();
 
-        Agent agent = new Agent(id, agentName, agentEmail, Collections.unmodifiableList(issueTypeList));
-        agentById.put(id, agent);
-        for(IssueType issueType : issueTypeList) {
-            availableAgentsByIssuesType.computeIfAbsent(issueType, k -> new LinkedList<>());
-            availableAgentsByIssuesType.get(issueType).add(agent);
-        }
+//        Agent agent = new Agent(id, agentName, agentEmail, Collections.unmodifiableList(issueTypeList));
+//        agentById.put(id, agent);
+//        for(IssueType issueType : issueTypeList) {
+//            availableAgentsByIssuesType.computeIfAbsent(issueType, k -> new LinkedList<>());
+//            availableAgentsByIssuesType.get(issueType).add(agent);
+//        }
         return id;
     }
 
@@ -181,5 +233,9 @@ class CSServiceImpl implements CSSupportService {
 }
 
 public class CSResolution {
+
+    public static void main(String[] args) {
+
+    }
 
 }
