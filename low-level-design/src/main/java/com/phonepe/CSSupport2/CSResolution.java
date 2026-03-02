@@ -422,3 +422,26 @@ public class CSResolution {
         customerSupportService.viewAgentsWorkHistory();
     }
 }
+
+/**
+ * Output :
+ * Logged a new issue : gold issue
+ * Logged a new issue : mutual fund issue
+ * Logged a new issue : transation issue
+ * Added a new agent : a1
+ * Added a new agent : a2
+ * Assigning issue :
+ * Issue : gold issue is assigned to agent :a1
+ * Issue : mutual fund issue is assigned to agent :a2
+ * Issue : transation issue is assigned to waiting queue of agent :a1
+ * Testing fileter issue :
+ * Issue{resolution='null', desc='gold issue', subject='payment failed issue', type=GOLD, assignedAgentId='Agent-24c39493-e6c0-41a4-9298-79b7cd10bd3b'}
+ * Testing update issue :
+ * Updated issue : gold issue
+ * Issue{resolution='work in progress', desc='gold issue', subject='payment failed issue', type=GOLD, assignedAgentId='Agent-24c39493-e6c0-41a4-9298-79b7cd10bd3b'}
+ * Testing resolved issue :
+ * Issue{resolution='Resolved', desc='gold issue', subject='payment failed issue', type=GOLD, assignedAgentId='Agent-24c39493-e6c0-41a4-9298-79b7cd10bd3b'}
+ * testing work history :
+ * a1  -> [Issue=8e81ff36-f341-4e1b-b8cd-893bc6e555e4, Issue=c770934c-6afb-45ce-a1da-c3d1ff462457]
+ * a2  -> [Issue=bd2fbcef-abff-4f1f-9e57-65df24b0dfdd]
+ */
