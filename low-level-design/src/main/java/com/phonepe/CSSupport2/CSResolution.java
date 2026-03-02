@@ -179,10 +179,6 @@ class FreeAgentAssignmentStrategy implements AssignmentStrategy {
     }
 }
 
-class AgentWorkHistory {
-
-}
-
 interface CustomerSupportService {
 
     String createIssue(String transactionId, IssueType issueType, String subject, String description, String email);
@@ -197,7 +193,7 @@ interface CustomerSupportService {
 
     boolean resolveIssue(String issueId, String resolution);
 
-    AgentWorkHistory viewAgentsWorkHistory();
+    void viewAgentsWorkHistory();
 }
 
 class UniqueIDProvider {
@@ -242,26 +238,6 @@ class IssueFilter {
         return issueType;
     }
 }
-
-
-interface Validator {
-    boolean isValid();
-}
-
-class EmailValidator implements Validator {
-
-    String email;
-
-    public EmailValidator(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public boolean isValid() {
-        return false;
-    }
-}
-
 
 class CustomerSupportServiceImpl implements CustomerSupportService {
 
@@ -359,11 +335,10 @@ class CustomerSupportServiceImpl implements CustomerSupportService {
     }
 
     @Override
-    public AgentWorkHistory viewAgentsWorkHistory() {
+    public void viewAgentsWorkHistory() {
         for (Agent agent : agentById.values()) {
             System.out.println( agent.getName() + "  -> " + agent.getAgentWorkHistory());
         }
-        return null;
     }
 }
 
