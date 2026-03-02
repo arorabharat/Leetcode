@@ -1,9 +1,7 @@
 package com.phonepe.CSSupport2;
 
-import java.sql.SQLOutput;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Predicate;
 
 // ======================== Data model =============================
 enum IssueType {
@@ -118,6 +116,7 @@ class Agent {
         this.name = name;
         this.email = email;
         this.expertiseList = Set.copyOf(expertiseList);
+        this.agentWorkHistory = new ArrayList<>();
     }
 
     public String getId() {
@@ -256,18 +255,14 @@ class EmailValidator implements Validator {
 }
 
 
-class CustomerServiceImpl implements CustomerSupportService {
+class CustomerSupportServiceImpl implements CustomerSupportService {
 
     private final Map<String, Agent> agentById = new HashMap<>();
     private final Map<String, Issue> issueById = new ConcurrentHashMap<>();
     private final AssignmentStrategy assignmentStrategy;
     private final UniqueIDProvider uniqueIDProvider = new UniqueIDProvider();
 
-    private final Map<IssueType, Queue<Issue>> pendingIssuesByType = new HashMap<>();
-
-    private final Map<IssueType, Queue<Agent>> availableAgentsByIssuesType = new HashMap<>();
-
-    public CustomerServiceImpl(AssignmentStrategy assignmentStrategy) {
+    public CustomerSupportServiceImpl(AssignmentStrategy assignmentStrategy) {
         this.assignmentStrategy = assignmentStrategy;
     }
 
@@ -276,16 +271,8 @@ class CustomerServiceImpl implements CustomerSupportService {
         String id = "Issue=" + uniqueIDProvider.getId();
         Issue issue = new Issue(id, transactionId, issueType, subject, description, email);
         issueById.put(id, issue);
-        System.out.println("Logged a new issue : " + issue.getId());
-
-        // review this later
-        addIssueToQueue(issueType, issue);
+        System.out.println("Logged a new issue : " + issue.getDesc());
         return id;
-    }
-
-    private void addIssueToQueue(IssueType issueType, Issue issue) {
-        pendingIssuesByType.computeIfAbsent(issueType, k -> new LinkedList<>());
-        pendingIssuesByType.get(issueType).add(issue);
     }
 
     @Override
@@ -293,13 +280,7 @@ class CustomerServiceImpl implements CustomerSupportService {
         String id = "Agent-" + uniqueIDProvider.getId();
         Agent agent = new Agent(id, agentName, agentEmail, issueTypeList);
         agentById.put(id, agent);
-        System.out.println("Added a new agent : " + agent.getId() + " name : " + agent.getName());
-
-        // review later
-        for (IssueType issueType : issueTypeList) {
-            availableAgentsByIssuesType.computeIfAbsent(issueType, k -> new LinkedList<>());
-            availableAgentsByIssuesType.get(issueType).add(agent);
-        }
+        System.out.println("Added a new agent : " + agent.getName());
         return id;
     }
 
@@ -311,12 +292,12 @@ class CustomerServiceImpl implements CustomerSupportService {
         }
         Optional<Agent> agent = assignmentStrategy.findAgent(issue.getType(), new ArrayList<>(agentById.values()));
         if(agent.isPresent()) {
-            System.out.println("Issue : " + issue.getId() + " is assigned to agent :" + agent.get().getName());
+            System.out.println("Issue : " + issue.getDesc() + " is assigned to agent :" + agent.get().getName());
             agent.get().setAssignedIssue(issue.getId());
             issue.setAssignedAgentId(agent.get().getId());
         } else {
             // review later
-            System.out.println("Unable to assign : " + issue.getId() + " to any agent");
+            System.out.println("Unable to assign : " + issue.getDesc() + " to any agent");
         }
         return null;
     }
@@ -380,6 +361,14 @@ class CustomerServiceImpl implements CustomerSupportService {
 public class CSResolution {
 
     public static void main(String[] args) {
+        AssignmentStrategy assignmentStrategy = new FreeAgentAssignmentStrategy();
+        CustomerSupportService customerSupportService = new CustomerSupportServiceImpl(assignmentStrategy);
+        String issue1 = customerSupportService.createIssue("T1", IssueType.GOLD, "payment failed issue", "gold issue", "zyx@gmail.com");
+        String issue2 = customerSupportService.createIssue("T2", IssueType.MUTUAL_FUND, "payment failed issue", "mutual fund issue", "zyx@gmail.com");
+        customerSupportService.addAgent("a1@gmail.com", "a1",List.of(IssueType.GOLD, IssueType.TRANSACTION));
+        customerSupportService.addAgent("a1@gmail.com", "a2",List.of(IssueType.MUTUAL_FUND));
+        customerSupportService.assignIssue(issue1);
+        customerSupportService.assignIssue(issue2);
 
     }
 
