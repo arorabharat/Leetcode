@@ -13,6 +13,7 @@ enum IssueType {
 
 enum IssueStatus {
     OPEN,
+    WAITING,
     ASSIGNED,
     IN_PROGRESS,
     RESOLVED
@@ -189,13 +190,20 @@ class FreeAgentAssignmentStrategy implements AssignmentStrategy {
     }
 }
 
+class WaitingAssignmentStrategy implements AssignmentStrategy {
+    @Override
+    public Optional<Agent> findAgent(IssueType issueType, List<Agent> agentList) {
+        return agentList.stream().filter(agent -> agent.canHandle(issueType)).findFirst();
+    }
+}
+
 interface CustomerSupportService {
 
     String createIssue(String transactionId, IssueType issueType, String subject, String description, String email);
 
     String addAgent(String agentEmail, String agentName, List<IssueType> issueTypeList);
 
-    Agent assignIssue(String issueId);
+    void assignIssue(String issueId);
 
     List<Issue> getIssues(IssueFilter issueFilter);
 
@@ -254,10 +262,12 @@ class CustomerSupportServiceImpl implements CustomerSupportService {
     private final Map<String, Agent> agentById = new HashMap<>();
     private final Map<String, Issue> issueById = new ConcurrentHashMap<>();
     private final AssignmentStrategy assignmentStrategy;
+    private final AssignmentStrategy waitingQueueStrategy;
     private final UniqueIDProvider uniqueIDProvider = new UniqueIDProvider();
 
-    public CustomerSupportServiceImpl(AssignmentStrategy assignmentStrategy) {
+    public CustomerSupportServiceImpl(AssignmentStrategy assignmentStrategy, AssignmentStrategy waitingQueueStrategy) {
         this.assignmentStrategy = assignmentStrategy;
+        this.waitingQueueStrategy = waitingQueueStrategy;
     }
 
     @Override
@@ -279,7 +289,7 @@ class CustomerSupportServiceImpl implements CustomerSupportService {
     }
 
     @Override
-    public Agent assignIssue(String issueId) {
+    public void assignIssue(String issueId) {
         Issue issue = issueById.get(issueId);
         if (issue == null) {
             throw new RuntimeException("Issue with Id : " + issueId + " not  found");
@@ -290,10 +300,15 @@ class CustomerSupportServiceImpl implements CustomerSupportService {
             agent.get().setAssignedIssue(issue.getId());
             issue.setAssignedAgentId(agent.get().getId());
         } else {
-            // review later
-            System.out.println("Unable to assign : " + issue.getDesc() + " to any agent");
+            Optional<Agent> capableAgent = waitingQueueStrategy.findAgent(issue.getType(), new ArrayList<>(agentById.values()));
+            if(capableAgent.isPresent()) {
+                capableAgent.get().setAssignedIssue(issue.getId());
+                issue.setStatus(IssueStatus.WAITING);
+                System.out.println("Issue : " + issue.getDesc() + " is assigned to waiting queue of agent :" + capableAgent.get().getName());
+            } else {
+                System.out.println("Unable to assign : " + issue.getDesc() + " to any agent");
+            }
         }
-        return null;
     }
 
     @Override
@@ -356,13 +371,16 @@ public class CSResolution {
 
     public static void main(String[] args) {
         AssignmentStrategy assignmentStrategy = new FreeAgentAssignmentStrategy();
-        CustomerSupportService customerSupportService = new CustomerSupportServiceImpl(assignmentStrategy);
+        AssignmentStrategy waitingAssignmentStrategy = new WaitingAssignmentStrategy();
+        CustomerSupportService customerSupportService = new CustomerSupportServiceImpl(assignmentStrategy,waitingAssignmentStrategy);
         String issue1 = customerSupportService.createIssue("T1", IssueType.GOLD, "payment failed issue", "gold issue", "zyx@gmail.com");
         String issue2 = customerSupportService.createIssue("T2", IssueType.MUTUAL_FUND, "payment failed issue", "mutual fund issue", "zyx@gmail.com");
+        String issue3 = customerSupportService.createIssue("T3", IssueType.TRANSACTION, "payment failed issue", "transation issue", "zyx@gmail.com");
         customerSupportService.addAgent("a1@gmail.com", "a1",List.of(IssueType.GOLD, IssueType.TRANSACTION));
         customerSupportService.addAgent("a1@gmail.com", "a2",List.of(IssueType.MUTUAL_FUND));
         customerSupportService.assignIssue(issue1);
         customerSupportService.assignIssue(issue2);
+        customerSupportService.assignIssue(issue3);
         IssueFilter issueFilter = IssueFilter.byIssueId(issue1);
         List<Issue> issueList = customerSupportService.getIssues(issueFilter);
         System.out.println(issueList);
@@ -378,5 +396,4 @@ public class CSResolution {
         }
         customerSupportService.viewAgentsWorkHistory();
     }
-
 }
