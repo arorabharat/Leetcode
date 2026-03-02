@@ -211,9 +211,11 @@ class CustomerServiceImpl implements CustomerSupportService {
     @Override
     public String addAgent(String agentEmail, String agentName, List<IssueType> issueTypeList) {
         String id = "Agent-" + uniqueIDProvider.getId();
-
         Agent agent = new Agent(id, agentName, agentEmail, issueTypeList);
         agentById.put(id, agent);
+        System.out.println("Added a new agent : " + agent.getId() + " name : " + agent.getName());
+
+        // review later
         for(IssueType issueType : issueTypeList) {
             availableAgentsByIssuesType.computeIfAbsent(issueType, k -> new LinkedList<>());
             availableAgentsByIssuesType.get(issueType).add(agent);
