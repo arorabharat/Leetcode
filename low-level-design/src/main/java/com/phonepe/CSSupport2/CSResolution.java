@@ -189,17 +189,14 @@ interface CustomerSupportService {
 
     String addAgent(String agentEmail, String agentName, List<IssueType> issueTypeList);
 
-    // -> Issue can be assigned to the agents based on different strategies. For now, assign to any one of the free agents.
     Agent assignIssue(String issueId);
 
-    // -> issues against the provided filter
     List<Issue> getIssues(IssueFilter issueFilter);
 
     boolean updateIssue(String issueId, IssueStatus status, String resolution);
 
     boolean resolveIssue(String issueId, String resolution);
 
-    // -> a list of issue which agents worked on
     AgentWorkHistory viewAgentsWorkHistory();
 }
 
@@ -364,7 +361,7 @@ class CustomerSupportServiceImpl implements CustomerSupportService {
     @Override
     public AgentWorkHistory viewAgentsWorkHistory() {
         for (Agent agent : agentById.values()) {
-            System.out.println( agent.getId() + "  -> " + agent.getAgentWorkHistory());
+            System.out.println( agent.getName() + "  -> " + agent.getAgentWorkHistory());
         }
         return null;
     }
@@ -394,6 +391,7 @@ public class CSResolution {
         for (Issue issue : issueList) {
             System.out.println(issue);
         }
+        customerSupportService.viewAgentsWorkHistory();
     }
 
 }
