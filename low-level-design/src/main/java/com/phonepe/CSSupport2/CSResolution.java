@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
- // ======================== Data model =============================
+// ======================== Data model =============================
 enum IssueType {
     MUTUAL_FUND,
     TRANSACTION,
@@ -96,6 +96,7 @@ class Agent {
     private final String name;
     private final String email;
     private final Set<IssueType> expertiseList;
+    private String assignedIssue;
 
 
     public Agent(String id, String name, String email, List<IssueType> expertiseList) {
@@ -117,8 +118,20 @@ class Agent {
         return email;
     }
 
-    public Set<IssueType> getExpertiseList() {
-        return expertiseList;
+    public String getAssignedIssue() {
+        return assignedIssue;
+    }
+
+    public void setAssignedIssue(String assignedIssue) {
+        this.assignedIssue = assignedIssue;
+    }
+
+    public boolean canHandle(IssueType issueType) {
+        return this.expertiseList.contains(issueType);
+    }
+
+    public boolean isAvailable() {
+        return this.assignedIssue == null;
     }
 }
 
@@ -163,6 +176,17 @@ class IssueFilterBuilder {
 
 }
 
+interface AssignmentStrategy {
+    Optional<Agent> findAgent(IssueType issueType, List<Agent> agentList);
+}
+
+class FreeAgentAssignmentStrategy implements AssignmentStrategy {
+    @Override
+    public Optional<Agent> findAgent(IssueType issueType, List<Agent> agentList) {
+        return agentList.stream().filter(agent -> agent.canHandle(issueType) && agent.isAvailable()).findFirst();
+    }
+}
+
 interface Validator {
     boolean isValid();
 }
@@ -193,7 +217,7 @@ class CustomerServiceImpl implements CustomerSupportService {
 
     @Override
     public String createIssue(String transactionId, IssueType issueType, String subject, String description, String email) {
-        String id = "Issue="+uniqueIDProvider.getId();
+        String id = "Issue=" + uniqueIDProvider.getId();
         Issue issue = new Issue(id, transactionId, issueType, subject, description, email);
         issueById.put(id, issue);
         System.out.println("Logged a new issue : " + issue.getId());
@@ -216,7 +240,7 @@ class CustomerServiceImpl implements CustomerSupportService {
         System.out.println("Added a new agent : " + agent.getId() + " name : " + agent.getName());
 
         // review later
-        for(IssueType issueType : issueTypeList) {
+        for (IssueType issueType : issueTypeList) {
             availableAgentsByIssuesType.computeIfAbsent(issueType, k -> new LinkedList<>());
             availableAgentsByIssuesType.get(issueType).add(agent);
         }
@@ -225,7 +249,11 @@ class CustomerServiceImpl implements CustomerSupportService {
 
     @Override
     public Agent assignIssue(String issueId) {
-
+        Issue issue = issueById.get(issueId);
+        if (issue == null) {
+            throw new RuntimeException("Issue with Id : " + issueId + " not  found");
+        }
+        List<Agent> agentList = agent
         return null;
     }
 
