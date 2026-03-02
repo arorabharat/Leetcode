@@ -135,11 +135,17 @@ class Agent {
     }
 }
 
-
-enum AgentStatus {
-    AVAILABLE,
-    BUSY
+interface AssignmentStrategy {
+    Optional<Agent> findAgent(IssueType issueType, List<Agent> agentList);
 }
+
+class FreeAgentAssignmentStrategy implements AssignmentStrategy {
+    @Override
+    public Optional<Agent> findAgent(IssueType issueType, List<Agent> agentList) {
+        return agentList.stream().filter(agent -> agent.canHandle(issueType) && agent.isAvailable()).findFirst();
+    }
+}
+
 
 
 class AgentWorkHistory {
@@ -176,16 +182,7 @@ class IssueFilterBuilder {
 
 }
 
-interface AssignmentStrategy {
-    Optional<Agent> findAgent(IssueType issueType, List<Agent> agentList);
-}
 
-class FreeAgentAssignmentStrategy implements AssignmentStrategy {
-    @Override
-    public Optional<Agent> findAgent(IssueType issueType, List<Agent> agentList) {
-        return agentList.stream().filter(agent -> agent.canHandle(issueType) && agent.isAvailable()).findFirst();
-    }
-}
 
 interface Validator {
     boolean isValid();
@@ -253,7 +250,7 @@ class CustomerServiceImpl implements CustomerSupportService {
         if (issue == null) {
             throw new RuntimeException("Issue with Id : " + issueId + " not  found");
         }
-        List<Agent> agentList = agent
+//        List<Agent> agentList = agent
         return null;
     }
 
