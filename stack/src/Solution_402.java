@@ -7,6 +7,7 @@ class Solution_402 {
 
     class Solution1 {
 
+        // 412361
         public String removeKdigits(String num, int k) {
             int n = num.length();
             Deque<Character> maxStack = new LinkedList<>();
@@ -23,11 +24,11 @@ class Solution_402 {
             }
             StringBuilder sb = new StringBuilder();
             for (Character c : maxStack) {
-                if (sb.length() != 0 || c != '0') {
+                if (!sb.isEmpty() || c != '0') {
                     sb.append(c);
                 }
             }
-            return (sb.length() == 0) ? "0" : sb.toString();
+            return (sb.isEmpty()) ? "0" : sb.toString();
         }
 
     }
