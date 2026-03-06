@@ -19,6 +19,8 @@ enum IssueStatus {
     RESOLVED
 }
 
+timestamp -> entry -> operation
+
 class Issue {
 
     private final String id;
@@ -272,7 +274,7 @@ class CustomerSupportServiceImpl implements CustomerSupportService {
 
     @Override
     public String createIssue(String transactionId, IssueType issueType, String subject, String description, String email) {
-        String id = "Issue=" + uniqueIDProvider.getId();
+        String id = "Issue=" + uniqueIDProvider.getId();  // to be replaced with snoflake ID
         Issue issue = new Issue(id, transactionId, issueType, subject, description, email);
         issueById.put(id, issue);
         System.out.println("Logged a new issue : " + issue.getDesc());
