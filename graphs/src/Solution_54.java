@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Solution_52 {
+public class Solution_54 {
 
 
     /*
