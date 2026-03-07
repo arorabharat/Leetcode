@@ -54,7 +54,7 @@ class Solution_146_1 {
 
         // P <-> C <-> N;
         // P <-> N;
-        void removeNode(Node node) {
+        public void removeNode(Node node) {
             Node prev = node.prev;
             Node next = node.next;
             prev.next = next;
@@ -63,7 +63,7 @@ class Solution_146_1 {
 
         // H <-> T
         // H <-> C <-> T
-        void addFront(Node node) {
+        private void addFront(Node node) {
 
             Node headNext = this.head.next;
 
@@ -74,14 +74,14 @@ class Solution_146_1 {
             headNext.prev = node;
         }
 
-        void moveFront(Node node) {
+        public void moveFront(Node node) {
             if (node.prev != head) {
                 removeNode(node);
                 addFront(node);
             }
         }
 
-        Node addNewNodeFront(int key, int val) {
+        public Node addNewNodeFront(int key, int val) {
             Node node = new Node(key, val);
             addFront(node);
             return node;
