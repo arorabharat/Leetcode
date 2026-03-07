@@ -20,43 +20,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * 4 ->3 -> -
  * [null,null,null,0,null,-1,null,0,3,4]
  * [null,null,null,0,null,-1,null,-1,3,4]
- * <p>
- * put
- * 1 0
- * =================
- * 1 0
- * put
- * 2 2
- * =================
- * 1 0
- * 2 2
- * get
- * 1
- * 0
- * put
- * 3 3
- * 2
- * =================
- * 1 0
- * 3 3
- * get
- * 2
- * put
- * 4 4
- * 0
- * =================
- * 4 4
- * 1 0
- * 3 3
- * get
- * 1
- * 0
- * get
- * 3
- * 3
- * get
- * 4
- * 4
  */
 class Solution_146_1 {
 
