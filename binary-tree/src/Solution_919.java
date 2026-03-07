@@ -26,7 +26,7 @@ public class Solution_919 {
     class CBTInserter {
 
         private final TreeNode root;
-        private Queue<TreeNode> leaveNodes;
+        private final Queue<TreeNode> leaveNodes;
 
         public CBTInserter(TreeNode root) {
             this.root = root;
@@ -40,17 +40,16 @@ public class Solution_919 {
             // System.out.println(root.val);
             while (!q.isEmpty()) {
                 TreeNode front = q.remove();
-                System.out.println(front.val);
+                // System.out.println(front.val);
                 if (front.left == null || front.right == null) {
                     leaveNodes.add(front);
                 }
-
                 if (front.left != null && front.right != null) {
                     q.add(front.left);
                     q.add(front.right);
                 } else if (front.left != null) {
                     q.add(front.left);
-                } else if(front.right != null) {
+                } else if (front.right != null) {
                     q.add(front.right);
                 }
             }
@@ -63,13 +62,11 @@ public class Solution_919 {
             if (firstLeaf.left != null) {
                 firstLeaf.right = newNode;
                 leaveNodes.remove();
-                leaveNodes.add(newNode);
-                return firstLeaf.right.val;
             } else {
                 firstLeaf.left = newNode;
-                leaveNodes.add(newNode);
-                return firstLeaf.left.val;
             }
+            leaveNodes.add(newNode);
+            return firstLeaf.val;
         }
 
         public TreeNode get_root() {
