@@ -82,4 +82,20 @@ public class Solution_378 {
     }
 
 
+    class Solution4 {
+        public int kthSmallest(int[][] matrix, int k) {
+
+            for (int i = 0; i < k - 1; i++) {
+                int[] cur = minHeap.remove();
+                int r = cur[1];
+                int c = cur[2];
+                if (c + 1 < n) {
+                    minHeap.add(new int[]{matrix[r][c + 1], r, c + 1});
+                }
+            }
+            return minHeap.peek()[0];
+        }
+    }
+    
+
 }
