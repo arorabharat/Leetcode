@@ -57,7 +57,28 @@ public class Solution_378 {
                 return matrix[c[0]][c[1]];
             }
         }
+    }
 
+    class Solution3 {
+        public int kthSmallest(int[][] matrix, int k) {
+            int n = matrix.length;
+            PriorityQueue<int[]> minHeap =
+                    new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+
+            for (int r = 0; r < n; r++) {
+                minHeap.add(new int[]{matrix[r][0], r, 0});
+            }
+
+            for (int i = 0; i < k - 1; i++) {
+                int[] cur = minHeap.remove();
+                int r = cur[1];
+                int c = cur[2];
+                if (c + 1 < n) {
+                    minHeap.add(new int[]{matrix[r][c + 1], r, c + 1});
+                }
+            }
+            return minHeap.peek()[0];
+        }
     }
 
 
