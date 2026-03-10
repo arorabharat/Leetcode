@@ -161,5 +161,16 @@ class Solution_122 {
         memo[day][holding] = profit;
         return profit;
     }
+
+
+    class Solution2 {
+
+        //  [7,1,5,3,6,4]
+        //   [-6,4,-2,3,-2]
+        public int maxProfit(int[] prices) {
+            // TODO: 10/03/26 - need to do this
+            return 0;
+        }
+    }
 }
 
