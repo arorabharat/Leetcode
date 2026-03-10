@@ -86,20 +86,18 @@ public class Solution_378 {
 
 
         //  [[1,5,9],
-        //  [10,11,13],
+        //  [10,11,12],
         //  [12,13,15]]
         // n-C+1 = 7
         // c+1
+        // r =
         public int kthSmallest(int[][] matrix, int k) {
             int R = matrix.length;
             int C = matrix[0].length;
             int c = C - 1;
             int r = 0;
-            while (k > 0 ) {
-                if(matrix[r][c] > k) {
-
-                }
-            }
+            // TODO - pending binary search approach
+            return 0;
         }
     }
     
