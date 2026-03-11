@@ -1,7 +1,49 @@
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Stack;
 
 // TODO pending
 class Solution_42 {
+
+
+    // TODO: 11/03/26 - incorrect approach
+    class Solution1 {
+
+        //  [0,1,0,2,1,0,1,3,2,1,2,1]
+        //  [0,1,0,2,1,0,1,3,2,1,2,1]
+        // 4 2 1 3 4
+        public int trap(int[] height) {
+            Deque<int[]> decQ = new LinkedList<>();
+            int n = height.length;
+            int totalWater = 0;
+            for (int i = 0; i < n; i++) {
+                int h = height[i];
+                if (decQ.isEmpty()) {
+                    decQ.add(new int[]{i,h});
+                } else {
+                    int currentBucket = 0;
+                    int count = 0;
+                    int lastElementRemoved = h;
+                    while (!decQ.isEmpty() && decQ.peekLast()[1] < h) {
+                        int[] last = decQ.removeLast();
+                        lastElementRemoved = last[1];
+                        count = count + (i - last[0]);
+                        currentBucket = currentBucket + lastElementRemoved;
+                    }
+                    if (count > 0) {
+
+                        int leftHeight = (decQ.isEmpty()) ? lastElementRemoved : decQ.peekLast()[1];
+                        totalWater = totalWater + Math.min(leftHeight, h) * count - currentBucket;
+                        System.out.println(h + " " + currentBucket + " " + count + " " + leftHeight + " " + totalWater);
+
+                    }
+                    decQ.add(new int[]{i,h});
+                }
+            }
+            return totalWater;
+        }
+    }
+
 
     public int trap(int[] height) {
         Stack<Pair> stack = new Stack<>();
