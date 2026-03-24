@@ -60,7 +60,7 @@ These frameworks help you organize your thoughts so you don't ramble. While **ST
 
 > **Pro Tip:** When answering this in an interview, always emphasize that you delivered the feedback **in private** and **promptly**. Waiting too long or doing it in front of others is a red flag for recruiters.
 
-Answer :
+Raw Answer :
 
 So yeah, this happened with one of my teammates who was who joined straight out of college. He has a very strong technical skills and deep dive skills, but still he was getting blocked on 
 the complex tasks which were assigned to him. So whenever he was getting blocked, he was approaching me to get help to help him unblock. And I found that there were a few issues which 
@@ -74,3 +74,17 @@ where he could have put for help without getting the dependencies on senior peop
 documentation. And he did start documenting the stuff. And then he was able to figure out the issues himself. He started figuring out the issues himself whenever he was getting blocked. 
 So yeah, this was the outcome. And I personally preferred half give this feedback in one-on-one because that will help in giving the constructive feedback and understand that the client 
 wants the person to be in rather than having these discussions in stand-up.
+
+
+Polished answer :
+
+So this happened with one of my teammates who had joined straight out of college. He has very strong technical and deep-dive skills, but he was still getting blocked on the complex tasks assigned to him. Whenever he got blocked, he would approach me for help to unblock himself. I found that some issues required architectural context that typically comes with more experience. For the rest of the cases, I felt he could have unblocked himself.
+
+The main reason he was not able to figure out how to proceed was that he had not documented anything. He was good at debugging and figuring out solutions, but he tended to jump straight into implementation. Whenever he got blocked, he reached out to senior engineers who did not have the context of what he was working on. This required multiple conversations for them to understand the problem, and context was often lost in each discussion, making it difficult to move forward.
+
+I set up a one-on-one with him, acknowledged his strengths, and highlighted that documentation was an area for improvement. I explained that documenting his approach would help create visibility into his technical work and allow senior engineers to understand the context quickly, helping him unblock faster. Writing things down would also help him identify gaps and areas where he could seek help earlier, without always depending on senior engineers.
+
+For the next couple of tasks, I observed his approach and encouraged him to add documentation. He started documenting his work and was able to figure out issues himself whenever he got blocked. This was the outcome.
+
+I preferred giving this feedback in a one-on-one setting because it helped keep the discussion constructive and ensured he felt supported, rather than having such conversations in stand-ups.
+
