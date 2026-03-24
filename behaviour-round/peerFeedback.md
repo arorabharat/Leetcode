@@ -60,4 +60,17 @@ These frameworks help you organize your thoughts so you don't ramble. While **ST
 
 > **Pro Tip:** When answering this in an interview, always emphasize that you delivered the feedback **in private** and **promptly**. Waiting too long or doing it in front of others is a red flag for recruiters.
 
-Would you like me to help you draft a specific response based on a real experience you've had?
+Answer :
+
+So yeah, this happened with one of my teammates who was who joined straight out of college. He has a very strong technical skills and deep dive skills, but still he was getting blocked on 
+the complex tasks which were assigned to him. So whenever he was getting blocked, he was approaching me to get help to help him unblock. And I found that there were a few issues which 
+required him in context, the architecture, which would be seen in full staff. And for the rest of the cases, I found that he could have unblocked himself. The reason he was not able to 
+figure out where to proceed is because he had not documented anything. He was good at debugging, just figuring out the solution and just trying to jump straight from the implementation. 
+And whenever he was getting blocked, he was reaching out to senior engineers who didn't have the context of what he is doing. And it required multiple conversations to understand what he 
+is doing and basically losing the context in each and every meeting and not able to proceed in any direction. So I still set up a one-on-one with him and told him that he's 
+told in his strength and told him that his weak points are where he need to document stuff so that others would go for him. It will help you bring the visibility of technical work. It will 
+also help other senior engineers to understand the context in a short amount of time and help him unblock. And even whenever he's writing, he will be able to understand the gaps on the areas 
+where he could have put for help without getting the dependencies on senior people. So yeah, I told him that for the next couple of tasks, I'll be observing him and adding in content 
+documentation. And he did start documenting the stuff. And then he was able to figure out the issues himself. He started figuring out the issues himself whenever he was getting blocked. 
+So yeah, this was the outcome. And I personally preferred half give this feedback in one-on-one because that will help in giving the constructive feedback and understand that the client 
+wants the person to be in rather than having these discussions in stand-up.
