@@ -68,3 +68,6 @@ This works best if you want to show that you have a consistent, repeatable syste
 * **The "I ignore it" trap:** Conflict avoidance is often seen as a weakness in professional settings.
 
 **Would you like me to help you draft a specific answer based on a real experience you've had?**
+
+
+UPMA COE
