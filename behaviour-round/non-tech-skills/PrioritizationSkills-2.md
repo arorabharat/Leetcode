@@ -54,3 +54,37 @@ Here are five variations of how to structure your response using different profe
 ---
 
 **Would you like me to draft a specific response for one of these frameworks based on a real project you've worked on?**
+
+
+Answer:
+
+**Structured answer (STAR format)**
+
+**Situation**
+I was leading a critical project with tight delivery timelines when I identified an emerging operational risk. Based on historical customer behavior, I anticipated a spike in on-call tickets triggered by customers upgrading their subscription tier when popular content releases drove higher engagement. Customers moving from lower-tier plans to full-tier plans were eligible for prorated refunds for the unused portion of their existing subscription.
+
+However, global payment processors do not allow refunds for transactions older than 180 days. As a result, prorated refunds for long-tenured subscriptions were getting blocked automatically and required manual intervention. With upcoming high-interest content releases, this risk was likely to create a surge in customer-impacting tickets and operational overhead.
+
+**Task**
+I had to decide whether to continue focusing exclusively on the committed project timeline or address the anticipated spike in customer-impacting issues that could degrade user experience and increase operational load.
+
+**Action**
+I prioritized based on customer impact and scalability considerations. I evaluated the projected ticket volume and determined that proactive mitigation would reduce both customer friction and operational cost.
+
+I aligned with my manager to rebalance priorities and delegated part of the ongoing project work to another team member to ensure continued progress. I then focused on designing a short-term and long-term solution:
+
+* **Short-term:** built an automation script to identify eligible upgrade transactions blocked due to the 180-day processor limitation and trigger manual refund workflows in a prioritized queue, significantly reducing operational effort.
+* **Long-term:** collaborated with the product team to design an alternative compensation mechanism using vouchers or Amazon Pay balance for cases where direct refunds were not supported by payment processors.
+
+**Result**
+The proactive prioritization reduced anticipated ticket volume and improved customer experience during peak upgrade periods. The automation minimized manual effort for support teams, while the product change created a scalable long-term solution that avoided dependency on external processor constraints. The decision ensured continuity of the critical project while preventing a predictable operational escalation.
+
+---
+
+**Concise version (interview-ready)**
+
+While working on a critical project, I identified an upcoming spike in customer support tickets driven by subscription upgrades triggered by popular content releases. Customers upgrading mid-cycle were eligible for prorated refunds, but payment processors globally do not allow refunds for transactions older than 180 days. This meant many refunds would fail automatically and require manual intervention, creating operational risk.
+
+I evaluated impact vs urgency and aligned with my manager to temporarily rebalance priorities. I delegated part of my project work and focused on mitigating the customer-impacting issue. I built a short-term automation script to identify blocked refunds and streamline manual processing. In parallel, I partnered with the product team to introduce vouchers or Amazon Pay balance as a long-term alternative to refunds beyond the 180-day window.
+
+This proactive prioritization reduced expected ticket volume, improved customer experience during peak upgrade periods, and ensured the critical project continued progressing without major delays.
