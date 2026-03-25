@@ -88,3 +88,26 @@ For the next couple of tasks, I observed his approach and encouraged him to add 
 
 I preferred giving this feedback in a one-on-one setting because it helped keep the discussion constructive and ensured he felt supported, rather than having such conversations in stand-ups.
 
+Polished Version 2:
+
+**Example answer (structured narrative)**
+
+A situation comes to mind where I had to provide constructive feedback to a teammate who had recently joined the team straight out of college. He was technically strong, very capable of deep diving into problems, and could quickly debug issues. However, he was frequently getting blocked on complex tasks and needed repeated help from senior engineers to move forward.
+
+When I observed his workflow, I realized that the main issue was not technical capability, but lack of structured documentation and context sharing. He tended to jump directly into implementation without documenting his approach, assumptions, or intermediate findings. As a result, when he got blocked and reached out for help, senior engineers had limited context, which led to multiple back-and-forth discussions just to understand the problem. This slowed down progress and also reduced his ability to independently identify gaps in his own approach.
+
+I decided to address this through a one-on-one conversation, as I wanted the feedback to feel constructive and supportive rather than critical in a public forum like stand-ups. I started by acknowledging his strengths — particularly his debugging skills and willingness to take ownership of complex tasks. Then I explained the specific area of improvement: documenting technical context, decisions, and open questions while working on tasks.
+
+I explained that documenting progress would provide three benefits:
+
+1. It would help senior engineers quickly understand context and provide targeted guidance when needed.
+2. It would increase visibility of his technical work.
+3. It would help him identify gaps in his own understanding earlier, often allowing him to unblock himself without external dependencies.
+
+To support this change, I aligned with him that for the next few tasks, I would review his documentation and provide feedback. Over time, he began documenting problem statements, architecture context, and debugging notes. This helped him identify issues independently and reduced the number of clarification discussions required with senior engineers.
+
+As a result, he became more self-sufficient in solving complex problems and was able to unblock himself more quickly. The quality of technical discussions also improved because stakeholders had clear context upfront.
+
+This experience reinforced for me that feedback is most effective when it is specific, actionable, and delivered in a setting that encourages open discussion.
+
+
