@@ -43,4 +43,37 @@ class Solution_213 {
         }
         return Math.max(secondLast, c);
     }
+
+    class Approach2 {
+
+        private int robRange(int[] nums, int s, int e) {
+            if (s == e) {
+                return nums[s];
+            }
+            if (e == s + 1) {
+                return Math.max(nums[s], nums[e]);
+            }
+            int p1 = Math.max(nums[s], nums[e]);
+            int p2 = nums[s];
+            for (int i = s + 2; i < e; i++) {
+                int curr = Math.max(nums[i] + p2, nums[i]);
+                p2 = p1;
+                p1 = Math.max(curr, p1);
+            }
+            return p1;
+        }
+
+        public int rob(int[] nums) {
+            int length = nums.length;
+            if (length == 1) {
+                return nums[0];
+            }
+            if (length == 2) {
+                return Math.max(nums[0], nums[1]);
+            }
+            int lastNotTaken = robRange(nums, 0, length - 2);
+            int lastTaken = robRange(nums, 1, length - 1);
+            return Math.max(lastTaken, lastNotTaken);
+        }
+    }
 }
