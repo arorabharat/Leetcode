@@ -101,4 +101,59 @@ class Solution_198 {
         return c;
     }
 
+    /**
+     * Dynamic Programming O(N^2)
+     */
+    class Approach4 {
+        public int rob(int[] nums) {
+            int n = nums.length;
+            int[] dp = new int[n + 1];
+            dp[0] = 0;
+            dp[1] = nums[0];
+            int maxRobbery = dp[1];
+            for (int i = 1; i < n; i++) {
+                dp[i + 1] = nums[i];
+                for (int j = 0; j < i; j++) {
+                    dp[i + 1] = Math.max(nums[i] + dp[j], dp[i + 1]);
+                }
+                maxRobbery = Math.max(maxRobbery, dp[i + 1]);
+
+            }
+            return maxRobbery;
+        }
+    }
+
+    class Approach5 {
+        public int rob(int[] nums) {
+            int n = nums.length;
+            int[] dp = new int[n + 1];
+            dp[0] = 0;
+            dp[1] = nums[0];
+            int maxRobberyNMinusTwo = 0;
+            int maxRobberyNMinusOne = dp[1];
+            int maxRobbery = maxRobberyNMinusOne;
+            for (int i = 1; i < n; i++) {
+                maxRobbery = Math.max(maxRobberyNMinusTwo + nums[i], maxRobberyNMinusOne);
+                maxRobberyNMinusOne = Math.max(maxRobberyNMinusOne, maxRobbery);
+                maxRobberyNMinusTwo = Math.max(maxRobberyNMinusTwo, maxRobberyNMinusOne);;
+            }
+            return maxRobbery;
+        }
+    }
+
+    class Approach6 {
+        public int rob(int[] nums) {
+            int prev2 = 0;
+            int prev1 = nums[0];
+
+            for (int i = 1; i < nums.length; i++) {
+                int curr = Math.max(prev1, prev2 + nums[i]);
+                prev2 = prev1;
+                prev1 = curr;
+            }
+
+            return prev1;
+        }
+    }
+
 }
