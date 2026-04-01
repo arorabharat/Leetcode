@@ -9,6 +9,92 @@ import java.util.Map;
 class Solution_139 {
 
 
+    class Solution {
+
+        static class Node {
+
+            private boolean isWordEnd;
+            private final Map<Character, Node> children;
+
+            public Node() {
+                this.isWordEnd = false;
+                this.children = new HashMap<>();
+            }
+
+            Node getChildAtCharOrInitialise(char c) {
+                this.children.put(c, this.children.getOrDefault(c, new Node()));
+                return this.children.get(c);
+            }
+
+            Node getChildAtChar(char c) {
+                return this.children.get(c);
+            }
+
+            public void setWordEnd(boolean wordEnd) {
+                this.isWordEnd = wordEnd;
+            }
+
+            public boolean isWordEnd() {
+                return this.isWordEnd;
+            }
+        }
+
+        static class Trie {
+
+            private final Node root;
+
+            public Trie() {
+                root = new Node();
+            }
+
+            void insert(String string) {
+                Node tr = root;
+                for (char c : string.toCharArray()) {
+                    tr = tr.getChildAtCharOrInitialise(c);
+                }
+                tr.setWordEnd(true);
+            }
+
+            public Node getRoot() {
+                return root;
+            }
+        }
+
+        private final Map<String, Boolean> isValidString = new HashMap<>();
+
+        private boolean _wordBreak(String str, int s, int e, Trie trie) {
+            if (e < s) {
+                return true;
+            }
+            if (isValidString.containsKey(s + "," + e)) {
+                return isValidString.get(s + "," + e);
+            }
+            Node tr = trie.getRoot();
+            for (int i = s; i <= e; i++) {
+                tr = tr.getChildAtChar(str.charAt(i));
+                if (tr == null) {
+                    isValidString.put(s + "," + e, false);
+                    return false;
+                }
+                if (tr.isWordEnd() && _wordBreak(str, i + 1, e, trie)) {
+                    isValidString.put(s + "," + e, true);
+                    return true;
+                }
+            }
+            isValidString.put(s + "," + e, false);
+            return false;
+        }
+
+        public boolean wordBreak(String s, List<String> wordDict) {
+            Trie trie = new Trie();
+            for (String word : wordDict) {
+                trie.insert(word);
+            }
+            return _wordBreak(s, 0, s.length() - 1, trie);
+        }
+    }
+
+
     private boolean _isBreakable(char[] c, TrieNode trieNode, int s, int e) {
         if (s == e) return true;
         for (int b = s + 1; b < e; b++) {
