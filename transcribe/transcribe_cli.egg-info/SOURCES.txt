@@ -1,0 +1,8 @@
+pyproject.toml
+transcribe.py
+transcribe_cli.egg-info/PKG-INFO
+transcribe_cli.egg-info/SOURCES.txt
+transcribe_cli.egg-info/dependency_links.txt
+transcribe_cli.egg-info/entry_points.txt
+transcribe_cli.egg-info/requires.txt
+transcribe_cli.egg-info/top_level.txt

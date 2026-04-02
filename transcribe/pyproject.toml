@@ -1,0 +1,9 @@
+[project]
+name = "transcribe-cli"
+version = "0.1.0"
+dependencies = [
+    "faster-whisper"
+]
+
+[project.scripts]
+transcribe = "transcribe:main"
