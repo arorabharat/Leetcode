@@ -176,4 +176,82 @@ public class Solution_638 {
         }
     }
 
+    class Solution3 {
+
+        Map<Integer, Integer> memo = new HashMap<>();
+
+        public int shoppingOffers(List<Integer> price,
+                                  List<List<Integer>> special,
+                                  List<Integer> needs) {
+
+            return dfs(price, special, needs);
+        }
+
+        private int dfs(List<Integer> price,
+                        List<List<Integer>> special,
+                        List<Integer> needs) {
+
+            int key = encode(needs);
+
+            if (memo.containsKey(key)) {
+                return memo.get(key);
+            }
+
+            // cost without any offer
+            int minCost = 0;
+
+            for (int i = 0; i < needs.size(); i++) {
+                minCost += needs.get(i) * price.get(i);
+            }
+
+            // try each offer
+            for (List<Integer> offer : special) {
+
+                List<Integer> newNeeds = new ArrayList<>();
+
+                boolean valid = true;
+
+                for (int i = 0; i < needs.size(); i++) {
+
+                    if (offer.get(i) > needs.get(i)) {
+
+                        valid = false;
+
+                        break;
+                    }
+
+                    newNeeds.add(
+                            needs.get(i) - offer.get(i)
+                    );
+                }
+
+                if (valid) {
+
+                    minCost = Math.min(
+                            minCost,
+                            offer.get(needs.size())
+                                    + dfs(price, special, newNeeds)
+                    );
+                }
+            }
+
+            memo.put(key, minCost);
+
+            return minCost;
+        }
+
+        // 4 bits per item (0–15)
+        private int encode(List<Integer> needs) {
+
+            int mask = 0;
+
+            for (int i = 0; i < needs.size(); i++) {
+
+                mask |= (needs.get(i) << (i * 4));
+
+            }
+
+            return mask;
+        }
+    }
 }
