@@ -1,0 +1,179 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Solution_638 {
+
+
+    class Solution {
+
+        List<List<Integer>> special;
+        List<Integer> price;
+        Map<String, Integer> cache;
+
+        boolean canTakeOffer(int[] needs, List<Integer> offer) {
+            for (int i = 0; i < needs.length; i++) {
+                if (needs[i] - offer.get(i) < 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        boolean isFulFilled(int[] needs) {
+            for (int need : needs) {
+                if (need > 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        void reduceNeedsAsPerOffer(int[] needs, List<Integer> offer) {
+            for (int i = 0; i < needs.length; i++) {
+                needs[i] -= offer.get(i);
+            }
+        }
+
+        void increaseNeedsAsPerOffer(int[] needs, List<Integer> offer) {
+            for (int i = 0; i < needs.length; i++) {
+                needs[i] += offer.get(i);
+            }
+        }
+
+        // CHANGED → removed 's' from key
+        String hashFunction(int[] needs) {
+            StringBuilder sb = new StringBuilder();
+            for (int need : needs) {
+                sb.append(need).append(",");
+            }
+            return sb.toString();
+        }
+
+        public int _shoppingOffers(int[] needs) {
+
+            if (isFulFilled(needs)) {
+                return 0;
+            }
+
+            String key = hashFunction(needs);
+
+            if (cache.containsKey(key)) {
+                return cache.get(key);
+            }
+
+            // cost without using any offer
+            int cost = payFullPrice(needs);
+
+            // try every offer
+            for (int i = 0; i < this.special.size(); i++) {
+
+                List<Integer> offer = this.special.get(i);
+
+                if (canTakeOffer(needs, offer)) {
+
+                    reduceNeedsAsPerOffer(needs, offer);
+
+                    cost = Math.min(
+                            cost,
+                            offer.get(needs.length) + _shoppingOffers(needs)
+                    );
+
+                    increaseNeedsAsPerOffer(needs, offer);
+                }
+            }
+
+            // IMPORTANT → store result
+            cache.put(key, cost);
+
+            return cost;
+        }
+
+        private int payFullPrice(int[] needs) {
+            int cost = 0;
+            for (int i = 0; i < needs.length; i++) {
+                cost += needs[i] * this.price.get(i);
+            }
+            return cost;
+        }
+
+        public int shoppingOffers(
+                List<Integer> price,
+                List<List<Integer>> special,
+                List<Integer> needs
+        ) {
+
+            this.special = special;
+            this.price = price;
+            this.cache = new HashMap<>();
+
+            int[] needsArray = new int[needs.size()];
+
+            for (int i = 0; i < needs.size(); i++) {
+                needsArray[i] = needs.get(i);
+            }
+
+            return _shoppingOffers(needsArray);
+        }
+    }
+
+    class Solution2 {
+
+        Map<String, Integer> memo = new HashMap<>();
+
+        public int shoppingOffers(List<Integer> price,
+                                  List<List<Integer>> special,
+                                  List<Integer> needs) {
+
+            return dfs(price, special, needs);
+        }
+
+        private int dfs(List<Integer> price,
+                        List<List<Integer>> special,
+                        List<Integer> needs) {
+
+            String key = needs.toString();
+
+            if (memo.containsKey(key)) {
+                return memo.get(key);
+            }
+
+            // cost without any offer
+            int minCost = 0;
+            for (int i = 0; i < needs.size(); i++) {
+                minCost += needs.get(i) * price.get(i);
+            }
+
+            // try each offer
+            for (List<Integer> offer : special) {
+
+                List<Integer> newNeeds = new ArrayList<>();
+                boolean valid = true;
+
+                for (int i = 0; i < needs.size(); i++) {
+
+                    if (offer.get(i) > needs.get(i)) {
+                        valid = false;
+                        break;
+                    }
+
+                    newNeeds.add(needs.get(i) - offer.get(i));
+                }
+
+                if (valid) {
+                    minCost = Math.min(
+                            minCost,
+                            offer.get(needs.size())
+                                    + dfs(price, special, newNeeds)
+                    );
+                }
+            }
+
+            memo.put(key, minCost);
+
+            return minCost;
+        }
+    }
+
+}
