@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -60,6 +61,26 @@ public class Solution_3 {
             }
 
             return maxLength;
+        }
+    }
+
+    class Solution3 {
+
+        public int lengthOfLongestSubstring(String string) {
+            // abcabcbb
+            int s = -1;
+            int[] charToIndex = new int[26];
+            Arrays.fill(charToIndex, -1);
+            int maxLen = 0;
+            for (int e = 0; e < string.length(); e++) {
+                int placeholder = string.charAt(e) - 'a';
+                if (charToIndex[placeholder] != -1) {
+                    s = charToIndex[placeholder];
+                }
+                maxLen = Math.max(maxLen, e - s);
+                charToIndex[placeholder] = e;
+            }
+            return maxLen;
         }
     }
 
