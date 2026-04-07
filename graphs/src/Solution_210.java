@@ -140,4 +140,74 @@ class Solution_210 {
         }
 
     }
+
+    class Solution3 {
+
+        class Graph {
+
+            int n;
+            Map<Integer, List<Integer>> adj;
+            int[] inDegree;
+
+            public Graph(int n) {
+                this.n = n;
+                this.adj = new HashMap<>();
+                this.inDegree = new int[this.n];
+                for (int i = 0; i < n; i++) {
+                    this.adj.put(i, new ArrayList<>());
+                }
+            }
+
+            void addDirectedEdge(int u, int v) {
+                this.adj.get(u).add(v);
+                this.inDegree[v]++;
+            }
+
+
+            int[] order() {
+                List<Integer> result = new ArrayList<>();
+                boolean[] visited = new boolean[this.n];
+                Queue<Integer> q = new LinkedList<>();
+                for (int u = 0; u < n; u++) {
+                    if (inDegree[u] == 0) {
+                        q.add(u);
+                        visited[u] = true;
+                    }
+                }
+                while (!q.isEmpty()) {
+                    int u = q.poll();
+                    result.add(u);
+                    for (int v : this.adj.get(u)) {
+                        if (inDegree[v] <= 0) {
+                            throw new RuntimeException("Invalid in degree" + v);
+                        }
+                        inDegree[v]--;
+                        if (!visited[v] && inDegree[v] == 0) {
+                            q.add(v);
+                            visited[v] = true;
+                        }
+                    }
+                }
+                if (result.size() == this.n) {
+                    int[] resultArr = new int[n];
+                    for (int i = 0; i < n; i++) {
+                        resultArr[i] = result.get(i);
+                    }
+                    return resultArr;
+                } else {
+                    return new int[0];
+                }
+            }
+
+        }
+
+        public int[] findOrder(int numCourses, int[][] prerequisites) {
+
+            Graph graph = new Graph(numCourses);
+            for (int[] preq : prerequisites) {
+                graph.addDirectedEdge(preq[1], preq[0]);
+            }
+            return graph.order();
+        }
+    }
 }
