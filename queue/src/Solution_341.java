@@ -1,7 +1,4 @@
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 
 public class Solution_341 {
@@ -76,5 +73,94 @@ public class Solution_341 {
                 return !queue.isEmpty() || iterator.hasNext();
             }
         }
+    }
+
+    class Solution3 {
+
+        public interface NestedInteger {
+            // @return true if this NestedInteger holds a single integer, rather than a nested list.
+            public boolean isInteger();
+
+            // @return the single integer that this NestedInteger holds, if it holds a single integer
+            // Return null if this NestedInteger holds a nested list
+            public Integer getInteger();
+
+            // @return the nested list that this NestedInteger holds, if it holds a nested list
+            // Return empty list if this NestedInteger holds a single integer
+            public List<NestedInteger> getList();
+        }
+
+        public class NestedIterator implements Iterator<Integer> {
+
+            Stack<List<NestedInteger>> listsStack;
+            Stack<Integer> listIteratorStack;
+
+            public NestedIterator(List<NestedInteger> nestedList) {
+                this.listsStack = new Stack<>();
+                this.listIteratorStack = new Stack<>();
+                if (!nestedList.isEmpty()) {
+                    listsStack.add(nestedList);
+                    listIteratorStack.add(0);
+                }
+            }
+
+            private boolean _hasNext() {
+                if (listsStack.isEmpty()) {
+                    return false;
+                }
+                List<NestedInteger> nestedList = listsStack.peek();
+                Integer it = listIteratorStack.peek();
+                NestedInteger nestedInteger = nestedList.get(it);
+                if (nestedInteger.isInteger()) {
+                    return true;
+                } else {
+                    it++;
+                    listIteratorStack.pop();
+                    if (it == nestedList.size()) {
+                        listsStack.pop();
+                    } else {
+                        listIteratorStack.push(it);
+                    }
+                    List<NestedInteger> nestedSubList = nestedInteger.getList();
+                    if (!nestedSubList.isEmpty()) {
+                        listsStack.add(nestedSubList);
+                        listIteratorStack.add(0);
+                    }
+                    return _hasNext();
+                }
+            }
+
+            @Override
+            public Integer next() {
+                if (!hasNext()) {
+                    return null;
+                }
+                List<NestedInteger> nestedList = listsStack.peek();
+                Integer it = listIteratorStack.pop();
+                NestedInteger nestedInteger = nestedList.get(it);
+                it++;
+                if (it == nestedList.size()) {
+                    listsStack.pop();
+                } else {
+                    listIteratorStack.push(it);
+                }
+                if (nestedInteger.isInteger()) {
+                    return nestedInteger.getInteger();
+                } else {
+                    throw new RuntimeException("Invalid state");
+                }
+            }
+
+            @Override
+            public boolean hasNext() {
+                return _hasNext();
+            }
+        }
+
+/**
+ * Your NestedIterator object will be instantiated and called as such:
+ * NestedIterator i = new NestedIterator(nestedList);
+ * while (i.hasNext()) v[f()] = i.next();
+ */
     }
 }
