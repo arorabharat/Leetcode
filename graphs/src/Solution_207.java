@@ -100,7 +100,7 @@ class Solution_207 {
     }
 
     class Solution4 {
-        
+
         List<List<Integer>> g;
         boolean[] stack;
         boolean[] v;
@@ -230,6 +230,73 @@ class Solution_207 {
                     }
                 }
                 inStack[u] = false;
+                return false;
+            }
+
+            boolean isCycle() {
+                boolean[] inStack = new boolean[this.n];
+                boolean[] visited = new boolean[this.n];
+                for (int u = 0; u < this.n; u++) {
+                    if (dfs(u, inStack, visited)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+        }
+
+        public boolean canFinish(int numCourses, int[][] prerequisites) {
+            Graph graph = new Graph(numCourses);
+            for (int[] preq : prerequisites) {
+                graph.addDirectedEdge(preq[1], preq[0]);
+            }
+            return !graph.isCycle();
+        }
+    }
+
+    // TODO unalbe to implement iterative DFS
+    class Solution5 {
+
+        class Graph {
+
+            int n;
+            Map<Integer, List<Integer>> adj;
+
+            public Graph(int n) {
+                this.n = n;
+                this.adj = new HashMap<>();
+                for (int i = 0; i < n; i++) {
+                    this.adj.put(i, new ArrayList<>());
+                }
+            }
+
+            void addDirectedEdge(int u, int v) {
+                this.adj.get(u).add(v);
+            }
+
+            boolean dfs(int s, boolean[] inStack, boolean[] visited) {
+                Stack<Integer> stack = new Stack<>();
+                stack.add(s);
+                inStack[s] = true;
+                visited[s] = true;
+                while (!stack.isEmpty()) {
+                    int u = stack.peek();
+                    int count = 0;
+                    for (int v : this.adj.get(u)) {
+                        if (!visited[v]) {
+                            stack.add(v);
+                            visited[v] = true;
+                            count++;
+                        } else if(inStack[v]) {
+                            return true;
+                        }
+                    }
+                    if(count == 0) {
+                        stack.pop();
+                        inStack[s] = false;
+                    }
+                }
                 return false;
             }
 
