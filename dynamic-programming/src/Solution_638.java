@@ -257,6 +257,8 @@ public class Solution_638 {
 
     class Solution4 {
 
+        private Map<Integer, Integer> dp;
+
         private List<Integer> applyOffer(List<Integer> needs, List<Integer> offer) {
             List<Integer> newNeeds = new ArrayList<>();
             for (int i = 0; i < needs.size(); i++) {
@@ -274,11 +276,19 @@ public class Solution_638 {
             return true;
         }
 
+        // O(N*(2)^S)
+        // this does not work because we do not need s to start with, we need to start from zero everytime
         private int _shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs, int s) {
             // base case
             if (isZeroQuantity(needs)) {
                 return 0;
             }
+            // optimisation
+            int hash = getHash(needs);
+            if (dp.containsKey(hash)) {
+                return dp.get(hash);
+            }
+
             int minCost = withoutOfferCost(needs, price);
             for (int i = s; i < special.size(); i++) {
                 List<Integer> offer = special.get(i);
@@ -290,9 +300,11 @@ public class Solution_638 {
                     minCost = Math.min(minCost, takeOffer);
                 }
             }
+            dp.put(hash, minCost);
             return minCost;
         }
 
+        // O(N)
         private boolean isZeroQuantity(List<Integer> itemQuantity) {
             for (Integer q : itemQuantity) {
                 if (q > 0) {
@@ -302,11 +314,22 @@ public class Solution_638 {
             return true;
         }
 
+        private int getHash(List<Integer> needs) {
+            int hash = 0;
+            for (int i = 0; i < needs.size(); i++) {
+                int v = needs.get(i);
+                hash = hash | v << (4 * i);
+            }
+            return hash;
+        }
+
+        // O(N)
         private boolean isOfferCostEffective(List<Integer> offer, List<Integer> prices) {
             int cost = withoutOfferCost(offer, prices);
             return cost >= offer.getLast();
         }
 
+        // O(N)
         private int withoutOfferCost(List<Integer> itemQuantity, List<Integer> prices) {
             int cost = 0;
             for (int i = 0; i < prices.size(); i++) {
@@ -317,12 +340,13 @@ public class Solution_638 {
 
         public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
             List<List<Integer>> effectiveOffer = new ArrayList<>();
+            // O(S*N)
+            // O(S)
             for (List<Integer> offer : special) {
                 if (isOfferCostEffective(offer, price)) {
                     effectiveOffer.add(offer);
                 }
             }
-            System.out.println(effectiveOffer.toString());
             return _shoppingOffers(price, effectiveOffer, needs, 0);
         }
     }
