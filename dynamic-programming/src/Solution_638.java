@@ -254,4 +254,76 @@ public class Solution_638 {
             return mask;
         }
     }
+
+    class Solution4 {
+
+        private List<Integer> applyOffer(List<Integer> needs, List<Integer> offer) {
+            List<Integer> newNeeds = new ArrayList<>();
+            for (int i = 0; i < needs.size(); i++) {
+                newNeeds.add(needs.get(i) - offer.get(i));
+            }
+            return newNeeds;
+        }
+
+        private boolean canApplyOffer(List<Integer> needs, List<Integer> offer) {
+            for (int i = 0; i < needs.size(); i++) {
+                if (needs.get(i) - offer.get(i) < 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private int _shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs, int s) {
+            // base case
+            if (isZeroQuantity(needs)) {
+                return 0;
+            }
+            int minCost = withoutOfferCost(needs, price);
+            for (int i = s; i < special.size(); i++) {
+                List<Integer> offer = special.get(i);
+                int skipOffer = _shoppingOffers(price, special, needs, s + 1);
+                minCost = Math.min(minCost, skipOffer);
+                if (canApplyOffer(needs, offer)) {
+                    List<Integer> newNeeds = applyOffer(needs, offer);
+                    int takeOffer = _shoppingOffers(price, special, newNeeds, s) + offer.getLast();
+                    minCost = Math.min(minCost, takeOffer);
+                }
+            }
+            return minCost;
+        }
+
+        private boolean isZeroQuantity(List<Integer> itemQuantity) {
+            for (Integer q : itemQuantity) {
+                if (q > 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private boolean isOfferCostEffective(List<Integer> offer, List<Integer> prices) {
+            int cost = withoutOfferCost(offer, prices);
+            return cost >= offer.getLast();
+        }
+
+        private int withoutOfferCost(List<Integer> itemQuantity, List<Integer> prices) {
+            int cost = 0;
+            for (int i = 0; i < prices.size(); i++) {
+                cost = cost + itemQuantity.get(i) * prices.get(i);
+            }
+            return cost;
+        }
+
+        public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
+            List<List<Integer>> effectiveOffer = new ArrayList<>();
+            for (List<Integer> offer : special) {
+                if (isOfferCostEffective(offer, price)) {
+                    effectiveOffer.add(offer);
+                }
+            }
+            System.out.println(effectiveOffer.toString());
+            return _shoppingOffers(price, effectiveOffer, needs, 0);
+        }
+    }
 }
