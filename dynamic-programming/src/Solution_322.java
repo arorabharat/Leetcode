@@ -141,4 +141,35 @@ class Solution_322 {
             return (dp[amount] == Integer.MAX_VALUE) ? -1 : dp[amount];
         }
     }
+
+    class Solution {
+        public int coinChange(int[] coins, int amount) {
+            int C = coins.length;
+            int[][] dp = new int[C + 1][amount + 1];
+            for (int i = 0; i <= C; i++) {
+                for (int j = 0; j <= amount; j++) {
+                    dp[i][j] = Integer.MAX_VALUE;
+                }
+            }
+            for (int i = 0; i <= C; i++) {
+                dp[i][0] = 0;
+            }
+            for (int i = 0; i < C; i++) {
+                for (int j = 1; j <= amount; j++) {
+                    int rem = j - coins[i];
+                    dp[i + 1][j] = dp[i][j];
+                    if (rem >= 0 && dp[i + 1][rem] != Integer.MAX_VALUE) {
+                        dp[i + 1][j] = Math.min(dp[i + 1][j], dp[i + 1][rem] + 1);
+                    }
+                }
+                //System.out.println();
+            }
+
+            if (dp[C][amount] == Integer.MAX_VALUE) {
+                return -1;
+            } else {
+                return dp[C][amount];
+            }
+        }
+    }
 }
