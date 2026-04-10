@@ -199,11 +199,42 @@ class Solution_1584 {
 
     class Solution {
 
+        class Node {
+            int to;
+            int dis;
 
+            public Node(int to, int dis) {
+                this.to = to;
+                this.dis = dis;
+            }
+        }
+
+        private int getManhattanDistance(int[] p1, int[] p2) {
+            return Math.abs(p1[0] - p2[0]) + Math.abs(p1[1] - p2[1]);
+        }
 
         public int minCostConnectPoints(int[][] points) {
-
-            return 0;
+            int n = points.length;
+            if (n == 0) {
+                return 0;
+            }
+            boolean[] inMst = new boolean[n];
+            PriorityQueue<Node> q = new PriorityQueue<>(Comparator.comparingInt(node -> node.dis));
+            q.add(new Node(0, 0));
+            inMst[0] = true;
+            int totalDistance = 0;
+            while (!q.isEmpty()) {
+                Node terminal = q.poll();
+                if(inMst[terminal.to]) {
+                    continue;
+                }
+                for (int p = 0; p < n; p++) {
+                    if (p != terminal.to && !inMst[p]) {
+                        q.add(new Node(p, getManhattanDistance(points[p], points[terminal.to])));
+                    }
+                }
+            }
+            return totalDistance;
         }
     }
 }
