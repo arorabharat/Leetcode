@@ -196,4 +196,14 @@ class Solution_1584 {
         }
 
     }
+
+    class Solution {
+
+
+
+        public int minCostConnectPoints(int[][] points) {
+
+            return 0;
+        }
+    }
 }
