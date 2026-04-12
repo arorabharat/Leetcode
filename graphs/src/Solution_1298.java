@@ -45,7 +45,7 @@ public class Solution_1298 {
                     }
                     if (!discovered[d] && status[d] == 1) {
                         q.add(new Edge(candies[d], d, keys[d], containedBoxes[d]));
-                        visited[e.i] = true;
+                        visited[d] = true;
                     }
                     discovered[d] = true;
                 }
@@ -61,6 +61,68 @@ public class Solution_1298 {
                 }
             }
             return totalCandies;
+        }
+    }
+
+
+    // better and optimised
+    class Solution2 {
+
+        public int maxCandies(int[] status,
+                              int[] candies,
+                              int[][] keys,
+                              int[][] containedBoxes,
+                              int[] initialBoxes) {
+
+            int n = status.length;
+
+            boolean[] discovered = new boolean[n];
+            boolean[] opened = new boolean[n];
+
+            Queue<Integer> q = new LinkedList<>();
+
+            // initial boxes
+            for (int b : initialBoxes) {
+                discovered[b] = true;
+                if (status[b] == 1) {
+                    q.add(b);
+                    opened[b] = true;
+                }
+            }
+
+            int total = 0;
+
+            while (!q.isEmpty()) {
+
+                int box = q.poll();
+                total += candies[box];
+
+                // discover new boxes
+                for (int nb : containedBoxes[box]) {
+
+                    if (!discovered[nb]) {
+                        discovered[nb] = true;
+                    }
+
+                    if (status[nb] == 1 && !opened[nb]) {
+                        q.add(nb);
+                        opened[nb] = true;
+                    }
+                }
+
+                // get new keys
+                for (int key : keys[box]) {
+
+                    status[key] = 1;
+
+                    if (discovered[key] && !opened[key]) {
+                        q.add(key);
+                        opened[key] = true;
+                    }
+                }
+            }
+
+            return total;
         }
     }
 }
