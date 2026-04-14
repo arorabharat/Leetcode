@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 class Solution_329 {
     public int longestIncreasingPath(int[][] matrix) {
         Graph graph = new Graph(matrix);
@@ -54,5 +57,65 @@ class Solution_329 {
             }
             return 1 + maxChildPath;
         }
+    }
+
+    class Solution2 {
+
+        int[] dr = {-1, 1, 0, 0};
+        int[] dc = {0, 0, -1, 1};
+
+        boolean isValid(int r, int c, int R, int C) {
+            return 0 <= r && r < R && 0 <= c && c < C;
+        }
+
+        public int longestIncreasingPath(int[][] matrix) {
+            int R = matrix.length;
+            if (R == 0) {
+                return 0;
+            }
+            int C = matrix[0].length;
+            int[][] inDegree = new int[R][C];
+            for (int r = 0; r < R; r++) {
+                for (int c = 0; c < C; c++) {
+                    for (int d = 0; d < dr.length; d++) {
+                        int nr = r + dr[d];
+                        int nc = c + dc[d];
+                        if (isValid(nr, nc, R, C) && matrix[nr][nc] < matrix[r][c]) {
+                            inDegree[nr][nc]++;
+                        }
+                    }
+                }
+            }
+            Queue<int[]> q = new LinkedList<>();
+            int[][] maxDis = new int[R][C];
+            for (int r = 0; r < R; r++) {
+                for (int c = 0; c < C; c++) {
+                    if (inDegree[r][c] == 0) {
+                        q.add(new int[]{r, c, 0});
+                    }
+                }
+            }
+            int globalMaxDistance = 0;
+            while (!q.isEmpty()) {
+                int[] node = q.remove();
+                int r = node[0];
+                int c = node[1];
+                int dis = node[2];
+                for (int d = 0; d < dr.length; d++) {
+                    int nr = r + dr[d];
+                    int nc = c + dc[d];
+                    if (isValid(nr, nc, R, C) && matrix[nr][nc] > matrix[r][c]) {
+                        inDegree[nr][nc]--;
+                        maxDis[nr][nc] = Math.max(maxDis[nr][nc], dis + 1);
+                        globalMaxDistance = Math.max(globalMaxDistance, maxDis[nr][nc]);
+                        if (inDegree[nr][nc] == 0) {
+                            q.add(new int[]{nr, nc, dis + 1});
+                        }
+                    }
+                }
+            }
+            return globalMaxDistance;
+        }
+
     }
 }
