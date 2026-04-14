@@ -108,4 +108,112 @@ public class Solution_1778 {
             return -1;
         }
     }
+
+    class Solution3 {
+
+        class Pair {
+
+            int r;
+            int c;
+
+            public Pair(int r, int c) {
+                this.r = r;
+                this.c = c;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (!(o instanceof Pair pair))
+                    return false;
+                return r == pair.r && c == pair.c;
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(r, c);
+            }
+        }
+
+        class Graph {
+
+            private final GridMaster master;
+
+            private final Map<Pair, List<Pair>> adj;
+            private Pair target;
+            private final Pair start;
+
+            private Set<Pair> visited;
+            char[] dir = {'U', 'D', 'L', 'R'};
+            int[] dr = {-1, 1, 0, 0};
+            int[] dc = {0, 0, -1, 1};
+            char[] revDir = {'D', 'U', 'R', 'L'};
+
+            public Graph(GridMaster master) {
+                this.adj = new HashMap<>();
+                this.master = master;
+                this.visited = new HashSet<>();
+                this.start = new Pair(0, 0);
+            }
+
+            int minDistance() {
+                this.visited = new HashSet<>();
+                dfs(start);
+                this.visited = new HashSet<>();
+                if (target == null) {
+                    return -1;
+                }
+                Queue<Pair> q = new LinkedList<>();
+                q.add(start);
+                this.visited.add(start);
+                int distance = 0;
+                while (!q.isEmpty()) {
+                    int qs = q.size();
+                    for (int i = 0; i < qs; i++) {
+                        Pair p = q.remove();
+                        for (Pair nc : this.adj.getOrDefault(p, new ArrayList<>())) {
+                            if (!visited.contains(nc)) {
+                                if (nc.equals(target)) {
+                                    return distance + 1;
+                                } else {
+                                    q.add(nc);
+                                    this.visited.add(nc);
+                                }
+                            }
+                        }
+                    }
+                    distance++;
+                }
+                return distance;
+            }
+
+            void dfs(Pair p) {
+                this.visited.add(p);
+                if (master.isTarget()) {
+                    this.target = p;
+                }
+                for (int i = 0; i < dir.length; i++) {
+                    int nr = p.r + dr[i];
+                    int nc = p.c + dc[i];
+                    Pair np = new Pair(nr, nc);
+                    if (master.canMove(dir[i]) && !this.visited.contains(np)) {
+                        this.adj.put(p, this.adj.getOrDefault(p, new ArrayList<>()));
+                        this.adj.put(np, this.adj.getOrDefault(np, new ArrayList<>()));
+                        this.adj.get(p).add(np);
+                        this.adj.get(np).add(p);
+                        master.move(dir[i]);
+                        dfs(np);
+                        master.move(revDir[i]);
+                    }
+                }
+            }
+        }
+
+        public int findShortestPath(GridMaster master) {
+            if (master.isTarget()) {
+                return 0;
+            }
+            Graph graph = new Graph(master);
+            return graph.minDistance();
+        }
+    }
 }
