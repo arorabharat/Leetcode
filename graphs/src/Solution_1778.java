@@ -216,4 +216,95 @@ public class Solution_1778 {
             return graph.minDistance();
         }
     }
+
+
+    class Solution4 {
+
+        class Cell {
+            int r;
+            int c;
+
+            Cell(int r, int c) {
+                this.r = r;
+                this.c = c;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (!(o instanceof Cell)) {
+                    return false;
+                }
+                Cell c2 = (Cell) o;
+                return c2.r == this.r && c2.r == this.c;
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(this.r, this.c);
+            }
+
+        }
+
+        private final Set<Cell> traversableCells = new HashSet<>();
+        private Cell target;
+
+        char[] dir = {'U', 'D', 'L', 'R'};
+        char[] revDir = {'D', 'U', 'R', 'L'};
+        int[] dr = {-1, 1, 0, 0};
+        int[] dc = {0, 0, -1, 1};
+
+        int bfs(Cell startCell) {
+            Queue<Cell> q = new LinkedList<>();
+            q.add(startCell);
+            traversableCells.remove(startCell);
+            int distance = 0;
+            while (!q.isEmpty()) {
+                int qSize = q.size();
+                for (int i = 0; i < qSize; i++) {
+                    Cell currCell = q.remove();
+                    for (int j = 0; j < dir.length; j++) {
+                        int nr = currCell.r + dr[i];
+                        int nc = currCell.c + dc[i];
+                        Cell nextCell = new Cell(nr, nc);
+                        if (nextCell.equals(target)) {
+                            return distance + 1;
+                        }
+                        if (traversableCells.contains(nextCell)) {
+                            traversableCells.remove(nextCell);
+                            q.add(nextCell);
+                        }
+                    }
+
+                }
+                distance++;
+            }
+            return -1;
+        }
+
+        void dfs(GridMaster master, Cell currCell) {
+            traversableCells.add(currCell);
+            if (master.isTarget()) {
+                this.target = currCell;
+            }
+            for (int i = 0; i < dir.length; i++) {
+                int nr = currCell.r + dr[i];
+                int nc = currCell.c + dc[i];
+                Cell nextCell = new Cell(nr, nc);
+                if (master.canMove(dir[i]) && !traversableCells.contains(nextCell)) {
+                    master.move(dir[i]);
+                    dfs(master, nextCell);
+                    master.move(revDir[i]);
+                }
+            }
+        }
+
+        public int findShortestPath(GridMaster master) {
+            if(master.isTarget()) {
+                return 0;
+            }
+            Cell startCell = new Cell(0, 0);
+            dfs(master, startCell);
+            return bfs(startCell);
+        }
+    }
 }
