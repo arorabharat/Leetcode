@@ -1,0 +1,188 @@
+# Bellman–Ford Variations (Common Use-Cases)
+
+Bellman–Ford is useful whenever **path cost depends on number of edges**, **negative weights exist**, or **constraints apply to the path**.
+
+---
+
+# 1. Standard Single Source Shortest Path
+
+Compute shortest distance from one source to all nodes when negative edges exist.
+
+**Use case**
+
+* financial gain/loss modeling
+* penalty edges
+* graph with rebates or credits
+
+Complexity: **O(VE)**
+
+---
+
+# 2. Detect Negative Weight Cycle
+
+After V−1 relaxations, run one more iteration.
+If distance improves → negative cycle exists.
+
+**Use case**
+
+* arbitrage detection
+* inconsistent constraints
+* infinite profit loops
+
+---
+
+# 3. Shortest Path with At Most K Edges
+
+Limit number of edges in path.
+
+Example:
+
+* flight routes with max stop limit
+* network hop limit
+
+Complexity: **O(K × E)**
+
+---
+
+# 4. Shortest Path with Exactly K Edges
+
+Track distance using exactly K relaxations.
+
+Example:
+
+* path with exact number of transitions
+* workflow steps constraint
+
+---
+
+# 5. Multi-Source Shortest Path
+
+Initialize multiple sources with distance 0.
+
+```text
+dist[source1] = 0
+dist[source2] = 0
+dist[source3] = 0
+```
+
+**Use case**
+
+* nearest facility
+* multi origin routing
+
+---
+
+# 6. Longest Path in DAG (by weight inversion)
+
+Convert longest path problem:
+
+```text
+maximize sum(weights)
+```
+
+to shortest path:
+
+```text
+minimize sum(-weights)
+```
+
+Then run Bellman Ford.
+
+**Use case**
+
+* maximize profit
+* longest dependency chain
+
+---
+
+# 7. Currency Arbitrage Detection
+
+Convert exchange rates:
+
+```text
+weight(u,v) = -log(rate)
+```
+
+Negative cycle ⇒ arbitrage opportunity.
+
+Common interview problem.
+
+---
+
+# 8. Constraint Satisfaction Problems
+
+Solve inequalities of form:
+
+```text
+x_v - x_u ≤ w(u,v)
+```
+
+Modeled as graph edges and solved via Bellman Ford.
+
+Used in:
+
+* scheduling constraints
+* feasibility checking
+* difference constraints systems
+
+---
+
+# 9. Graph with Limited Stops AND Negative Edges
+
+Dijkstra fails when:
+
+* stop constraint exists
+* negative edges exist
+
+Bellman Ford variation works.
+
+---
+
+# 10. Path Counting with Cost Constraint
+
+Combine DP + Bellman Ford.
+
+Track:
+
+```text
+minimum cost with exactly K edges
+minimum cost within budget
+```
+
+---
+
+# Summary Table
+
+| Variation                        | Key Idea                         |
+| -------------------------------- | -------------------------------- |
+| standard shortest path           | relax edges V−1 times            |
+| detect negative cycle            | extra relaxation                 |
+| at most K edges                  | K relaxations                    |
+| exactly K edges                  | DP[K][node]                      |
+| multi source                     | initialize multiple nodes with 0 |
+| arbitrage detection              | log transform                    |
+| constraint solving               | inequality graph                 |
+| longest path (no positive cycle) | invert weights                   |
+
+---
+
+# Pattern Recognition
+
+Use Bellman Ford when problem contains:
+
+| clue                   | interpretation               |
+| ---------------------- | ---------------------------- |
+| negative weights       | cannot use Dijkstra          |
+| exactly K steps        | DP relaxation                |
+| detect cycle           | extra iteration              |
+| maximize profit loop   | negative cycle detection     |
+| inequality constraints | difference constraints graph |
+| bounded hops           | limited relaxations          |
+
+---
+
+If useful, a next step can provide:
+
+* visual decision tree (which algo to choose)
+* comparison: Dijkstra vs Bellman Ford vs Floyd Warshall
+* practice problem list categorized by pattern
