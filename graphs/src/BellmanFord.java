@@ -1,16 +1,18 @@
 import java.util.*;
 
-class Edge {
-    int src, dest, weight;
-
-    Edge(int s, int d, int w) {
-        this.src = s;
-        this.dest = d;
-        this.weight = w;
-    }
-}
 
 public class BellmanFord {
+
+    static class Edge {
+        int src, dest, weight;
+
+        Edge(int s, int d, int w) {
+            this.src = s;
+            this.dest = d;
+            this.weight = w;
+        }
+    }
+
 
     public static int[] bellmanFord(int V, List<Edge> edges, int source) {
         int[] dist = new int[V];
