@@ -60,4 +60,56 @@ class Solution_787 {
             return dis[dst] == Integer.MAX_VALUE ? -1 : dis[dst];
         }
     }
+
+    class Solution {
+
+        public int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {
+            int[][][] dp = new int[K+1][n][n];
+            for (int u = 0; u < n; u++) {
+                for (int v = 0; v < n; v++) {
+                    for (int k = 0; k <= K; k++) {
+                        if (u == v) {
+                            dp[k][u][v] = 0;
+                        } else {
+                            dp[k][u][v] = Integer.MAX_VALUE;
+                        }
+                    }
+                }
+            }
+
+            for (int[] f : flights) {
+                int u = f[0];
+                int v = f[1];
+                int p = f[2];
+                dp[0][u][v] = p;
+            }
+
+            for (int k = 1; k <= K; k++) {
+                for (int u = 0; u < n; u++) {
+                    for (int v = 0; v < n; v++) {
+                        if (u == v) {
+                            continue;
+                        }
+                        for (int w = 0; w < n; w++) {
+                            if (u == w || v == w) {
+                                continue;
+                            }
+                            if (dp[k - 1][u][w] != Integer.MAX_VALUE
+                                    && dp[0][w][v] != Integer.MAX_VALUE
+                                    && dp[k - 1][u][w] + dp[0][w][v] < dp[k][u][v]) {
+                                dp[k][u][v] = dp[k - 1][u][w] + dp[0][w][v];
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            int minCost = Integer.MAX_VALUE;
+            for (int k = 0; k <= K; k++) {
+                minCost = Math.min(minCost, dp[k][src][dst]);
+            }
+            return minCost == Integer.MAX_VALUE ? -1 : minCost;
+        }
+    }
 }
