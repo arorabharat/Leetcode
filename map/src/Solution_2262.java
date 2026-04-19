@@ -1,7 +1,4 @@
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Solution_2262 {
 
@@ -79,5 +76,53 @@ public class Solution_2262 {
         System.out.println(cache2.get(120, 1));
         System.out.println(cache2.get(200, 1));
         System.out.println(cache2.count(250));
+    }
+
+    class Cache2 {
+
+        Map<Integer, Entry> keyMap = new HashMap<>();
+        TreeMap<Integer, Set<Integer>> expiryMap = new TreeMap<>();
+
+        public boolean set(int t, int k, int v, int e) {
+
+            boolean exists = get(t,k) != -1;
+
+            if (keyMap.containsKey(k)) {
+                int oldExpiry = keyMap.get(k).expiryTime;
+                Set<Integer> set = expiryMap.get(oldExpiry);
+                set.remove(k);
+                if (set.isEmpty()) expiryMap.remove(oldExpiry);
+            }
+
+            int expiry = t + e;
+
+            keyMap.put(k, new Entry(expiry, v));
+
+            expiryMap.computeIfAbsent(expiry,x->new HashSet<>()).add(k);
+
+            return exists;
+        }
+
+        public int get(int t, int k) {
+
+            Entry entry = keyMap.get(k);
+
+            if (entry == null || entry.expiryTime < t) {
+                return -1;
+            }
+
+            return entry.value;
+        }
+
+        public int count(int t) {
+
+            int total = 0;
+
+            for (Set<Integer> set : expiryMap.tailMap(t, true).values()) {
+                total += set.size();
+            }
+
+            return total;
+        }
     }
 }
