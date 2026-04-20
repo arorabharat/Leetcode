@@ -215,4 +215,114 @@ public class Solution_336 {
             return result;
         }
     }
+
+    class Solution4 {
+
+        static class Node {
+            Node[] children = new Node[26];
+            int wordIndex = -1;
+        }
+
+        void insert(Node trie, String word, int index) {
+            Node tr = trie;
+            for (char c : word.toCharArray()) {
+                if (tr.children[c - 'a'] == null) {
+                    tr.children[c - 'a'] = new Node();
+                }
+                tr = tr.children[c - 'a'];
+            }
+            tr.wordIndex = index;
+        }
+
+        boolean isPalindrome(List<Character> sbr) {
+            int s = 0;
+            int e = sbr.size() - 1;
+            while (s <= e) {
+                if (sbr.get(s) != sbr.get(e)) {
+                    return false;
+                }
+                s++;
+                e--;
+            }
+            return false;
+        }
+
+        void dfs(Node root, List<Character> sbr, List<Integer> results) {
+            if (root.wordIndex != -1) {
+                if (isPalindrome(sbr)) {
+                    results.add(root.wordIndex);
+                }
+            }
+            for (int i = 0; i < 26; i++) {
+                Node child = root.children[i];
+                if (child != null) {
+                    sbr.addLast((char) (i + 'a'));
+                    dfs(child, sbr, results);
+                    sbr.removeLast();
+                }
+            }
+        }
+
+        List<Integer> find(Node trie, String word) {
+            Node tr = trie;
+            List<Integer> matchingIndex = new ArrayList<>();
+            Node lastMatchedNode = tr;
+            int s = 0;
+            for (s = 0; s < word.length(); s++) {
+                char c = word.charAt(s);
+                if (tr.children[c - 'a'] == null) {
+                    break;
+                }
+                lastMatchedNode = tr;
+                tr = tr.children[c - 'a'];
+            }
+
+            if (lastMatchedNode.wordIndex != -1 && s == word.length()) {
+                matchingIndex.add(tr.wordIndex);
+            }
+
+            if(s < word.length()) {
+                List<Character> remString = new ArrayList<>();
+                while (s < word.length()) {
+                    remString.add(word.charAt(s));
+                    s++;
+                }
+                if(isPalindrome(remString)) {
+                    matchingIndex.add(tr.wordIndex);
+                }
+            }
+
+            for (Node child : tr.children) {
+                if (child != null) {
+                    dfs(child, new ArrayList<>(), matchingIndex);
+                }
+            }
+            return matchingIndex;
+        }
+
+        public List<List<Integer>> palindromePairs(String[] words) {
+
+            Node trie = new Node();
+
+            for (int i = 0; i < words.length; i++) {
+                String word = words[i];
+                insert(trie, word, i);
+            }
+
+            List<List<Integer>> palindromes = new ArrayList<>();
+
+            for (int j = 0; j < words.length; j++) {
+                String revWord = new StringBuilder(words[j]).reverse().toString();
+                List<Integer> matchingIndex = find(trie, revWord);
+                System.out.println(matchingIndex.toString() + " " + j + " " + revWord + " " + words[j]);
+                for (int i : matchingIndex) {
+                    if (i != j) {
+                        palindromes.add(List.of(i, j));
+                    }
+                }
+            }
+
+            return palindromes;
+        }
+    }
 }
