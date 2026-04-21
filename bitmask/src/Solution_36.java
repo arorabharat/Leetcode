@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Solution_36 {
 
     class Solution {
@@ -42,6 +44,45 @@ public class Solution_36 {
                 }
             }
             return true;
+        }
+    }
+
+    class Solution2 {
+
+        Map<Integer, Set<String>> dp;
+
+        Set<String> _para(int n) {
+            if (dp.containsKey(n)) {
+                return dp.get(n);
+            }
+            Set<String> results = new HashSet<>();
+            if (n == 1) {
+                results.add("()");
+                dp.put(n, results);
+                return results;
+            }
+            for (int i = 1; i < n; i++) {
+                Set<String> part1 = _para(i);
+                Set<String> part2 = _para(n - i);
+                for (String p1 : part1) {
+                    for (String p2 : part2) {
+                        results.add(p1 + p2);
+                    }
+                }
+            }
+            if (n > 1) {
+                Set<String> part3 = _para(n - 1);
+                for (String p3 : part3) {
+                    results.add("(" + p3 + ")");
+                }
+            }
+            dp.put(n, results);
+            return results;
+        }
+
+        public List<String> generateParenthesis(int n) {
+            dp = new HashMap<>();
+            return new ArrayList<>(_para(n));
         }
     }
 }
