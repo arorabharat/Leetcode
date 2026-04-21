@@ -36,4 +36,28 @@ public class Solution_251 {
             return false;
         }
     }
+
+    class Vector2D2 {
+
+        int[][] vec;
+        int row = 0;
+        int col = 0;
+
+        public Vector2D2(int[][] vec) {
+            this.vec = vec;
+        }
+
+        public int next() {
+            hasNext();
+            return vec[row][col++];
+        }
+
+        public boolean hasNext() {
+            while (row < vec.length && col >= vec[row].length) {
+                row++;
+                col = 0;
+            }
+            return row < vec.length;
+        }
+    }
 }
