@@ -1,0 +1,1 @@
+One can not have control over how user read , you can consider it as hot key problem.
