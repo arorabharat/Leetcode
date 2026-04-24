@@ -231,3 +231,73 @@ Does this give you enough confidence to handle the failure modes, or do you want
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+FENCING TOKEN IS LIKE LAND SALE AGREEMENT, SOMEONE AGREED TO BUY THEN THEY DISAPPEARED WITHOUT COMPLETING TRANSACTION AND THEY GUY SOLD TO SOMEONE ELSE.
+BUT THE FIRST CAME BACK AND TOLD , I HAVE VALID SALE AGREEMENT, I WILL BUY.
+
+
+The **Fencing Token** is a strategy to solve a specific, dangerous problem: **The "Zombie" Client.**
+
+In a distributed system, a client might "die" (due to a long Garbage Collection pause, network lag, or a crash) and then "come back to life" after its lock has already expired and been given to someone else. Without a fencing token, this "zombie" client will finish its work and overwrite the data of the new, valid lock holder.
+
+---
+
+## The Problem: The "Zombie" Overwrite
+1.  **User A** acquires a reservation for the ticket with a 60-second TTL.
+2.  **User A**'s process hits a massive "Stop-the-World" GC pause for 61 seconds.
+3.  **Redis** sees the 60 seconds are up and deletes the lock.
+4.  **User B** acquires the reservation and successfully writes to the DB.
+5.  **User A** "wakes up" from the GC pause. It still thinks it has the lock and proceeds to write its data to the DB, overwriting **User B**.
+
+
+
+---
+
+## The Solution: A Monotonic Token
+A fencing token is a number that **only goes up** ($1, 2, 3...$). Every time Redis (or a coordinator like Zookeeper) hands out a lock, it also hands out a new, higher token.
+
+### How it works step-by-step:
+1.  **User A** asks for the lock. Redis grants the lock and says: "Your Token is **34**."
+2.  **User A** goes into a long pause. Lock expires.
+3.  **User B** asks for the lock. Redis grants it and says: "Your Token is **35**."
+4.  **User B** writes to the DB. The DB records that the "Last processed token for Ticket #1" is **35**.
+5.  **User A** wakes up and tries to write to the DB using Token **34**.
+6.  **The DB Check:** The database sees $34 < 35$. It rejects User A's request because it is "stale."
+
+---
+
+## Implementing it in SQL
+To use fencing tokens, your database needs to be "aware" of the token. You can't just do a blind `UPDATE`. You use **Optimistic Locking** logic.
+
+In your `tickets` table, you might have a column called `last_fencing_token`.
+
+```sql
+-- When User B (Token 35) writes:
+UPDATE tickets 
+SET status = 'sold', 
+    user_id = 'User_B', 
+    last_fencing_token = 35
+WHERE ticket_id = 1 
+  AND (last_fencing_token < 35 OR last_fencing_token IS NULL);
+-- Rows affected: 1 (Success!)
+
+-- When User A (Token 34) wakes up and tries to write:
+UPDATE tickets 
+SET status = 'sold', 
+    user_id = 'User_A', 
+    last_fencing_token = 34
+WHERE ticket_id = 1 
+  AND last_fencing_token < 34;
+-- Rows affected: 0 (Failure! User A realizes they are a "zombie")
+```
+
+---
+
+## Summary
+* **The Lock (Redis):** Provides mutual exclusion (only one person *should* be working).
+* **The Token (Fencing):** Provides a "safety check" at the resource level (ensures that even if two people *think* they are working, only the most recent one can commit).
+
+In the "1 ticket vs 1,000 users" race, the fencing token is your final line of defense. It ensures that even if your Redis timing is slightly off or your app servers are lagging, **the database remains consistent.**
+
+Does the distinction between "holding the lock" and "validating the token" make sense now?
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
