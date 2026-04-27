@@ -40,3 +40,42 @@ Just add the exponents of DAU and Actions, then subtract 4. Done.
 **Rule:** Peak TPS exponent = DAU exponent + Actions exponent − 4
 
 Example: 1M DAU (6) × 1,000 actions (3) → 6 + 3 − 4 = **5** → 10⁵ TPS
+
+----------------------------------------------------------
+**Write throughput table (just the exponents, in bytes/sec):**
+
+**Rule:** Write throughput exponent = DAU exponent + Actions exponent + Bytes/request exponent − 4
+
+(Same peak factor of 10, divided by 10⁵ seconds/day)
+
+**Bytes per request reference:**
+| Type | Bytes | Exponent |
+|---|---|---|
+| Tiny (event ping, like) | ~100 B | 2 |
+| Small (tweet, chat msg) | ~1 KB | 3 |
+| Medium (post with metadata) | ~10 KB | 4 |
+| Large (image upload) | ~100 KB – 1 MB | 5–6 |
+| Very large (video chunk) | ~10 MB | 7 |
+
+**Peak write throughput exponent table** (for 1M DAU = 10⁶):
+
+| Actions \ Bytes | 2 (100B) | 3 (1KB) | 4 (10KB) | 5 (100KB) | 6 (1MB) |
+|---|---|---|---|---|---|
+| 1 (10/day) | 5 | 6 | 7 | 8 | 9 |
+| 2 (100/day) | 6 | 7 | 8 | 9 | 10 |
+| 3 (1K/day) | 7 | 8 | 9 | 10 | 11 |
+| 4 (10K/day) | 8 | 9 | 10 | 11 | 12 |
+
+**Quick interpretation of throughput exponents:**
+
+| Exponent | Throughput | Real-world feel |
+|---|---|---|
+| 6 | 1 MB/s | Single small server |
+| 7 | 10 MB/s | Saturates 100 Mbps link |
+| 8 | 100 MB/s | Saturates 1 Gbps link |
+| 9 | 1 GB/s | Saturates 10 Gbps link |
+| 10 | 10 GB/s | Needs distributed system |
+| 11 | 100 GB/s | Hyperscaler territory |
+
+**Example:** 1M DAU (6) × 1,000 actions (3) × 1 KB writes (3) → 6 + 3 + 3 − 4 = **10⁸ bytes/sec = 100 MB/s** peak write throughput. You'd saturate a 1 Gbps NIC and need sharding or a distributed write path (Kafka, Cassandra, etc.).
+---------------------------------------------------------------------------------------------------
