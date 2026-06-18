@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.6.26)  18 JUN 2026 23:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.6.26)  18 JUN 2026 19:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/Users/bharatarora/IdeaProjects/Leetcode/resume-v1/resume.tex
-(/Users/bharatarora/IdeaProjects/Leetcode/resume-v1/resume.tex
+**/Users/bharatarora/IdeaProjects/Leetcode/resume/src/bharat-arora.tex
+(/Users/bharatarora/IdeaProjects/Leetcode/resume/src/bharat-arora.tex
 LaTeX2e <2020-10-01> patch level 4
 L3 programming layer <2021-02-18>
 (/usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
@@ -298,6 +298,7 @@ Package: array 2020/10/01 v2.5c Tabular extension package (FMi)
 \TX@cols=\count268
 \TX@ftn=\toks22
 )
+(/usr/local/texlive/2021/texmf-dist/tex/generic/pdftex/glyphtounicode.tex)
 (/usr/local/texlive/2021/texmf-dist/tex/latex/lato/lato.sty
 Package: lato 2019/06/20 Style file for Lato.
 
@@ -331,39 +332,37 @@ Package: xkeyval 2020/11/20 v2.8 package option processing (HA)
 \XKV@depth=\count269
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 )))
-(/usr/local/texlive/2021/texmf-dist/tex/latex/base/fontenc.sty
-Package: fontenc 2020/08/10 v2.0s Standard LaTeX package
-LaTeX Font Info:    Trying to load font information for T1+lato-TLF on input li
-ne 112.
+LaTeX Font Info:    Trying to load font information for OT1+lato-TLF on input l
+ine 57.
 
-(/usr/local/texlive/2021/texmf-dist/tex/latex/lato/T1lato-TLF.fd
-File: T1lato-TLF.fd 2019/06/24 Font definitions for T1/lato-TLF.
+(/usr/local/texlive/2021/texmf-dist/tex/latex/lato/OT1lato-TLF.fd
+File: OT1lato-TLF.fd 2019/06/24 Font definitions for OT1/lato-TLF.
 )
-LaTeX Font Info:    Font shape `T1/lato-TLF/m/n' will be
-(Font)              scaled to size 10.95pt on input line 112.
-)
-(/Users/bharatarora/IdeaProjects/Leetcode/resume-v1/out/resume.aux
-(/Users/bharatarora/IdeaProjects/Leetcode/resume-v1/out/custom-commands.aux))
-\openout1 = `resume.aux'.
+LaTeX Font Info:    Font shape `OT1/lato-TLF/m/n' will be
+(Font)              scaled to size 10.95pt on input line 57.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
+(/Users/bharatarora/IdeaProjects/Leetcode/resume/out/bharat-arora.aux
+(/Users/bharatarora/IdeaProjects/Leetcode/resume/out/custom-commands.aux))
+\openout1 = `bharat-arora.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
 
 (/usr/local/texlive/2021/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -379,7 +378,7 @@ LaTeX Font Info:    ... okay on input line 55.
 \makeMPintoPDFobject=\count275
 \everyMPtoPDFconversion=\toks26
 )
-Package hyperref Info: Link coloring OFF on input line 55.
+Package hyperref Info: Link coloring OFF on input line 57.
  (/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 
@@ -392,142 +391,43 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count276
 )
-LaTeX Info: Redefining \ref on input line 55.
-LaTeX Info: Redefining \pageref on input line 55.
-LaTeX Info: Redefining \nameref on input line 55.
- (/Users/bharatarora/IdeaProjects/Leetcode/resume-v1/out/resume.out)
-(/Users/bharatarora/IdeaProjects/Leetcode/resume-v1/out/resume.out)
+LaTeX Info: Redefining \ref on input line 57.
+LaTeX Info: Redefining \pageref on input line 57.
+LaTeX Info: Redefining \nameref on input line 57.
+ (/Users/bharatarora/IdeaProjects/Leetcode/resume/out/bharat-arora.out)
+(/Users/bharatarora/IdeaProjects/Leetcode/resume/out/bharat-arora.out)
 \@outlinefile=\write3
-\openout3 = `resume.out'.
+\openout3 = `bharat-arora.out'.
 
 \c@mv@tabular=\count277
 \c@mv@boldtabular=\count278
 \openout2 = `custom-commands.aux'.
 
 
-(./custom-commands.tex
-Package color Info: Redefining color Black on input line 57.
-) (./src/heading.tex
-LaTeX Font Info:    Font shape `T1/lato-TLF/b/n' will be
-(Font)              scaled to size 10.95pt on input line 3.
-LaTeX Font Info:    Font shape `T1/lato-TLF/b/n' will be
-(Font)              scaled to size 24.88pt on input line 3.
+No file custom-commands.tex.
 
+! LaTeX Error: File `src/heading.tex' not found.
 
-LaTeX Font Warning: Font shape `T1/lato-TLF/b/sc' undefined
-(Font)              using `T1/lato-TLF/b/n' instead on input line 3.
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: tex)
 
-LaTeX Font Info:    Trying to load font information for U+fontawesomefree2 on i
-nput line 4.
+Enter file name: 
+/Users/bharatarora/IdeaProjects/Leetcode/resume/src/bharat-arora.tex:64: Emerge
+ncy stop.
+<read *> 
+         
+l.64     \input{src/heading}
+                            ^^M
+*** (cannot \read from terminal in nonstop modes)
 
-(/usr/local/texlive/2021/texmf-dist/tex/latex/fontawesome5/ufontawesomefree2.fd
-)
-LaTeX Font Info:    Font shape `T1/lato-TLF/m/n' will be
-(Font)              scaled to size 10.0pt on input line 4.
-LaTeX Font Info:    Trying to load font information for U+fontawesomefree1 on i
-nput line 5.
-
-(/usr/local/texlive/2021/texmf-dist/tex/latex/fontawesome5/ufontawesomefree1.fd
-)
-LaTeX Font Info:    Trying to load font information for U+fontawesomebrands0 on
- input line 6.
-
-(/usr/local/texlive/2021/texmf-dist/tex/latex/fontawesome5/ufontawesomebrands0.
-fd)
-LaTeX Font Info:    Font shape `U/fontawesomebrands0/solid/n' in size <10> not 
-available
-(Font)              Font shape `U/fontawesomebrands0/regular/n' tried instead o
-n input line 6.
-) (./src/purpose.tex
-
-LaTeX Font Warning: Font shape `T1/lato-TLF/m/sc' undefined
-(Font)              using `T1/lato-TLF/m/n' instead on input line 2.
-
-LaTeX Font Info:    Font shape `T1/lato-TLF/m/sc' will be
-(Font)              scaled to size 12.0pt on input line 2.
-) (./src/experience.tex
-LaTeX Font Info:    Font shape `T1/lato-TLF/m/sc' will be
-(Font)              scaled to size 10.95pt on input line 2.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 5.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 5.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 5.
-LaTeX Font Info:    Trying to load font information for U+lasy on input line 5.
-
-
-(/usr/local/texlive/2021/texmf-dist/tex/latex/base/ulasy.fd
-File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
-)
-LaTeX Font Info:    Font shape `T1/lato-TLF/m/it' will be
-(Font)              scaled to size 10.95pt on input line 5.
-LaTeX Font Info:    Font shape `T1/lato-TLF/m/it' will be
-(Font)              scaled to size 10.0pt on input line 5.
-LaTeX Font Info:    Font shape `T1/lato-TLF/m/n' will be
-(Font)              scaled to size 6.0pt on input line 8.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 8.
-LaTeX Font Info:    Font shape `T1/lato-TLF/b/n' will be
-(Font)              scaled to size 10.0pt on input line 14.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 14.
-)
-(./src/education.tex) (./src/skills.tex
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 4.08003pt, for example:
-(fancyhdr)                \setlength{\footskip}{4.08003pt}.
-
-[1
-
-
-
-
-{/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}])
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 4.08003pt, for example:
-(fancyhdr)                \setlength{\footskip}{4.08003pt}.
-
-[2] (/Users/bharatarora/IdeaProjects/Leetcode/resume-v1/out/resume.aux
-(/Users/bharatarora/IdeaProjects/Leetcode/resume-v1/out/custom-commands.aux))
-
-LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
-Package rerunfilecheck Info: File `resume.out' has not changed.
-(rerunfilecheck)             Checksum: 4657202E2713581C452BFFFE8450B520;385.
- ) 
+ 
 Here is how much of TeX's memory you used:
- 13422 strings out of 478994
- 221681 string characters out of 5858184
- 530651 words of memory out of 5000000
- 30689 multiletter control sequences out of 15000+600000
- 608384 words of font info for 61 fonts, out of 8000000 for 9000
+ 13060 strings out of 478994
+ 216845 string characters out of 5858184
+ 509228 words of memory out of 5000000
+ 30389 multiletter control sequences out of 15000+600000
+ 407574 words of font info for 29 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 71i,11n,75p,436b,484s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/lato/a_cl4kdn.enc}{/usr/l
-ocal/texlive/2021/texmf-dist/fonts/enc/dvips/fontawesome5/fa5brands0.enc}{/usr/
-local/texlive/2021/texmf-dist/fonts/enc/dvips/fontawesome5/fa5free1.enc}{/usr/l
-ocal/texlive/2021/texmf-dist/fonts/enc/dvips/fontawesome5/fa5free2.enc}</usr/lo
-cal/texlive/2021/texmf-dist/fonts/type1/public/fontawesome5/FontAwesome5Brands-
-Regular.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/fontawesome5
-/FontAwesome5Free-Solid.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/typ
-oland/lato/Lato-Bold.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/typola
-nd/lato/Lato-Italic.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/typolan
-d/lato/Lato-Regular.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmmi10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmr10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmsy10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmsy6.pfb>
-
-pdfTeX warning: /usr/local/texlive/2021/bin/universal-darwin/pdflatex: no Glyph
-ToUnicode entry has been inserted yet!
-Output written on /Users/bharatarora/IdeaProjects/Leetcode/resume-v1/out/resume
-.pdf (2 pages, 134681 bytes).
-PDF statistics:
- 82 PDF objects out of 1000 (max. 8388607)
- 68 compressed objects within 1 object stream
- 7 named destinations out of 1000 (max. 500000)
- 33 words of extra memory for PDF output out of 10000 (max. 10000000)
-
+ 71i,0n,75p,357b,126s stack positions out of 5000i,500n,10000p,200000b,80000s
+/Users/bharatarora/IdeaProjects/Leetcode/resume/src/bharat-arora.tex:64:  ==> F
+atal error occurred, no output PDF file produced!
