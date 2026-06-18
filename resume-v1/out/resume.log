@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.6.26)  18 JUN 2026 23:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.6.26)  18 JUN 2026 23:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -524,7 +524,7 @@ onts/cm/cmsy6.pfb>
 pdfTeX warning: /usr/local/texlive/2021/bin/universal-darwin/pdflatex: no Glyph
 ToUnicode entry has been inserted yet!
 Output written on /Users/bharatarora/IdeaProjects/Leetcode/resume-v1/out/resume
-.pdf (2 pages, 134681 bytes).
+.pdf (2 pages, 134655 bytes).
 PDF statistics:
  82 PDF objects out of 1000 (max. 8388607)
  68 compressed objects within 1 object stream
