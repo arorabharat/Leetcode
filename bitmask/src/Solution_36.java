@@ -2,6 +2,68 @@ import java.util.*;
 
 public class Solution_36 {
 
+    class Solution3 {
+
+        public boolean isValidSudoku(char[][] board) {
+            int R = board.length;
+            if (R != 9) {
+                return false;
+            }
+            int C = board[0].length;
+            if (C != 9) {
+                return false;
+            }
+            // pass 1
+            boolean[] visited = new boolean[R + 1];
+            for (int r = 0; r < R; r++) {
+                for (int c = 0; c < C; c++) {
+                    if (board[r][c] == '.') {
+                        continue;
+                    }
+                    if (isVisited(r, c, visited, board)) {
+                        return false;
+                    }
+                }
+            }
+            // pass 2
+            visited = new boolean[R + 1];
+            for (int c = 0; c < C; c++) {
+                for (int r = 0; r < R; r++) {
+                    if (board[r][c] == '.') {
+                        continue;
+                    }
+                    if (isVisited(r, c, visited, board)) return false;
+                }
+            }
+            visited = new boolean[R + 1];
+            // pass 3
+            for (int r = 0; r < R; r = r + 3) {
+                for (int c = 0; c < C; c = c + 3) {
+                    for (int i = 0; i < 3; i++) {
+                        for (int j = 0; j < 3; j++) {
+                            if (board[r + i][c + j] == '.') {
+                                continue;
+                            }
+                            if (isVisited(r + i, c + j, visited, board)){
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        private static boolean isVisited(int r, int c, boolean[] visited, char[][] board) {
+            int val = board[r][c] - '0';
+            if (visited[val]) {
+                return true;
+            }
+            visited[val] = true;
+            return false;
+        }
+    }
+
     class Solution {
 
 
