@@ -600,7 +600,7 @@ public class Solution_432 {
         }
 
         private void removeNode(Node node) {
-            if (node == head || node == tail){
+            if (node == head || node == tail) {
                 return;
             }
             join(node.prev, node.next);
@@ -614,6 +614,74 @@ public class Solution_432 {
             return head.next == tail ? "" : head.next.keys.iterator().next();
         }
     }
+
+    class AllOne5 {
+
+        private final TreeMap<Integer, Set<String>> count2Keys;
+        private final Map<String, Integer> key2Count;
+
+        public AllOne5() {
+            this.count2Keys = new TreeMap<>();
+            this.key2Count = new HashMap<>();
+        }
+
+        public void inc(String key) {
+            Integer oldCount = this.key2Count.get(key);
+            if (oldCount != null) {
+                this.key2Count.remove(key);
+                this.count2Keys.get(oldCount).remove(key);
+                if (this.count2Keys.get(oldCount).isEmpty()) {
+                    this.count2Keys.remove(oldCount);
+                }
+                this.key2Count.put(key, oldCount + 1);
+                this.count2Keys.computeIfAbsent(oldCount + 1, k -> new HashSet<>());
+                this.count2Keys.get(oldCount + 1).add(key);
+            } else {
+                this.key2Count.put(key, 1);
+                this.count2Keys.computeIfAbsent(1, k -> new HashSet<>());
+                this.count2Keys.get(1).add(key);
+            }
+        }
+
+        public void dec(String key) {
+            Integer oldCount = this.key2Count.get(key);
+            if (oldCount != null) {
+                this.key2Count.remove(key);
+                this.count2Keys.get(oldCount).remove(key);
+                if (this.count2Keys.get(oldCount).isEmpty()) {
+                    this.count2Keys.remove(oldCount);
+                }
+                if (oldCount != 1) {
+                    this.key2Count.put(key, oldCount - 1);
+                    this.count2Keys.computeIfAbsent(oldCount - 1, k -> new HashSet<>());
+                    this.count2Keys.get(oldCount - 1).add(key);
+                }
+            }
+        }
+
+        public String getMaxKey() {
+            if (this.count2Keys.isEmpty()) {
+                return "";
+            }
+            return this.count2Keys.get(this.count2Keys.lastKey()).stream().findFirst().get();
+        }
+
+        public String getMinKey() {
+            if (this.count2Keys.isEmpty()) {
+                return "";
+            }
+            return this.count2Keys.get(this.count2Keys.firstKey()).stream().findFirst().get();
+        }
+    }
+
+/**
+ * Your AllOne object will be instantiated and called as such:
+ * AllOne obj = new AllOne();
+ * obj.inc(key);
+ * obj.dec(key);
+ * String param_3 = obj.getMaxKey();
+ * String param_4 = obj.getMinKey();
+ */
 
 
 /**
