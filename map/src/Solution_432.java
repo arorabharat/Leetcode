@@ -674,6 +674,162 @@ public class Solution_432 {
         }
     }
 
+    class AllOne6 {
+
+        class Bucket {
+
+            private final Integer count;
+            private Bucket prev;
+            private Bucket next;
+            private final Set<String> keys;
+
+            Bucket(int count, String key) {
+                this.count = count;
+                this.keys = new HashSet<>();
+                this.keys.add(key);
+            }
+
+            Bucket(int count) {
+                this.count = count;
+                this.keys = new HashSet<>();
+            }
+
+            void link(Bucket prev, Bucket next) {
+                this.prev = prev;
+                this.next = next;
+            }
+
+            void setNext(Bucket next) {
+                this.next = next;
+            }
+
+            void setPrev(Bucket prev) {
+                this.prev = prev;
+            }
+
+            void add(String key) {
+                this.keys.add(key);
+            }
+
+        }
+
+        class DoublyLinkedList {
+
+            private final Bucket head = new Bucket(0);
+            private final Bucket tail = new Bucket(Integer.MAX_VALUE);
+
+            public DoublyLinkedList() {
+                this.head.link(null, tail);
+                this.tail.link(head, null);
+            }
+
+            void addFirst(Bucket bucket) {
+                addAfter(this.head, bucket);
+            }
+
+            void addBefore(Bucket ref, Bucket newBucket) {
+                Bucket refPrev = ref.prev;
+                ref.setPrev(newBucket);
+                newBucket.link(refPrev, ref);
+                refPrev.setNext(newBucket);
+            }
+
+            void addAfter(Bucket ref, Bucket newBucket) {
+                Bucket refNext = ref.next;
+                ref.setNext(newBucket);
+                newBucket.link(ref, refNext);
+                refNext.setPrev(newBucket);
+            }
+
+            void remove(Bucket bucket) {
+                Bucket prev = bucket.prev;
+                Bucket next = bucket.next;
+                prev.setNext(next);
+                next.setPrev(prev);
+            }
+
+            Bucket getFirst() {
+                return this.head.next != tail ? this.head.next : null;
+            }
+
+            Bucket getLast() {
+                return this.tail.prev != head ? this.tail.prev : null;
+            }
+
+        }
+
+        private final Map<String, Bucket> key2CountBucket;
+        private final DoublyLinkedList doublyLinkedList;
+
+        public AllOne6() {
+            this.key2CountBucket = new HashMap<>();
+            this.doublyLinkedList = new DoublyLinkedList();
+        }
+
+        public void inc(String key) {
+            Bucket oldBucket = this.key2CountBucket.get(key);
+            if (oldBucket != null) {
+                this.key2CountBucket.remove(key);
+                oldBucket.keys.remove(key);
+                if (oldBucket.keys.isEmpty()) {
+                    this.doublyLinkedList.remove(oldBucket);
+                }
+                Bucket next = oldBucket.next;
+                if (next != null && next.count == oldBucket.count + 1) {
+                    next.add(key);
+                } else {
+                    next = new Bucket(oldBucket.count + 1, key);
+                    this.doublyLinkedList.addBefore(oldBucket.next, next);
+                }
+                this.key2CountBucket.put(key, next);
+            } else {
+                Bucket first = this.doublyLinkedList.getFirst();
+                if (first != null && first.count == 1) {
+                    first.add(key);
+                } else {
+                    first = new Bucket(1, key);
+                    this.doublyLinkedList.addFirst(first);
+                }
+                this.key2CountBucket.put(key, first);
+            }
+        }
+
+        public void dec(String key) {
+            Bucket oldBucket = this.key2CountBucket.get(key);
+            if (oldBucket != null) {
+                this.key2CountBucket.remove(key);
+                oldBucket.keys.remove(key);
+                if (oldBucket.keys.isEmpty()) {
+                    this.doublyLinkedList.remove(oldBucket);
+                }
+                if (oldBucket.count > 1) {
+                    Bucket prev = oldBucket.prev;
+                    if (prev != null && prev.count == oldBucket.count - 1) {
+                        prev.add(key);
+                    } else {
+                        prev = new Bucket(oldBucket.count - 1, key);
+                        this.doublyLinkedList.addAfter(oldBucket.prev, prev);
+                    }
+                    this.key2CountBucket.put(key, prev);
+                }
+            }
+        }
+
+        public String getMaxKey() {
+            if (this.doublyLinkedList.getLast() == null) {
+                return "";
+            }
+            return this.doublyLinkedList.getLast().keys.stream().findFirst().get();
+        }
+
+        public String getMinKey() {
+            if (this.doublyLinkedList.getFirst() == null) {
+                return "";
+            }
+            return this.doublyLinkedList.getFirst().keys.stream().findFirst().get();
+        }
+    }
+
 /**
  * Your AllOne object will be instantiated and called as such:
  * AllOne obj = new AllOne();
