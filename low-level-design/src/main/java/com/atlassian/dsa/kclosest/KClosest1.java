@@ -6,6 +6,7 @@ public class KClosest1 {
 
     public static void main(String[] args) {
         int[] arr = new int[]{1,1,1,10,10,10};
+        Arrays.binarySearch()
         new KClosest1().findClosestElements(arr, 1, 9);
     }
 

@@ -10,6 +10,91 @@ import java.util.List;
 class Solution_57 {
 
 
+    class Solution2 {
+
+
+        boolean isOverlap(int[][] intervals, int[] i2, int i) {
+            if (i < 0 || i >= intervals.length) {
+                return false;
+            }
+            int[] i1 = intervals[i];
+            if (i1[0] > i2[0]) {
+                int[] temp = i1;
+                i1 = i2;
+                i2 = temp;
+            }
+            return i1[1] >= i2[0];
+        }
+
+        int[] merge(int[][] intervals, int[] i2, int i) {
+            if (i < 0 || i >= intervals.length) {
+                return i2;
+            }
+            int[] i1 = intervals[i];
+            if (i1[0] > i2[0]) {
+                int[] temp = i1;
+                i1 = i2;
+                i2 = temp;
+            }
+            int[] temp = new int[2];
+            temp[0] = i1[0];
+            temp[1] = Math.max(i1[1], i2[1]);
+            return temp;
+        }
+
+
+        public int[][] insert(int[][] intervals, int[] newInterval) {
+            if (intervals.length == 0) {
+                return intervals;
+            }
+            int floor = getFloor(intervals, newInterval);
+            int[] prev = newInterval;
+            List<int[]> result = new ArrayList<>();
+            boolean skip = false;
+            for (int i = 0; i < floor; i++) {
+                result.add(intervals[i]);
+            }
+            for (int i = floor; i < intervals.length; i++) {
+                if(!skip && isOverlap(intervals, prev, i)) {
+                    prev = merge(intervals, prev, i);
+                } else {
+                    result.add(prev);
+                    prev = intervals[i];
+                    skip = true;
+                }
+            }
+            result.add(prev);
+            int[][] resultArr = new int[result.size()][2];
+            for (int i = 0; i < result.size(); i++) {
+                resultArr[i][0] = result.get(i)[0];
+                resultArr[i][1] = result.get(i)[1];
+            }
+            return resultArr;
+        }
+
+        private static int getFloor(int[][] intervals, int[] newInterval) {
+            int floor = -1;
+            int r = intervals.length - 1;
+            int l = 0;
+            int ns = newInterval[0];
+            while (l < r) {
+                int m = l + (r - l) / 2;
+                int s = intervals[m][0];
+                if (s == ns) {
+                    floor = m;
+                    break;
+                } else if (s < ns) {
+                    floor = m;
+                    l = m + 1;
+                } else {
+                    r = m - 1;
+                }
+            }
+            return floor;
+        }
+    }
+
+
     class Solution {
 
         int[][] intervals;
@@ -38,26 +123,26 @@ class Solution_57 {
             int newStart = newInterval[0];
             int insertTionIndex = binarySearch(0, n - 1, newStart);
             Deque<int[]> q = new LinkedList<>();
-            if(insertTionIndex == -1) {
+            if (insertTionIndex == -1) {
                 q.add(newInterval);
             }
-            for (int i = 0 ; i < insertTionIndex; i++) {
+            for (int i = 0; i < insertTionIndex; i++) {
                 q.add(intervals[i]);
             }
-            if(!q.isEmpty()) {
+            if (!q.isEmpty()) {
                 int[] lastInterval = q.peekLast();
-                if(newInterval[0] <= lastInterval[1]) {
-                    lastInterval[1] = Math.max(newInterval[1] , lastInterval[1]);
+                if (newInterval[0] <= lastInterval[1]) {
+                    lastInterval[1] = Math.max(newInterval[1], lastInterval[1]);
                 } else {
                     q.add(newInterval);
                 }
-            } else{
+            } else {
                 q.add(newInterval);
             }
             for (int i = insertTionIndex; i < n; i++) {
                 int[] lastInterval = q.peekLast();
-                if(lastInterval != null && intervals[i][0] <= lastInterval[1]) {
-                    lastInterval[1] = Math.max(intervals[i][1] , lastInterval[1]);
+                if (lastInterval != null && intervals[i][0] <= lastInterval[1]) {
+                    lastInterval[1] = Math.max(intervals[i][1], lastInterval[1]);
                 } else {
                     q.add(intervals[i]);
                 }
