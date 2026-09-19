@@ -1,26 +1,17 @@
 package com.atlassian.dsa.guessword;
 
-import javax.xml.stream.events.Characters;
-import java.util.Objects;
+import java.util.*;
 
 public class GuessWord {
 
 
-    String generateFeedback(String s, String w) {
-
-        Objects.requireNonNull(s);
-        Objects.requireNonNull(w);
-        String alphaOnly = "^[a-zA-Z]+$";
-        if(!s.matches(alphaOnly)) {
-            throw new IllegalArgumentException("secret contains other than alphabet");
-        }
-        if(!w.matches(alphaOnly)) {
-            throw new IllegalArgumentException("guess word contains other than alphabet");
-        }
+    String generateFeedback(String s, String g) {
+        validate(s);
+        validate(g);
         s = s.toLowerCase();
-        w = w.toLowerCase();
+        g = g.toLowerCase();
 
-        if (w.length() != s.length()) {
+        if (g.length() != s.length()) {
             throw new IllegalArgumentException("Secret word and word length can not be different");
         }
 
@@ -30,13 +21,13 @@ public class GuessWord {
 
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if (c != w.charAt(i)) {
+            if (c != g.charAt(i)) {
                 freq[c - 'a']++;
             }
         }
 
-        for (int i = 0; i < w.length(); i++) {
-            char c = w.charAt(i);
+        for (int i = 0; i < g.length(); i++) {
+            char c = g.charAt(i);
             if (c == s.charAt(i)) {
                 result[i] = 'G';
             } else if (freq[c - 'a'] > 0) {
@@ -48,5 +39,52 @@ public class GuessWord {
         }
 
         return new String(result);
+    }
+
+    private static void validate(String s) {
+        Objects.requireNonNull(s);
+        String alphaOnly = "^[a-zA-Z]+$";
+        if (!s.matches(alphaOnly)) {
+            throw new IllegalArgumentException(s + "secret contains other than alphabet");
+        }
+    }
+
+    private boolean align(String g, String ng, String feedback) {
+        return generateFeedback(g,ng).equals(feedback);
+    }
+
+    private void filter(String g, Queue<String> possibleWords, String feedback) {
+        int size = possibleWords.size();
+        for (int i = 0; i < size; i++) {
+            String ng = possibleWords.poll();
+            if (align(g, ng, feedback)) {
+                possibleWords.add(ng);
+            }
+        }
+    }
+
+    private boolean isMatched(String feedback) {
+        for (char c : feedback.toCharArray()) {
+            if (c != 'G') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public String guessWord(String s, List<String> guessWords, int maxAttempt) {
+        Queue<String> possibleWords = new LinkedList<>(guessWords);
+        for (int i = 0; i < maxAttempt; i++) {
+            if (possibleWords.isEmpty()) {
+                return null;
+            }
+            String g = possibleWords.poll();
+            String feedback = generateFeedback(s, g);
+            if (isMatched(feedback)) {
+                return g;
+            }
+            filter(g, possibleWords, feedback);
+        }
+        return "ATTEMPT_OVER";
     }
 }
