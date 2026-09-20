@@ -77,4 +77,23 @@ class Solution_1143 {
         }
     }
 
+    class Solution1 {
+
+        int f(char[] text1, char[] text2, int x, int y) {
+            if(x < 0 || y < 0) {
+                return 0;
+            }
+            if(text1[x] == text2[y]) {
+                return f(text1, text2, x - 1, y - 1) + 1;
+            } else {
+                return Math.max(f(text1, text2, x - 1, y), f(text1, text2, x, y - 1));
+            }
+        }
+        public int longestCommonSubsequence(String text1, String text2) {
+            int x = text1.length();
+            int y = text2.length();
+            return f(text1.toCharArray(), text2.toCharArray(), x - 1, y - 1);
+        }
+    }
+
 }
