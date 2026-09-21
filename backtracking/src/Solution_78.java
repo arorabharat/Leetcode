@@ -61,4 +61,25 @@ class Solution_78 {
             }
         }
     }
+
+    class Solution3 {
+
+        private void subsetBuilder(int[] nums, int i, List<Integer> subset, List<List<Integer>> powerset) {
+            if(i >= nums.length) {
+                powerset.add(new ArrayList<>(subset));
+                return ;
+            }
+            subset.add(nums[i]);
+            subsetBuilder(nums, i + 1, subset, powerset);
+            subset.removeLast();
+            subsetBuilder(nums, i + 1, subset, powerset);
+        }
+
+        public List<List<Integer>> subsets(int[] nums) {
+            List<List<Integer>> powerset = new ArrayList<>();
+            List<Integer> subset = new ArrayList<>();
+            subsetBuilder(nums, 0, subset, powerset);
+            return powerset;
+        }
+    }
 }
