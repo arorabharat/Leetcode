@@ -41,4 +41,42 @@ public class Solution_528 {
             return binarySearch(randomNumber);
         }
     }
+
+    class Solution2 {
+
+        private final Random random;
+        private final int[] prefixSum;
+        private final int n;
+
+        public Solution2(int[] w) {
+            this.n = w.length;
+            this.prefixSum = new int[n];
+            int sum = 0;
+            for (int i = 0; i < n; i++) {
+                sum += w[i];
+                prefixSum[i] = sum;
+            }
+            this.random = new Random();
+        }
+
+        int binarySearch(int loc) {
+            int s = 0;
+            int e = this.n;
+            while (s < e) {
+                int m = s + (e - s) / 2;
+                if (loc <= prefixSum[m]) {
+                    e = m;
+                } else {
+                    s = m + 1;
+                }
+            }
+            return e;
+        }
+
+        public int pickIndex() {
+            int loc = random.nextInt(prefixSum[this.n - 1]) + 1;
+            return binarySearch(loc);
+        }
+    }
+
 }
