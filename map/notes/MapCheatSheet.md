@@ -51,5 +51,22 @@ java.lang.Object
               └── HashMap<K,V>
                     |
                     └── LinkedHashMap<K,V>
-
 ```
+
+---
+
+## ConcurrentHashMap: Safe Atomic Operations
+
+> **Golden Rule**: `null` keys and `null` values are **strictly forbidden** (throws `NullPointerException`).
+
+### "Don't Do This -> Do This" (Avoiding Race Conditions)
+
+| What You Want to Do | ❌ Don't Do This (Race Condition) | ✅ Do This Instead (Atomic) |
+| :--- | :--- | :--- |
+| **Initialize absent entry** | `if (!map.containsKey(k)) map.put(k, v);` | `map.putIfAbsent(k, v);` |
+| **Lazy create list/set/cache** | `if (!map.containsKey(k)) map.put(k, new List());` | `map.computeIfAbsent(k, key -> new List());` |
+| **Increment counter** | `map.put(k, map.get(k) + 1);` | `map.merge(k, 1, Integer::sum);` |
+| **Custom update logic** | `val = map.get(k); map.put(k, transform(val));` | `map.compute(k, (key, val) -> transform(val));` |
+| **Conditional remove** | `if (map.get(k).equals(v)) map.remove(k);` | `map.remove(k, v);` |
+| **Conditional replace** | `if (map.get(k).equals(oldV)) map.put(k, newV);` | `map.replace(k, oldV, newV);` |
+
