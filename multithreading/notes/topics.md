@@ -10,3 +10,25 @@ Threads and Concurrency:
 Example Problem:  Thread-Safe Data Structure: Implement a data structure to track incoming requests by IP address and potentially other attributes (e.g., BrowserAgent).
 You will need to focus on ensuring thread safety while handling concurrent updates to the data structure.
 
+
+## Concepts
+* Blocking call
+* Non-blocking call
+* Deadlock
+* Fairness
+* Starvation
+* Livestock -  what is it ?
+* Thread communication
+* Thread ordering
+* Atomicity
+
+### Classes and key words
+* Future and CompletableFuture
+* Callable and Runnable
+* Executor
+* ExecutorService
+* Thread
+* ThreadPool
+* Volatile
+* 
+
