@@ -30,4 +30,4 @@ The notes describe improved onboarding, knowledge sharing, and individual growth
 
 - `resume-v1/src/experience.tex`
 - `behaviour-round/non-tech-skills/AbhirajInterviewQuestion.md`
-
+- `behaviour-round/non-tech-skills/Summary.md` (separate brief mentoring example; no further detail)

@@ -24,4 +24,4 @@ Add the mandate lifecycle, migration cohorts, backfill/reconciliation behavior, 
 ## Sources
 
 - `resume-v1/src/experience.tex`
-
+- `behaviour-round/amazon-office-work/intro.md` (general Prime recurring-charge and regulatory-compliance role context; does not detail this migration)

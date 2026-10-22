@@ -28,4 +28,5 @@ Confirm the exact baseline/failure rate, experiment outcome, latency cost, launc
 ## Sources
 
 - `behaviour-round/src/hardestChallenge.md`
-
+- `behaviour-round/non-tech-skills/Summary.md` (identifies the “Never Prime” Ordering/AIPS race-condition story)
+- `behaviour-round/non-tech-skills/DataDrivenDecision.md` (brief fragment: “Never prime / mandate already exist”; no additional technical detail)

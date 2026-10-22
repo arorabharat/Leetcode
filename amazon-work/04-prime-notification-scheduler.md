@@ -18,6 +18,8 @@ The scheduler orchestrated approximately 150K notifications per day. The resume 
 
 There is no detailed design or implementation narrative in the repository describing event triggers, scheduling semantics, delivery guarantees, deduplication, customer eligibility, channel adapters, retry policy, observability, or how sign-ups were attributed to the notifications. Do not infer these details from the phrase “channel agnostic.”
 
+Other preparation notes refer to a “Prime event scheduler” and a “Prime milestone scheduler.” It is not clear whether those labels refer to this notification scheduler or to a separate system-design story. The notes containing those names are only prompts/story-bank entries and provide no additional implementation details.
+
 ## Interview preparation
 
 Before using this as a deep technical story, fill in the event lifecycle, service boundaries, scale/latency constraints, failure handling, your individual design decisions, and how the sign-up metric was measured.
@@ -25,5 +27,5 @@ Before using this as a deep technical story, fill in the event lifecycle, servic
 ## Sources
 
 - `resume-v1/src/experience.tex`
-- `behaviour-round/system-thinking.md` (contains only a prompt to prepare this story)
-
+- `behaviour-round/system-thinking.md` (contains only the prompt “Tell about the Prime event scheduler”)
+- `behaviour-round/non-tech-skills/Summary.md` (lists “Prime milestone scheduler” as a system-design story; no implementation details)

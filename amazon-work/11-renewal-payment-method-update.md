@@ -30,6 +30,7 @@ The failure-story notes acknowledge that the original workaround introduced frag
 - `behaviour-round/non-tech-skills/BiggestFailure.md`
 - `behaviour-round/non-tech-skills/Time-constraints.md`
 - `behaviour-round/non-tech-skills/Priortize-short-term-over-long-term.md`
+- `behaviour-round/non-tech-skills/Summary.md` (brief story-bank reference to a renewal failure caused by a missing payment preference)
+- `behaviour-round/amazon-office-work/intro.md` (general role context on Prime recurring charges and payment instruments)
 
 The notes vary on how long the workaround ran (“18 months” versus “nearly two years”) and describe the later issue in different ways. Verify dates and impact before using them.
-
