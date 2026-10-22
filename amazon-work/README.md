@@ -38,12 +38,22 @@ This folder gathers the Amazon-related work described in the repository into one
 27. [Diwali payment-method throttling RCA](27-diwali-payment-throttling-rca.md)
 28. [Hiring, mentoring, and onboarding](28-team-growth-and-mentoring.md) — additional resume responsibility, not a standalone project.
 
+### Unresolved or inconsistent project references
+
+These additional files or labels appeared in the repository search but cannot yet be confirmed as distinct Amazon projects:
+
+- [Saved-card CVV-removal reference](29-saved-card-cvv-removal.md)
+- [Autopay renewal-onboarding reference](30-autopay-renewal-onboarding.md)
+- [Older OneNote projects under an Amazon employer record](31-unverified-onenote-resume-projects.md)
+- [Prime event/milestone scheduler reference](32-prime-event-milestone-scheduler-reference.md)
+
 ## Reading and interview-use notes
 
 - The detailed stories are drafts in an interview-preparation repository. Treat them as a starting point and verify your exact role, dates, scope, launch status, and metrics before using them externally.
 - Some documents describe the same initiative from different interview angles. In particular, the renewal payment-method update appears in multiple stories; it is presented here once.
+- The project references in `behaviour-round/non-tech-skills/Summary.md` are a story-bank index, not detailed project write-ups. Where useful, the relevant brief cites it as an index mention, separate from substantive source material.
+- The scheduler is named as a notification scheduler in the resume, but as an event or milestone scheduler in interview notes. The repository does not establish whether these names refer to the same system.
 - There are conflicting figures in source notes. Card-tokenization scale is stated as 4–5M in the resume and 10–15M in the project/HLD write-ups. Observability and on-call time savings also vary by story. The relevant project pages call these out.
 - Some files are architecture or interview-design drafts, rather than proof that every described component was shipped. Those pages distinguish documented implementation from proposed or illustrative design.
 - The Fire-and-Forget migration story resembles the resume's Prime Tier-2 cross-region migration, but the source material does not conclusively establish that they are the same service.
-- The older `resume/src/exp.json` lists OneNote projects under an Amazon employer entry. Its team and dates are inconsistent with `resume-v1/src/experience.tex`; those projects are deliberately not treated as confirmed Amazon work here.
-
+- `resume/src/exp.json` lists three OneNote projects under an Amazon employer entry, but its team and dates conflict with the newer resume. They are captured separately as unverified and are not treated as confirmed Amazon work.

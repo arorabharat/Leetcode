@@ -29,4 +29,4 @@ The source describes a roadmap and operating-model improvements; it does not cle
 
 - `behaviour-round/non-tech-skills/CurrentProject.md`
 - `resume-v1/src/experience.tex`
-
+- `behaviour-round/non-tech-skills/Summary.md` (labels this story “Retention Standardisation”; no additional project details)
