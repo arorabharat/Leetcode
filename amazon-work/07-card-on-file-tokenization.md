@@ -29,4 +29,5 @@ The resume says 4–5M existing customers were migrated. The project summary and
 - `resume-v1/src/experience.tex`
 - `behaviour-round/card-on-file-tokenisation.md`
 - `behaviour-round/card-on-file-tokenisation-HLD-style.md`
-
+- `behaviour-round/amazon-office-work/intro.md` (role context mentions tokenized Prime purchases and RBI/NPCI compliance)
+- `behaviour-round/non-tech-skills/Summary.md` (story-bank references tokenization; no additional implementation details)
