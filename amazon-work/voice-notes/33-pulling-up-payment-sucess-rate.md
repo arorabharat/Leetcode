@@ -30,3 +30,71 @@ To fix this, I changed the design so that each workflow opened using a compound 
 Finally, I picked the top five technical contributors and resolved them one by one. Because we had the new dashboard in place, product and engineering could clearly see the incremental increase in the success rate after every deployment.
 
 By breaking down an unclear target with proper data and fixing the contract-level workflow isolation, we successfully pushed our technical payment success rate past the 75% goal.
+
+---------------------------
+
+I would rate this story a **9.2 / 10** for an Atlassian Senior Software Engineer Manager Round.
+
+It is a strong example of handling **ambiguity**, **data-driven scoping**, and **system architecture debugging**.
+
+---
+
+### **What Makes It a 9.2 (Key Strengths)**
+
+1. **Reframing an Ambiguous Business Goal with Data (Pillars 1 & 3)**
+* Most engineers given a target like *"bump success rate from 55% to 75%"* jump straight into code optimizations.
+
+
+* You stopped, recognized that the metric was unsegmented, and added multi-cardinality telemetry across upstream/downstream services.
+
+
+* Proving that low-intent promotional traffic was polluting payment gateway health shows you understand business domain mechanics, not just lines of code.
+
+
+
+
+2. **Concrete, Precise Root Cause (Pillar 2: Operational Excellence)**
+* Identifying that the workflow unique key was scoped only to `Subscription ID` instead of a compound key with `Contract ID` is an exact, believable technical detail.
+
+
+* It explains *why* the bug lingered: an older contract failure permanently locked future billing cycles due to the singleton concurrency constraint.
+
+
+3. **Connecting Backend Mechanics to Business Rules**
+* You clearly linked the technical bug to the regulatory/business consequence: a stuck workflow blocked the mandatory pre-debit notifications, which legally prevented the system from charging recurring payments.
+* This proves you understand the end-to-end lifecycle of financial transactions.
+
+
+4. **Closing the Loop with Operational Observability**
+* Adding alarms on stuck Step Functions/workflows and providing a dashboard for product to track incremental lift after each deployment shows you left the system more observable and maintainable than you found it.
+
+
+
+
+
+---
+
+### **Where to Tighten It for a 9.5+ (Potential Interviewer Probes)**
+
+* **How did you update existing stuck workflows?**
+* *Anticipated follow-up:* *"Changing the ID to include Contract ID fixes new cycles, but what happened to the users whose workflows were already stuck in production?"*
+* *Quick answer to have ready:* *"We ran a one-time data remediation script to identify and terminate orphaned open workflows for active subscribers so their next billing cycle could cleanly start under the new compound key."*
+
+
+* **Rollout Strategy & Risk Mitigation**
+* *Anticipated follow-up:* *"Did changing the workflow key risk creating race conditions or duplicate runs?"*
+* *Quick answer to have ready:* *"We ensured idempotency at the database layer by placing a unique constraint on the compound key, preventing two concurrent workflows from executing against the exact same contract cycle."*
+
+
+
+---
+
+### **Pillar Scorecard**
+
+| Dimension | Rating | Reason |
+| --- | --- | --- |
+| **Ambiguity & Scoping** | **9.5 / 10** | Turned an open-ended metric into measurable, actionable technical targets. |
+| **Technical Depth & Solution**| **9.5 / 10** | High-clarity root cause (Subscription vs. Contract ID compound key isolation). |
+| **Stakeholder Alignment**| **9.0 / 10** | Convinced Product to separate intentional drop-offs from real technical failures. |
+| **Operational Impact**| **9.0 / 10** | Added real-time step alarms, clean dashboards, and achieved the 75%+ target.|
+| **Overall** | **9.2 / 10** | **Clear Hire signal** for handling high-ambiguity technical challenges.|
