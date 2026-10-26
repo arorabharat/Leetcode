@@ -33,6 +33,84 @@ By shifting his approach, he caught every single edge case before production. Th
  
 --------------------------------------------
 
+
+I would rate this story a **9.0 / 10** for an Atlassian Senior Software Engineer interview.
+
+It maps directly to **Pillar 4: Organizational Impact** (mentoring early-career engineers, driving two-way interactions, and onboarding talent) and reinforces Atlassian’s core values: **"Play as a team"** and **"Be the change you seek"**.
+
+---
+
+### **Strengths (Why it scores a 9.0)**
+
+1. **Focus on Systemic Habits over Quick Bug-Fixing**
+* *Mid-level signal:* An engineer who simply unblocks the junior person by giving them the correct code snippet or configuration.
+* *Senior signal:* You diagnosed that his blocker wasn’t technical aptitude, but **workflow and communication hygiene**. You stepped back, identified that oral troubleshooting was causing context loss and wasted cycles, and permanently upgraded his engineering habits.
+
+
+
+
+2. **Empathetic, Two-Way Coaching (Matches Recruiter Briefing)**
+* Your recruiter specifically noted that in mentorship, Atlassian checks: *"Do you demonstrate two-way interaction? Do you empathize with them when coming up with a plan?"*
+
+
+* Starting with *"I was in a similar spot a couple of years ago"* creates psychological safety. It removes the power dynamic between senior and campus hire, making the feedback digestible and actionable rather than critical.
+
+
+
+
+3. **High-Stakes Application (UPI QR Code Launch)**
+* You didn't just give advice in a vacuum; you immediately applied it to a real, critical deliverable.
+
+
+* The proof of the coaching’s success was tangible: because he documented cross-service touchpoints upfront, he caught configurations across downstream payment engines that would have caused production defects on launch day.
+
+
+
+
+4. **Aligns with Atlassian’s Async & Written Culture**
+* Atlassian builds products like Jira and Confluence, and heavily values an **asynchronous, document-first culture**.
+* Showing how moving from *"interrupting senior engineers at their desks"* to *"writing down hypotheses, logs, and docs"* eliminated communication noise will resonate strongly with Atlassian interviewers.
+
+
+
+---
+
+### **Minor Areas Interviewers May Probe (How to get to a 9.5+)**
+
+* **Long-Term Trajectory of the Mentee:**
+* *Potential Question:* *"How did this engineer perform in subsequent projects after the QR code launch?"*
+
+
+* *Response to prepare:* Mention how he started independently authoring RFCs or small design one-pagers for his next features, requiring far fewer ad-hoc escalations.
+
+
+
+
+* **Team-Wide Impact:**
+* *Potential Question:* *"Did you standardize this documentation habit across other new hires or the broader team?"*
+
+
+* *Response to prepare:* Mention if this prompted you or the team to create a lightweight "RFC/Task Template" or onboarding checklist for future campus hires so others didn't repeat the same mistake.
+
+
+
+
+
+---
+
+### **Pillar Scorecard**
+
+| Evaluation Pillar | Score | Rationale |
+| --- | --- | --- |
+| **Mentorship & People Growth**| **9.5 / 10** | Clear empathy, tailored two-way feedback, and tangible behavioral improvement. |
+| **Organizational Impact** | **9.0 / 10** | Prevented production launch defects and reduced context-switching overhead for senior engineers. |  
+| **Atlassian Value Alignment**| **9.5 / 10** | Strong match for *Play as a team* and asynchronous written clarity. |  
+| **Overall Interview Rating** | **9.0 / 10** | **Strong Hire signal** for leadership and team stewardship. |
+
+-------------------------------------------------------------
+
+below this is random examples which I am not sure to delete or not for now.
+
 ## Summary
 
 This is an additional Amazon leadership responsibility documented in the resume, rather than a standalone technical project.
