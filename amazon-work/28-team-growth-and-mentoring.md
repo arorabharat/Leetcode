@@ -1,5 +1,38 @@
 # Hiring, mentoring, and onboarding
 
+While working on Prime payments, a campus hire joined our team. He was naturally sharp and great at hands-on debugging, but he had a habit common among early-career engineers: the moment he was handed a problem, he’d jump straight into writing code without taking a step back to think through the architecture.
+
+Whenever things were smooth, he moved quickly. But the moment he hit an edge case or got blocked, his velocity crashed. He would walk up to senior engineers’ desks, try to explain the issue verbally on the fly, and ask for advice. Because distributed systems context is rarely communicated accurately in a two-minute chat, people often pointed him in the wrong direction. In one instance, someone suggested a configuration change that completely missed the real root cause, and he lost nearly two weeks chasing down a dead end.
+
+I realized the issue wasn't his technical capability; it was that nothing was written down.
+
+I set up a dedicated 1-on-1 with him. Instead of giving him top-down feedback, I opened with empathy—I told him I’d fallen into the exact same trap early in my career. I explained that writing things down does two critical things:
+
+1. **Asynchronous Clarity:** It eliminates the friction of verbally pitching an incomplete problem to busy seniors. If you put your hypothesis, logs, and attempted fixes in a Jira or short doc, people can review it with full context and give you precise guidance.
+2. **Self-Review:** The act of writing forces you to slow down and exposes the blind spots in your own mental model before you type a single line of code.
+
+Around that time, we were tasked with launching **UPI QR codes for Prime payments**. Other Amazon businesses already supported it, but Prime was lagging behind. I deliberately used this project as a live coaching ground.
+
+I had him lead the execution, but with a strict ground rule: before touching the codebase, he had to map out an end-to-end configuration and dependency doc across every touchpoint.
+
+As he began documenting the cross-service touchpoints, the value clicked for him immediately. Walking through the doc with downstream payment teams revealed several critical cross-service configurations that had to be synchronized across multiple backend engines. If he had relied on his old habit of jumping straight to coding, those missing configurations would have slipped past development and resulted in broken customer checkouts on launch day.
+
+By shifting his approach, he caught every single edge case before production. The UPI QR feature rolled out smoothly, he significantly cut down his reliance on impromptu desk stops, and he became much more self-sufficient in driving cross-team designs. It taught him early on that in large-scale distributed systems, slowing down to document and design upfront is actually what allows you to move fast.
+
+---
+
+### **Why Interviewers Will Rate This Highly**
+
+1. **Atlassian Value Match:** Fits directly with *"Play as a team"* and *"Open company, no bullshit"*. You gave candid, constructive feedback with zero ego.
+
+
+2. **Defensive Systems Thinking:** Proves you understand that the cost of catching a bug during the design/RFC phase is 100x cheaper than catching it after production deployment.
+
+
+3. **Behavioral Shift:** You didn't just solve his bug for him; you permanently upgraded his way of working, raising the operational bar for the entire team.
+ 
+--------------------------------------------
+
 ## Summary
 
 This is an additional Amazon leadership responsibility documented in the resume, rather than a standalone technical project.
