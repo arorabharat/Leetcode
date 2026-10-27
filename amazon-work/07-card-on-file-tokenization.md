@@ -1,28 +1,24 @@
 # RBI card-on-file tokenization for Prime
 
-## Summary
 
-You were the Prime point of contact for adapting Prime recurring payments to India's card-on-file tokenization requirements. The goal was to use network tokens rather than merchant-stored raw card details while preserving recurring-payment continuity.
+Back in 2022, when the Reserve Bank of India mandated Card-on-File Tokenization (CoFT), merchants were legally required to capture explicit customer consent before storing card details for subsequent transactions. This put our recurring Prime subscription charges directly at risk, and as the payments owner for Prime, I had to urgently design and lead a compliance rescue plan.
 
-## Customer/business risk
+Because we were racing against a hard regulatory deadline, the pressure was intense. I moved quickly to put together the design, got alignment from our senior engineers, and jumped straight into implementation to hit our target launch date.
 
-Prime depends on stored payment credentials for renewals. The notes describe risk of recurring charge failures, involuntary churn, and customer friction if existing payment details could not continue to support mandates. New customers also needed a compliant tokenization/consent journey.
+However, during QA testing, we hit a critical issue: the card consent that customers were explicitly giving on the checkout UI was intermittently missing in our Prime backend services.
 
-## Your documented contribution
+I spent a couple of days digging into distributed logs and tracing the transaction path across downstream services. What I discovered was an architectural assumption that proved to be wrong: the Purchase Document service we were relying on was not an immediate source of truth. The downstream call to persist the customer consent was intentionally designed as asynchronous. Because of that async boundary, there was an eventual consistency lag—the checkout completed before the consent record landed, leaving the UI and backend states out of sync for a chunk of requests.
 
-- Coordinated Prime integration with Amazon Payments and external/partner teams including BillDesk.
-- Helped evaluate payment-platform tokenization capabilities against Prime recurring requirements.
-- Supported redesign of the Prime plan-buying journey for new customers, including tokenization consent.
-- Worked on migration of existing customer payment credentials to tokenized references while preserving mandate continuity.
-- Coordinated across checkout, payments, subscription, and partner teams to manage regulatory ambiguity and rollout risks.
+I set up a review with a Principal Engineer to understand why it was built that way. He explained the broader design philosophy: if that consent storage call had been synchronous, any blip or latency in that single service would have taken down the entire Amazon retail checkout flow. From a platform availability perspective, making it asynchronous was completely the right call to protect the core checkout blast radius.
 
-## Architecture notes versus confirmed delivery
+The realization hit me: in my rush to deliver fast, I had verified the API interface on paper, but I hadn't deeply validated the underlying consistency guarantees and timing assumptions across service boundaries.
 
-The separate HLD draft models client/checkout, tokenization service, payment orchestrator, recurring billing, consent, gateway/network, and token-reference/mandate data. It also discusses batch migration, fallback to tokenization at next checkout, retries, monitoring, and failure cases. Treat these as design material unless you confirm they match the deployed design; some are generic architecture proposals.
+I took immediate ownership of the problem and resolved it in two steps:
 
-## Reported outcome and metric conflict
+1. **Transparent Impact Communication:** I sat down with our Product Manager and laid out the data plainly. I explained that while the front-end transaction wouldn't fail for the customer, 20% to 30% of new tokenized cards would end up in an inconsistent state, which would subsequently cause up to 15% of our future recurring billing cycles to fail.
+2. **Targeted Dynamic Flow Fix:** For recurring e-mandates, valid consent wasn't optional—it was legally mandatory. I spent an additional day modifying our downstream integration to dynamically set a dedicated e-mandate synchronization flag. This allowed the payment orchestrator to handle the e-mandate consent path with explicit verification before finalizing the subscription setup, isolating recurring cards from the standard retail async delay.
 
-The resume says 4–5M existing customers were migrated. The project summary and HLD say 10–15M customers. Do not present one number as settled until you reconcile the scope, date, and whether it means eligible, targeted, or successfully migrated customers. The write-up claims business continuity and RBI compliance but does not provide a migration completion rate.
+The biggest takeaway for me from that project was that under intense timeline pressure, speed can easily blind you to cross-service consistency contracts. Ever since that incident, whenever I design integrations with distributed downstream services, I don't just rely on API contract schemas—I explicitly map out the synchronization model, race conditions, and eventual consistency boundaries during the initial RFC phase before writing any code.
 
 ## Sources
 
