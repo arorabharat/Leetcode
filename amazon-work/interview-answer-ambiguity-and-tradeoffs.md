@@ -44,7 +44,7 @@ Option B also had a risk I called out up front. If a retry fired instantly inste
 
 1. **Suppress the instant-charge notification for India Prime only.** Nothing changes for any other marketplace or client.
 2. **Adjust the scheduled-retry window.** If a retry was due within the next two hours, I pushed it out so the charge always lands after the notice period. The existing retry mechanism then does the charge.
-3. **Cap the retries.** I put a hard stop of four to five retries so the flow can't be misused.
+3. **Cap the retries.** I put a hard cap of four retries so the flow can't be misused.
 4. **Confirm immediately to the customer.** As soon as they add the payment method, they see that we will try the charge again in the background."
 
 ### Action 3: evaluate and contain the risks
@@ -52,7 +52,7 @@ Option B also had a risk I called out up front. If a retry fired instantly inste
 "I worked through three risks:
 
 - **Breaking the global service.** The workflows are used worldwide, and a failure could have affected the wider ecosystem. So I scoped the change to India Prime only, and I checked every service that consumed that notification to confirm it wasn't used for anything other than this case.
-- **Misuse of the retries.** The hard cap of four to five retries addressed this.
+- **Misuse of the retries.** The hard cap of four retries addressed this.
 - **Cancelling an order that was about to succeed.** Making sure the charge never retried instantly addressed this."
 
 ### Action 4: how I convinced stakeholders
@@ -78,7 +78,7 @@ Option B also had a risk I called out up front. If a retry fired instantly inste
 
 ## Before using in an interview
 
-- Confirm the exact retry cap (four to five) and your role in the design.
+- Confirm the exact retry cap (four) and your role in the design.
 - Keep the later-failure details out unless asked.
 - Say "digital ordering service" for renewals and "retail ordering service" for signups, so an outsider can follow.
 
